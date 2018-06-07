@@ -15,12 +15,12 @@ understanding of object oriented programming and types._
 Writing a jupyterlab extension usually starts from a template. The basic
 configurable extension template can be obtained with the following command:
 
-```
+```bash
 cookiecutter https://github.com/jupyterlab/extension-cookiecutter-ts
 ```
 
 It asks for some basic information that could for example be setup like this:
-```
+```bash
 author_name []: tuto
 extension_name [jupyterlab_myextension]: extension1
 project_short_description [A JupyterLab extension.]: minimal lab example
@@ -30,7 +30,7 @@ repository [https://github.com/my_name/jupyterlab_myextension]:
 The cookiecutter creates the directory `extension1` [or your extension name]
 that looks like this:
 
-```
+```bash
 extension1/
 
 ├── README.md
@@ -42,29 +42,11 @@ extension1/
     └── index.css
 ```
 
-Let's walk through the different files and look inside them:
+Let's look at the `README.md` file. It contains instructions how
+our labextension can be installed for development:
 
-#### README.md ####
-
-````
-# extension1
-
-minimal lab example
-
-
-## Prerequisites
-
-* JupyterLab
-
-## Installation
-
-```bash
-jupyter labextension install extension1
-```
-
-## Development
-
-For a development install (requires npm version 4 or later), do the following in the repository directory:
+_For a development install (requires npm version 4 or later), do the following 
+in the repository directory:_
 
 ```bash
 npm install
@@ -72,17 +54,23 @@ npm run build
 jupyter labextension link .
 ```
 
-To rebuild the package and the JupyterLab app:
+Roughly the first command installs dependencies that are specified in 
+`package.json`. Among the dependencies are also all of the `jupyterlab` 
+components that we want to use in our project, but more about this later.
+
+The second step runs the build script. In this step, the typescript code gets
+converted to javascript using the compiler `tsc` and stored in a `lib`
+directory.
+
+After all of this is done, we link the module in jupyterlab. Running
 
 ```bash
-npm run build
-jupyter lab build
+jupyter labextension list
 ```
-````
 
-#### package.json ####
+should now show something like:
 
-this file contains information about the extension package such as its name
-and its dependencies. It has to be adapted to be able to use other packages
-from jupyter (if your IDE doesn't do so automatically)
-
+```bash
+   local extensions:
+        extension1: [...]/labextension_tutorial/extension1
+```
