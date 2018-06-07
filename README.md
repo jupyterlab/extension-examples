@@ -1,5 +1,12 @@
 # Jupyterlab Extensions Walkthrough #
 
+Table of Contents
+=================
+
+* [Prerequesites](#prerequesites)
+* [Extension 1: Setting up the development environment](#extension-1-setting-up-the-development-environment)
+* [Extension 2: Adding Commands, modifying Menus](#extension-2-adding-commands-modifying-menus)
+
 ## Prerequesites ##
 
 This is a short tutorial series on how to write jupyterlab extensions. Writing
