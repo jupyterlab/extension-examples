@@ -10,7 +10,7 @@ _Don't be scared, I never coded in typescript before I touched jupyterlab but
 found it easier to understand than pure javascript if you have a basic
 understanding of object oriented programming and types._
 
-## Extension 1: Setting up the environment ##
+## Extension 1: Setting up the development environment ##
 
 Writing a jupyterlab extension usually starts from a template. The basic
 configurable extension template can be obtained with the following command:
@@ -45,9 +45,62 @@ extension1/
 * `README.md` contains some instructions
 * `package.json` contains information about the extension such as dependencies
 * `tsconfig.json` contains information for the typescript compilation
-* `src/index.ts` _this contains the actual logic of our extension_
+* `src/index.ts` _this contains the actual code of our extension_
 * `style/index.css` contains style elements that we can use
 
+What does this extension do? Well, let's have a step by step look at
+`src/index.ts`. The file begins with an import section:
+
+```typescript
+import {
+  JupyterLab, JupyterLabPlugin
+} from '@jupyterlab/application';
+
+import '../style/index.css';
+```
+
+`JupyterLab` is the main application class that will allow us
+to interact and modify Jupyterlab. The `JupyterLabPlugin` is the class
+of the extension that we are building. Both are imported
+from a module called `@jupyterlab/application`.
+The dependency of our extension on this module is declared in the
+`package.json` file:
+```json
+[...]
+  "dependencies": {
+    "@jupyterlab/application": "^0.16.0"
+  },
+[...]
+```
+
+With this basic import setup, we can move on to construct a new instance
+of the `JupyterLabPlugin` class:
+
+```typescript
+const extension: JupyterLabPlugin<void> = {
+  id: 'extension1',
+  autoStart: true,
+  activate: (app: JupyterLab) => {
+    console.log('JupyterLab extension extension1 is activated!');
+  }
+};
+
+export default extension;
+```
+
+a JupyterLabPlugin takes a few attributes when constructed that are fairly
+self-explanatory in the case of `id` and `autoStart`. The `activate`
+attribute links to a function (`() => {}` notation) that takes one 
+argument `app` of type `JupyterLab` and then calls the
+`console.log` function that is used to output something into the browser
+console in javascript. This simple example shows the basic approach when
+writing a jupyterlab extension. The activate function acts as an entry point
+and gets the main JupyterLab application instance passed as an argument, which
+allows us to interact and modify it. Finally our new `JupyterLabPlugin`
+instance has to be exported to be visible to JupyterLab.
+
+This brings us to the next point. How can we plug this extension into
+JupyterLab?
 
 Let's look at the `README.md` file. It contains instructions how
 our labextension can be installed for development:
@@ -82,3 +135,4 @@ should now show something like:
         extension1: [...]/labextension_tutorial/extension1
 ```
 
+Now let's check inside of jupyterlab if it works.
