@@ -258,3 +258,93 @@ When this extension is build (and linked if necessary), jupyterlab looks like
 this:
 
 ![New Command](images/new_command.png)
+
+Adding new menu items works in a similar way. The IMainMenu interface can be
+passed as a new argument two the activate function, but first it has to be
+imported, together with the Menu phosphor type that describes a new tab:
+
+```typescript
+import {
+  IMainMenu
+} from '@jupyterlab/mainmenu';
+
+import {
+  Menu
+} from '@phosphor/widgets';
+```
+
+We add the IMainMenu in the `requires:` property and can then change the
+extension to:
+
+```typescript
+const extension: JupyterLabPlugin<void> = {
+    id: 'extension2',
+    autoStart: true,
+    requires: [ICommandPalette, IMainMenu],
+    activate: (
+        app: JupyterLab,
+        palette: ICommandPalette,
+        mainMenu: IMainMenu) =>
+    {
+        const { commands } = app;
+        let command = 'labtutorial';
+        let category = 'Tutorial';
+        commands.addCommand(command, {
+            label: 'New Labtutorial',
+            caption: 'Open the Labtutorial',
+            execute: (args) => {console.log('Hey')}});
+        palette.addItem({command, category});
+
+
+        let tutorialMenu: Menu = new Menu({commands});
+
+i        tutorialMenu.title.label = 'Tutorial';
+        mainMenu.addMenu(tutorialMenu, {rank: 80});
+        tutorialMenu.addItem({ command });
+    }
+};
+
+export default extension;
+```
+
+In this extension, we have added a new dependency _jupyterlab/mainmenu_. Before
+it builds, this dependency has to be added to the `package.json` file:
+
+```json
+  "dependencies": {
+    "@jupyterlab/application": "^0.16.0",
+    "@jupyterlab/mainmenu": "*"
+  }
+```
+
+we can then do
+
+```
+npm install
+npm run build
+```
+
+to rebuild the application. A refresh of the jupyterlab website should now show:
+
+![New Menu](images/new_menu.png)
+
+[the `tsconfig.json` file might have to be updated to:
+```
+{
+  "compilerOptions": {
+    "declaration": true,
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "noUnusedLocals": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "ES6",
+    "outDir": "./lib",
+    "lib": ["ES6", "ES2015.Promise", "DOM"],
+    "types": []
+  },
+  "include": ["src/*"]
+}
+```]
+
+[Click here for the final extension1](extension2)
