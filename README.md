@@ -1,4 +1,4 @@
-# Jupyterlab Extensions for the Impatient #
+# Jupyterlab Extensions Walkthrough #
 
 ## Prerequesites ##
 
@@ -117,22 +117,60 @@ jupyter labextension link .
 Roughly the first command installs dependencies that are specified in 
 `package.json`. Among the dependencies are also all of the `jupyterlab` 
 components that we want to use in our project, but more about this later.
-
 The second step runs the build script. In this step, the typescript code gets
 converted to javascript using the compiler `tsc` and stored in a `lib`
-directory.
+directory. Finally, we link the module to jupyterlab.
 
-After all of this is done, we link the module in jupyterlab. Running
-
+After all of these steps are done, running
 ```bash
 jupyter labextension list
 ```
-
 should now show something like:
-
 ```bash
    local extensions:
         extension1: [...]/labextension_tutorial/extension1
 ```
 
-Now let's check inside of jupyterlab if it works.
+Now let's check inside of jupyterlab if it works. Run [can take a while]:
+
+```bash
+jupyter lab --watch
+```
+
+Our extension doesn't do much so far, it just writes something to the browser
+console. So let's check if it work. In firefox you can open the console
+pressing the `f12` key. You should see something like:
+
+```
+JupyterLab extension extension1 is activated
+```
+
+Our extension works but it is incredibly boring. Let's start with the
+development and modify the source code a bit. Simply replace the `activate`
+function with the following lines:
+
+```typescript
+    activate: (app: JupyterLab) => {
+        console.log('the JupyterLab main application:');
+        console.log(app);
+    }
+```
+
+to update the module, we simply need to go into the extension directory and
+run again:
+
+```bash
+npm run build
+```
+
+Since we used the `--watch` option when starting jupyterlab, we now only have
+to refresh the jupyterlab website and should see in the browser console:
+
+```
+Object { _started: true, _pluginMap: {…}, _serviceMap: Map(28), _delegate: {…}, commands: {…}, contextMenu: {…}, shell: {…}, registerPluginErrors: [], _dirtyCount: 0, _info: {…}, … } index.js:12
+```
+
+This is the main application JupyterLab object and we will see how to interact
+with it in the next section.
+
+## Extension 2: Adding Commands, modifying Menus ##
