@@ -6,9 +6,9 @@ This is a short tutorial series on how to write jupyterlab extensions. Writing
 an extension is not particularly difficult but requires a very basic knowledge
 of javascript and typescript.
 
-_Don't be scared, I never coded in typescript before I touched jupyterlab but 
-found it easier to understand than pure javascript if you have a basic
-understanding of object oriented programming and types._
+_Don't be scared of typescript, I never coded in typescript before I touched 
+jupyterlab but found it easier to understand than pure javascript if you have a 
+basic understanding of object oriented programming and types._
 
 ## Extension 1: Setting up the development environment ##
 
@@ -172,6 +172,8 @@ Object { _started: true, _pluginMap: {â€¦}, _serviceMap: Map(28), _delegate: {â€
 
 This is the main application JupyterLab object and we will see how to interact
 with it in the next section.
+
+[the full extension](extension1)
 
 ## Extension 2: Adding Commands, modifying Menus ##
 
