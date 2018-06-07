@@ -298,7 +298,7 @@ const extension: JupyterLabPlugin<void> = {
 
         let tutorialMenu: Menu = new Menu({commands});
 
-i        tutorialMenu.title.label = 'Tutorial';
+        tutorialMenu.title.label = 'Tutorial';
         mainMenu.addMenu(tutorialMenu, {rank: 80});
         tutorialMenu.addItem({ command });
     }
