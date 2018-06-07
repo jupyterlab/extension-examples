@@ -59,10 +59,9 @@ import {
 import '../style/index.css';
 ```
 
-`JupyterLab` is the main application class that will allow us
-to interact and modify Jupyterlab. The `JupyterLabPlugin` is the class
-of the extension that we are building. Both are imported
-from a module called `@jupyterlab/application`.
+`JupyterLab` is the main application class that will allow us to interact and
+modify Jupyterlab. The `JupyterLabPlugin` is the class of the extension that we
+are building. Both are imported from a module called `@jupyterlab/application`.
 The dependency of our extension on this module is declared in the
 `package.json` file:
 ```json
@@ -193,9 +192,69 @@ simply continue modifying it. In case that you want to have a new extension,
 open the file `package.json` and modify the package name, e.g. into 
 `extension2`. The same name change needs to be done in `src/index.ts`.
 
-If you haven't jupyterlab open, start it with `jupyter lab --watch`. In this
-extension, we are going to add a command to the application command registry.
-The command registry can be seen when clicking on _Commands` on the left hand
-side of Jupyterlab (see screenshot below).
+If you don't have jupyterlab open, start it with `jupyter lab --watch`. In this
+extension, we are going to add a command to the application command registry
+and expose it to the user in the command palette.
+The command palette can be seen when clicking on _Commands` on the left hand
+side of Jupyterlab. The command palette can be seen as a list of actions that
+can be executed by jupyterlab. (see screenshot below).
 
 ![Jupyter Command Registry](images/command_registry.png)
+
+Often, extension provide some new functions to jupyterlab to the
+applications command registry and then expose them to the user through the
+command palette or through a menu item.
+
+Two types play a role in this: the `CommandRegistry` type ([documentation](http://phosphorjs.github.io/phosphor/api/commands/classes/commandregistry.html))
+and the command palette interface `ICommandPalette` that has to be imported:
+
+```typescript
+import {
+  ICommandPalette
+} from '@jupyterlab/apputils';
+```
+
+Let's see how we access the applications command registry and command palette:
+to do this, open the file `src/index.ts`.
+
+The CommandRegistry is simply an attribute of the JupyterLab application (variable
+`app` in the previous section). It provides a function `addCommand` to add our
+own functionality.
+The ICommandPalette ([documentation](https://jupyterlab.github.io/jupyterlab/interfaces/_apputils_src_commandpalette_.icommandpalette.html))
+needs to be passed in addition to the JupyterLab application (variable `app`)
+as second argument (variable `palette`) to the activate function. We specify
+with the property `requires: [ICommandPalette],` which additional arguments we
+pass to the `activate` function in the JupyterLabPlug. The ICommandPalette
+provides the method `addItem` that links a palette entry to a command in the
+command registry. Our new plugin code then becomes:
+
+```typescript
+const extension: JupyterLabPlugin<void> = {
+    id: 'extension2',
+    autoStart: true,
+    requires: [ICommandPalette],
+    activate: (
+        app: JupyterLab,
+        palette: ICommandPalette) =>
+    {
+        const { commands } = app;
+
+        let command = 'labtutorial';
+        let category = 'Tutorial';
+
+        commands.addCommand(command, {
+            label: 'New Labtutorial',
+            caption: 'Open the Labtutorial',
+            execute: (args) => {console.log('Hey')}});
+
+        palette.addItem({command, category});
+    }
+};
+
+export default extension;
+```
+
+When this extension is build (and linked if necessary), jupyterlab looks like
+this:
+
+![New Command](images/new_command.png)
