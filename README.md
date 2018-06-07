@@ -42,6 +42,13 @@ extension1/
     └── index.css
 ```
 
+* `README.md` contains some instructions
+* `package.json` contains information about the extension such as dependencies
+* `tsconfig.json` contains information for the typescript compilation
+* `src/index.ts` _this contains the actual logic of our extension_
+* `style/index.css` contains style elements that we can use
+
+
 Let's look at the `README.md` file. It contains instructions how
 our labextension can be installed for development:
 
@@ -74,3 +81,4 @@ should now show something like:
    local extensions:
         extension1: [...]/labextension_tutorial/extension1
 ```
+
