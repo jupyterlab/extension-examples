@@ -177,7 +177,7 @@ An overview of the classes and their attributes and methods can be found in the 
 documentation. The `@jupyterlab/application` module documentation is
 [here](https://jupyterlab.github.io/jupyterlab/modules/_application_src_index_.html)
 and which links to the [JupyterLab class](https://jupyterlab.github.io/jupyterlab/classes/_application_src_index_.jupyterlab.html).
-The `JupyterLabPlugin` is a type alias [a new alias name] for the type `IPlugin`.
+The `JupyterLabPlugin` is a type alias [a new name] for the type `IPlugin`.
 The definition of `IPlugin` is more difficult to find because it is defined by
 the `phosphor.js` library that runs jupyterlab under the hood
 (more about this later). Its documentation is therefore located on the
@@ -189,4 +189,13 @@ the `phosphor.js` library that runs jupyterlab under the hood
 ## Extension 2: Adding Commands, modifying Menus ##
 
 For the next extension you can either copy the last folder to a new one or 
-simply continue modifying it.
+simply continue modifying it. In case that you want to have a new extension,
+open the file `package.json` and modify the package name, e.g. into 
+`extension2`. The same name change needs to be done in `src/index.ts`.
+
+If you haven't jupyterlab open, start it with `jupyter lab --watch`. In this
+extension, we are going to add a command to the application command registry.
+The command registry can be seen when clicking on _Commands` on the left hand
+side of Jupyterlab (see screenshot below).
+
+![Jupyter Command Registry](images/command_registry.png)
