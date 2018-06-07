@@ -174,3 +174,6 @@ This is the main application JupyterLab object and we will see how to interact
 with it in the next section.
 
 ## Extension 2: Adding Commands, modifying Menus ##
+
+For the next extension you can either copy the last folder to a new one or 
+simply continue modifying it.
