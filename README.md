@@ -171,9 +171,20 @@ Object { _started: true, _pluginMap: {â€¦}, _serviceMap: Map(28), _delegate: {â€
 ```
 
 This is the main application JupyterLab object and we will see how to interact
-with it in the next section.
+with it in the next section. We see a few of it's attributes.
 
-[the full extension](extension1)
+An overview of the classes and their attributes and methods can be found in the jupyterlab
+documentation. The `@jupyterlab/application` module documentation is
+[here](https://jupyterlab.github.io/jupyterlab/modules/_application_src_index_.html)
+and which links to the [JupyterLab class](https://jupyterlab.github.io/jupyterlab/classes/_application_src_index_.jupyterlab.html).
+The `JupyterLabPlugin` is a type alias [a new alias name] for the type `IPlugin`.
+The definition of `IPlugin` is more difficult to find because it is defined by
+the `phosphor.js` library that runs jupyterlab under the hood
+(more about this later). Its documentation is therefore located on the
+[phosphor.js website](http://phosphorjs.github.io/phosphor/api/application/interfaces/iplugin.html)
+
+
+[Click here for the final extension1](extension1)
 
 ## Extension 2: Adding Commands, modifying Menus ##
 
