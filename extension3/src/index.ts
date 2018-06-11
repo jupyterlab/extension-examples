@@ -16,11 +16,15 @@ import {
   ICommandPalette
 } from '@jupyterlab/apputils';
 
+import {
+    Widget
+} from '@phosphor/widgets';
+
 /**
  * Initialization data for the extension1 extension.
  */
 const extension: JupyterLabPlugin<void> = {
-    id: 'extension2',
+    id: 'extension3',
     autoStart: true,
     requires: [ICommandPalette, IMainMenu],
     activate: (
@@ -28,13 +32,18 @@ const extension: JupyterLabPlugin<void> = {
         palette: ICommandPalette,
         mainMenu: IMainMenu) =>
     {
-        const { commands } = app;
-        let command = 'ex2:tutorial';
+        const { commands, shell } = app;
+        let command = 'ex3:labtutorial';
         let category = 'Tutorial';
         commands.addCommand(command, {
-            label: 'ex2:tutorial',
+            label: 'Ex3 command',
             caption: 'Open the Labtutorial',
-            execute: (args) => {console.log('Hey')}});
+            execute: (args) => {
+                const widget = new TutorialView();
+                shell.addToMainArea(widget);
+                if (args['activate'] !== false) {
+                    shell.activateById(widget.id);
+                }}});
         palette.addItem({command, category});
 
 
@@ -47,3 +56,14 @@ const extension: JupyterLabPlugin<void> = {
 };
 
 export default extension;
+
+
+class TutorialView extends Widget {
+    constructor() {
+        super();
+        this.addClass('jp-tutorial-view')
+        this.id = 'tutorial'
+        this.title.label = 'Tutorial View'
+        this.title.closable = true;
+    }
+}

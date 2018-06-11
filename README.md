@@ -352,6 +352,13 @@ to rebuild the application. A refresh of the jupyterlab website should now show:
   },
   "include": ["src/*"]
 }
-```]
+```
+]
 
 [Click here for the final extension1](extension2)
+
+
+## Extension 3: adding a new View ##
+
+Woo finally we are going to do some real stuff and add a new tab to jupyterlab.
+In Phosphor this is done by a _View_
