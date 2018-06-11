@@ -20,6 +20,8 @@ basic understanding of object oriented programming and types._
 
 ## Extension 1: Setting up the development environment ##
 
+#### The template folder structure ####
+
 Writing a jupyterlab extension usually starts from a template. The basic
 configurable extension template can be obtained with the following command:
 
@@ -56,7 +58,12 @@ extension1/
 * `src/index.ts` _this contains the actual code of our extension_
 * `style/index.css` contains style elements that we can use
 
-What does this extension do? Well, let's have a step by step look at
+What does this extension do?
+
+
+#### A minimal extension that prints to the browser console ####
+
+Well, let's have a step by step look at
 `src/index.ts`. The file begins with an import section:
 
 ```typescript
@@ -108,6 +115,8 @@ instance has to be exported to be visible to JupyterLab.
 
 This brings us to the next point. How can we plug this extension into
 JupyterLab?
+
+#### Building and Installing an Extension ####
 
 Let's look at the `README.md` file. It contains instructions how
 our labextension can be installed for development:
@@ -200,6 +209,8 @@ simply continue modifying it. In case that you want to have a new extension,
 open the file `package.json` and modify the package name, e.g. into 
 `extension2`. The same name change needs to be done in `src/index.ts`.
 
+#### Jupyterlab Commands ####
+
 If you don't have jupyterlab open, start it with `jupyter lab --watch`. In this
 extension, we are going to add a command to the application command registry
 and expose it to the user in the command palette.
@@ -266,6 +277,8 @@ When this extension is build (and linked if necessary), jupyterlab looks like
 this:
 
 ![New Command](images/new_command.png)
+
+#### Adding new Menu tabs and items ####
 
 Adding new menu items works in a similar way. The IMainMenu interface can be
 passed as a new argument two the activate function, but first it has to be
@@ -363,7 +376,11 @@ to rebuild the application. A refresh of the jupyterlab website should now show:
 
 Woo finally we are going to do some real stuff and add a new tab to jupyterlab.
 Particular visible elements such as a tab are represented by widgets in the
-phosphor library that is the basis of the jupyterlab application. The base
+phosphor library that is the basis of the jupyterlab application.
+
+#### A basic tab ####
+
+The base
 widget class can be imported with:
 
 ```typescript
