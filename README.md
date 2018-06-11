@@ -6,6 +6,7 @@ Table of Contents
 * [Prerequesites](#prerequesites)
 * [Extension 1: Setting up the development environment](#extension-1-setting-up-the-development-environment)
 * [Extension 2: Adding Commands, modifying Menus](#extension-2-adding-commands-modifying-menus)
+* [Extension 3: adding a new View](#extension-3-adding-a-new-view)
 
 ## Prerequesites ##
 
