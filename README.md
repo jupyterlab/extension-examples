@@ -361,4 +361,69 @@ to rebuild the application. A refresh of the jupyterlab website should now show:
 ## Extension 3: adding a new View ##
 
 Woo finally we are going to do some real stuff and add a new tab to jupyterlab.
-In Phosphor this is done by a _View_
+Particular visible elements such as a tab are represented by widgets in the
+phosphor library that is the basis of the jupyterlab application. The base
+widget class can be imported with:
+
+```typescript
+import {
+    Widget
+} from '@phosphor/widgets';
+```
+
+a Widget can be added to the main area through the `shell` that can be accessed
+as a property of the `app` variable that represents the main jupyterlab
+application. Inside of our previous activate function, this looks like this:
+
+```
+    activate: (
+        app: JupyterLab,
+        palette: ICommandPalette,
+        mainMenu: IMainMenu) =>
+    {
+        const { commands, shell } = app;
+        let command = 'ex3:labtutorial';
+        let category = 'Tutorial';
+        commands.addCommand(command, {
+            label: 'Ex3 command',
+            caption: 'Open the Labtutorial',
+            execute: (args) => {
+                const widget = new TutorialView();
+                shell.addToMainArea(widget);}});
+        palette.addItem({command, category});
+
+        let tutorialMenu: Menu = new Menu({commands});
+
+        tutorialMenu.title.label = 'Tutorial';
+        mainMenu.addMenu(tutorialMenu, {rank: 80});
+        tutorialMenu.addItem({ command });
+    }
+```
+
+Defining the custom widget `TutorialView`) is straight-forward as well:
+
+```typescript
+class TutorialView extends Widget {
+    constructor() {
+        super();
+        this.addClass('jp-tutorial-view')
+        this.id = 'tutorial'
+        this.title.label = 'Tutorial View'
+        this.title.closable = true;
+    }
+}
+```
+
+Note that we have used a custom css class that is defined in the file
+`style/index.css` as:
+
+```
+.jp-tutorial-view {
+    background-color: AliceBlue;
+}
+```
+
+Our custom tab can be started in jupyterlab from the command palette and looks
+like this:
+
+![Custom Tab](images/custom_tab.png)

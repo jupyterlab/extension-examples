@@ -40,12 +40,8 @@ const extension: JupyterLabPlugin<void> = {
             caption: 'Open the Labtutorial',
             execute: (args) => {
                 const widget = new TutorialView();
-                shell.addToMainArea(widget);
-                if (args['activate'] !== false) {
-                    shell.activateById(widget.id);
-                }}});
+                shell.addToMainArea(widget);}});
         palette.addItem({command, category});
-
 
         let tutorialMenu: Menu = new Menu({commands});
 
