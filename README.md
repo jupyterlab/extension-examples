@@ -1,12 +1,19 @@
 # Jupyterlab Extensions Walkthrough #
 
-Table of Contents
-=================
+## Table of Contents ##
 
 * [Prerequesites](#prerequesites)
 * [Extension 1: Setting up the development environment](#extension-1-setting-up-the-development-environment)
+      * [The template folder structure](#the-template-folder-structure)
+      * [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
+      * [Building and Installing an Extension](#building-and-installing-an-extension)
 * [Extension 2: Adding Commands, modifying Menus](#extension-2-adding-commands-modifying-menus)
-* [Extension 3: adding a new View](#extension-3-adding-a-new-view)
+      * [Jupyterlab Commands](#jupyterlab-commands)
+      * [Adding new Menu tabs and items](#adding-new-menu-tabs-and-items)
+* [Extension 3: Adding Widgets](#extension-3-adding-widgets)
+      * [A basic tab](#a-basic-tab)
+* [Extension 4: A simple datagrid](#extension-4-a-simple-datagrid)
+
 
 ## Prerequesites ##
 
@@ -22,8 +29,8 @@ basic understanding of object oriented programming and types._
 
 #### The template folder structure ####
 
-Writing a jupyterlab extension usually starts from a template. The basic
-configurable extension template can be obtained with the following command:
+Writing a jupyterlab extension usually starts from a configurable template. It
+can be downloded with the `cookiecutter` tool:
 
 ```bash
 cookiecutter https://github.com/jupyterlab/extension-cookiecutter-ts
@@ -372,7 +379,7 @@ to rebuild the application. A refresh of the jupyterlab website should now show:
 [Click here for the final extension1](extension2)
 
 
-## Extension 3: adding a new View ##
+## Extension 3: Adding Widgets ##
 
 Woo finally we are going to do some real stuff and add a new tab to jupyterlab.
 Particular visible elements such as a tab are represented by widgets in the
@@ -445,3 +452,116 @@ Our custom tab can be started in jupyterlab from the command palette and looks
 like this:
 
 ![Custom Tab](images/custom_tab.png)
+
+[Click here for the Widget extension3](extension3)
+
+
+## Extension 4: A simple datagrid ##
+
+Now let's do something a little more fancy. Jupyterlab is build on top of
+Phosphor.js. Let's see if we can plug [this phosphor example](http://phosphorjs.github.io/examples/datagrid/)
+into jupyterlab. We start by importing the `Panel` widget and the `DataGrid`
+and `DataModel` classes from phosphor.
+
+```typescript
+import {
+    Panel
+} from '@phosphor/widgets';
+
+import {
+  DataGrid, DataModel
+} from '@phosphor/datagrid';
+```
+
+The Panel widget can hold several sub-widgets that are added with its
+`.addWidget` property. `DataModel` is a class that provides data that is
+shown in the `DataGrid` widget.
+
+With these three classes, we adapt the `TutorialView` as follows:
+
+```typescript
+class TutorialView extends Panel {
+    constructor() {
+        super();
+        this.addClass('jp-tutorial-view')
+        this.id = 'tutorial'
+        this.title.label = 'Tutorial View'
+        this.title.closable = true;
+
+        let model = new LargeDataModel();
+        let grid = new DataGrid();
+        grid.model = model;
+
+        this.addWidget(grid);
+    }
+}
+```
+
+That's rather easy. Let's now dive into the `DataModel` class that is taken
+from the official phosphor.js example. The first few lines look like this:
+
+```typescript
+class LargeDataModel extends DataModel {
+
+  rowCount(region: DataModel.RowRegion): number {
+    return region === 'body' ? 1000000000000 : 2;
+  }
+
+  columnCount(region: DataModel.ColumnRegion): number {
+    return region === 'body' ? 1000000000000 : 3;
+  }
+```
+
+While it is fairly obvious that `rowCount` and `columnCount` are supposed
+to return some number of rows and columns, it is a little more cryptic what
+the `RowRegion` and the `ColumnRegion` input arguments are. Let's have a
+look at their definition in the phosphor.js source code:
+
+```typescript
+  export
+  type RowRegion = 'body' | 'column-header';
+
+  /**
+   * A type alias for the data model column regions.
+   */
+  export
+  type ColumnRegion = 'body' | 'row-header';
+
+  /**
+   * A type alias for the data model cell regions.
+   */
+  export
+  type CellRegion = 'body' | 'row-header' | 'column-header' | 'corner-header';
+```
+
+The meaning of these lines might be obvious for experienced users of typescript
+or Haskell. The `|` can be read as or, so the `RowRegion` type is either `body`
+or `column-header`. This explains what the `rowCount` and `columnCount`
+functions do: They define a table with `2` header rows, with 3 index columns,
+with `1000000000000` rows and `1000000000000` columns.
+
+The remaining part of the class defines the row and column number as
+data values and adds a letter prefix in case that we are in any of the
+header regions:
+
+```
+  data(region: DataModel.CellRegion, row: number, column: number): any {
+    if (region === 'row-header') {
+      return `R: ${row}, ${column}`;
+    }
+    if (region === 'column-header') {
+      return `C: ${row}, ${column}`;
+    }
+    if (region === 'corner-header') {
+      return `N: ${row}, ${column}`;
+    }
+    return `(${row}, ${column})`;
+  }
+}
+```
+
+Let's see how this looks like in Jupyterlab:
+
+![Datagrid](images/datagrid.png)
+
+[Click here for extension4](extension4)
