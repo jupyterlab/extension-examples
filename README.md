@@ -4,14 +4,14 @@
 
 * [Prerequesites](#prerequesites)
 * [Extension 1: Setting up the development environment](#extension-1-setting-up-the-development-environment)
-      * [The template folder structure](#the-template-folder-structure)
-      * [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
-      * [Building and Installing an Extension](#building-and-installing-an-extension)
+ * [The template folder structure](#the-template-folder-structure)
+ * [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
+ * [Building and Installing an Extension](#building-and-installing-an-extension)
 * [Extension 2: Adding Commands, modifying Menus](#extension-2-adding-commands-modifying-menus)
-      * [Jupyterlab Commands](#jupyterlab-commands)
-      * [Adding new Menu tabs and items](#adding-new-menu-tabs-and-items)
+ * [Jupyterlab Commands](#jupyterlab-commands)
+ * [Adding new Menu tabs and items](#adding-new-menu-tabs-and-items)
 * [Extension 3: Adding Widgets](#extension-3-adding-widgets)
-      * [A basic tab](#a-basic-tab)
+ * [A basic tab](#a-basic-tab)
 * [Extension 4: A simple datagrid](#extension-4-a-simple-datagrid)
 
 
