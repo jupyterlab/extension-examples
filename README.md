@@ -13,6 +13,8 @@
 * [Extension 3: Adding Widgets](#extension-3-adding-widgets)
   * [A basic tab](#a-basic-tab)
 * [Extension 5: Buttons and Signals](#extension-5-buttons-and-signals)
+      * [Phosphor Signaling 101](#phosphor-signaling-101)
+      * [Organizing extension code](#organizing-extension-code)
 * [Extension 6: Kernel Interactions](#extension-6-kernel-interactions)
 
 
