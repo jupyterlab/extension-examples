@@ -14,7 +14,10 @@
   * [A basic tab](#a-basic-tab)
 * [Extension 5: Buttons and Signals](#extension-5-buttons-and-signals)
   * [Phosphor Signaling 101](#phosphor-signaling-101)
-  * [Organizing extension code](#organizing-extension-code)
+  * [Reorganizing the extension code](#reorganizing-the-extension-code)
+  * [A simple react button](#a-simple-react-button)
+  * [subscribing to a signal](#subscribing-to-a-signal)
+  * [asynchronous extension initialization](#asynchronous-extension-initialization)
 * [Extension 6: Kernel Interactions](#extension-6-kernel-interactions)
 
 
