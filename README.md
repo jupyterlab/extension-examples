@@ -758,7 +758,9 @@ to launch our application, we can then use:
     }
 ```
 
-The final extension is looks like this:
+The final extension writes a little `changed` text to the browser console when
+a big red button is clicked. It is not very spectacular but the signaling is
+conceptualy important for building extensions. It looks like this:
 
 
 ![Button with Signal](images/button_with_signal.png)
@@ -768,5 +770,9 @@ The final extension is looks like this:
 
 
 ## Extension 6: Kernel Interactions ##
+
+One of the main features of jupyterlab is the possibility to manage and
+interact underlying compute kernels. In this section, we explore how to
+start a kernel and execute a simple command on it.
 
 [Click here for extension6](extension6)
