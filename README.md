@@ -12,8 +12,8 @@
   * [Adding new Menu tabs and items](#adding-new-menu-tabs-and-items)
 * [Extension 3: Adding Widgets](#extension-3-adding-widgets)
   * [A basic tab](#a-basic-tab)
-* [Extension 4: A simple datagrid](#extension-4-a-simple-datagrid)
-* [Extension 5: Buttons and Signals]()
+* [Extension 5: Buttons and Signals](#extension-5-buttons-and-signals)
+* [Extension 6: Kernel Interactions](#extension-6-kernel-interactions)
 
 
 ## Prerequesites ##

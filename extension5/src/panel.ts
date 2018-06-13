@@ -24,11 +24,6 @@ class TutorialPanel extends StackedPanel {
 
         this.tutorial = new TutorialWidget();
         this.addWidget(this.tutorial);
-        this.tutorial.executed.connect(this._onExecute, this);
-    }
-
-    private _onExecute(sender: TutorialWidget, code: string) {
-        console.log('Message received');
     }
 
     private tutorial: TutorialWidget;
