@@ -5,10 +5,6 @@ import {
 } from '@jupyterlab/apputils';
 
 import {
-  ISignal, Signal
-} from '@phosphor/signaling';
-
-import {
   Widget, BoxLayout
 } from '@phosphor/widgets';
 

@@ -67,7 +67,9 @@ function activate(
         let panel: TutorialPanel;
         return manager.ready
             .then(() => {
-                panel = new TutorialPanel();
+                panel = new TutorialPanel(manager);
+                return panel.session.ready})
+            .then(() => {
                 shell.addToMainArea(panel);
                 return panel});
     }
