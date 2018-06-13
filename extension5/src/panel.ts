@@ -24,6 +24,7 @@ class TutorialPanel extends StackedPanel {
 
         this.tutorial = new TutorialWidget();
         this.addWidget(this.tutorial);
+        this.tutorial.vdom.stateChanged.connect(() => { console.log('changed'); });
     }
 
     private tutorial: TutorialWidget;
