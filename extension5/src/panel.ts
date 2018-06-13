@@ -3,7 +3,7 @@ import {
 } from '@phosphor/widgets';
 
 import {
-    TutorialWidget
+    TutorialView
 } from './widget';
 /**
  * The class name added to console panels.
@@ -22,10 +22,10 @@ class TutorialPanel extends StackedPanel {
         this.title.label = 'Tutorial View'
         this.title.closable = true;
 
-        this.tutorial = new TutorialWidget();
+        this.tutorial = new TutorialView();
         this.addWidget(this.tutorial);
-        this.tutorial.vdom.stateChanged.connect(() => { console.log('changed'); });
+        this.tutorial.stateChanged.connect(() => { console.log('changed'); });
     }
 
-    private tutorial: TutorialWidget;
+    private tutorial: TutorialView;
 }

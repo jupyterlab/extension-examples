@@ -547,7 +547,7 @@ The remaining part of the class defines the row and column number as
 data values and adds a letter prefix in case that we are in any of the
 header regions:
 
-```
+```typescript
   data(region: DataModel.CellRegion, row: number, column: number): any {
     if (region === 'row-header') {
       return `R: ${row}, ${column}`;
@@ -585,7 +585,7 @@ The basic concept is the following: A widget, in our case the one that contains
 some visual elements such as a button, defines a signal and exposes it to other
 widgets, as this `_stateChanged` signal:
 
-```
+```typescript
     get stateChanged(): ISignal<TutorialView, void> {
         return this._stateChanged;
     }
@@ -596,20 +596,20 @@ widgets, as this `_stateChanged` signal:
 Another widget, in our case the panel that boxes several different widgets,
 subscribes to the `stateChanged` signal and links some function to it:
 
-```
+```typescript
 [...].stateChanged.connect(() => { console.log('changed'); });
 ```
 
 The function is executed when the signal is triggered with
 
-```
+```typescript
 _stateChanged.emit(void 0)
 ```
 
 Let's see how we can implement this ...
 
 
-#### Organizing extension code ####
+#### Reorganizing the extension code ####
 
 Since our extension is growing bigger and bigger, we begin by splitting our
 code into more managable units. Roughly we can see three larger components
@@ -630,9 +630,135 @@ src/
 └── widget.tsx
 ```
 
-Let's go through these files one by one, starting with `widget.ts`:
+Let's go through these files one by one:
+
+#### A simple react button ####
+
+`widget.tsx` allows because of the `tsx` extension to use XML-like syntax with
+the tag notation `<>`to represent some visual elements (note that you might
+have to add a line: `"jsx": "react",` to the `tsconfig.json` file).
+
+`widget.tsx` contains one major class `TutorialView` that extends the
+`VDomRendered` class that defines a `render()` method to display some react
+elements, such as a button.
+
+`TutorialView` further contains a private variable `stateChanged` of type
+`Signal`. The buttons `onClick` event triggers `_stateChanged.emit(void 0)` to
+emit an empty signal to its subscribers:
+
+```typescript
+export
+class TutorialView extends VDomRenderer<any> {
+    constructor() {
+        super();
+        this.id = `TutorialVDOM`
+    }
+
+    protected render(): React.ReactElement<any>[] {
+        const elements: React.ReactElement<any>[] = [];
+        elements.push(
+            <button
+                key='header-thread'
+                className="jp-tutorial-button"
+                onClick={() => {this._stateChanged.emit(void 0)}}>
+            Clickme
+            </button>
+            );
+        return elements;
+    }
+
+    get stateChanged(): ISignal<TutorialView, void> {
+        return this._stateChanged;
+    }
+
+    private _stateChanged = new Signal<TutorialView, void>(this);
+}
+```
+
+#### subscribing to a signal ####
+
+The `panel.ts` class defines an extension panel that displays the
+`TutorialView` widget and that subscribes to its signal. Subscription to a
+signal is done using the `connect` method of the `stateChanged` attribute.
+It registers a function (in this case `() => { console.log('changed'); }`
+that is triggered when a signal is emitted:
 
 
+```typescript
+export
+class TutorialPanel extends StackedPanel {
+    constructor() {
+        super();
+        this.addClass(PANEL_CLASS);
+        this.id = 'TutorialPanel';
+        this.title.label = 'Tutorial View'
+        this.title.closable = true;
+
+        this.tutorial = new TutorialView();
+        this.addWidget(this.tutorial);
+        this.tutorial.stateChanged.connect(() => { console.log('changed'); });
+    }
+
+    private tutorial: TutorialView;
+}
+```
+
+#### asynchronous extension initialization ####
+
+`index.ts` is responsible to initialize the extension. We only go through
+the changes with respect to the last sections.
+
+First we reorganize the extension commands into one unified namespace:
+
+```typescript
+namespace CommandIDs {
+    export
+    const create = 'Ex5:create';
+
+    export
+    const closeAndShutdown = 'Ex5:close-and-shutdown';
+}
+```
+
+This allows us to add commands from the command registry to the pallette and
+menu tab in a single call:
+
+```typescript
+    // add items in command palette and menu
+    [
+        CommandIDs.create,
+        CommandIDs.closeAndShutdown
+    ].forEach(command => {
+        palette.addItem({ command, category });
+        tutorialMenu.addItem({ command });
+    });
+```
+
+Another change is that we now use the `manager` to add our extension after the
+other jupyter services are ready. The serviceManager can be obtained from the
+main application as:
+
+```typescript
+    const manager = app.serviceManager;
+```
+
+to launch our application, we can then use:
+
+```typescript
+    function createPanel() {
+        let panel: TutorialPanel;
+        return manager.ready
+            .then(() => {
+                panel = new TutorialPanel();
+                shell.addToMainArea(panel);
+                return panel});
+    }
+```
+
+The final extension is looks like this:
+
+
+![Button with Signal](images/button_with_signal.png)
 
 
 [Click here for extension5](extension5)

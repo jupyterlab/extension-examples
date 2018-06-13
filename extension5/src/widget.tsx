@@ -10,16 +10,12 @@ import {
   ISignal, Signal
 } from '@phosphor/signaling';
 
-import {
-  Widget, BoxLayout
-} from '@phosphor/widgets';
-
 
 export
 class TutorialView extends VDomRenderer<any> {
     constructor() {
         super();
-        this.id = `TutorialWidget`
+        this.id = `TutorialVDOM`
     }
 
     protected render(): React.ReactElement<any>[] {
@@ -37,25 +33,4 @@ class TutorialView extends VDomRenderer<any> {
     }
 
     private _stateChanged = new Signal<TutorialView, void>(this);
-}
-
-
-export
-class TutorialWidget extends Widget {
-    constructor() {
-        super();
-        this.id = 'TutorialWidget';
-        this.title.label = 'TutorialWidget';
-        this.title.closable = true;
-
-        let layout = this.layout = new BoxLayout();
-        this._vdom = new TutorialView();
-        layout.addWidget(this._vdom);
-    }
-
-    get vdom(): TutorialView {
-        return this._vdom;
-    }
-
-    private _vdom: TutorialView;
 }
