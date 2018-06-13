@@ -570,7 +570,68 @@ Let's see how this looks like in Jupyterlab:
 
 ## Extension 5: Buttons and Signals ##
 
-We are now starting to do some simple interactions.
+#### Phosphor Signaling 101 ####
+
+In this extension, we are going to add some simple buttons to the widget that
+trigger the panel to print something to the console. Communication between
+different components of jupyterlab are a key ingredient in building an
+extension. Jupyterlab's phosphor engine uses the `ISignal` interface and the
+`Signal` class that implements this interface for communication
+([documentation](http://phosphorjs.github.io/phosphor/api/signaling/globals.html)).
+
+The basic concept is the following: A widget, in our case the one that contains
+some visual elements such as a button, defines a signal and exposes it to other
+widgets, as this `_stateChanged` signal:
+
+```
+    get stateChanged(): ISignal<TutorialView, void> {
+        return this._stateChanged;
+    }
+
+    private _stateChanged = new Signal<TutorialView, void>(this);
+```
+
+Another widget, in our case the panel that boxes several different widgets,
+subscribes to the `stateChanged` signal and links some function to it:
+
+```
+[...].stateChanged.connect(() => { console.log('changed'); });
+```
+
+The function is executed when the signal is triggered with
+
+```
+_stateChanged.emit(void 0)
+```
+
+Let's see how we can implement this ...
+
+
+#### Organizing extension code ####
+
+Since our extension is growing bigger and bigger, we begin by splitting our
+code into more managable units. Roughly we can see three larger components
+of our application:
+
+1.  the `JupyterLabPlugin` that activates all extension components and connects
+    them to the main `Jupyterlab` application via commands, launcher, or menu
+    items.
+2.  a Panel that combines different widgets into a single application
+3.  different widgets that define smaller elements such as buttons 
+
+We split these components in the three files:
+
+```
+src/
+├── index.ts
+├── panel.ts
+└── widget.tsx
+```
+
+Let's go through these files one by one, starting with `widget.ts`:
+
+
+
 
 [Click here for extension5](extension5)
 

@@ -24,7 +24,11 @@ class TutorialView extends VDomRenderer<any> {
 
     protected render(): React.ReactElement<any>[] {
         const elements: React.ReactElement<any>[] = [];
-        elements.push(<button key='header-thread' className="jp-tutorial-button" onClick={() => {this._stateChanged.emit(void 0)}}>Clickme</button>);
+        elements.push(
+            <button key='header-thread'
+            className="jp-tutorial-button"
+            onClick={() => {this._stateChanged.emit(void 0)}}>
+            Clickme</button>);
         return elements;
     }
 
