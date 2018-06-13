@@ -1,5 +1,5 @@
 {
-  "name": "extension3",
+  "name": "extension5",
   "version": "0.1.0",
   "description": "minimal lab example",
   "keywords": [
@@ -31,8 +31,10 @@
   "dependencies": {
     "@jupyterlab/application": "^0.16.0",
     "@jupyterlab/mainmenu": "*",
+    "@jupyterlab/launcher": "*",
     "@phosphor/algorithm": "^1.1.2",
     "@phosphor/coreutils": "^1.3.0",
+    "@phosphor/datagrid": "*",
     "@phosphor/disposable": "^1.1.2"
   },
   "devDependencies": {

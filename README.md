@@ -13,6 +13,7 @@
 * [Extension 3: Adding Widgets](#extension-3-adding-widgets)
   * [A basic tab](#a-basic-tab)
 * [Extension 4: A simple datagrid](#extension-4-a-simple-datagrid)
+* [Extension 5: Buttons and Signals]()
 
 
 ## Prerequesites ##
@@ -565,3 +566,9 @@ Let's see how this looks like in Jupyterlab:
 ![Datagrid](images/datagrid.png)
 
 [Click here for extension4](extension4)
+
+
+## Extension 5: Kernels, Buttons and Signals ##
+
+
+[Click here for extension5](extension5)

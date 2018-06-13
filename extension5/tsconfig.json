@@ -5,6 +5,7 @@
     "noEmitOnError": true,
     "noUnusedLocals": true,
     "module": "commonjs",
+    "jsx": "react",
     "moduleResolution": "node",
     "target": "ES6",
     "outDir": "./lib",
