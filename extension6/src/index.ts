@@ -30,17 +30,17 @@ import {
  */
 namespace CommandIDs {
     export
-    const create = 'Ex5:create';
+    const create = 'Ex6:create';
 
     export
-    const closeAndShutdown = 'Ex5:close-and-shutdown';
+    const closeAndShutdown = 'Ex6:close-and-shutdown';
 }
 
 /**
  * Initialization data for the extension.
  */
 const extension: JupyterLabPlugin<void> = {
-    id: 'extension5',
+    id: 'extension6',
     autoStart: true,
     requires: [ICommandPalette, ILauncher, IMainMenu],
     activate: activate
@@ -82,13 +82,13 @@ function activate(
     // add commands to registry
     let command = CommandIDs.create 
     commands.addCommand(command, {
-        label: 'Ex5: open Panel',
+        label: 'Ex6: open Panel',
         caption: 'Open the Labtutorial Extension',
         execute: createPanel});
 
     command = CommandIDs.closeAndShutdown
     commands.addCommand(command, {
-        label: 'Ex5: close Panel',
+        label: 'Ex6: close Panel',
         caption: 'Close the Labtutorial Extension',
         execute: (args) => {console.log('not implemented')}});
 

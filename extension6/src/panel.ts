@@ -11,15 +11,11 @@ import {
 } from '@jupyterlab/services';
 
 import {
-  KernelMessage
-} from '@jupyterlab/services';
-
-import {
   Message
 } from '@phosphor/messaging';
 
 import {
-    TutorialWidget
+    TutorialView
 } from './widget';
 /**
  * The class name added to console panels.
@@ -46,9 +42,9 @@ class TutorialPanel extends StackedPanel {
             name: 'Tutorial',
         });
         
-        this.tutorial = new TutorialWidget();
+        this.tutorial = new TutorialView();
         this.addWidget(this.tutorial);
-        this.tutorial.executed.connect(this._onExecute, this);
+        this.tutorial.stateChanged.connect(this._onExecute, this);
         this._session.initialize();
     }
 
@@ -62,18 +58,9 @@ class TutorialPanel extends StackedPanel {
         this.dispose();
     }
 
-    private _onExecute(sender: TutorialWidget, code: string) {
-        let content: KernelMessage.IExecuteRequest = {
-            code,
-            stop_on_error: true
-        };
-
-        if (!this._session.kernel) {
-            return Promise.reject('Session has no kernel.');
-        }
-        let future = this._session.kernel.requestExecute(content, false);
-        let returnMessage = future.done as Promise<KernelMessage.IExecuteReplyMsg>;
-        returnMessage.then(() => {console.log(returnMessage)});
+    private _onExecute(sender: TutorialView, code: string) {
+        let prom = this._session.kernel.requestExecute({ code });
+        console.log(prom);
     }
 
     get session(): IClientSession {
@@ -81,5 +68,5 @@ class TutorialPanel extends StackedPanel {
     }
 
     private _session: ClientSession;
-    private tutorial: TutorialWidget;
+    private tutorial: TutorialView;
 }
