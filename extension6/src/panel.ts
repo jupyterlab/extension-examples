@@ -11,7 +11,7 @@ import {
 } from '@jupyterlab/services';
 
 import {
-  KernelMessage
+  Kernel, KernelMessage
 } from '@jupyterlab/services';
 
 import {
@@ -72,14 +72,28 @@ class TutorialPanel extends StackedPanel {
         if (!this.session.kernel) {
           return Promise.reject('Session has no kernel.');
         }
-        let future = this.session.kernel.requestExecute(content, false);
-        future.done.then((arg: KernelMessage.IExecuteReplyMsg) => {console.log(arg)});
+        this.future = this.session.kernel.requestExecute(content, false);
+    }
+
+    private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
+        console.log(msg);
+        return true
+    }
+
+    get future(): Kernel.IFuture {
+        return this._future;
+    }
+
+    set future(value: Kernel.IFuture) {
+        this._future = value;
+        value.onIOPub = this._onIOPub;
     }
 
     get session(): IClientSession {
         return this._session;
     }
 
+    private _future: Kernel.IFuture = null;
     private _session: ClientSession;
     private tutorial: TutorialView;
 }
