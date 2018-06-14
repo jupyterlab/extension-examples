@@ -19,6 +19,10 @@ import {
 } from '@phosphor/messaging';
 
 import {
+  nbformat
+} from '@jupyterlab/coreutils';
+
+import {
     TutorialView
 } from './widget';
 /**
@@ -76,7 +80,17 @@ class TutorialPanel extends StackedPanel {
     }
 
     private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
-        console.log(msg);
+        let output: nbformat.IOutput;
+        let msgType = msg.header.msg_type;
+        switch (msgType) {
+            case 'execute_result':
+            case 'display_data':
+            case 'update_display_data':
+                output = msg.content as nbformat.IOutput;
+                console.log(output);
+            default:
+                break;
+        }
         return true
     }
 
