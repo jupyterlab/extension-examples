@@ -36,6 +36,7 @@ namespace CommandIDs {
     const closeAndShutdown = 'Ex6:close-and-shutdown';
 }
 
+
 /**
  * Initialization data for the extension.
  */

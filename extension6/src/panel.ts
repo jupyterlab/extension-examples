@@ -11,6 +11,10 @@ import {
 } from '@jupyterlab/services';
 
 import {
+  KernelMessage
+} from '@jupyterlab/services';
+
+import {
   Message
 } from '@phosphor/messaging';
 
@@ -59,8 +63,17 @@ class TutorialPanel extends StackedPanel {
     }
 
     private _onExecute(sender: TutorialView, code: string) {
-        let prom = this._session.kernel.requestExecute({ code });
-        console.log(prom);
+        // Override the default for `stop_on_error`.
+        let content: KernelMessage.IExecuteRequest = {
+          code,
+          stop_on_error: true
+        };
+
+        if (!this.session.kernel) {
+          return Promise.reject('Session has no kernel.');
+        }
+        let future = this.session.kernel.requestExecute(content, false);
+        future.done.then((arg: KernelMessage.IExecuteReplyMsg) => {console.log(arg)});
     }
 
     get session(): IClientSession {
