@@ -7,30 +7,29 @@ import {
 } from '@jupyterlab/apputils';
 
 import {
-  ISignal, Signal
-} from '@phosphor/signaling';
+    TutorialModel
+} from './model'
 
 
 export
 class TutorialView extends VDomRenderer<any> {
-    constructor() {
+    constructor(model: TutorialModel) {
         super();
         this.id = `TutorialVDOM`
+        this.model = model
     }
 
     protected render(): React.ReactElement<any>[] {
+        console.log('render');
         const elements: React.ReactElement<any>[] = [];
         elements.push(
             <button key='header-thread'
             className="jp-tutorial-button"
-            onClick={() => {this._stateChanged.emit('3+5')}}>
-            Compute 3+5</button>);
+            onClick={() => {this.model.execute('3+5')}}>
+            Compute 3+5</button>,
+
+            <span key='output field'>{JSON.stringify(this.model.output)}</span>
+        );
         return elements;
     }
-
-    get stateChanged(): ISignal<TutorialView, string> {
-        return this._stateChanged;
-    }
-
-    private _stateChanged = new Signal<TutorialView, string>(this);
 }

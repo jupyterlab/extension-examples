@@ -11,20 +11,17 @@ import {
 } from '@jupyterlab/services';
 
 import {
-  Kernel, KernelMessage
-} from '@jupyterlab/services';
-
-import {
   Message
 } from '@phosphor/messaging';
 
 import {
-  nbformat
-} from '@jupyterlab/coreutils';
-
-import {
     TutorialView
 } from './widget';
+
+import {
+    TutorialModel
+} from './model'
+
 /**
  * The class name added to console panels.
  */
@@ -49,10 +46,11 @@ class TutorialPanel extends StackedPanel {
             path,
             name: 'Tutorial',
         });
-        
-        this.tutorial = new TutorialView();
-        this.addWidget(this.tutorial);
-        this.tutorial.stateChanged.connect(this._onExecute, this);
+
+        this._model = new TutorialModel(this._session);
+        this._tutorial = new TutorialView(this._model);
+
+        this.addWidget(this._tutorial);
         this._session.initialize();
     }
 
@@ -66,48 +64,11 @@ class TutorialPanel extends StackedPanel {
         this.dispose();
     }
 
-    private _onExecute(sender: TutorialView, code: string) {
-        // Override the default for `stop_on_error`.
-        let content: KernelMessage.IExecuteRequest = {
-          code,
-          stop_on_error: true
-        };
-
-        if (!this.session.kernel) {
-          return Promise.reject('Session has no kernel.');
-        }
-        this.future = this.session.kernel.requestExecute(content, false);
-    }
-
-    private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
-        let output: nbformat.IOutput;
-        let msgType = msg.header.msg_type;
-        switch (msgType) {
-            case 'execute_result':
-            case 'display_data':
-            case 'update_display_data':
-                output = msg.content as nbformat.IOutput;
-                console.log(output);
-            default:
-                break;
-        }
-        return true
-    }
-
-    get future(): Kernel.IFuture {
-        return this._future;
-    }
-
-    set future(value: Kernel.IFuture) {
-        this._future = value;
-        value.onIOPub = this._onIOPub;
-    }
-
     get session(): IClientSession {
         return this._session;
     }
 
-    private _future: Kernel.IFuture = null;
+    private _model: TutorialModel;
     private _session: ClientSession;
-    private tutorial: TutorialView;
+    private _tutorial: TutorialView;
 }
