@@ -19,7 +19,7 @@ import {
 } from '@phosphor/messaging';
 
 import {
-  OutputArea, OutputAreaModel
+  SimplifiedOutputArea, OutputAreaModel
 } from '@jupyterlab/outputarea';
 
 import {
@@ -52,7 +52,7 @@ class TutorialPanel extends StackedPanel {
         });
 
         this._outputareamodel = new OutputAreaModel();
-        this._outputarea = new OutputArea({ model: this._outputareamodel, rendermime: rendermime });
+        this._outputarea = new SimplifiedOutputArea({ model: this._outputareamodel, rendermime: rendermime });
 
         this.addWidget(this._outputarea);
         this._session.initialize();
@@ -64,7 +64,7 @@ class TutorialPanel extends StackedPanel {
     }
 
     public execute(code: string) {
-        OutputArea.execute(code, this._outputarea, this._session)
+        SimplifiedOutputArea.execute(code, this._outputarea, this._session)
             .then((msg: KernelMessage.IExecuteReplyMsg) => {console.log(msg); })
     }
 
@@ -78,6 +78,6 @@ class TutorialPanel extends StackedPanel {
     }
 
     private _session: ClientSession;
-    private _outputarea: OutputArea;
+    private _outputarea: SimplifiedOutputArea;
     private _outputareamodel: OutputAreaModel;
 }

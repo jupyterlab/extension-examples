@@ -95,9 +95,9 @@ function activate(
 
     command = CommandIDs.execute
     commands.addCommand(command, {
-        label: 'Ex7: execute 3+5',
-        caption: 'execute simple code on the kernel',
-        execute: (args) => {panel.execute('3+5')}});
+        label: 'Ex7: show dataframe',
+        caption: 'show dataframe',
+        execute: (args) => {panel.execute('df')}});
 
     // add items in command palette and menu
     [
