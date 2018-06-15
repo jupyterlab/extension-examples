@@ -2,6 +2,8 @@
 
 ## Table of Contents ##
 
+
+* [Table of Contents](#table-of-contents)
 * [Prerequesites](#prerequesites)
 * [Extension 1: Setting up the development environment](#extension-1-setting-up-the-development-environment)
   * [The template folder structure](#the-template-folder-structure)
@@ -12,6 +14,7 @@
   * [Adding new Menu tabs and items](#adding-new-menu-tabs-and-items)
 * [Extension 3: Adding Widgets](#extension-3-adding-widgets)
   * [A basic tab](#a-basic-tab)
+* [Extension 4: A simple datagrid](#extension-4-a-simple-datagrid)
 * [Extension 5: Buttons and Signals](#extension-5-buttons-and-signals)
   * [Phosphor Signaling 101](#phosphor-signaling-101)
   * [Reorganizing the extension code](#reorganizing-the-extension-code)
@@ -24,7 +27,7 @@
   * [Executing code and retrieving messages from a kernel (model.ts)](#executing-code-and-retrieving-messages-from-a-kernel-modelts)
   * [Connecting a View to the Kernel](#connecting-a-view-to-the-kernel)
   * [How does it look like](#how-does-it-look-like)
-
+* [Extension 7: Notebook style rendering with the OutputArea class](#extension-7-notebook-style-rendering-with-the-outputarea-class)
 ## Prerequesites ##
 
 This is a short tutorial series on how to write jupyterlab extensions. Writing
@@ -983,7 +986,7 @@ components to make things look nicer...
 [Click here for extension6](extension6)
 
 
-#### Reusing the notebook `OutputArea` class ####
+## Extension 7: Notebook style rendering with the `OutputArea` class ##
 
 In this extension we will see how we can do the same as in the previous
 extension using the `OutputArea` class that jupyterlab provides. Essentially,
@@ -1039,3 +1042,5 @@ and we are ready to execute some code. Using the `OutputArea` class, the
 extension looks like this:
 
 ![OutputArea class](images/outputarea.gif)
+
+[Click here for extension7](extension7)
