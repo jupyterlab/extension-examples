@@ -775,4 +775,6 @@ One of the main features of jupyterlab is the possibility to manage and
 interact underlying compute kernels. In this section, we explore how to
 start a kernel and execute a simple command on it.
 
+#### Kernel Essentials ####
+
 [Click here for extension6](extension6)
