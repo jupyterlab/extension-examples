@@ -1,5 +1,8 @@
 # Jupyterlab Extensions Walkthrough #
 
+## Other tutorials ##
+* http://jupyterlab.readthedocs.io/en/stable/developer/xkcd_extension_tutorial.html
+
 ## Table of Contents ##
 
 * [Table of Contents](#table-of-contents)
