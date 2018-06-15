@@ -976,4 +976,8 @@ class KernelView extends VDomRenderer<any> {
 
 ![Kernel Execution](images/kernel_extension.gif)
 
+Well that's nice, the basics are clear, but what about this weird output
+object? In the next extensions, we will explore how we can reuse some jupyter
+components to make things look nicer...
+
 [Click here for extension6](extension6)
