@@ -15,11 +15,11 @@ import {
 } from '@phosphor/messaging';
 
 import {
-    TutorialView
+    KernelView
 } from './widget';
 
 import {
-    TutorialModel
+    KernelModel
 } from './model'
 
 /**
@@ -47,8 +47,8 @@ class TutorialPanel extends StackedPanel {
             name: 'Tutorial',
         });
 
-        this._model = new TutorialModel(this._session);
-        this._tutorial = new TutorialView(this._model);
+        this._model = new KernelModel(this._session);
+        this._tutorial = new KernelView(this._model);
 
         this.addWidget(this._tutorial);
         this._session.initialize();
@@ -68,7 +68,7 @@ class TutorialPanel extends StackedPanel {
         return this._session;
     }
 
-    private _model: TutorialModel;
+    private _model: KernelModel;
     private _session: ClientSession;
-    private _tutorial: TutorialView;
+    private _tutorial: KernelView;
 }

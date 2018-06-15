@@ -18,15 +18,14 @@ import {
 
 
 export
-class TutorialModel extends VDomModel {
+class KernelModel extends VDomModel {
     constructor(session: IClientSession) {
         super();
         this._session = session;
     }
 
     public execute(code: string) {
-        let content: KernelMessage.IExecuteRequest = { code };
-        this.future = this._session.kernel.requestExecute(content, false);
+        this.future = this._session.kernel.requestExecute({ code });
     }
 
     private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {

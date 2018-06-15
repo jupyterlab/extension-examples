@@ -7,13 +7,13 @@ import {
 } from '@jupyterlab/apputils';
 
 import {
-    TutorialModel
+    KernelModel
 } from './model'
 
 
 export
-class TutorialView extends VDomRenderer<any> {
-    constructor(model: TutorialModel) {
+class KernelView extends VDomRenderer<any> {
+    constructor(model: KernelModel) {
         super();
         this.id = `TutorialVDOM`
         this.model = model
