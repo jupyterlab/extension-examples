@@ -2,7 +2,6 @@
 
 ## Table of Contents ##
 
-
 * [Table of Contents](#table-of-contents)
 * [Prerequesites](#prerequesites)
 * [Extension 1: Setting up the development environment](#extension-1-setting-up-the-development-environment)
@@ -27,7 +26,8 @@
   * [Executing code and retrieving messages from a kernel (model.ts)](#executing-code-and-retrieving-messages-from-a-kernel-modelts)
   * [Connecting a View to the Kernel](#connecting-a-view-to-the-kernel)
   * [How does it look like](#how-does-it-look-like)
-* [Extension 7: Notebook style rendering with the OutputArea class](#extension-7-notebook-style-rendering-with-the-outputarea-class)
+* [Extension 7: Rendering a dataframe from a notebook with the OutputArea class](#extension-7-rendering-a-dataframe-from-a-notebook-with-the-outputarea-class)
+
 ## Prerequesites ##
 
 This is a short tutorial series on how to write jupyterlab extensions. Writing
