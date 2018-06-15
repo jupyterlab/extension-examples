@@ -26,6 +26,9 @@ import {
   OutputArea, OutputAreaModel
 } from '@jupyterlab/outputarea';
 
+import {
+ RenderMimeRegistry
+} from '@jupyterlab/rendermime';
 
 /**
  * The class name added to console panels.
@@ -37,7 +40,7 @@ const PANEL_CLASS = 'jp-RovaPanel';
  */
 export
 class TutorialPanel extends StackedPanel {
-    constructor(manager: ServiceManager.IManager) {
+    constructor(manager: ServiceManager.IManager, rendermime: RenderMimeRegistry) {
         super();
         this.addClass(PANEL_CLASS);
         this.id = 'TutorialPanel';
@@ -52,9 +55,8 @@ class TutorialPanel extends StackedPanel {
             name: 'Tutorial',
         });
 
-        this._model = new KernelModel(this._session);
-        this._tutorial = new KernelView(this._model);
-        this._outputarea = new OutputArea();
+        this._outputareamodel = new OutputAreaModel();
+        this._outputarea = new OutputArea({ model: this._outputareamodel, rendermime: rendermime });
 
         this.addWidget(this._tutorial);
         this.addWidget(this._outputarea);
@@ -78,5 +80,6 @@ class TutorialPanel extends StackedPanel {
     private _model: KernelModel;
     private _session: ClientSession;
     private _outputarea: OutputArea;
+    private _outputareamodel: OutputAreaModel;
     private _tutorial: KernelView;
 }

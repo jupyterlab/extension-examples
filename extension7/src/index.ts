@@ -21,6 +21,10 @@ import {
 } from '@jupyterlab/apputils';
 
 import {
+  IRenderMimeRegistry
+} from '@jupyterlab/rendermime';
+
+import {
     TutorialPanel
 } from './panel'
 
@@ -43,7 +47,7 @@ namespace CommandIDs {
 const extension: JupyterLabPlugin<void> = {
     id: 'extension7',
     autoStart: true,
-    requires: [ICommandPalette, ILauncher, IMainMenu],
+    requires: [ICommandPalette, ILauncher, IMainMenu, IRenderMimeRegistry],
     activate: activate
 };
 
@@ -52,7 +56,8 @@ function activate(
     app: JupyterLab,
     palette: ICommandPalette,
     launcher: ILauncher,
-    mainMenu: IMainMenu)
+    mainMenu: IMainMenu,
+    rendermime: IRenderMimeRegistry)
 {
     const manager = app.serviceManager;
     const { commands, shell } = app;
@@ -68,7 +73,7 @@ function activate(
         let panel: TutorialPanel;
         return manager.ready
             .then(() => {
-                panel = new TutorialPanel(manager);
+                panel = new TutorialPanel(manager, rendermime);
                 return panel.session.ready})
             .then(() => {
                 shell.addToMainArea(panel);

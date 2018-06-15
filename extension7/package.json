@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@jupyterlab/application": "^0.16.0",
+    "@jupyterlab/outputarea": "*",
     "@jupyterlab/mainmenu": "*",
     "@jupyterlab/launcher": "*",
     "@phosphor/algorithm": "^1.1.2",
