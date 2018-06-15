@@ -986,15 +986,15 @@ components to make things look nicer...
 [Click here for extension6](extension6)
 
 
-## Extension 7: Notebook style rendering with the `OutputArea` class ##
+## Extension 7: Rendering a dataframe from a notebook with the `OutputArea` class ##
 
 In this extension we will see how we can do the same as in the previous
 extension using the `OutputArea` class that jupyterlab provides. Essentially,
-this will render the data that came as a reply to an execute message in the
-same way as in the notebook. Under the hood, the `OutputArea` and the
+`OutputArea` will render the data that came as a reply to an execute message in
+the same way as in the notebook. Under the hood, the `OutputArea` and the
 `OutputAreaModel` classes act similar to the `KernelView` and `KernelModel`
-classes that we have defined ourselves before. We therefore get rid of
-the `model.ts` and `widget.tsx` files and change the panel class to:
+classes that we have defined ourselves before. We therefore get rid of the
+`model.ts` and `widget.tsx` files and change the panel class to:
 
 ```
 export
@@ -1015,31 +1015,33 @@ class TutorialPanel extends StackedPanel {
         });
 
         this._outputareamodel = new OutputAreaModel();
-        this._outputarea = new OutputArea({ model: this._outputareamodel, rendermime: rendermime });
+        this._outputarea = new SimplifiedOutputArea({ model: this._outputareamodel, rendermime: rendermime });
 
         this.addWidget(this._outputarea);
         this._session.initialize();
     }
 
     public execute(code: string) {
-        OutputArea.execute(code, this._outputarea, this._session)
+        SimplifiedOutputArea.execute(code, this._outputarea, this._session)
             .then((msg: KernelMessage.IExecuteReplyMsg) => {console.log(msg); })
     }
 
+    [...]
 ```
 
-We just need to add a command to the command registry in `index.ts`
+To display the variable `df` from a kernel, we just need to add a command to
+the command registry in `index.ts`
 
 ```
     command = CommandIDs.execute
     commands.addCommand(command, {
-        label: 'Ex7: execute 3+5',
-        caption: 'execute simple code on the kernel',
-        execute: (args) => {panel.execute('3+5')}});
+        label: 'Ex7: show dataframe',
+        caption: 'show dataframe',
+        execute: (args) => {panel.execute('df')}});
 ```
 
-and we are ready to execute some code. Using the `OutputArea` class, the
-extension looks like this:
+and we are ready to see, for example, a nicely rendered pandas dataframe.
+Using the `OutputArea` class, the extension looks like this:
 
 ![OutputArea class](images/outputarea.gif)
 
