@@ -19,7 +19,11 @@
   * [subscribing to a signal](#subscribing-to-a-signal)
   * [asynchronous extension initialization](#asynchronous-extension-initialization)
 * [Extension 6: Kernel Interactions](#extension-6-kernel-interactions)
-
+  * [Component Overview](#component-overview)
+  * [Initializing and managing a kernel session (panel.ts)](#initializing-and-managing-a-kernel-session-panelts)
+  * [Executing code and retrieving messages from a kernel (model.ts)](#executing-code-and-retrieving-messages-from-a-kernel-modelts)
+  * [Connecting a View to the Kernel](#connecting-a-view-to-the-kernel)
+  * [How does it look like](#how-does-it-look-like)
 
 ## Prerequesites ##
 
