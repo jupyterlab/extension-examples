@@ -7,20 +7,16 @@ import {
 } from '@jupyterlab/apputils';
 
 import {
+  KernelMessage
+} from '@jupyterlab/services';
+
+import {
   ServiceManager
 } from '@jupyterlab/services';
 
 import {
   Message
 } from '@phosphor/messaging';
-
-import {
-    KernelView
-} from './widget';
-
-import {
-    KernelModel
-} from './model'
 
 import {
   OutputArea, OutputAreaModel
@@ -58,7 +54,6 @@ class TutorialPanel extends StackedPanel {
         this._outputareamodel = new OutputAreaModel();
         this._outputarea = new OutputArea({ model: this._outputareamodel, rendermime: rendermime });
 
-        this.addWidget(this._tutorial);
         this.addWidget(this._outputarea);
         this._session.initialize();
     }
@@ -66,6 +61,11 @@ class TutorialPanel extends StackedPanel {
     dispose(): void {
         this._session.dispose();
         super.dispose();
+    }
+
+    public execute(code: string) {
+        OutputArea.execute(code, this._outputarea, this._session)
+            .then((msg: KernelMessage.IExecuteReplyMsg) => {console.log(msg); })
     }
 
     protected onCloseRequest(msg: Message): void {
@@ -77,9 +77,7 @@ class TutorialPanel extends StackedPanel {
         return this._session;
     }
 
-    private _model: KernelModel;
     private _session: ClientSession;
     private _outputarea: OutputArea;
     private _outputareamodel: OutputAreaModel;
-    private _tutorial: KernelView;
 }

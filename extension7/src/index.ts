@@ -37,7 +37,7 @@ namespace CommandIDs {
     const create = 'Ex7:create';
 
     export
-    const closeAndShutdown = 'Ex7:close-and-shutdown';
+    const execute = 'Ex7:execute';
 }
 
 
@@ -69,8 +69,9 @@ function activate(
         category: category,
         callback: createPanel});
 
+    let panel: TutorialPanel;
+
     function createPanel() {
-        let panel: TutorialPanel;
         return manager.ready
             .then(() => {
                 panel = new TutorialPanel(manager, rendermime);
@@ -92,16 +93,16 @@ function activate(
         caption: 'Open the Labtutorial Extension',
         execute: createPanel});
 
-    command = CommandIDs.closeAndShutdown
+    command = CommandIDs.execute
     commands.addCommand(command, {
-        label: 'Ex7: close Panel',
-        caption: 'Close the Labtutorial Extension',
-        execute: (args) => {console.log('not implemented')}});
+        label: 'Ex7: execute code',
+        caption: 'execute simple code on the kernel',
+        execute: (args) => {panel.execute('3+5')}});
 
     // add items in command palette and menu
     [
         CommandIDs.create,
-        CommandIDs.closeAndShutdown
+        CommandIDs.execute
     ].forEach(command => {
         palette.addItem({ command, category });
         tutorialMenu.addItem({ command });
