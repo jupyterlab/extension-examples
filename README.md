@@ -5,27 +5,31 @@
 
 ## Table of Contents ##
 
+* [Introduction](#introduction)
 * [Prerequesites](#prerequesites)
-* [Hello World: Setting up the development environment](#hello-world-extension-setting-up-the-development-environment)
+* [1 Hello World: Setting up the development environment](#1-hello-world-setting-up-the-development-environment)
   * [The template folder structure](#the-template-folder-structure)
   * [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
   * [Building and Installing an Extension](#building-and-installing-an-extension)
-* [Commands and Menu Extension: Extending the main app](#commands-and-menu-extension-extending-the-main-app)
-  * [Jupyterlab Commands](#JupyterLab-commands)
+* [2 Commands and Menu Extension: Extending the main app](#2-commands-and-menu-extension-extending-the-main-app)
+  * [Jupyterlab Commands](#jupyterlab-commands)
   * [Adding new Menu tabs and items](#adding-new-menu-tabs-and-items)
-* [Widgets: Adding new elements](#widgets-adding-new-elements)
+* [3 Widgets: Adding new Elements to the Main Window](#3-widgets-adding-new-elements-to-the-main-window)
   * [A basic tab](#a-basic-tab)
-* [Datagrid: An Example of a Fancy Phosphor Widgets](#datagrid-an-example-of-a-fancy-phosphor-widgets)
-* [The OutputArea class: Notebook-style Output Rendering](#the-outputarea-class-notebook-style-output-rendering)
+* [4 Datagrid: a Fancy Phosphor Widget](#4-datagrid-a-fancy-phosphor-widget)
+* [5 Kernel Outputs: Simple Notebook-style Rendering](#5-kernel-outputs-simple-notebook-style-rendering)
   * [Reorganizing the extension code](#reorganizing-the-extension-code)
-* [IPyWidgets: A Quick Look Into a New Rendermime Extension](#ipywidgets-a-quick-look-into-a-new-rendermime-extension)
-* [Buttons and Signals: Interactions Between Different Widgets](#buttons-and-signals-interactions-between-different-widgets)
+  * [Initializing a Kernel Session](#initializing-a-kernel-session)
+  * [OutputArea and Model](#outputarea-and-model)
+  * [Make it Run](#make-it-run)
+* [6 Jupyter-Widgets: Adding Interactive Elements](#6-jupyter-widgets-adding-interactive-elements)
+* [7 Buttons and Signals: Interactions Between Different Widgets](#7-buttons-and-signals-interactions-between-different-widgets)
   * [Phosphor Signaling 101](#phosphor-signaling-101)
   * [Reorganizing the extension code](#reorganizing-the-extension-code-1)
   * [A simple react button](#a-simple-react-button)
   * [subscribing to a signal](#subscribing-to-a-signal)
   * [asynchronous extension initialization](#asynchronous-extension-initialization)
-* [Custom Kernel Interactions: Kernel Managment and Messaging](#custom-kernel-interactions-kernel-managment-and-messaging)
+* [8 Custom Kernel Interactions: Kernel Managment and Messaging](#8-custom-kernel-interactions-kernel-managment-and-messaging)
   * [Component Overview](#component-overview)
   * [Initializing and managing a kernel session (panel.ts)](#initializing-and-managing-a-kernel-session-panelts)
   * [Executing code and retrieving messages from a kernel (model.ts)](#executing-code-and-retrieving-messages-from-a-kernel-modelts)
@@ -51,7 +55,7 @@ _Don't be scared of typescript, I never coded in typescript before I touched
 JupyterLab but found it easier to understand than pure javascript if you have a 
 basic understanding of object oriented programming and types._
 
-## Hello World: Setting up the development environment ##
+## 1 Hello World: Setting up the development environment ##
 
 #### The template folder structure ####
 
@@ -232,7 +236,7 @@ _
 
 [Click here for the final 1_hello_world](1_hello_world)
 
-## Commands and Menu Extension: Extending the main app ##
+## 2 Commands and Menu Extension: Extending the main app ##
 
 For the next extension you can either copy the last folder to a new one or
 simply continue modifying it. In case that you want to have a new extension,
@@ -409,7 +413,7 @@ for the build to run, the `tsconfig.json` file might have to be updated to:
 [Click here for the final 2_commands_and_menus](2_commands_and_menus)
 
 
-## Widgets: Adding new Elements to the Main Window ##
+## 3 Widgets: Adding new Elements to the Main Window ##
 
 Finally we are going to do some real stuff and add a new tab to JupyterLab.
 Visible elements such as a tab are represented by widgets in the phosphor
@@ -482,10 +486,10 @@ like this:
 
 ![Custom Tab](images/custom_tab.png)
 
-[Click here for the Widget 3_widgets](3_widgets)
+[Click here for the Widget 3_widgets](3a_widgets)
 
 
-## Datagrid: a Fancy Phosphor Widget ##
+#### Datagrid: a Fancy Phosphor Widget ####
 
 Now let's do something a little more advanced. Jupyterlab is build on top of
 Phosphor.js. Let's see if we can plug [this phosphor example](http://phosphorjs.github.io/examples/datagrid/)
@@ -596,10 +600,10 @@ Let's see how this looks like in Jupyterlab:
 
 ![Datagrid](images/datagrid.png)
 
-[Click here for 4_datagrid](4_datagrid)
+[Click here for the datagrid extension](3b_datagrid)
 
 
-## Kernel Outputs: Simple Notebook-style Rendering ##
+## 5 Kernel Outputs: Simple Notebook-style Rendering ##
 
 In this extension we will see how initialize a kernel, and how to execute code
 and how to display the rendered output. We use the `OutputArea` class for this
@@ -783,9 +787,9 @@ and we are ready to see it. The final extension looks like this:
 
 ![OutputArea class](images/outputarea.gif)
 
-[Click here for 5_outputareas](5_outputareas)
+[Click here for 5_outputareas](4a_outputareas)
 
-## IPyWidgets: A Quick Look Into a New Rendermime Extension ##
+#### Jupyter-Widgets: Adding Interactive Elements ####
 
 A lot of advanced functionality in Jupyter notebooks comes in the form of
 jupyter widgets (ipython widgets). Jupyter widgets are elements that have one
@@ -936,10 +940,9 @@ the one that we send from our Extension.
 
 ![Qgrid widget](images/qgrid_widget.gif)
 
-[Click here for 6_ipywidgets](6_ipywidgets)
+[Click here for jupyter widgets extension](4b_jupyterwidgets)
 
-## Buttons and Signals: Interactions Between Different Widgets ##
-
+## 5 Buttons and Signals: Interactions Between Different Widgets ##
 
 #### Phosphor Signaling 101 ####
 
@@ -1132,10 +1135,10 @@ conceptualy important for building extensions. It looks like this:
 ![Button with Signal](images/button_with_signal.png)
 
 
-[Click here for 7_signals_and_buttons](7_signals_and_buttons)
+[Click here for the signals_and_buttons extension](5_signals_and_buttons)
 
 
-## Custom Kernel Interactions: Kernel Managment and Messaging ##
+## 6 Custom Kernel Interactions: Kernel Managment and Messaging ##
 
 One of the main features of JupyterLab is the possibility to manage and
 interact underlying compute kernels. In this section, we explore how to
@@ -1342,4 +1345,4 @@ Well that's nice, the basics are clear, but what about this weird output
 object? In the next extensions, we will explore how we can reuse some jupyter
 components to make things look nicer...
 
-[Click here for 8_kernel_messages](8_kernel_messages)
+[Click here for the kernel_messages extension](6_kernel_messages)
