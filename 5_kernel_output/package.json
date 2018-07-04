@@ -1,5 +1,5 @@
 {
-  "name": "5_outputareas",
+  "name": "7_signals_and_buttons",
   "version": "0.1.0",
   "description": "minimal lab example",
   "keywords": [
@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@jupyterlab/application": "^0.16.0",
+    "@jupyterlab/outputarea": "*",
     "@jupyterlab/mainmenu": "*",
     "@jupyterlab/launcher": "*",
     "@phosphor/algorithm": "^1.1.2",

@@ -409,7 +409,7 @@ for the build to run, the `tsconfig.json` file might have to be updated to:
 [Click here for the final 2_commands_and_menus](2_commands_and_menus)
 
 
-## Widgets: Adding new elements ##
+## Widgets: Adding new Elements to the Main Window ##
 
 Finally we are going to do some real stuff and add a new tab to JupyterLab.
 Visible elements such as a tab are represented by widgets in the phosphor
@@ -485,12 +485,14 @@ like this:
 [Click here for the Widget 3_widgets](3_widgets)
 
 
-## Datagrid: An Example of a Fancy Phosphor Widgets ##
+## Datagrid: a Fancy Phosphor Widget ##
 
-Now let's do something a little more fancy. Jupyterlab is build on top of
+Now let's do something a little more advanced. Jupyterlab is build on top of
 Phosphor.js. Let's see if we can plug [this phosphor example](http://phosphorjs.github.io/examples/datagrid/)
-into JupyterLab. We start by importing the `Panel` widget and the `DataGrid`
-and `DataModel` classes from phosphor.
+into JupyterLab.
+
+We start by importing the `Panel` widget and the `DataGrid` and `DataModel`
+classes from phosphor:
 
 ```typescript
 import {
@@ -503,8 +505,8 @@ import {
 ```
 
 The Panel widget can hold several sub-widgets that are added with its
-`.addWidget` property. `DataModel` is a class that provides data that is
-shown in the `DataGrid` widget.
+`.addWidget` method. `DataModel` is a class that provides the data that is
+displayed by the `DataGrid` widget.
 
 With these three classes, we adapt the `TutorialView` as follows:
 
@@ -564,14 +566,15 @@ look at their definition in the phosphor.js source code:
 ```
 
 The meaning of these lines might be obvious for experienced users of typescript
-or Haskell. The `|` can be read as or, so the `RowRegion` type is either `body`
-or `column-header`. This explains what the `rowCount` and `columnCount`
-functions do: They define a table with `2` header rows, with 3 index columns,
-with `1000000000000` rows and `1000000000000` columns.
+or Haskell. The `|` can be read as or. This means that the `RowRegion` type is
+either `body` or `column-header`, explaining what the `rowCount` and
+`columnCount` functions do: They define a table with `2` header rows, with 3
+index columns, with `1000000000000` rows and `1000000000000` columns.
 
-The remaining part of the class defines the row and column number as
-data values and adds a letter prefix in case that we are in any of the
-header regions:
+The remaining part of the LargeDataModel class defines the data values of the
+datagrid. In this case it simply displays the row and column index in each
+cell, and adds a letter prefix in case that we are in any of the header
+regions:
 
 ```typescript
   data(region: DataModel.CellRegion, row: number, column: number): any {
@@ -596,38 +599,38 @@ Let's see how this looks like in Jupyterlab:
 [Click here for 4_datagrid](4_datagrid)
 
 
-## The `OutputArea` class: Notebook-style Output Rendering ##
+## Kernel Outputs: Simple Notebook-style Rendering ##
 
-In this extension we will see how we can do the same as in the previous
-extension using the `OutputArea` class that JupyterLab provides. Essentially,
-`OutputArea` will render the data that came as a reply to an execute message in
-the same way as in the notebook. Under the hood, the `OutputArea` and the
-`OutputAreaModel` classes act similar to the `KernelView` and `KernelModel`
-classes that we have defined ourselves before. We therefore get rid of the
-`model.ts` and `widget.tsx` files and change the panel class to:
+In this extension we will see how initialize a kernel, and how to execute code
+and how to display the rendered output. We use the `OutputArea` class for this
+purpose that Jupyterlab uses internally to render the output area under a
+notebook cell or the output area in the console.
+
+Essentially, `OutputArea` will renders the data that comes as a reply to an
+execute message that was sent to an underlying kernel. Under the hood, the
+`OutputArea` and the `OutputAreaModel` classes act similar to the `KernelView`
+and `KernelModel` classes that we have defined ourselves before.  We therefore
+get rid of the `model.ts` and `widget.tsx` files and change the panel class to:
 
 #### Reorganizing the extension code ####
 
-Since our extension is growing bigger and bigger, we begin by splitting our
-code into more managable units. Roughly we can see three larger components
-of our application:
+Since our extension is growing bigger, we begin by splitting our code into more
+managable units. Roughly we can see three larger components of our application:
 
 1.  the `JupyterLabPlugin` that activates all extension components and connects
     them to the main `Jupyterlab` application via commands, launcher, or menu
     items.
 2.  a Panel that combines different widgets into a single application
-3.  different widgets that define smaller elements such as buttons 
 
-We split these components in the three files:
+We split these components in the two files:
 
 ```
 src/
 ├── index.ts
-├── panel.ts
-└── widget.tsx
+└── panel.ts
 ```
 
-Let's go through these files one by one:
+Let's go first through `panel.ts`:
 
 ```
 export
@@ -658,9 +661,11 @@ class TutorialPanel extends StackedPanel {
         SimplifiedOutputArea.execute(code, this._outputarea, this._session)
             .then((msg: KernelMessage.IExecuteReplyMsg) => {console.log(msg); })
     }
-
-    [...]
 ```
+
+The first thing that we want to focus on is the `ClientSession` that is 
+stored in the `_session` variable.
+
 
 To display the variable `df` from a kernel, we just need to add a command to
 the command registry in `index.ts`

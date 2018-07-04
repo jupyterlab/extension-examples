@@ -21,6 +21,10 @@ import {
 } from '@jupyterlab/apputils';
 
 import {
+  IRenderMimeRegistry
+} from '@jupyterlab/rendermime';
+
+import {
     TutorialPanel
 } from './panel'
 
@@ -30,19 +34,20 @@ import {
  */
 namespace CommandIDs {
     export
-    const create = 'Ex5:create';
+    const create = 'Ex7:create';
 
     export
-    const closeAndShutdown = 'Ex5:close-and-shutdown';
+    const execute = 'Ex7:execute';
 }
+
 
 /**
  * Initialization data for the extension.
  */
 const extension: JupyterLabPlugin<void> = {
-    id: '5_outputareas',
+    id: '7_signals_and_buttons',
     autoStart: true,
-    requires: [ICommandPalette, ILauncher, IMainMenu],
+    requires: [ICommandPalette, ILauncher, IMainMenu, IRenderMimeRegistry],
     activate: activate
 };
 
@@ -51,7 +56,8 @@ function activate(
     app: JupyterLab,
     palette: ICommandPalette,
     launcher: ILauncher,
-    mainMenu: IMainMenu)
+    mainMenu: IMainMenu,
+    rendermime: IRenderMimeRegistry)
 {
     const manager = app.serviceManager;
     const { commands, shell } = app;
@@ -63,11 +69,14 @@ function activate(
         category: category,
         callback: createPanel});
 
+    let panel: TutorialPanel;
+
     function createPanel() {
-        let panel: TutorialPanel;
         return manager.ready
             .then(() => {
-                panel = new TutorialPanel();
+                panel = new TutorialPanel(manager, rendermime);
+                return panel.session.ready})
+            .then(() => {
                 shell.addToMainArea(panel);
                 return panel});
     }
@@ -80,20 +89,20 @@ function activate(
     // add commands to registry
     let command = CommandIDs.create 
     commands.addCommand(command, {
-        label: 'Ex5: open Panel',
+        label: 'Ex7: open Panel',
         caption: 'Open the Labtutorial Extension',
         execute: createPanel});
 
-    command = CommandIDs.closeAndShutdown
+    command = CommandIDs.execute
     commands.addCommand(command, {
-        label: 'Ex5: close Panel',
-        caption: 'Close the Labtutorial Extension',
-        execute: (args) => {console.log('not implemented')}});
+        label: 'Ex7: show dataframe',
+        caption: 'show dataframe',
+        execute: (args) => {panel.execute('df')}});
 
     // add items in command palette and menu
     [
         CommandIDs.create,
-        CommandIDs.closeAndShutdown
+        CommandIDs.execute
     ].forEach(command => {
         palette.addItem({ command, category });
         tutorialMenu.addItem({ command });
