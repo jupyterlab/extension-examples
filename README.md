@@ -6,30 +6,31 @@
 ## Table of Contents ##
 
 * [Prerequesites](#prerequesites)
-* [Extension 1: Setting up the development environment](#extension-1-setting-up-the-development-environment)
+* [Hello World: Setting up the development environment](#hello-world-extension-setting-up-the-development-environment)
   * [The template folder structure](#the-template-folder-structure)
   * [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
   * [Building and Installing an Extension](#building-and-installing-an-extension)
-* [Extension 2: Adding Commands, modifying Menus](#extension-2-adding-commands-modifying-menus)
+* [Commands and Menu Extension: Extending the main app](#commands-and-menu-extension-extending-the-main-app)
   * [Jupyterlab Commands](#jupyterlab-commands)
   * [Adding new Menu tabs and items](#adding-new-menu-tabs-and-items)
-* [Extension 3: Adding Widgets](#extension-3-adding-widgets)
+* [Widgets: Adding new elements](#widgets-adding-new-elements)
   * [A basic tab](#a-basic-tab)
-* [Extension 4: A simple datagrid](#extension-4-a-simple-datagrid)
-* [Extension 5: Buttons and Signals](#extension-5-buttons-and-signals)
-  * [Phosphor Signaling 101](#phosphor-signaling-101)
+* [Datagrid: An Example of a Fancy Phosphor Widgets](#datagrid-an-example-of-a-fancy-phosphor-widgets)
+* [The OutputArea class: Notebook-style Output Rendering](#the-outputarea-class-notebook-style-output-rendering)
   * [Reorganizing the extension code](#reorganizing-the-extension-code)
+* [IPyWidgets: A Quick Look Into a New Rendermime Extension](#ipywidgets-a-quick-look-into-a-new-rendermime-extension)
+* [Buttons and Signals: Interactions Between Different Widgets](#buttons-and-signals-interactions-between-different-widgets)
+  * [Phosphor Signaling 101](#phosphor-signaling-101)
+  * [Reorganizing the extension code](#reorganizing-the-extension-code-1)
   * [A simple react button](#a-simple-react-button)
   * [subscribing to a signal](#subscribing-to-a-signal)
   * [asynchronous extension initialization](#asynchronous-extension-initialization)
-* [Extension 6: Kernel Interactions](#extension-6-kernel-interactions)
+* [Custom Kernel Interactions: Kernel Managment and Messaging](#custom-kernel-interactions-kernel-managment-and-messaging)
   * [Component Overview](#component-overview)
   * [Initializing and managing a kernel session (panel.ts)](#initializing-and-managing-a-kernel-session-panelts)
   * [Executing code and retrieving messages from a kernel (model.ts)](#executing-code-and-retrieving-messages-from-a-kernel-modelts)
   * [Connecting a View to the Kernel](#connecting-a-view-to-the-kernel)
   * [How does it look like](#how-does-it-look-like)
-* [Extension 7: Rendering a dataframe from a notebook with the OutputArea class](#extension-7-rendering-a-dataframe-from-a-notebook-with-the-outputarea-class)
-* [Extension8: Using IPyWidgets](#extension8-using-ipywidgets)
 
 ## Prerequesites ##
 
@@ -41,7 +42,7 @@ _Don't be scared of typescript, I never coded in typescript before I touched
 jupyterlab but found it easier to understand than pure javascript if you have a 
 basic understanding of object oriented programming and types._
 
-## Extension 1: Setting up the development environment ##
+## Hello World: Setting up the development environment ##
 
 #### The template folder structure ####
 
@@ -55,16 +56,16 @@ cookiecutter https://github.com/jupyterlab/extension-cookiecutter-ts
 It asks for some basic information that could for example be setup like this:
 ```bash
 author_name []: tuto
-extension_name [jupyterlab_myextension]: extension1
+extension_name [jupyterlab_myextension]: 1_hello_world
 project_short_description [A JupyterLab extension.]: minimal lab example
 repository [https://github.com/my_name/jupyterlab_myextension]: 
 ```
 
-The cookiecutter creates the directory `extension1` [or your extension name]
+The cookiecutter creates the directory `1_hello_world` [or your extension name]
 that looks like this:
 
 ```bash
-extension1/
+1_hello_world/
 
 ├── README.md
 ├── package.json
@@ -115,10 +116,10 @@ of the `JupyterLabPlugin` class:
 
 ```typescript
 const extension: JupyterLabPlugin<void> = {
-  id: 'extension1',
+  id: '1_hello_world',
   autoStart: true,
   activate: (app: JupyterLab) => {
-    console.log('JupyterLab extension extension1 is activated!');
+    console.log('JupyterLab extension 1_hello_world is activated!');
   }
 };
 
@@ -167,7 +168,7 @@ jupyter labextension list
 should now show something like:
 ```bash
    local extensions:
-        extension1: [...]/labextension_tutorial/extension1
+        1_hello_world: [...]/labextension_tutorial/1_hello_world
 ```
 
 Now let's check inside of jupyterlab if it works. Run [can take a while]:
@@ -181,7 +182,7 @@ console. So let's check if it work. In firefox you can open the console
 pressing the `f12` key. You should see something like:
 
 ```
-JupyterLab extension extension1 is activated
+JupyterLab extension 1_hello_world is activated
 ```
 
 Our extension works but it is incredibly boring. Let's start with the
@@ -223,14 +224,14 @@ the `phosphor.js` library that runs jupyterlab under the hood
 [phosphor.js website](http://phosphorjs.github.io/phosphor/api/application/interfaces/iplugin.html)
 
 
-[Click here for the final extension1](extension1)
+[Click here for the final 1_hello_world](1_hello_world)
 
-## Extension 2: Adding Commands, modifying Menus ##
+## Commands and Menu Extension: Extending the main app ##
 
 For the next extension you can either copy the last folder to a new one or 
 simply continue modifying it. In case that you want to have a new extension,
 open the file `package.json` and modify the package name, e.g. into 
-`extension2`. The same name change needs to be done in `src/index.ts`.
+`2_commands_and_menus`. The same name change needs to be done in `src/index.ts`.
 
 #### Jupyterlab Commands ####
 
@@ -272,7 +273,7 @@ command registry. Our new plugin code then becomes:
 
 ```typescript
 const extension: JupyterLabPlugin<void> = {
-    id: 'extension2',
+    id: '2_commands_and_menus',
     autoStart: true,
     requires: [ICommandPalette],
     activate: (
@@ -322,7 +323,7 @@ extension to:
 
 ```typescript
 const extension: JupyterLabPlugin<void> = {
-    id: 'extension2',
+    id: '2_commands_and_menus',
     autoStart: true,
     requires: [ICommandPalette, IMainMenu],
     activate: (
@@ -392,10 +393,10 @@ to rebuild the application. A refresh of the jupyterlab website should now show:
 ```
 ]
 
-[Click here for the final extension1](extension2)
+[Click here for the final 2_commands_and_menus](2_commands_and_menus)
 
 
-## Extension 3: Adding Widgets ##
+## Widgets: Adding new elements ##
 
 Woo finally we are going to do some real stuff and add a new tab to jupyterlab.
 Particular visible elements such as a tab are represented by widgets in the
@@ -469,10 +470,10 @@ like this:
 
 ![Custom Tab](images/custom_tab.png)
 
-[Click here for the Widget extension3](extension3)
+[Click here for the Widget 3_widgets](3_widgets)
 
 
-## Extension 4: A simple datagrid ##
+## Datagrid: An Example of a Fancy Phosphor Widgets ##
 
 Now let's do something a little more fancy. Jupyterlab is build on top of
 Phosphor.js. Let's see if we can plug [this phosphor example](http://phosphorjs.github.io/examples/datagrid/)
@@ -583,7 +584,242 @@ Let's see how this looks like in Jupyterlab:
 [Click here for extension4](extension4)
 
 
-## Extension 5: Buttons and Signals ##
+## The `OutputArea` class: Notebook-style Output Rendering ##
+
+In this extension we will see how we can do the same as in the previous
+extension using the `OutputArea` class that jupyterlab provides. Essentially,
+`OutputArea` will render the data that came as a reply to an execute message in
+the same way as in the notebook. Under the hood, the `OutputArea` and the
+`OutputAreaModel` classes act similar to the `KernelView` and `KernelModel`
+classes that we have defined ourselves before. We therefore get rid of the
+`model.ts` and `widget.tsx` files and change the panel class to:
+
+#### Reorganizing the extension code ####
+
+Since our extension is growing bigger and bigger, we begin by splitting our
+code into more managable units. Roughly we can see three larger components
+of our application:
+
+1.  the `JupyterLabPlugin` that activates all extension components and connects
+    them to the main `Jupyterlab` application via commands, launcher, or menu
+    items.
+2.  a Panel that combines different widgets into a single application
+3.  different widgets that define smaller elements such as buttons 
+
+We split these components in the three files:
+
+```
+src/
+├── index.ts
+├── panel.ts
+└── widget.tsx
+```
+
+Let's go through these files one by one:
+
+```
+export
+class TutorialPanel extends StackedPanel {
+    constructor(manager: ServiceManager.IManager, rendermime: RenderMimeRegistry) {
+        super();
+        this.addClass(PANEL_CLASS);
+        this.id = 'TutorialPanel';
+        this.title.label = 'Tutorial View'
+        this.title.closable = true;
+
+        let path = './console';
+
+        this._session = new ClientSession({
+            manager: manager.sessions,
+            path,
+            name: 'Tutorial',
+        });
+
+        this._outputareamodel = new OutputAreaModel();
+        this._outputarea = new SimplifiedOutputArea({ model: this._outputareamodel, rendermime: rendermime });
+
+        this.addWidget(this._outputarea);
+        this._session.initialize();
+    }
+
+    public execute(code: string) {
+        SimplifiedOutputArea.execute(code, this._outputarea, this._session)
+            .then((msg: KernelMessage.IExecuteReplyMsg) => {console.log(msg); })
+    }
+
+    [...]
+```
+
+To display the variable `df` from a kernel, we just need to add a command to
+the command registry in `index.ts`
+
+```
+    command = CommandIDs.execute
+    commands.addCommand(command, {
+        label: 'Ex7: show dataframe',
+        caption: 'show dataframe',
+        execute: (args) => {panel.execute('df')}});
+```
+
+and we are ready to see, for example, a nicely rendered pandas dataframe.
+Using the `OutputArea` class, the extension looks like this:
+
+![OutputArea class](images/outputarea.gif)
+
+[Click here for 5_outputareas](5_outputareas)
+
+## IPyWidgets: A Quick Look Into a New Rendermime Extension ##
+
+A lot of advanced functionality in jupyter lab notebooks come in the form of
+ipython widgets (or jupyter widgets). Such widgets have one representation in
+the kernel and one representation in the jupyterlab javascript code. They can
+for example be used to interactively examine very large datasets in the kernel
+without a full copy in the frontend. Many other widgets are available and can
+give an app-like feeling to a jupyter notebook. These widgets are therefore
+ideal to build an interactive jupyterlab extension.
+
+As an example, we show in this extension how the ipywidget `qgrid` can be
+integrated into jupyterlab. As a first step, install `ipywidgets` and 
+`grid`.
+
+(These are the commands for a conda installation:
+```
+conda install -c conda-forge ipywidgets
+conda install -c conda-forge qgrid
+jupyter labextension install @jupyter-widgets/jupyterlab-manager
+jupyter labextension install qgrid
+```
+)
+
+Before continuing, test if you can (a) open a notebook, and (b) see a table
+when executing these commands in a cell:
+
+```
+import pandas as pd
+import numpy as np
+import qgrid
+df = pd.DataFrame(np.arange(25).reshape(5, 5))
+qgrid.show_grid(df)
+```
+
+If yes, we can check out how we can include this table in our own app. It is
+quite similar to the previous Extension7 but some minor adjustments have to
+be made.
+
+The first thing is to understand the nature of the ipywidget jupyterlab
+extension (`jupyterlab-manager`). As this text is written (26/6/2018) it is a
+*document* extension and not a general extension to jupyterlab. This means
+it provides extra functionality to the notebook document and not the the full
+app. The relevant lines from its source are here: 
+
+```typescript
+export
+class NBWidgetExtension implements INBWidgetExtension {
+  /**
+   * Create a new extension object.
+   */
+  createNew(nb: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
+    let wManager = new WidgetManager(context, nb.rendermime);
+    this._registry.forEach(data => wManager.register(data));
+    nb.rendermime.addFactory({
+      safe: false,
+      mimeTypes: [WIDGET_MIMETYPE],
+      createRenderer: (options) => new WidgetRenderer(options, wManager)
+    }, 0);
+    return new DisposableDelegate(() => {
+      if (nb.rendermime) {
+        nb.rendermime.removeMimeType(WIDGET_MIMETYPE);
+      }
+      wManager.dispose();
+    });
+  }
+
+  /**
+   * Register a widget module.
+   */
+  registerWidget(data: base.IWidgetRegistryData) {
+    this._registry.push(data);
+  }
+  private _registry: base.IWidgetRegistryData[] = [];
+}
+```
+
+the `createNew` method of `NBWidgetExtension` takes a `NotebookPanel` as input
+argument and then adds a custom mime renderer with the command
+`nb.rendermime.addFactory` to it. The widget renderer (or rather RenderFactory)
+is linked to the `WidgetManager` is going to store the underlying data of the
+widgets.
+
+Unfortunately, this means that we have to access IPython widgets through an
+open notebook if we want to use it without changing the widget source code.
+To access the current notebook, we can use the `INotebookTracker` in
+the plugin's activate function:
+
+```
+const extension: JupyterLabPlugin<void> = {
+    id: '6_ipywidgets',
+    autoStart: true,
+    requires: [ICommandPalette, INotebookTracker, ILauncher, IMainMenu],
+    activate: activate
+};
+
+
+function activate(
+    app: JupyterLab,
+    palette: ICommandPalette,
+    tracker: INotebookTracker,
+    launcher: ILauncher,
+    mainMenu: IMainMenu)
+{
+    [...]
+```
+
+We then pass the rendermime of the notebook (the one that has the IPyWidget
+Renderer added) to our panel:
+
+```
+    function createPanel() {
+        let current = tracker.currentWidget;
+        console.log(current.rendermime);
+
+        return manager.ready
+            .then(() => {
+                panel = new TutorialPanel(manager, current.rendermime);
+                return panel.session.ready})
+            .then(() => {
+                shell.addToMainArea(panel);
+                return panel});
+    }
+```
+
+and add a command to the registry that executes the code `widget` that displays
+the variable `widget` in which we are going to store the qgrid widget:
+
+```
+    let code = 'widget'
+    command = CommandIDs.execute
+    commands.addCommand(command, {
+        label: 'Ex8: show widget',
+        caption: 'show ipython widget',
+        execute: () => {panel.execute(code)}});
+```
+
+To finally render the Output we have to allow the `OutputAreaModel` to use
+non-default mime types, which can be done like this:
+
+```
+        this._outputareamodel = new OutputAreaModel({ trusted: true });
+```
+
+The final output looks is demonstrated in the gif below. We also show that
+we can attach a console to a kernel, that shows all executed commands,
+including the one that we send from our Extension.
+
+![Qgrid widget](images/qgrid_widget.gif)
+
+[Click here for 6_ipywidgets](6_ipywidgets)
+
+## Buttons and Signals: Interactions Between Different Widgets ##
 
 #### Phosphor Signaling 101 ####
 
@@ -776,10 +1012,10 @@ conceptualy important for building extensions. It looks like this:
 ![Button with Signal](images/button_with_signal.png)
 
 
-[Click here for extension5](extension5)
+[Click here for 7_signals_and_buttons](7_signals_and_buttons)
 
 
-## Extension 6: Kernel Interactions ##
+## Custom Kernel Interactions: Kernel Managment and Messaging ##
 
 One of the main features of jupyterlab is the possibility to manage and
 interact underlying compute kernels. In this section, we explore how to
@@ -824,7 +1060,7 @@ well, that's short, isn't it? We have already seen the `manager` class that is
 provided directly by the main jupyterlab application. `path` is a link to the
 path under which the console is opened (?).
 
-With these lines, we can extend the panel widget from extension5 to intialize a
+With these lines, we can extend the panel widget from 7_signals_and_buttons to intialize a
 kernel. In addition, we will initialize a `KernelModel` class in it and
 overwrite the `dispose` and `onCloseRequest` methods of the `StackedPanel`
 ([documentation](phosphorjs.github.io/phosphor/api/widgets/classes/stackedpanel.html))
@@ -986,217 +1222,4 @@ Well that's nice, the basics are clear, but what about this weird output
 object? In the next extensions, we will explore how we can reuse some jupyter
 components to make things look nicer...
 
-[Click here for extension6](extension6)
-
-
-## Extension 7: Rendering a dataframe from a notebook with the `OutputArea` class ##
-
-In this extension we will see how we can do the same as in the previous
-extension using the `OutputArea` class that jupyterlab provides. Essentially,
-`OutputArea` will render the data that came as a reply to an execute message in
-the same way as in the notebook. Under the hood, the `OutputArea` and the
-`OutputAreaModel` classes act similar to the `KernelView` and `KernelModel`
-classes that we have defined ourselves before. We therefore get rid of the
-`model.ts` and `widget.tsx` files and change the panel class to:
-
-```
-export
-class TutorialPanel extends StackedPanel {
-    constructor(manager: ServiceManager.IManager, rendermime: RenderMimeRegistry) {
-        super();
-        this.addClass(PANEL_CLASS);
-        this.id = 'TutorialPanel';
-        this.title.label = 'Tutorial View'
-        this.title.closable = true;
-
-        let path = './console';
-
-        this._session = new ClientSession({
-            manager: manager.sessions,
-            path,
-            name: 'Tutorial',
-        });
-
-        this._outputareamodel = new OutputAreaModel();
-        this._outputarea = new SimplifiedOutputArea({ model: this._outputareamodel, rendermime: rendermime });
-
-        this.addWidget(this._outputarea);
-        this._session.initialize();
-    }
-
-    public execute(code: string) {
-        SimplifiedOutputArea.execute(code, this._outputarea, this._session)
-            .then((msg: KernelMessage.IExecuteReplyMsg) => {console.log(msg); })
-    }
-
-    [...]
-```
-
-To display the variable `df` from a kernel, we just need to add a command to
-the command registry in `index.ts`
-
-```
-    command = CommandIDs.execute
-    commands.addCommand(command, {
-        label: 'Ex7: show dataframe',
-        caption: 'show dataframe',
-        execute: (args) => {panel.execute('df')}});
-```
-
-and we are ready to see, for example, a nicely rendered pandas dataframe.
-Using the `OutputArea` class, the extension looks like this:
-
-![OutputArea class](images/outputarea.gif)
-
-[Click here for extension7](extension7)
-
-## Extension8: Using IPyWidgets ##
-
-A lot of advanced functionality in jupyter lab notebooks come in the form of
-ipython widgets (or jupyter widgets). Such widgets have one representation in
-the kernel and one representation in the jupyterlab javascript code. They can
-for example be used to interactively examine very large datasets in the kernel
-without a full copy in the frontend. Many other widgets are available and can
-give an app-like feeling to a jupyter notebook. These widgets are therefore
-ideal to build an interactive jupyterlab extension.
-
-As an example, we show in this extension how the ipywidget `qgrid` can be
-integrated into jupyterlab. As a first step, install `ipywidgets` and 
-`grid`.
-
-(These are the commands for a conda installation:
-```
-conda install -c conda-forge ipywidgets
-conda install -c conda-forge qgrid
-jupyter labextension install @jupyter-widgets/jupyterlab-manager
-jupyter labextension install qgrid
-```
-)
-
-Before continuing, test if you can (a) open a notebook, and (b) see a table
-when executing these commands in a cell:
-
-```
-import pandas as pd
-import numpy as np
-import qgrid
-df = pd.DataFrame(np.arange(25).reshape(5, 5))
-qgrid.show_grid(df)
-```
-
-If yes, we can check out how we can include this table in our own app. It is
-quite similar to the previous Extension7 but some minor adjustments have to
-be made.
-
-The first thing is to understand the nature of the ipywidget jupyterlab
-extension (`jupyterlab-manager`). As this text is written (26/6/2018) it is a
-*document* extension and not a general extension to jupyterlab. This means
-it provides extra functionality to the notebook document and not the the full
-app. The relevant lines from its source are here: 
-
-```typescript
-export
-class NBWidgetExtension implements INBWidgetExtension {
-  /**
-   * Create a new extension object.
-   */
-  createNew(nb: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
-    let wManager = new WidgetManager(context, nb.rendermime);
-    this._registry.forEach(data => wManager.register(data));
-    nb.rendermime.addFactory({
-      safe: false,
-      mimeTypes: [WIDGET_MIMETYPE],
-      createRenderer: (options) => new WidgetRenderer(options, wManager)
-    }, 0);
-    return new DisposableDelegate(() => {
-      if (nb.rendermime) {
-        nb.rendermime.removeMimeType(WIDGET_MIMETYPE);
-      }
-      wManager.dispose();
-    });
-  }
-
-  /**
-   * Register a widget module.
-   */
-  registerWidget(data: base.IWidgetRegistryData) {
-    this._registry.push(data);
-  }
-  private _registry: base.IWidgetRegistryData[] = [];
-}
-```
-
-the `createNew` method of `NBWidgetExtension` takes a `NotebookPanel` as input
-argument and then adds a custom mime renderer with the command
-`nb.rendermime.addFactory` to it. The widget renderer (or rather RenderFactory)
-is linked to the `WidgetManager` is going to store the underlying data of the
-widgets.
-
-Unfortunately, this means that we have to access IPython widgets through an
-open notebook if we want to use it without changing the widget source code.
-To access the current notebook, we can use the `INotebookTracker` in
-the plugin's activate function:
-
-```
-const extension: JupyterLabPlugin<void> = {
-    id: 'extension8',
-    autoStart: true,
-    requires: [ICommandPalette, INotebookTracker, ILauncher, IMainMenu],
-    activate: activate
-};
-
-
-function activate(
-    app: JupyterLab,
-    palette: ICommandPalette,
-    tracker: INotebookTracker,
-    launcher: ILauncher,
-    mainMenu: IMainMenu)
-{
-    [...]
-```
-
-We then pass the rendermime of the notebook (the one that has the IPyWidget
-Renderer added) to our panel:
-
-```
-    function createPanel() {
-        let current = tracker.currentWidget;
-        console.log(current.rendermime);
-
-        return manager.ready
-            .then(() => {
-                panel = new TutorialPanel(manager, current.rendermime);
-                return panel.session.ready})
-            .then(() => {
-                shell.addToMainArea(panel);
-                return panel});
-    }
-```
-
-and add a command to the registry that executes the code `widget` that displays
-the variable `widget` in which we are going to store the qgrid widget:
-
-```
-    let code = 'widget'
-    command = CommandIDs.execute
-    commands.addCommand(command, {
-        label: 'Ex8: show widget',
-        caption: 'show ipython widget',
-        execute: () => {panel.execute(code)}});
-```
-
-To finally render the Output we have to allow the `OutputAreaModel` to use
-non-default mime types, which can be done like this:
-
-```
-        this._outputareamodel = new OutputAreaModel({ trusted: true });
-```
-
-The final output looks is demonstrated in the gif below. We also show that
-we can attach a console to a kernel, that shows all executed commands,
-including the one that we send from our Extension.
-
-![Qgrid widget](images/qgrid_widget.gif)
-
-[Click here for extension8](extension8)
+[Click here for 8_kernel_messages](8_kernel_messages)
