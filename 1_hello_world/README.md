@@ -1,7 +1,6 @@
-# extension1
+# 1 Hello World
 
-minimal lab example
-
+Minimal lab extension that prints to the console
 
 ## Prerequisites
 
@@ -10,7 +9,7 @@ minimal lab example
 ## Installation
 
 ```bash
-jupyter labextension install extension1
+jupyter labextension install 1_hello_world
 ```
 
 ## Development

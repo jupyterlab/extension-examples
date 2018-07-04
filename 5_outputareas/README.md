@@ -1,4 +1,4 @@
-# extension1
+# 5_outputareas
 
 minimal lab example
 
@@ -10,7 +10,7 @@ minimal lab example
 ## Installation
 
 ```bash
-jupyter labextension install extension1
+jupyter labextension install 5_outputareas
 ```
 
 ## Development

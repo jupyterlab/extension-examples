@@ -223,7 +223,6 @@ the `phosphor.js` library that runs jupyterlab under the hood
 (more about this later). Its documentation is therefore located on the
 [phosphor.js website](http://phosphorjs.github.io/phosphor/api/application/interfaces/iplugin.html)
 
-
 [Click here for the final 1_hello_world](1_hello_world)
 
 ## Commands and Menu Extension: Extending the main app ##

@@ -1,4 +1,4 @@
-# extension1
+# 8_kernel_messages
 
 minimal lab example
 
@@ -10,7 +10,7 @@ minimal lab example
 ## Installation
 
 ```bash
-jupyter labextension install extension1
+jupyter labextension install 8_kernel_messages
 ```
 
 ## Development
@@ -29,4 +29,3 @@ To rebuild the package and the JupyterLab app:
 npm run build
 jupyter lab build
 ```
-

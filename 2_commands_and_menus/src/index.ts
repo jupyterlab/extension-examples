@@ -20,7 +20,7 @@ import {
  * Initialization data for the extension1 extension.
  */
 const extension: JupyterLabPlugin<void> = {
-    id: 'extension2',
+    id: '2_commands_and_menus',
     autoStart: true,
     requires: [ICommandPalette, IMainMenu],
     activate: (

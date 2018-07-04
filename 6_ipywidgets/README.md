@@ -1,4 +1,4 @@
-# extension1
+# 6_ipywidgets
 
 minimal lab example
 
@@ -10,7 +10,7 @@ minimal lab example
 ## Installation
 
 ```bash
-jupyter labextension install extension1
+jupyter labextension install 6_ipywidgets
 ```
 
 ## Development

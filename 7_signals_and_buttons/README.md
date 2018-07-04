@@ -1,4 +1,4 @@
-# extension1
+# 7_signals_and_buttons
 
 minimal lab example
 
@@ -10,7 +10,7 @@ minimal lab example
 ## Installation
 
 ```bash
-jupyter labextension install extension1
+jupyter labextension install 7_signals_and_buttons
 ```
 
 ## Development
