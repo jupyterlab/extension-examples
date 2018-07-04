@@ -97,7 +97,7 @@ function activate(
     commands.addCommand(command, {
         label: 'Ex7: show dataframe',
         caption: 'show dataframe',
-        execute: (args) => {panel.execute('df')}});
+        execute: () => {panel.execute('df')}});
 
     // add items in command palette and menu
     [

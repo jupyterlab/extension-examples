@@ -549,20 +549,20 @@ the `RowRegion` and the `ColumnRegion` input arguments are. Let's have a
 look at their definition in the phosphor.js source code:
 
 ```typescript
-  export
-  type RowRegion = 'body' | 'column-header';
+export
+type RowRegion = 'body' | 'column-header';
 
-  /**
-   * A type alias for the data model column regions.
-   */
-  export
-  type ColumnRegion = 'body' | 'row-header';
+/**
+ * A type alias for the data model column regions.
+ */
+export
+type ColumnRegion = 'body' | 'row-header';
 
-  /**
-   * A type alias for the data model cell regions.
-   */
-  export
-  type CellRegion = 'body' | 'row-header' | 'column-header' | 'corner-header';
+/**
+ * A type alias for the data model cell regions.
+ */
+export
+type CellRegion = 'body' | 'row-header' | 'column-header' | 'corner-header';
 ```
 
 The meaning of these lines might be obvious for experienced users of typescript
@@ -630,7 +630,9 @@ src/
 └── panel.ts
 ```
 
-Let's go first through `panel.ts`:
+Let's go first through `panel.ts`. This is the full Panel class that displays
+starts a kernel, then sends code to it end displays the returned data with the
+jupyter renderers:
 
 ```
 export
@@ -657,18 +659,117 @@ class TutorialPanel extends StackedPanel {
         this._session.initialize();
     }
 
+    dispose(): void {
+        this._session.dispose();
+        super.dispose();
+    }
+
+    public execute(code: string) {
+        SimplifiedOutputArea.execute(code, this._outputarea, this._session)
+            .then((msg: KernelMessage.IExecuteReplyMsg) => {console.log(msg); })
+    }
+
+    protected onCloseRequest(msg: Message): void {
+        super.onCloseRequest(msg);
+        this.dispose();
+    }
+
+    get session(): IClientSession {
+        return this._session;
+    }
+
+    private _session: ClientSession;
+    private _outputarea: SimplifiedOutputArea;
+    private _outputareamodel: OutputAreaModel;
+}
+```
+
+#### Initializing a Kernel Session ####
+
+The first thing that we want to focus on is the `ClientSession` that is 
+stored in the private `_session` variable:
+
+```
+private _session: ClientSession;
+```
+
+A ClientSession handles a single kernel session. The session itself (not yet
+the kernel) is started with these lines:
+
+```
+        let path = './console';
+
+        this._session = new ClientSession({
+            manager: manager.sessions,
+            path,
+            name: 'Tutorial',
+        });
+```
+
+A kernel is initialized with this line:
+```
+        this._session.initialize();
+```
+In case that a session has no predefined favourite kernel, a popup will be
+started that asks the user which kernel should be used. Conveniently, this can
+also be an already existing kernel, as we will see later.
+
+The following three methods add functionality to cleanly dispose of the session
+when we close the panel, and to expose the private session variable such that
+other users can access it.
+```
+    dispose(): void {
+        this._session.dispose();
+        super.dispose();
+    }
+
+    protected onCloseRequest(msg: Message): void {
+        super.onCloseRequest(msg);
+        this.dispose();
+    }
+
+    get session(): IClientSession {
+        return this._session;
+    }
+```
+
+#### OutputArea and Model ####
+The `SimplifiedOutputArea` class is a Widget, as we have seen them before. We
+can instantiate it with a new `OutputAreaModel` (this is class that contains
+the data that will be shown):
+
+```
+        this._outputareamodel = new OutputAreaModel();
+        this._outputarea = new SimplifiedOutputArea({ model: this._outputareamodel, rendermime: rendermime });
+```
+
+`SimplifiedOutputArea` provides the classmethod `execute` that basically sends
+some code to a kernel through a ClientSession and that then displays the result
+in a specific `SimplifiedOutputArea` instance:
+
+```
     public execute(code: string) {
         SimplifiedOutputArea.execute(code, this._outputarea, this._session)
             .then((msg: KernelMessage.IExecuteReplyMsg) => {console.log(msg); })
     }
 ```
 
-The first thing that we want to focus on is the `ClientSession` that is 
-stored in the `_session` variable.
+The `SimplifiedOutputArea.execute` function receives at some point a response
+message from the kernel which says that the code was executed (this message
+does not contain the data that is displayed). When this message is received,
+`.then` is executed and prints this message to the console.
 
+We just have to add the `SimplifiedOutputArea` Widget to our Panel with:
+```
+        this.addWidget(this._outputarea);
+```
+and we are ready to add the whole Panel to Jupyterlab.
 
-To display the variable `df` from a kernel, we just need to add a command to
-the command registry in `index.ts`
+#### Making it Run ####
+
+Let's for example display the variable `df` from a python kernel that could
+contain a pandas dataframe. To do this, we just need to add a command to the
+command registry in `index.ts`
 
 ```
     command = CommandIDs.execute
@@ -678,8 +779,7 @@ the command registry in `index.ts`
         execute: (args) => {panel.execute('df')}});
 ```
 
-and we are ready to see, for example, a nicely rendered pandas dataframe.
-Using the `OutputArea` class, the extension looks like this:
+and we are ready to see it. The final extension looks like this:
 
 ![OutputArea class](images/outputarea.gif)
 
