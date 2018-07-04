@@ -1,4 +1,4 @@
-# extension1
+# 3b_datagrid
 
 minimal lab example
 

@@ -235,7 +235,7 @@ _
 
 [Click here for the final extension: 1_hello_world](1_hello_world)
 
-## 2 Commands and Menu Extension: Extending the main app ##
+## 2 Commands and Menus: Extending the main app ##
 
 For the next extension you can either copy the last folder to a new one or
 simply continue modifying it. In case that you want to have a new extension,

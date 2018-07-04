@@ -1,4 +1,4 @@
-# 1 Hello World
+# 1_hello_world
 
 Minimal lab extension that prints to the console
 

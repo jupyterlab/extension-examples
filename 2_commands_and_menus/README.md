@@ -1,4 +1,4 @@
-# extension1
+# 2_commands_and_menus 
 
 minimal lab example
 
