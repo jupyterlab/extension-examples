@@ -17,18 +17,17 @@
 * [3 Widgets: Adding new Elements to the Main Window](#3-widgets-adding-new-elements-to-the-main-window)
   * [A basic tab](#a-basic-tab)
   * [Datagrid: a Fancy Phosphor Widget](#datagrid-a-fancy-phosphor-widget)
-* [4 Kernel Outputs: Simple Notebook-style Rendering](#5-kernel-outputs-simple-notebook-style-rendering)
+* [4 Kernel Outputs: Simple Notebook-style Rendering](#4-kernel-outputs-simple-notebook-style-rendering)
   * [Reorganizing the extension code](#reorganizing-the-extension-code)
   * [Initializing a Kernel Session](#initializing-a-kernel-session)
   * [OutputArea and Model](#outputarea-and-model)
+  * [asynchronous extension initialization](#asynchronous-extension-initialization)
   * [Make it Run](#make-it-run)
   * [Jupyter-Widgets: Adding Interactive Elements](#jupyter-widgets-adding-interactive-elements)
 * [5 Buttons and Signals: Interactions Between Different Widgets](#5-buttons-and-signals-interactions-between-different-widgets)
   * [Phosphor Signaling 101](#phosphor-signaling-101)
-  * [Reorganizing the extension code](#reorganizing-the-extension-code-1)
   * [A simple react button](#a-simple-react-button)
   * [subscribing to a signal](#subscribing-to-a-signal)
-  * [asynchronous extension initialization](#asynchronous-extension-initialization)
 * [6 Custom Kernel Interactions: Kernel Managment and Messaging](#6-custom-kernel-interactions-kernel-managment-and-messaging)
   * [Component Overview](#component-overview)
   * [Initializing and managing a kernel session (panel.ts)](#initializing-and-managing-a-kernel-session-panelts)
@@ -769,6 +768,58 @@ We just have to add the `SimplifiedOutputArea` Widget to our Panel with:
 ```
 and we are ready to add the whole Panel to Jupyterlab.
 
+#### asynchronous extension initialization ####
+
+`index.ts` is responsible to initialize the extension. We only go through
+the changes with respect to the last sections.
+
+First we reorganize the extension commands into one unified namespace:
+
+```typescript
+namespace CommandIDs {
+    export
+    const create = 'Ex5:create';
+
+    export
+    const closeAndShutdown = 'Ex5:close-and-shutdown';
+}
+```
+
+This allows us to add commands from the command registry to the pallette and
+menu tab in a single call:
+
+```typescript
+    // add items in command palette and menu
+    [
+        CommandIDs.create,
+        CommandIDs.closeAndShutdown
+    ].forEach(command => {
+        palette.addItem({ command, category });
+        tutorialMenu.addItem({ command });
+    });
+```
+
+Another change is that we now use the `manager` to add our extension after the
+other jupyter services are ready. The serviceManager can be obtained from the
+main application as:
+
+```typescript
+    const manager = app.serviceManager;
+```
+
+to launch our application, we can then use:
+
+```typescript
+    function createPanel() {
+        let panel: TutorialPanel;
+        return manager.ready
+            .then(() => {
+                panel = new TutorialPanel();
+                shell.addToMainArea(panel);
+                return panel});
+    }
+```
+
 #### Make it Run ####
 
 Let's for example display the variable `df` from a python kernel that could
@@ -980,43 +1031,22 @@ _stateChanged.emit(void 0)
 
 Let's see how we can implement this ...
 
-
-#### Reorganizing the extension code ####
-
-Since our extension is growing bigger and bigger, we begin by splitting our
-code into more managable units. Roughly we can see three larger components
-of our application:
-
-1.  the `JupyterLabPlugin` that activates all extension components and connects
-    them to the main `Jupyterlab` application via commands, launcher, or menu
-    items.
-2.  a Panel that combines different widgets into a single application
-3.  different widgets that define smaller elements such as buttons 
-
-We split these components in the three files:
-
-```
-src/
-├── index.ts
-├── panel.ts
-└── widget.tsx
-```
-
-Let's go through these files one by one:
-
 #### A simple react button ####
 
-`widget.tsx` allows because of the `tsx` extension to use XML-like syntax with
-the tag notation `<>`to represent some visual elements (note that you might
-have to add a line: `"jsx": "react",` to the `tsconfig.json` file).
+We start with a file called `src/widget.tsx`. The `tsx` extension allows to use
+XML-like syntax with the tag notation `<>`to represent some visual elements
+(note that you might have to add a line: `"jsx": "react",` to the
+`tsconfig.json` file).
 
 `widget.tsx` contains one major class `TutorialView` that extends the
-`VDomRendered` class that defines a `render()` method to display some react
-elements, such as a button.
+`VDomRendered` class that is provided by Jupyterlab. `VDomRenderer` defines a
+`render()` method that defines some html elements (react) such as a button.
 
 `TutorialView` further contains a private variable `stateChanged` of type
-`Signal`. The buttons `onClick` event triggers `_stateChanged.emit(void 0)` to
-emit an empty signal to its subscribers:
+`Signal`. A signal object can be triggered and then emits an actual message.
+Other Widgets can subscribe to such a signal and react when a message is
+emitted. We configure one of the buttons `onClick` event to trigger the
+stateChanged` signal with `_stateChanged.emit(void 0)`:
 
 ```typescript
 export
@@ -1050,10 +1080,11 @@ class TutorialView extends VDomRenderer<any> {
 #### subscribing to a signal ####
 
 The `panel.ts` class defines an extension panel that displays the
-`TutorialView` widget and that subscribes to its signal. Subscription to a
-signal is done using the `connect` method of the `stateChanged` attribute.
-It registers a function (in this case `() => { console.log('changed'); }`
-that is triggered when a signal is emitted:
+`TutorialView` widget and that subscribes to its `stateChanged` signal.
+Subscription to a signal is done using the `connect` method of the
+`stateChanged` attribute.  It registers a function (in this case
+`() => { console.log('changed'); }` that is triggered when the signal is
+emitted:
 
 
 ```typescript
@@ -1075,57 +1106,6 @@ class TutorialPanel extends StackedPanel {
 }
 ```
 
-#### asynchronous extension initialization ####
-
-`index.ts` is responsible to initialize the extension. We only go through
-the changes with respect to the last sections.
-
-First we reorganize the extension commands into one unified namespace:
-
-```typescript
-namespace CommandIDs {
-    export
-    const create = 'Ex5:create';
-
-    export
-    const closeAndShutdown = 'Ex5:close-and-shutdown';
-}
-```
-
-This allows us to add commands from the command registry to the pallette and
-menu tab in a single call:
-
-```typescript
-    // add items in command palette and menu
-    [
-        CommandIDs.create,
-        CommandIDs.closeAndShutdown
-    ].forEach(command => {
-        palette.addItem({ command, category });
-        tutorialMenu.addItem({ command });
-    });
-```
-
-Another change is that we now use the `manager` to add our extension after the
-other jupyter services are ready. The serviceManager can be obtained from the
-main application as:
-
-```typescript
-    const manager = app.serviceManager;
-```
-
-to launch our application, we can then use:
-
-```typescript
-    function createPanel() {
-        let panel: TutorialPanel;
-        return manager.ready
-            .then(() => {
-                panel = new TutorialPanel();
-                shell.addToMainArea(panel);
-                return panel});
-    }
-```
 
 The final extension writes a little `changed` text to the browser console when
 a big red button is clicked. It is not very spectacular but the signaling is
