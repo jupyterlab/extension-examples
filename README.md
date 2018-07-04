@@ -11,7 +11,7 @@
   * [The template folder structure](#the-template-folder-structure)
   * [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
   * [Building and Installing an Extension](#building-and-installing-an-extension)
-* [2 Commands and Menu Extension: Extending the main app](#2-commands-and-menu-extension-extending-the-main-app)
+* [2 Commands and Menus: Extending the main app](#2-commands-and-menu-extension-extending-the-main-app)
   * [Jupyterlab Commands](#jupyterlab-commands)
   * [Adding new Menu tabs and items](#adding-new-menu-tabs-and-items)
 * [3 Widgets: Adding new Elements to the Main Window](#3-widgets-adding-new-elements-to-the-main-window)
