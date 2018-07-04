@@ -1,4 +1,4 @@
-# 7_signals_and_buttons
+# 4a_kernel_output
 
 minimal lab example
 
@@ -10,7 +10,7 @@ minimal lab example
 ## Installation
 
 ```bash
-jupyter labextension install 7_signals_and_buttons
+jupyter labextension install 4a_kernel_output
 ```
 
 ## Development

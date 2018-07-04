@@ -41,7 +41,7 @@ namespace CommandIDs {
  * Initialization data for the extension.
  */
 const extension: JupyterLabPlugin<void> = {
-    id: '6_ipywidgets',
+    id: '6_kernel_messaging',
     autoStart: true,
     requires: [ICommandPalette, ILauncher, IMainMenu],
     activate: activate

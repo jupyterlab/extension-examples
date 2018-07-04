@@ -40,7 +40,7 @@ namespace CommandIDs {
  * Initialization data for the extension.
  */
 const extension: JupyterLabPlugin<void> = {
-    id: '5_outputareas',
+    id: '5_signals_and_buttons',
     autoStart: true,
     requires: [ICommandPalette, ILauncher, IMainMenu],
     activate: activate

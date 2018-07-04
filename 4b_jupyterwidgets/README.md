@@ -1,4 +1,4 @@
-# 8_kernel_messages
+# 4b_jupyterwidgets
 
 minimal lab example
 
@@ -10,7 +10,7 @@ minimal lab example
 ## Installation
 
 ```bash
-jupyter labextension install 8_kernel_messages
+jupyter labextension install 4b_jupyterwidgets
 ```
 
 ## Development

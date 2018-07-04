@@ -1,4 +1,4 @@
-# 6_ipywidgets
+# 6_kernel_messaging
 
 minimal lab example
 
@@ -10,7 +10,7 @@ minimal lab example
 ## Installation
 
 ```bash
-jupyter labextension install 6_ipywidgets
+jupyter labextension install 6_kernel_messaging
 ```
 
 ## Development
