@@ -218,7 +218,7 @@ with it in the next sections.
 
 _checkout how the core packages of JupyterLab are defined at
 https://github.com/JupyterLab/JupyterLab/tree/master/packages . Each package is
-structured very similarly to the extension that we are writing. This modular
+structured similarly to the extension that we are writing. This modular
 structure makes JupyterLab very adapatable_
 
 An overview of the classes and their attributes and methods can be found in the
