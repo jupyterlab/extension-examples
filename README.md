@@ -765,7 +765,7 @@ We just have to add the `SimplifiedOutputArea` Widget to our Panel with:
 ```
 and we are ready to add the whole Panel to Jupyterlab.
 
-#### Making it Run ####
+#### Make it Run ####
 
 Let's for example display the variable `df` from a python kernel that could
 contain a pandas dataframe. To do this, we just need to add a command to the
@@ -787,19 +787,20 @@ and we are ready to see it. The final extension looks like this:
 
 ## IPyWidgets: A Quick Look Into a New Rendermime Extension ##
 
-A lot of advanced functionality in jupyter lab notebooks come in the form of
-ipython widgets (or jupyter widgets). Such widgets have one representation in
-the kernel and one representation in the JupyterLab javascript code. They can
-for example be used to interactively examine very large datasets in the kernel
-without a full copy in the frontend. Many other widgets are available and can
-give an app-like feeling to a jupyter notebook. These widgets are therefore
-ideal to build an interactive JupyterLab extension.
+A lot of advanced functionality in Jupyter notebooks comes in the form of
+jupyter widgets (ipython widgets). Jupyter widgets are elements that have one
+representation in a kernel and another representation in the JupyterLab
+frontend code. Imagine having a large dataset in the kernel that we want to
+examine and modify interactively. In this case, the frontend part of the widget
+can be changed and updates synchronously the kernel data. Many other widget
+types are available and can give an app-like feeling to a Jupyter notebook.
+These widgets are therefore ideal component of a JupyterLab extension.
 
-As an example, we show in this extension how the ipywidget `qgrid` can be
-integrated into JupyterLab. As a first step, install `ipywidgets` and 
-`grid`.
+We show in this extension how the ipywidget `qgrid` can be integrated into
+JupyterLab. As a first step, install `ipywidgets` and `grid`. It should work
+in a similar way with any other ipywidget.
 
-(These are the commands for a conda installation:
+(These are the commands to install the ipywidgets with anaconda:
 ```
 conda install -c conda-forge ipywidgets
 conda install -c conda-forge qgrid
@@ -819,15 +820,16 @@ df = pd.DataFrame(np.arange(25).reshape(5, 5))
 qgrid.show_grid(df)
 ```
 
-If yes, we can check out how we can include this table in our own app. It is
-quite similar to the previous Extension7 but some minor adjustments have to
-be made.
+If yes, we can check out how we can include this table in our own app. Similar
+to the previous Extension, we will use the `OutputArea` class to display the
+widget. Only some minor adjustments have to be made to make it work.
 
-The first thing is to understand the nature of the ipywidget JupyterLab
-extension (`JupyterLab-manager`). As this text is written (26/6/2018) it is a
-*document* extension and not a general extension to JupyterLab. This means
-it provides extra functionality to the notebook document and not the the full
-app. The relevant lines from its source are here: 
+The first thing is to understand the nature of the jupyter-widgets JupyterLab
+extension (called `jupyterlab-manager`). As this text is written (26/6/2018) it
+is a *document* extension and not a general extension to JupyterLab. This means
+it provides extra functionality to the notebook document type and not the the
+full Jupyterlab app. The relevant lines from the jupyter-widgets source code
+that show how it registers its renderer with Jupyterlab are the following:
 
 ```typescript
 export
@@ -861,16 +863,16 @@ class NBWidgetExtension implements INBWidgetExtension {
 }
 ```
 
-the `createNew` method of `NBWidgetExtension` takes a `NotebookPanel` as input
+The `createNew` method of `NBWidgetExtension` takes a `NotebookPanel` as input
 argument and then adds a custom mime renderer with the command
 `nb.rendermime.addFactory` to it. The widget renderer (or rather RenderFactory)
-is linked to the `WidgetManager` is going to store the underlying data of the
-widgets.
+is linked to the `WidgetManager` that stores the underlying data of the
+jupyter-widgets. Unfortunately, this means that we have to access
+jupyter-widgets through a notebook because its renderer and WidgetManager are
+attached to it.
 
-Unfortunately, this means that we have to access IPython widgets through an
-open notebook if we want to use it without changing the widget source code.
-To access the current notebook, we can use the `INotebookTracker` in
-the plugin's activate function:
+To access the current notebook, we can use an `INotebookTracker` in the
+plugin's activate function:
 
 ```
 const extension: JupyterLabPlugin<void> = {
@@ -891,8 +893,8 @@ function activate(
     [...]
 ```
 
-We then pass the rendermime of the notebook (the one that has the IPyWidget
-Renderer added) to our panel:
+We then pass the `rendermime` registry of the notebook (the one that has the
+jupyter-widgets renderer added) to our panel:
 
 ```
     function createPanel() {
@@ -909,8 +911,8 @@ Renderer added) to our panel:
     }
 ```
 
-and add a command to the registry that executes the code `widget` that displays
-the variable `widget` in which we are going to store the qgrid widget:
+Finally we add a command to the registry that executes the code `widget` that
+displays the variable `widget` in which we are going to store the qgrid widget:
 
 ```
     let code = 'widget'
@@ -921,22 +923,23 @@ the variable `widget` in which we are going to store the qgrid widget:
         execute: () => {panel.execute(code)}});
 ```
 
-To finally render the Output we have to allow the `OutputAreaModel` to use
-non-default mime types, which can be done like this:
+To render the Output we have to allow the `OutputAreaModel` to use non-default
+mime types, which can be done like this:
 
 ```
         this._outputareamodel = new OutputAreaModel({ trusted: true });
 ```
 
-The final output looks is demonstrated in the gif below. We also show that
-we can attach a console to a kernel, that shows all executed commands,
-including the one that we send from our Extension.
+The final output looks is demonstrated in the gif below. We also show that we
+can attach a console to a kernel, that shows all executed commands, including
+the one that we send from our Extension.
 
 ![Qgrid widget](images/qgrid_widget.gif)
 
 [Click here for 6_ipywidgets](6_ipywidgets)
 
 ## Buttons and Signals: Interactions Between Different Widgets ##
+
 
 #### Phosphor Signaling 101 ####
 
