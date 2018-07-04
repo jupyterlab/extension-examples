@@ -580,7 +580,7 @@ Let's see how this looks like in Jupyterlab:
 
 ![Datagrid](images/datagrid.png)
 
-[Click here for extension4](extension4)
+[Click here for 4_datagrid](4_datagrid)
 
 
 ## The `OutputArea` class: Notebook-style Output Rendering ##
