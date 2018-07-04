@@ -778,10 +778,10 @@ First we reorganize the extension commands into one unified namespace:
 ```typescript
 namespace CommandIDs {
     export
-    const create = 'Ex5:create';
+    const create = 'Ex7:create';
 
     export
-    const closeAndShutdown = 'Ex5:close-and-shutdown';
+    const execute = 'Ex7:execute';
 }
 ```
 
@@ -792,7 +792,7 @@ menu tab in a single call:
     // add items in command palette and menu
     [
         CommandIDs.create,
-        CommandIDs.closeAndShutdown
+        CommandIDs.execute
     ].forEach(command => {
         palette.addItem({ command, category });
         tutorialMenu.addItem({ command });
@@ -810,11 +810,14 @@ main application as:
 to launch our application, we can then use:
 
 ```typescript
+    let panel: TutorialPanel;
+
     function createPanel() {
-        let panel: TutorialPanel;
         return manager.ready
             .then(() => {
-                panel = new TutorialPanel();
+                panel = new TutorialPanel(manager, rendermime);
+                return panel.session.ready})
+            .then(() => {
                 shell.addToMainArea(panel);
                 return panel});
     }
