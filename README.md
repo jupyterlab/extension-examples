@@ -233,7 +233,7 @@ later). Its documentation is therefore located on the [phosphor.js
 website](http://phosphorjs.github.io/phosphor/api/application/interfaces/iplugin.html)
 _
 
-[Click here for the final 1_hello_world](1_hello_world)
+[Click here for the final extension: 1_hello_world](1_hello_world)
 
 ## 2 Commands and Menu Extension: Extending the main app ##
 
@@ -409,7 +409,7 @@ for the build to run, the `tsconfig.json` file might have to be updated to:
 ```
 ]
 
-[Click here for the final 2_commands_and_menus](2_commands_and_menus)
+[Click here for the final extension 2_commands_and_menus](2_commands_and_menus)
 
 
 ## 3 Widgets: Adding new Elements to the Main Window ##
@@ -485,7 +485,7 @@ like this:
 
 ![Custom Tab](images/custom_tab.png)
 
-[Click here for the Widget 3_widgets](3a_widgets)
+[Click here for the final extension: 3_widgets](3a_widgets)
 
 
 #### Datagrid: a Fancy Phosphor Widget ####
@@ -599,7 +599,7 @@ Let's see how this looks like in Jupyterlab:
 
 ![Datagrid](images/datagrid.png)
 
-[Click here for the datagrid extension](3b_datagrid)
+[Click here for the final extension: 3b_datagrid](3b_datagrid)
 
 
 ## 4 Kernel Outputs: Simple Notebook-style Rendering ##
@@ -841,7 +841,7 @@ and we are ready to see it. The final extension looks like this:
 
 ![OutputArea class](images/outputarea.gif)
 
-[Click here for 5_outputareas](4a_outputareas)
+[Click here for the final extension: 4a_outputareas](4a_outputareas)
 
 #### Jupyter-Widgets: Adding Interactive Elements ####
 
@@ -994,7 +994,7 @@ the one that we send from our Extension.
 
 ![Qgrid widget](images/qgrid_widget.gif)
 
-[Click here for jupyter widgets extension](4b_jupyterwidgets)
+[Click here for the final extension: 4b_jupyterwidgets](4b_jupyterwidgets)
 
 ## 5 Buttons and Signals: Interactions Between Different Widgets ##
 
@@ -1118,7 +1118,7 @@ conceptualy important for building extensions. It looks like this:
 ![Button with Signal](images/button_with_signal.png)
 
 
-[Click here for the signals_and_buttons extension](5_signals_and_buttons)
+[Click here for the final extension: 5_signals_and_buttons](5_signals_and_buttons)
 
 
 ## 6 Custom Kernel Interactions: Kernel Managment and Messaging ##
@@ -1328,4 +1328,4 @@ Well that's nice, the basics are clear, but what about this weird output
 object? In the next extensions, we will explore how we can reuse some jupyter
 components to make things look nicer...
 
-[Click here for the kernel_messages extension](6_kernel_messages)
+[Click here for the final extension: 6_kernel_messages](6_kernel_messages)
