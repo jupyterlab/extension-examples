@@ -17,7 +17,7 @@
 * [3 Widgets: Adding new Elements to the Main Window](#3-widgets-adding-new-elements-to-the-main-window)
   * [A basic tab](#a-basic-tab)
   * [Datagrid: a Fancy Phosphor Widget](#datagrid-a-fancy-phosphor-widget)
-* [5 Kernel Outputs: Simple Notebook-style Rendering](#5-kernel-outputs-simple-notebook-style-rendering)
+* [4 Kernel Outputs: Simple Notebook-style Rendering](#5-kernel-outputs-simple-notebook-style-rendering)
   * [Reorganizing the extension code](#reorganizing-the-extension-code)
   * [Initializing a Kernel Session](#initializing-a-kernel-session)
   * [OutputArea and Model](#outputarea-and-model)
@@ -603,7 +603,7 @@ Let's see how this looks like in Jupyterlab:
 [Click here for the datagrid extension](3b_datagrid)
 
 
-## 5 Kernel Outputs: Simple Notebook-style Rendering ##
+## 4 Kernel Outputs: Simple Notebook-style Rendering ##
 
 In this extension we will see how initialize a kernel, and how to execute code
 and how to display the rendered output. We use the `OutputArea` class for this
