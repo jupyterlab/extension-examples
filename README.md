@@ -216,11 +216,10 @@ This is the main application JupyterLab object and we will see how to interact
 with it in the next sections.
 
 
-_
-checkout how the core packages of JupyterLab are defined at
+_checkout how the core packages of JupyterLab are defined at
 https://github.com/JupyterLab/JupyterLab/tree/master/packages . Each package is
 structured very similarly to the extension that we are writing. This modular
-structure makes JupyterLab very adapatable
+structure makes JupyterLab very adapatable_
 
 An overview of the classes and their attributes and methods can be found in the
 JupyterLab documentation. The `@JupyterLab/application` module documentation is
@@ -230,8 +229,7 @@ The `JupyterLabPlugin` is a type alias [a new name] for the type `IPlugin`.
 The definition of `IPlugin` is more difficult to find because it is defined by
 the `phosphor.js` library that runs JupyterLab under the hood (more about this
 later). Its documentation is therefore located on the [phosphor.js
-website](http://phosphorjs.github.io/phosphor/api/application/interfaces/iplugin.html)
-_
+website](http://phosphorjs.github.io/phosphor/api/application/interfaces/iplugin.html).
 
 [Click here for the final extension: 1_hello_world](1_hello_world)
 
