@@ -313,7 +313,9 @@ this:
 
 Adding new menu items works in a similar way. The IMainMenu interface can be
 passed as a new argument two the activate function, but first it has to be
-imported, together with the Menu phosphor type that describes a new tab:
+imported. The Menu class is imported from the phosphor library on top of which
+JupyterLab is built, and that will be frequently encountered when developing
+JupyterLab extensions:
 
 ```typescript
 import {
@@ -325,8 +327,8 @@ import {
 } from '@phosphor/widgets';
 ```
 
-We add the IMainMenu in the `requires:` property and can then change the
-extension to:
+We add the IMainMenu in the `requires:` property such that it is injected into
+the `activate` function. The Extension is then changed to:
 
 ```typescript
 const extension: JupyterLabPlugin<void> = {
@@ -347,7 +349,6 @@ const extension: JupyterLabPlugin<void> = {
             execute: (args) => {console.log('Hey')}});
         palette.addItem({command, category});
 
-
         let tutorialMenu: Menu = new Menu({commands});
 
         tutorialMenu.title.label = 'Tutorial';
@@ -359,13 +360,15 @@ const extension: JupyterLabPlugin<void> = {
 export default extension;
 ```
 
-In this extension, we have added a new dependency _JupyterLab/mainmenu_. Before
-it builds, this dependency has to be added to the `package.json` file:
+In this extension, we have added the dependencies _JupyterLab/mainmenu_ and
+_phosphor/widgets_. Before it builds, this dependencies have to be added to the
+`package.json` file:
 
 ```json
   "dependencies": {
     "@JupyterLab/application": "^0.16.0",
-    "@JupyterLab/mainmenu": "*"
+    "@JupyterLab/mainmenu": "*",
+    "@phosphor/widgets": "*"
   }
 ```
 
@@ -376,11 +379,14 @@ npm install
 npm run build
 ```
 
-to rebuild the application. A refresh of the JupyterLab website should now show:
+to rebuild the application. After a browser refresh, the JupyterLab website
+should now show:
 
 ![New Menu](images/new_menu.png)
 
-[the `tsconfig.json` file might have to be updated to:
+[ps:
+
+for the build to run, the `tsconfig.json` file might have to be updated to:
 ```
 {
   "compilerOptions": {
@@ -405,14 +411,13 @@ to rebuild the application. A refresh of the JupyterLab website should now show:
 
 ## Widgets: Adding new elements ##
 
-Woo finally we are going to do some real stuff and add a new tab to JupyterLab.
-Particular visible elements such as a tab are represented by widgets in the
-phosphor library that is the basis of the JupyterLab application.
+Finally we are going to do some real stuff and add a new tab to JupyterLab.
+Visible elements such as a tab are represented by widgets in the phosphor
+library that is the basis of the JupyterLab application.
 
 #### A basic tab ####
 
-The base
-widget class can be imported with:
+The base widget class can be imported with:
 
 ```typescript
 import {
@@ -420,9 +425,9 @@ import {
 } from '@phosphor/widgets';
 ```
 
-a Widget can be added to the main area through the `shell` that can be accessed
-as a property of the `app` variable that represents the main JupyterLab
-application. Inside of our previous activate function, this looks like this:
+A Widget can be added to the main area through the main JupyterLab
+application`app.shell`. Inside of our previous `activate` function, this looks
+like this:
 
 ```
     activate: (
@@ -449,7 +454,7 @@ application. Inside of our previous activate function, this looks like this:
     }
 ```
 
-Defining the custom widget `TutorialView`) is straight-forward as well:
+The custom widget `TutorialView` is straight-forward as well:
 
 ```typescript
 class TutorialView extends Widget {
