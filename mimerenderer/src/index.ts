@@ -19,7 +19,7 @@ const CLASS_NAME = 'mimerenderer-mp4';
 /**
  * A widget for rendering mp4.
  */
-export class OutputWidget extends Widget implements IRenderMime.IRenderer {
+export class VideoWidget extends Widget implements IRenderMime.IRenderer {
   /**
    * Construct a new output widget.
    */
@@ -49,7 +49,7 @@ export class OutputWidget extends Widget implements IRenderMime.IRenderer {
 export const rendererFactory: IRenderMime.IRendererFactory = {
   safe: true,
   mimeTypes: [MIME_TYPE],
-  createRenderer: options => new OutputWidget(options)
+  createRenderer: options => new VideoWidget(options)
 };
 
 /**
