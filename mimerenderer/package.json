@@ -1,0 +1,38 @@
+{
+  "name": "@jupyterlab/mp4-extension",
+  "version": "0.1.0",
+  "description": "A JupyterLab extension for rendering mp4 files.",
+  "author": "Ian Rose",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "keywords": [
+    "jupyter",
+    "jupyterlab",
+    "jupyterlab-extension"
+  ],
+  "files": [
+    "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
+    "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}"
+  ],
+  "jupyterlab": {
+    "mimeExtension": true
+  },
+  "scripts": {
+    "clean": "rimraf lib",
+    "build": "tsc",
+    "prepare": "npm run clean && npm run build",
+    "watch": "tsc -w",
+    "extension:install": "jupyter labextension install jupyterlab-mp4",
+    "extension:uninstall": "jupyter labextension uninstall  jupyterlab-mp4",
+    "extension:enable": "jupyter labextension enable jupyterlab-mp4",
+    "extension:disable": "jupyter labextension disable jupyterlab-mp4"
+  },
+  "dependencies": {
+    "@jupyterlab/rendermime-interfaces": "^1.0.0",
+    "@phosphor/widgets": "^1.5.0"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.2",
+    "typescript": "~2.9.2"
+  }
+}
