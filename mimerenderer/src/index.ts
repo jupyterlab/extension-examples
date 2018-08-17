@@ -27,19 +27,22 @@ export class VideoWidget extends Widget implements IRenderMime.IRenderer {
     super();
     this._mimeType = options.mimeType;
     this.addClass(CLASS_NAME);
+    this._video = document.createElement('video');
+    this._video.setAttribute('controls', '');
+    this.node.appendChild(this._video);
   }
 
   /**
    * Render mp4 into this widget's node.
    */
   renderModel(model: IRenderMime.IMimeModel): Promise<void> {
-    
     let data = model.data[this._mimeType] as string;
-    this.node.textContent = data.slice(0, 16384);
+    this._video.src = `data:${MIME_TYPE};base64,${data}`;
     
     return Promise.resolve();
   }
 
+  private _video: HTMLVideoElement;
   private _mimeType: string;
 }
 
