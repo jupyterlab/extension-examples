@@ -63,6 +63,7 @@ const extension: IRenderMime.IExtension = {
   fileTypes: [
     {
       name: 'mp4',
+      fileFormat: 'base64',
       mimeTypes: [MIME_TYPE],
       extensions: ['.mp4']
     }
@@ -70,6 +71,7 @@ const extension: IRenderMime.IExtension = {
   documentWidgetFactoryOptions: {
     name: 'JupyterLab mp4 viewer',
     primaryFileType: 'mp4',
+    modelName: 'base64',
     fileTypes: ['mp4'],
     defaultFor: ['mp4']
   }
