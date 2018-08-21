@@ -6,3 +6,11 @@
   width: 100%;
   height: auto;
 }
+
+[data-theme-light="true"] .mimerenderer-mp4-icon {
+  background-image: url(movie-light.svg);
+}
+
+[data-theme-light="false"] .mimerenderer-mp4-icon {
+  background-image: url(movie-dark.svg);
+}

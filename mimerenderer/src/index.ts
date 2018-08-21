@@ -66,6 +66,7 @@ const extension: IRenderMime.IExtension = {
   fileTypes: [
     {
       name: 'mp4',
+      iconClass: 'jp-MaterialIcon mimerenderer-mp4-icon',
       fileFormat: 'base64',
       mimeTypes: [MIME_TYPE],
       extensions: ['.mp4']
