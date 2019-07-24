@@ -9,7 +9,7 @@ A JupyterLab extension for rendering mp4 files.
 ## Installation
 
 ```bash
-jupyter labextension install jupyterlab-mp4
+jupyter labextension install @jupyterlab/mp4-extension
 ```
 
 ## Development
