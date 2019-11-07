@@ -29,11 +29,11 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^0.16.0"
+    "@jupyterlab/application": "^1.0.0"
   },
   "devDependencies": {
-    "rimraf": "^2.6.1",
-    "typescript": "~2.6.0"
+    "rimraf": "^3.0.0",
+    "typescript": "^3.7.2"
   },
   "jupyterlab": {
     "extension": true
