@@ -23,7 +23,7 @@ import {
 } from '@jupyterlab/outputarea';
 
 import {
- RenderMimeRegistry
+ IRenderMimeRegistry
 } from '@jupyterlab/rendermime';
 
 /**
@@ -36,7 +36,7 @@ const PANEL_CLASS = 'jp-RovaPanel';
  */
 export
 class TutorialPanel extends StackedPanel {
-    constructor(manager: ServiceManager.IManager, rendermime: RenderMimeRegistry) {
+    constructor(manager: ServiceManager.IManager, rendermime: IRenderMimeRegistry) {
         super();
         this.addClass(PANEL_CLASS);
         this.id = 'TutorialPanel';

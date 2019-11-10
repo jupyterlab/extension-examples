@@ -1,112 +1,100 @@
 import {
-    JupyterLab, JupyterLabPlugin
-} from '@jupyterlab/application';
+  JupyterFrontEnd,
+  JupyterFrontEndPlugin
+} from "@jupyterlab/application";
 
-import '../style/index.css';
+import { ICommandPalette } from "@jupyterlab/apputils";
 
-import {
-  ILauncher
-} from '@jupyterlab/launcher';
+import { ILauncher } from "@jupyterlab/launcher";
 
-import {
-  IMainMenu
-} from '@jupyterlab/mainmenu';
+import { IMainMenu } from "@jupyterlab/mainmenu";
 
-import {
-  Menu
-} from '@phosphor/widgets';
+import { IRenderMimeRegistry } from "@jupyterlab/rendermime";
 
-import {
-  ICommandPalette
-} from '@jupyterlab/apputils';
+import { Menu } from "@phosphor/widgets";
 
-import {
-  IRenderMimeRegistry
-} from '@jupyterlab/rendermime';
+import { TutorialPanel } from "./panel";
 
-import {
-    TutorialPanel
-} from './panel'
-
+import "../style/index.css";
 
 /**
  * The command IDs used by the console plugin.
  */
 namespace CommandIDs {
-    export
-    const create = 'Ex7:create';
+  export const create = "Ex4a:create";
 
-    export
-    const execute = 'Ex7:execute';
+  export const execute = "Ex4a:execute";
 }
-
 
 /**
  * Initialization data for the extension.
  */
-const extension: JupyterLabPlugin<void> = {
-    id: '4a_kernel_output',
-    autoStart: true,
-    requires: [ICommandPalette, ILauncher, IMainMenu, IRenderMimeRegistry],
-    activate: activate
+const extension: JupyterFrontEndPlugin<void> = {
+  id: "4a_kernel_output",
+  autoStart: true,
+  requires: [ICommandPalette, ILauncher, IMainMenu, IRenderMimeRegistry],
+  activate: activate
 };
 
-
 function activate(
-    app: JupyterLab,
-    palette: ICommandPalette,
-    launcher: ILauncher,
-    mainMenu: IMainMenu,
-    rendermime: IRenderMimeRegistry)
-{
-    const manager = app.serviceManager;
-    const { commands, shell } = app;
-    let category = 'Tutorial';
+  app: JupyterFrontEnd,
+  palette: ICommandPalette,
+  launcher: ILauncher,
+  mainMenu: IMainMenu,
+  rendermime: IRenderMimeRegistry
+) {
+  const manager = app.serviceManager;
+  const { commands, shell } = app;
+  let category = "Tutorial";
 
-    // Add launcher
-    launcher.add({
-        displayName: 'launch',
-        category: category,
-        callback: createPanel});
+  let panel: TutorialPanel;
 
-    let panel: TutorialPanel;
+  function createPanel() {
+    return manager.ready
+      .then(() => {
+        panel = new TutorialPanel(manager, rendermime);
+        return panel.session.ready;
+      })
+      .then(() => {
+        shell.add(panel, "main");
+        return panel;
+      });
+  }
 
-    function createPanel() {
-        return manager.ready
-            .then(() => {
-                panel = new TutorialPanel(manager, rendermime);
-                return panel.session.ready})
-            .then(() => {
-                shell.addToMainArea(panel);
-                return panel});
+  // add menu tab
+  let tutorialMenu: Menu = new Menu({ commands });
+  tutorialMenu.title.label = "Tutorial";
+  mainMenu.addMenu(tutorialMenu);
+
+  // add commands to registry
+  let command = CommandIDs.create;
+  commands.addCommand(command, {
+    label: "Ex7: open Panel",
+    caption: "Open the Labtutorial Extension",
+    execute: createPanel
+  });
+
+  command = CommandIDs.execute;
+  commands.addCommand(command, {
+    label: "Ex4a: show dataframe",
+    caption: "show dataframe",
+    execute: async () => {
+      await createPanel();
+      panel.execute("df");
     }
+  });
 
-    // add menu tab
-    let tutorialMenu: Menu = new Menu({commands});
-    tutorialMenu.title.label = 'Tutorial';
-    mainMenu.addMenu(tutorialMenu);
+  // add items in command palette and menu
+  [CommandIDs.create, CommandIDs.execute].forEach(command => {
+    palette.addItem({ command, category });
+    tutorialMenu.addItem({ command });
+  });
 
-    // add commands to registry
-    let command = CommandIDs.create 
-    commands.addCommand(command, {
-        label: 'Ex7: open Panel',
-        caption: 'Open the Labtutorial Extension',
-        execute: createPanel});
-
-    command = CommandIDs.execute
-    commands.addCommand(command, {
-        label: 'Ex7: show dataframe',
-        caption: 'show dataframe',
-        execute: () => {panel.execute('df')}});
-
-    // add items in command palette and menu
-    [
-        CommandIDs.create,
-        CommandIDs.execute
-    ].forEach(command => {
-        palette.addItem({ command, category });
-        tutorialMenu.addItem({ command });
-    });
+  // Add launcher
+  launcher.add({
+    command,
+    category: category
+  });
 }
 
 export default extension;
