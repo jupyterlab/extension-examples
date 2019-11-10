@@ -1,5 +1,5 @@
 import {
-    JupyterLab, JupyterLabPlugin
+    JupyterFrontEnd, JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import '../style/index.css';
@@ -40,7 +40,7 @@ namespace CommandIDs {
 /**
  * Initialization data for the extension.
  */
-const extension: JupyterLabPlugin<void> = {
+const extension: JupyterFrontEndPlugin<void> = {
     id: '6_kernel_messaging',
     autoStart: true,
     requires: [ICommandPalette, ILauncher, IMainMenu],
@@ -49,7 +49,7 @@ const extension: JupyterLabPlugin<void> = {
 
 
 function activate(
-    app: JupyterLab,
+    app: JupyterFrontEnd,
     palette: ICommandPalette,
     launcher: ILauncher,
     mainMenu: IMainMenu)
@@ -60,9 +60,9 @@ function activate(
 
     // Add launcher
     launcher.add({
-        displayName: 'launch',
+        command: CommandIDs.create,
         category: category,
-        callback: createPanel});
+    });
 
     function createPanel() {
         let panel: TutorialPanel;
@@ -71,7 +71,7 @@ function activate(
                 panel = new TutorialPanel(manager);
                 return panel.session.ready})
             .then(() => {
-                shell.addToMainArea(panel);
+                shell.add(panel, 'main');
                 return panel});
     }
 

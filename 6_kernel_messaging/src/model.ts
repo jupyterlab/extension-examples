@@ -1,62 +1,70 @@
-'use strict'
+"use strict";
 
-import {
-  VDomModel
-} from '@jupyterlab/apputils';
+import { VDomModel } from "@jupyterlab/apputils";
 
-import {
-  Kernel, KernelMessage
-} from '@jupyterlab/services';
+import { Kernel, KernelMessage } from "@jupyterlab/services";
 
-import {
-  nbformat
-} from '@jupyterlab/coreutils';
+import { nbformat } from "@jupyterlab/coreutils";
 
-import {
-  IClientSession
-} from '@jupyterlab/apputils';
+import { IClientSession } from "@jupyterlab/apputils";
 
+export class KernelModel extends VDomModel {
+  constructor(session: IClientSession) {
+    super();
+    this._session = session;
+  }
 
-export
-class KernelModel extends VDomModel {
-    constructor(session: IClientSession) {
-        super();
-        this._session = session;
+  public execute(code: string) {
+    if (!this._session || !this._session.kernel) {
+      return;
     }
+    this.future = this._session.kernel.requestExecute({ code });
+  }
 
-    public execute(code: string) {
-        this.future = this._session.kernel.requestExecute({ code });
+  private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
+    let msgType = msg.header.msg_type;
+    switch (msgType) {
+      case "execute_result":
+      case "display_data":
+      case "update_display_data":
+        this._output = msg.content as nbformat.IOutput;
+        console.log(this._output);
+        this.stateChanged.emit(undefined);
+        break;
+      default:
+        break;
     }
+    return;
+  };
 
-    private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
-        let msgType = msg.header.msg_type;
-        switch (msgType) {
-            case 'execute_result':
-            case 'display_data':
-            case 'update_display_data':
-                this._output = msg.content as nbformat.IOutput;
-                console.log(this._output);
-                this.stateChanged.emit(undefined);
-            default:
-                break;
-        }
-        return true
+  get output(): nbformat.IOutput | null {
+    return this._output;
+  }
+
+  get future(): Kernel.IFuture<
+    KernelMessage.IExecuteRequestMsg,
+    KernelMessage.IExecuteReplyMsg
+  > | null {
+    return this._future;
+  }
+
+  set future(
+    value: Kernel.IFuture<
+      KernelMessage.IExecuteRequestMsg,
+      KernelMessage.IExecuteReplyMsg
+    > | null
+  ) {
+    this._future = value;
+    if (!value) {
+      return;
     }
+    value.onIOPub = this._onIOPub;
+  }
 
-    get output(): nbformat.IOutput {
-        return this._output;
-    }
-
-    get future(): Kernel.IFuture {
-        return this._future;
-    }
-
-    set future(value: Kernel.IFuture) {
-        this._future = value;
-        value.onIOPub = this._onIOPub;
-    }
-
-    private _output: nbformat.IOutput = null;
-    private _future: Kernel.IFuture = null;
-    private _session: IClientSession;
+  private _output: nbformat.IOutput | null = null;
+  private _future: Kernel.IFuture<
+    KernelMessage.IExecuteRequestMsg,
+    KernelMessage.IExecuteReplyMsg
+  > | null = null;
+  private _session: IClientSession;
 }
