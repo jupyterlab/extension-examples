@@ -1,8 +1,10 @@
 import {
-    JupyterLab, JupyterLabPlugin
+    JupyterFrontEnd, JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import '../style/index.css';
+import {
+  ICommandPalette
+} from '@jupyterlab/apputils';
 
 import {
   ILauncher
@@ -17,12 +19,10 @@ import {
 } from '@phosphor/widgets';
 
 import {
-  ICommandPalette
-} from '@jupyterlab/apputils';
-
-import {
     TutorialPanel
 } from './panel'
+
+import '../style/index.css';
 
 
 /**
@@ -39,7 +39,7 @@ namespace CommandIDs {
 /**
  * Initialization data for the extension.
  */
-const extension: JupyterLabPlugin<void> = {
+const extension: JupyterFrontEndPlugin<void> = {
     id: '5_signals_and_buttons',
     autoStart: true,
     requires: [ICommandPalette, ILauncher, IMainMenu],
@@ -48,7 +48,7 @@ const extension: JupyterLabPlugin<void> = {
 
 
 function activate(
-    app: JupyterLab,
+    app: JupyterFrontEnd,
     palette: ICommandPalette,
     launcher: ILauncher,
     mainMenu: IMainMenu)
@@ -59,16 +59,16 @@ function activate(
 
     // Add launcher
     launcher.add({
-        displayName: 'launch',
+        command: CommandIDs.create,
         category: category,
-        callback: createPanel});
+    });
 
     function createPanel() {
         let panel: TutorialPanel;
         return manager.ready
             .then(() => {
                 panel = new TutorialPanel();
-                shell.addToMainArea(panel);
+                shell.add(panel, 'main');
                 return panel});
     }
 
