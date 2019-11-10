@@ -1,8 +1,6 @@
 import {
-    JupyterLab, JupyterLabPlugin
+    JupyterFrontEnd, JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-
-import '../style/index.css';
 
 import {
   IMainMenu
@@ -16,15 +14,17 @@ import {
   ICommandPalette
 } from '@jupyterlab/apputils';
 
+import '../style/index.css';
+
 /**
  * Initialization data for the extension1 extension.
  */
-const extension: JupyterLabPlugin<void> = {
+const extension: JupyterFrontEndPlugin<void> = {
     id: '2_commands_and_menus',
     autoStart: true,
     requires: [ICommandPalette, IMainMenu],
     activate: (
-        app: JupyterLab,
+        app: JupyterFrontEnd,
         palette: ICommandPalette,
         mainMenu: IMainMenu) =>
     {
@@ -34,7 +34,7 @@ const extension: JupyterLabPlugin<void> = {
         commands.addCommand(command, {
             label: 'ex2:tutorial',
             caption: 'Open the Labtutorial',
-            execute: (args) => {console.log('Hey')}});
+            execute: (args: any) => {console.log('Hey')}});
         palette.addItem({command, category});
 
 
