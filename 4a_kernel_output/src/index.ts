@@ -92,9 +92,10 @@ function activate(
 
   // Add launcher
   launcher.add({
-    command,
+    command: CommandIDs.create,
     category: category
   });
+
 }
 
 export default extension;
