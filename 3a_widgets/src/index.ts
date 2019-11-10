@@ -1,5 +1,5 @@
 import {
-    JupyterLab, JupyterLabPlugin
+    JupyterFrontEnd, JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import '../style/index.css';
@@ -24,12 +24,12 @@ import {
 /**
  * Initialization data for the extension1 extension.
  */
-const extension: JupyterLabPlugin<void> = {
+const extension: JupyterFrontEndPlugin<void> = {
     id: '3a_widgets',
     autoStart: true,
     requires: [ICommandPalette, IMainMenu],
     activate: (
-        app: JupyterLab,
+        app: JupyterFrontEnd,
         palette: ICommandPalette,
         mainMenu: IMainMenu) =>
     {
@@ -39,9 +39,9 @@ const extension: JupyterLabPlugin<void> = {
         commands.addCommand(command, {
             label: 'Ex3 command',
             caption: 'Open the Labtutorial',
-            execute: (args) => {
+            execute: (args: any) => {
                 const widget = new TutorialView();
-                shell.addToMainArea(widget);
+                shell.add(widget, 'main');
             }});
         palette.addItem({command, category});
 
