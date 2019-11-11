@@ -1,5 +1,7 @@
 # Jupyterlab Extensions by Examples
 
+![Github Actions Status](https://github.com/jtpio/jupyterlab-extension-examples/workflows/CI/badge.svg)
+
 ## TL;DR
 
 The goal of this repository is to show how to develop extensions on [JupyterLab](https://github.com/jupyterlab/jupyterlab).
