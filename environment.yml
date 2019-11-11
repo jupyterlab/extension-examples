@@ -1,7 +1,8 @@
-name: jupyterlab-extension-tutorial
+name: jupyterlab-extension-examples
 channels:
 - conda-forge
 dependencies:
-- python=3.7
+- nodejs
+- python=3
 - yarn
 - jupyterlab=1.2
