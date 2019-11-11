@@ -1,17 +1,15 @@
-# Commands and Menus 
+# Commands and Menus: Extending the main app
 
 * [Jupyterlab Commands](#jupyterlab-commands)
 * [Adding new Menu tabs and items](#adding-new-menu-tabs-and-items)
 
-## Commands and Menus: Extending the main app
-
 For the next extension you can either copy the last folder to a new one or
 simply continue modifying it. In case that you want to have a new extension,
 open the file `package.json` and modify the package name, e.g. into
-`2_commands_and_menus`. The same name changes needs to be done in
+`commands_and_menus`. The same name changes needs to be done in
 `src/index.ts`.
 
-#### Jupyterlab Commands ####
+## Jupyterlab Commands
 
 Start it with `jupyter lab --watch`. In this extension, we are going to add a
 command to the application command registry and expose it to the user in the
@@ -39,7 +37,7 @@ open the file `src/index.ts`.
 
 ```typescript
 const extension: JupyterLabPlugin<void> = {
-    id: '2_commands_and_menus',
+    id: 'commands_and_menus',
     autoStart: true,
     requires: [ICommandPalette],
     activate: (
@@ -80,7 +78,7 @@ this:
 
 ![New Command](_images/new_command.png)
 
-#### Adding new Menu tabs and items ####
+## Adding new Menu tabs and items
 
 Adding new menu items works in a similar way. The IMainMenu interface can be
 passed as a new argument two the activate function, but first it has to be
@@ -103,7 +101,7 @@ the `activate` function. The Extension is then changed to:
 
 ```typescript
 const extension: JupyterLabPlugin<void> = {
-    id: '2_commands_and_menus',
+    id: 'commands_and_menus',
     autoStart: true,
     requires: [ICommandPalette, IMainMenu],
     activate: (
@@ -177,4 +175,4 @@ for the build to run, the `tsconfig.json` file might have to be updated to:
 ```
 ]
 
-[Click here for the final extension 2_commands_and_menus](2_commands_and_menus)
+[Click here for the final extension commands_and_menus](commands_and_menus)

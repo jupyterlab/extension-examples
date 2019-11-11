@@ -1,6 +1,4 @@
-# Jupyter Widgets
-
-#### Jupyter-Widgets: Adding Interactive Elements ####
+# Jupyter Widgets: Adding Interactive Elements ####
 
 A lot of advanced functionality in Jupyter notebooks comes in the form of
 jupyter widgets (ipython widgets). Jupyter widgets are elements that have one
@@ -151,4 +149,4 @@ the one that we send from our Extension.
 
 ![Qgrid widget](_images/qgrid_widget.gif)
 
-[Click here for the final extension: 4b_jupyterwidgets](4b_jupyterwidgets)
+[Click here for the final extension: jupyter_widgets](jupyter_widgets)

@@ -75,4 +75,4 @@ like this:
 
 ![Custom Tab](_images/custom_tab.png)
 
-[Click here for the final extension: 3_widgets](3a_widgets)
+[Click here for the final extension: 3_widgets](widgets)

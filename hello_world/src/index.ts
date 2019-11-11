@@ -6,10 +6,10 @@ import '../style/index.css';
 
 
 /**
- * Initialization data for the 1_hello_world extension.
+ * Initialization data for the hello_world extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-    id: '1_hello_world',
+    id: 'hello_world',
     autoStart: true,
     activate: (app: JupyterFrontEnd) => {
         console.log('the JupyterLab main application:');

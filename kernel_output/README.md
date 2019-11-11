@@ -1,4 +1,4 @@
-# Kernel Output
+## Kernel Output - Simple Notebook-style Rendering
 
 * [Reorganizing the extension code](#reorganizing-the-extension-code)
 * [Initializing a Kernel Session](#initializing-a-kernel-session)
@@ -6,8 +6,6 @@
 * [asynchronous extension initialization](#asynchronous-extension-initialization)
 * [Make it Run](#make-it-run)
 * [Jupyter-Widgets: Adding Interactive Elements](#jupyter-widgets-adding-interactive-elements)
-
-## Kernel Outputs: Simple Notebook-style Rendering ##
 
 In this extension we will see how initialize a kernel, and how to execute code
 and how to display the rendered output. We use the `OutputArea` class for this
@@ -20,7 +18,7 @@ execute message that was sent to an underlying kernel. Under the hood, the
 and `KernelModel` classes that we have defined ourselves before.  We therefore
 get rid of the `model.ts` and `widget.tsx` files and change the panel class to:
 
-#### Reorganizing the extension code ####
+## Reorganizing the extension code
 
 Since our extension is growing bigger, we begin by splitting our code into more
 managable units. Roughly we can see three larger components of our application:
@@ -92,7 +90,7 @@ class TutorialPanel extends StackedPanel {
 }
 ```
 
-#### Initializing a Kernel Session ####
+## Initializing a Kernel Session
 
 The first thing that we want to focus on is the `ClientSession` that is 
 stored in the private `_session` variable:
@@ -141,7 +139,8 @@ other users can access it.
     }
 ```
 
-#### OutputArea and Model ####
+## OutputArea and Model
+
 The `SimplifiedOutputArea` class is a Widget, as we have seen them before. We
 can instantiate it with a new `OutputAreaModel` (this is class that contains
 the data that will be shown):
@@ -173,7 +172,7 @@ We just have to add the `SimplifiedOutputArea` Widget to our Panel with:
 ```
 and we are ready to add the whole Panel to Jupyterlab.
 
-#### asynchronous extension initialization ####
+## Asynchronous extension initialization
 
 `index.ts` is responsible to initialize the extension. We only go through
 the changes with respect to the last sections.
@@ -228,7 +227,7 @@ to launch our application, we can then use:
     }
 ```
 
-#### Make it Run ####
+## Make it Run
 
 Let's for example display the variable `df` from a python kernel that could
 contain a pandas dataframe. To do this, we just need to add a command to the

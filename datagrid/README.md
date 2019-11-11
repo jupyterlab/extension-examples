@@ -1,8 +1,4 @@
-# Datagrid
-
-* [Datagrid: a Fancy Phosphor Widget](#datagrid-a-fancy-phosphor-widget)
-
-#### Datagrid: a Fancy Phosphor Widget ####
+# Datagrid: a Fancy Phosphor Widget
 
 Now let's do something a little more advanced. Jupyterlab is build on top of
 Phosphor.js. Let's see if we can plug [this phosphor example](http://phosphorjs.github.io/examples/datagrid/)
@@ -113,4 +109,4 @@ Let's see how this looks like in Jupyterlab:
 
 ![Datagrid](_images/datagrid.png)
 
-[Click here for the final extension: 3b_datagrid](3b_datagrid)
+[Click here for the final extension: datagrid](datagrid)

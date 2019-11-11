@@ -40,7 +40,7 @@ namespace CommandIDs {
  * Initialization data for the extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-    id: '5_signals_and_buttons',
+    id: 'signals_and_buttons',
     autoStart: true,
     requires: [ICommandPalette, ILauncher, IMainMenu],
     activate: activate

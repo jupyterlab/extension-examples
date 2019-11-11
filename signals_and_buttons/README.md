@@ -1,12 +1,10 @@
-# Signals and Buttons
+# Signals and Buttons - Interactions Between Different Widgets
 
 * [Phosphor Signaling 101](#phosphor-signaling-101)
 * [A simple react button](#a-simple-react-button)
 * [subscribing to a signal](#subscribing-to-a-signal)
 
-## Buttons and Signals: Interactions Between Different Widgets ##
-
-#### Phosphor Signaling 101 ####
+## Phosphor Signaling 101
 
 In this extension, we are going to add some simple buttons to the widget that
 trigger the panel to print something to the console. Communication between
@@ -42,7 +40,7 @@ _stateChanged.emit(void 0)
 
 Let's see how we can implement this ...
 
-#### A simple react button ####
+## A simple React button
 
 We start with a file called `src/widget.tsx`. The `tsx` extension allows to use
 XML-like syntax with the tag notation `<>`to represent some visual elements
@@ -88,7 +86,7 @@ class TutorialView extends VDomRenderer<any> {
 }
 ```
 
-#### subscribing to a signal ####
+## Subscribing to a Signal
 
 The `panel.ts` class defines an extension panel that displays the
 `TutorialView` widget and that subscribes to its `stateChanged` signal.
@@ -123,4 +121,4 @@ conceptualy important for building extensions. It looks like this:
 
 ![Button with Signal](_images/button_with_signal.png)
 
-[Click here for the final extension: 5_signals_and_buttons](5_signals_and_buttons)
+[Click here for the final extension: signals_and_buttons](signals_and_buttons)

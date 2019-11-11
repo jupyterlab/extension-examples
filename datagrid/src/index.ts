@@ -28,7 +28,7 @@ import {
  * Initialization data for the extension1 extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-    id: '3b_datagrid',
+    id: 'datagrid',
     autoStart: true,
     requires: [ICommandPalette, IMainMenu],
     activate: (

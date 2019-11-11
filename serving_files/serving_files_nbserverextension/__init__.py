@@ -3,7 +3,7 @@ from notebook.utils import url_path_join
 from tornado.web import StaticFileHandler
 
 def _jupyter_server_extension_paths():
-    return [{'module': 'jupyterlab_MyDoc'}]
+    return [{'module': 'jupyterlab_serving_files'}]
 
 def load_jupyter_server_extension(nb_server_app):
     """

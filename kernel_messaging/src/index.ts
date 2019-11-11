@@ -41,7 +41,7 @@ namespace CommandIDs {
  * Initialization data for the extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-    id: '6_kernel_messaging',
+    id: 'kernel_messaging',
     autoStart: true,
     requires: [ICommandPalette, ILauncher, IMainMenu],
     activate: activate

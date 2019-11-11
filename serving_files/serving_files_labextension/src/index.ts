@@ -18,7 +18,7 @@ import {
 
 
 const extension: JupyterLabPlugin<void> = {
-    id: '4b_jupyterwidgets',
+    id: 'jupyter_widgets',
     autoStart: true,
     requires: [ILauncher],
     activate: activate

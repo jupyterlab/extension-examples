@@ -1,4 +1,4 @@
-# Kernel Kessaging
+# Kernel Messaging
 
 * [Component Overview](#component-overview)
 * [Initializing and managing a kernel session (panel.ts)](#initializing-and-managing-a-kernel-session-panelts)
@@ -6,13 +6,13 @@
 * [Connecting a View to the Kernel](#connecting-a-view-to-the-kernel)
 * [How does it look like](#how-does-it-look-like)
 
-## Custom Kernel Interactions: Kernel Managment and Messaging ##
+## Custom Kernel Interactions: Kernel Managment and Messaging
 
 One of the main features of JupyterLab is the possibility to manage and
 interact underlying compute kernels. In this section, we explore how to
 start a kernel and execute a simple command on it.
 
-#### Component Overview ####
+## Component Overview
 
 In terms of organization of this app, we want to have these components:
 
@@ -30,8 +30,7 @@ The `VDomRendered` listens to a `stateChanged` signal that is defined by the
 `VDomRendered` calls its `render` function again and updates the html elements
 according to the new state of the model.
 
-
-#### Initializing and managing a kernel session (`panel.ts`) ####
+## Initializing and managing a kernel session (`panel.ts`)
 
 Jupyterlab provides a class `ClientSession`
 ([documentation](http://JupyterLab.github.io/JupyterLab/classes/_apputils_src_clientsession_.clientsession.html))
@@ -103,7 +102,7 @@ class TutorialPanel extends StackedPanel {
 }
 ```
 
-#### Executing code and retrieving messages from a kernel (`model.ts`) ####
+## Executing code and retrieving messages from a kernel (`model.ts`)
 
 Once a kernel is initialized and ready, code can be executed on it through
 the `ClientSession` class with the following snippet:
@@ -171,7 +170,7 @@ class KernelModel extends VDomModel {
 }
 ```
 
-#### Connecting a View to the Kernel ####
+## Connecting a View to the Kernel
 
 The only remaining thing left is to connect a View to the Model. We have
 already seen the `TutorialView` before. To trigger the `render` function of a
@@ -205,7 +204,7 @@ class KernelView extends VDomRenderer<any> {
 }
 ```
 
-#### How does it look like ####
+## How does it look like
 
 ![Kernel Execution](_images/kernel_extension.gif)
 

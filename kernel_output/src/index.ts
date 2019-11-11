@@ -30,7 +30,7 @@ namespace CommandIDs {
  * Initialization data for the extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: "4a_kernel_output",
+  id: "kernel_output",
   autoStart: true,
   requires: [ICommandPalette, ILauncher, IMainMenu, IRenderMimeRegistry],
   activate: activate

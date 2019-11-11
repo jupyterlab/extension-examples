@@ -32,7 +32,7 @@ namespace CommandIDs {
  * Initialization data for the extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: "4b_jupyterwidgets",
+  id: "jupyter_widgets",
   autoStart: true,
   requires: [ICommandPalette, INotebookTracker, ILauncher, IMainMenu],
   activate: activate

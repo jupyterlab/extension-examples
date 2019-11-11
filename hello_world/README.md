@@ -1,15 +1,12 @@
-# Hello World
+# Hello World - Setting up the development environment
 
 Minimal lab extension that prints to the console
 
-* [1 Hello World: Setting up the development environment](#1-hello-world-setting-up-the-development-environment)
-  * [The template folder structure](#the-template-folder-structure)
-  * [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
-  * [Building and Installing an Extension](#building-and-installing-an-extension)
+* [The template folder structure](#the-template-folder-structure)
+* [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
+* [Building and Installing an Extension](#building-and-installing-an-extension)
 
-## 1 Hello World: Setting up the development environment ##
-
-#### The template folder structure ####
+## The template folder structure ####
 
 Writing a JupyterLab extension usually starts from a configurable template. It
 can be downloded with the `cookiecutter` tool and the following command:
@@ -23,16 +20,16 @@ like this:
 
 ```bash
 author_name []: tuto
-extension_name [JupyterLab_myextension]: 1_hello_world
+extension_name [JupyterLab_myextension]: hello_world
 project_short_description [A JupyterLab extension.]: minimal lab example
 repository [https://github.com/my_name/JupyterLab_myextension]: 
 ```
 
-The cookiecutter creates the directory `1_hello_world` [or your extension name]
+The cookiecutter creates the directory `hello_world` [or your extension name]
 that looks like this:
 
 ```bash
-1_hello_world/
+hello_world/
 
 ├── README.md
 ├── package.json
@@ -52,7 +49,7 @@ that looks like this:
 What does this extension do? You don't need a PhD in Computer Science to take a
 guess from the title of this section, but let's have a closer look:
 
-#### A minimal extension that prints to the browser console ####
+## A minimal extension that prints to the browser console
 
 We start with the file `src/index.ts`. This typescript file contains the main
 logic of the extension. It begins with the following import section:
@@ -82,10 +79,10 @@ of the `JupyterLabPlugin` class:
 
 ```typescript
 const extension: JupyterLabPlugin<void> = {
-  id: '1_hello_world',
+  id: 'hello_world',
   autoStart: true,
   activate: (app: JupyterLab) => {
-    console.log('JupyterLab extension 1_hello_world is activated!');
+    console.log('JupyterLab extension hello_world is activated!');
   }
 };
 
@@ -105,7 +102,7 @@ Our new `JupyterLabPlugin` instance has to be finally exported to be visible to
 JupyterLab, which is done with the line `export default extension`. This brings
 us to the next point. How can we plug this extension into JupyterLab?
 
-#### Building and Installing an Extension ####
+## Building and Installing an Extension
 
 Let's look at the `README.md` file. It contains instructions how our
 labextension can be installed for development:
@@ -130,7 +127,7 @@ After all of these steps are done, running `jupyter labextension list` should
 now show something like:
 ```bash
    local extensions:
-        1_hello_world: [...]/labextension_tutorial/1_hello_world
+        hello_world: [...]/labextension_tutorial/hello_world
 ```
 
 Now let's check inside of JupyterLab if it works. Run [can take a while]:
@@ -144,7 +141,7 @@ console. So let's check if it worked. In firefox you can open the console
 pressing the `f12` key. You should see something like:
 
 ```
-JupyterLab extension 1_hello_world is activated
+JupyterLab extension hello_world is activated
 ```
 
 Our extension works but it is incredibly boring. Let's  modify the source code
@@ -185,4 +182,4 @@ the `phosphor.js` library that runs JupyterLab under the hood (more about this
 later). Its documentation is therefore located on the [phosphor.js
 website](http://phosphorjs.github.io/phosphor/api/application/interfaces/iplugin.html).
 
-[Click here for the final extension: 1_hello_world](1_hello_world)
+[Click here for the final extension: hello_world](hello_world)

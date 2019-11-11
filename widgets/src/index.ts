@@ -25,7 +25,7 @@ import {
  * Initialization data for the extension1 extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-    id: '3a_widgets',
+    id: 'widgets',
     autoStart: true,
     requires: [ICommandPalette, IMainMenu],
     activate: (

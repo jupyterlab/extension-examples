@@ -20,7 +20,7 @@ import '../style/index.css';
  * Initialization data for the extension1 extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-    id: '2_commands_and_menus',
+    id: 'commands_and_menus',
     autoStart: true,
     requires: [ICommandPalette, IMainMenu],
     activate: (
