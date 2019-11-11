@@ -1,8 +1,6 @@
-from notebook.utils import url_path_join
-
 import os
+from notebook.utils import url_path_join
 from tornado.web import StaticFileHandler
-
 
 def _jupyter_server_extension_paths():
     return [{'module': 'jupyterlab_MyDoc'}]
