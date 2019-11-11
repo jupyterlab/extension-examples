@@ -1,5 +1,5 @@
 import {
-    JupyterLab, JupyterLabPlugin
+    JupyterFrontEnd, JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import '../style/index.css';
@@ -8,10 +8,10 @@ import '../style/index.css';
 /**
  * Initialization data for the 1_hello_world extension.
  */
-const extension: JupyterLabPlugin<void> = {
+const extension: JupyterFrontEndPlugin<void> = {
     id: '1_hello_world',
     autoStart: true,
-    activate: (app: JupyterLab) => {
+    activate: (app: JupyterFrontEnd) => {
         console.log('the JupyterLab main application:');
         console.log(app);
     }

@@ -1,4 +1,4 @@
-# Jupyterlab Extensions Walkthrough #
+# Jupyterlab Extensions Walkthrough
 
 ## Other tutorials ##
 * http://JupyterLab.readthedocs.io/en/stable/developer/xkcd_extension_tutorial.html

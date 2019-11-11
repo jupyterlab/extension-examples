@@ -1,5 +1,5 @@
 import {
-    JupyterLab, JupyterLabPlugin
+    JupyterFrontEnd, JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import '../style/index.css';
@@ -27,12 +27,12 @@ import {
 /**
  * Initialization data for the extension1 extension.
  */
-const extension: JupyterLabPlugin<void> = {
+const extension: JupyterFrontEndPlugin<void> = {
     id: '3b_datagrid',
     autoStart: true,
     requires: [ICommandPalette, IMainMenu],
     activate: (
-        app: JupyterLab,
+        app: JupyterFrontEnd,
         palette: ICommandPalette,
         mainMenu: IMainMenu) =>
     {
@@ -44,7 +44,7 @@ const extension: JupyterLabPlugin<void> = {
             caption: 'Open a datagrid panel',
             execute: (args) => {
                 const widget = new TutorialView();
-                shell.addToMainArea(widget);
+                shell.add(widget, 'main');
             }});
         palette.addItem({command, category});
 
@@ -69,7 +69,7 @@ class TutorialView extends StackedPanel {
 
         let model = new LargeDataModel();
         let grid = new DataGrid();
-        grid.model = model;
+        grid.dataModel = model;
 
         this.addWidget(grid);
     }
