@@ -32,6 +32,7 @@ Basics
 + [Hello World](./basics/hello-world)
 + [Signals](./basics/signals)
 + [Datagrid](./basics/datagrid)
++ [React](./react_widget)
 
 Context Menu
 + [Menus](./context-menu/menus)
