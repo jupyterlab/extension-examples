@@ -2,19 +2,19 @@
 
 ## TL;DR
 
-The goal of this repository is to show how to develop extensions on [JupyterLab](https://github.com/jupyterlab/jupyterlab). 
+The goal of this repository is to show how to develop extensions on [JupyterLab](https://github.com/jupyterlab/jupyterlab).
 It is presented as short tutorial series.
 
 ```bash
-git clone https://github.com/jtpio/jupyterlab-extension-tutorial.git && 
-  cd jupyterlab-extension-tutorial && \
+git clone https://github.com/jtpio/jupyterlab-extension-examples.git &&
+  cd jupyterlab-extension-examples && \
   conda env create && \
-  conda activate jupyterlab-extension-tutorial && \
+  conda activate jupyterlab-extension-examples && \
   cd hello_world && \
   jlpm && \
   jlpm run build && \
   jupyter labextension link .
-  
+
 # In another terminal
 jupyter lab --watch
 
@@ -29,7 +29,7 @@ You may find easier to learn how to extend `by examples` instead of going throug
 + [Commands and Menus](./commands_and_menus)
 + [Signals and Buttons](./signals_and_buttons)
 + [Widgets](./widgets)
-+ [Datagrid](./datagrid) 
++ [Datagrid](./datagrid)
 + [Jupyter Widgets](./jupyter_widgets)
 + [Kernel Output](./kernel_output)
 + [Kernel Messaging](./kernel_messaging)
@@ -37,22 +37,22 @@ You may find easier to learn how to extend `by examples` instead of going throug
 
 ## About JupyterLab
 
-Jupyterlab can be used as a platform to combine existing data-science components into a 
-new powerful application that can be deployed remotely for many users. Some of the higher 
-level components that can be used are text editors, terminals, notebooks, interactive widgets, 
-filebrowser, renderers for different file formats that provide access to an enormous ecosystem 
+Jupyterlab can be used as a platform to combine existing data-science components into a
+new powerful application that can be deployed remotely for many users. Some of the higher
+level components that can be used are text editors, terminals, notebooks, interactive widgets,
+filebrowser, renderers for different file formats that provide access to an enormous ecosystem
 of libraries from different languages.
 
 ## Prerequisites
 
-Writing an extension is not particularly difficult but requires very basic knowledge of JavaScript 
+Writing an extension is not particularly difficult but requires very basic knowledge of JavaScript
 and Typescript and potentially Python.
 
-_Don't be scared of Typescript, even if you never coded in TypeScript before you touch 
-JupyterLab you will find it easier to understand than pure JavaScript if you have a 
+_Don't be scared of Typescript, even if you never coded in TypeScript before you touch
+JupyterLab you will find it easier to understand than pure JavaScript if you have a
 basic understanding of object oriented programming and types._
 
-These examples are developed and tested on top of JupyterLab version 1.2. 
+These examples are developed and tested on top of JupyterLab version 1.2.
 You can create a [conda](https://docs.conda.io/en/latest/miniconda.html) environment to get started.
 
 ```bash
