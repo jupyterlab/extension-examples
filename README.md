@@ -8,20 +8,22 @@ It is presented as short tutorial series.
 ```bash
 git clone https://github.com/jtpio/jupyterlab-extension-tutorial.git && 
   cd jupyterlab-extension-tutorial && \
-  conda env create -f environment.yml && \
+  conda env create && \
   conda activate jupyterlab-extension-tutorial && \
   cd hello_world && \
-  npm install && \
-  npm run build && \
+  jlpm && \
+  jlpm run build && \
   jupyter labextension link .
+  
 # In another terminal
 jupyter lab --watch
+
 # open http:/localhost:8888?token=???
 ```
 
 ## Develop by Examples
 
-You may find easier to learn how to extend `by examples` instead of going through the [RTFM](https://en.wikipedia.org/wiki/RTFM). Start with the `hello_world` and jump then to topic you are interested into.
+You may find easier to learn how to extend `by examples` instead of going through the documentation. Start with the `hello_world` and jump then to the topic you are interested in.
 
 + [Hello World](./hello_world)
 + [Commands and Menus](./commands_and_menus)
@@ -43,18 +45,18 @@ of libraries from different languages.
 
 ## Prerequisites
 
-Writing an extension is not particularly difficult but requires very basic knowledge of javascript 
+Writing an extension is not particularly difficult but requires very basic knowledge of JavaScript 
 and Typescript and potentially Python.
 
-_Don't be scared of Typescript, even if you never coded in Typescript before you touch 
-JupyterLab you will find it easier to understand than pure javascript if you have a 
+_Don't be scared of Typescript, even if you never coded in TypeScript before you touch 
+JupyterLab you will find it easier to understand than pure JavaScript if you have a 
 basic understanding of object oriented programming and types._
 
 These examples are developed and tested on top of JupyterLab version 1.2. 
-You can create a [conda](https://docs.conda.io/en/latest/miniconda.html) env to get started.
+You can create a [conda](https://docs.conda.io/en/latest/miniconda.html) environment to get started.
 
 ```bash
-conda env create -f environment.yml && \
+conda env create && \
   conda activate jupyterlab-extension-tutorial
 ```
 
@@ -65,15 +67,15 @@ conda env create -f environment.yml && \
 For a development install (requires npm version 4 or later), do the following in the example directory.
 
 ```bash
-npm install
-npm run build
+jlpm install
+jlpm run build
 jupyter labextension link .
 ```
 
 To rebuild the package and the JupyterLab application.
 
 ```bash
-npm run build
+jlpm run build
 jupyter lab build
 ```
 
@@ -93,7 +95,7 @@ Complementary, you can rely on the official JupyterLab documentation.
 
 ## Install a Published Extension
 
-Once your extension published (not part of this tutorial), you can install it without source compilation.
+Once your extension is published (not part of this tutorial), you can install it without source compilation.
 
 ```bash
 jupyter labextension install <published_extension>
