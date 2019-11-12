@@ -1,5 +1,5 @@
 {
-  "name": "jupyter_widgets",
+  "name": "@jupyterlab-examples/jupyter_widgets",
   "version": "0.1.0",
   "description": "minimal lab example",
   "keywords": [
@@ -25,7 +25,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf lib",
+    "clean": "rimraf lib tsconfig.tsbuildinfo",
+    "link": "jupyter labextension link . --no-build",
     "watch": "tsc -w"
   },
   "dependencies": {

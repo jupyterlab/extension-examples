@@ -1,5 +1,5 @@
 {
-  "name": "serving_files",
+  "name": "@jupyterlab-examples/serving_files",
   "version": "0.1.0",
   "description": "minimal lab example",
   "keywords": [
@@ -25,7 +25,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf lib",
+    "clean": "rimraf lib tsconfig.tsbuildinfo",
     "watch": "tsc -w"
   },
   "dependencies": {

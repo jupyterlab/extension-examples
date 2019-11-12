@@ -1,0 +1,26 @@
+{
+  "name": "@jupyterlab-examples/all",
+  "private": true,
+  "scripts": {
+    "bootstrap": "FORCE_COLOR=true lerna bootstrap",
+    "build-jlab": "jupyter lab build --debug",
+    "build-ext": "FORCE_COLOR=true lerna run build",
+    "clean-ext": "FORCE_COLOR=true lerna run clean",
+    "link-ext": "FORCE_COLOR=true lerna run link"
+  },
+  "workspaces": {
+    "packages": [
+      "commands_and_menus", 
+      "datagrid",
+      "hello_world",
+      "jupyter_widgets",
+      "kernel_messaging",
+      "kernel_output",
+      "signals_and_buttons",
+      "widgets"
+    ]
+  },
+  "devDependencies": {
+    "lerna": "^3.18.4"
+  }
+}

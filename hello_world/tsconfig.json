@@ -1,9 +1,14 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../tsconfig-base.json",
   "compilerOptions": {
     "outDir": "./lib",
     "rootDir": "./src",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ]
   },
   "include": ["src/*"],
   "exclude": ["node_modules"]
