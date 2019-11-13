@@ -37,7 +37,7 @@ Context Menu
 + [Menus](./context-menu/menus)
 
 React
-+ [React Widget](./react/react_widget)
++ [React Widget](./react/react-widget)
 
 Widget Tracker
 + [Widgets](./widget-tracker/widgets)

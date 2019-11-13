@@ -23,7 +23,7 @@ namespace CommandIDs {
  * Initialization data for the react extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'react_widget',
+  id: 'react-widget',
   autoStart: true,
   optional: [ILauncher],
   activate: (app: JupyterFrontEnd, launcher: ILauncher) => {
