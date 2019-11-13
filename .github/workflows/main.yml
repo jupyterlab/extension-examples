@@ -36,7 +36,7 @@ jobs:
       run: python -m pip install jupyterlab
     - name: Bootstrap the jlpm deps
       run: jlpm
-    - name: build all the JupyterLab extensions
+    - name: Build all the JupyterLab extensions
       run: |
         jlpm build-ext
         jlpm link-ext
