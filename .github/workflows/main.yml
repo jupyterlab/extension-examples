@@ -13,9 +13,9 @@ jobs:
         example:
           - advanced/kernel-messaging
           - advanced/kernel-output
-#          - advanced/serving-fils
+#          - advanced/serving-files
           - basics/datagrid
-          - basics/hello-worl
+          - basics/hello-world
           - basics/signals
           - context-menu/menus
           - widget-tracker/jupyter-widgets
