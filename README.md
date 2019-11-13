@@ -12,7 +12,7 @@ git clone https://github.com/jtpio/jupyterlab-extension-examples.git &&
   cd jupyterlab-extension-examples && \
   conda env create && \
   conda activate jupyterlab-extension-examples && \
-  cd hello_world && \
+  cd basics/hello-world && \
   jlpm && \
   jlpm run build && \
   jupyter labextension link .
@@ -20,22 +20,29 @@ git clone https://github.com/jtpio/jupyterlab-extension-examples.git &&
 # In another terminal
 jupyter lab --watch
 
-# open http:/localhost:8888?token=???
+open http:/localhost:8888?token=???
 ```
 
 ## Develop by Examples
 
-You may find easier to learn how to extend `by examples` instead of going through the documentation. Start with the `hello_world` and jump then to the topic you are interested in.
+You may find easier to learn how to extend `by examples` instead of going through the documentation. Start with the `hello-world` and jump then to the topic you are interested in. We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html).
 
-+ [Hello World](./hello_world)
-+ [Commands and Menus](./commands_and_menus)
-+ [Signals and Buttons](./signals_and_buttons)
-+ [Widgets](./widgets)
-+ [Datagrid](./datagrid)
-+ [Jupyter Widgets](./jupyter_widgets)
-+ [Kernel Output](./kernel_output)
-+ [Kernel Messaging](./kernel_messaging)
-+ [Serving Files](./serving_files)
+Basics
++ [Hello World](./basics/hello-world)
++ [Signals](./basics/signals)
++ [Datagrid](./basics/datagrid)
+
+Contex Menu
++ [Menus](./context-menu/menus)
+
+Widget Tracker
++ [Widgets](./widget-tracker/widgets)
++ [Jupyter Widgets](./widget-tracker/jupyter-widgets)
+
+Advanced
++ [Kernel Output](./advanced/kernel-output)
++ [Kernel Messaging](./advanced/kernel-messaging)
++ [Serving Files](./advanced/serving-files)
 
 ## About JupyterLab
 
@@ -64,9 +71,25 @@ conda env create && \
 
 ## Develop and Use the Examples
 
-> Applicable to each of the examples.
+> Build and Link all examples at once.
 
-For a development install (requires npm version 4 or later), do the following in the example directory.
+```bash
+jlpm
+jlpm build-ext
+jlpm link-ext
+jlpm build-jlab
+jupyter lab
+```
+
+Clean the lib folders.
+
+```bash
+jlpm clean-ext
+```
+
+> Build and Link one example.
+
+Go into the example directory you want to install, e.g. `cd ./basics/hello-world`, and run the following commands.
 
 ```bash
 jlpm install
@@ -74,7 +97,7 @@ jlpm run build
 jupyter labextension link .
 ```
 
-To rebuild the package and the JupyterLab application.
+Rebuild the JupyterLab application.
 
 ```bash
 jlpm run build
@@ -89,15 +112,15 @@ jupyter lab --watch
 
 ## Official Documentation
 
-Complementary, you can rely on the official JupyterLab documentation.
+Complementary to these examples, you can rely on the official JupyterLab documentation.
 
-* https://jupyterlab.readthedocs.io/en/stable/developer/extension_dev.html
-* https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html
-* http://jupyterLab.readthedocs.io/en/stable/developer/extension_tutorial.html
+* [Extension Developer Guide](https://jupyterlab.readthedocs.io/en/stable/developer/extension_dev.html)
+* [Common Extension Points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html)
+* [Astronomy Picture of the Day JupyterLab Extension](http://jupyterLab.readthedocs.io/en/stable/developer/extension_tutorial.html)
 
 ## Install a Published Extension
 
-Once your extension is published (not part of this tutorial), you can install it without source compilation.
+Once your extension is published (not part of these explanations), you can install it without source compilation.
 
 ```bash
 jupyter labextension install <published_extension>

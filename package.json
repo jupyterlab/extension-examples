@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "FORCE_COLOR=true lerna bootstrap",
+    "install": "FORCE_COLOR=true lerna bootstrap",
     "build-jlab": "jupyter lab build --debug",
     "build-ext": "FORCE_COLOR=true lerna run build",
     "clean-ext": "FORCE_COLOR=true lerna run clean",
@@ -10,14 +11,19 @@
   },
   "workspaces": {
     "packages": [
-      "commands_and_menus", 
-      "datagrid",
-      "hello_world",
-      "jupyter_widgets",
-      "kernel_messaging",
-      "kernel_output",
-      "signals_and_buttons",
-      "widgets"
+      "advanced/*",
+      "basics/*",
+      "commands/*",
+      "command-palette/*",
+      "context-menu/*",
+      "keyboard-shortcuts/*",
+      "launcher/*",
+      "left-right-areas/*",
+      "main-menu/*",
+      "react/*",
+      "status-bar/*",
+      "copy-shareable-link/*",
+      "widget-tracker/*"
     ]
   },
   "devDependencies": {
