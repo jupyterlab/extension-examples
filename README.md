@@ -32,7 +32,7 @@ Basics
 + [Signals](./basics/signals)
 + [Datagrid](./basics/datagrid)
 
-Contex Menu
+Context Menu
 + [Menus](./context-menu/menus)
 
 Widget Tracker
@@ -116,7 +116,7 @@ Complementary to these examples, you can rely on the official JupyterLab documen
 
 * [Extension Developer Guide](https://jupyterlab.readthedocs.io/en/stable/developer/extension_dev.html)
 * [Common Extension Points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html)
-* [Astronomy Picture of the Day JupyterLab Extension](http://jupyterLab.readthedocs.io/en/stable/developer/extension_tutorial.html)
+* [Astronomy Picture of the Day JupyterLab Extension](https://jupyterLab.readthedocs.io/en/stable/developer/extension_tutorial.html)
 
 ## Install a Published Extension
 
