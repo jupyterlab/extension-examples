@@ -1,7 +1,7 @@
 {
-  "name": "react_widget",
+  "name": "@jupyterlab-examples/react-widget",
   "version": "0.1.0",
-  "description": "Example of using React in a Jupyterlab extension",
+  "description": "Example of using a React Widget in a Jupyterlab extension",
   "keywords": [
     "jupyter",
     "jupyterlab",

@@ -19,9 +19,9 @@ jobs:
 #          - advanced/serving-files
           - basics/datagrid
           - basics/hello-world
-          - react_widget
           - basics/signals
           - context-menu/menus
+          - react/react_widget
           - widget-tracker/jupyter-widgets
           - widget-tracker/widgets
     steps:
