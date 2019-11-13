@@ -11,16 +11,15 @@ jobs:
       fail-fast: false
       matrix:
         example:
-          - commands_and_menus
-          - datagrid 
-          - hello_world
-          - jupyter_widgets
-          - kernel_messaging
-          - kernel_output
-          # - serving_files
-          - signals_and_buttons
-          - widgets
-
+          - advanced/kernel-messaging
+          - advanced/kernel-output
+#          - advanced/serving-fils
+          - basics/datagrid
+          - basics/hello-worl
+          - basics/signals
+          - context-menu/menus
+          - widget-tracker/jupyter-widgets
+          - widget-tracker/widgets
     steps:
     - name: Checkout
       uses: actions/checkout@v1
@@ -33,13 +32,20 @@ jobs:
       with:
         python-version: '3.7'
         architecture: 'x64'
-    - name: Install the dependencies
+    - name: Install the Python dependencies
       run: python -m pip install jupyterlab
-    - name: Install the extension
+    - name: Bootstrap the jlpm deps
+      run: jlpm
+    - name: build all the JupyterLab extensions
       run: |
-        cd ${EXAMPLE_NAME}
+        jlpm build-ext
+        jlpm link-ext
+#        jlpm build-jlab
+    - name: Check the extension
+      run: |
+        cd ${EXAMPLE_FOLDER}
         jlpm && jlpm run build
         jupyter labextension link .
         python -m jupyterlab.browser_check
       env:
-        EXAMPLE_NAME: ${{ matrix.example }}
+        EXAMPLE_FOLDER: ${{ matrix.example }}
