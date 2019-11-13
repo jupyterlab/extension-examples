@@ -1,6 +1,7 @@
 # Jupyterlab Extensions by Examples
 
 ![Github Actions Status](https://github.com/jtpio/jupyterlab-extension-examples/workflows/CI/badge.svg)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jtpio/jupyterlab-extension-examples/master?urlpath=lab)
 
 ## TL;DR
 
