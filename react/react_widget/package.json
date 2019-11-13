@@ -27,7 +27,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
-    "prepare": "npm run clean && npm run build",
+    "link": "jupyter labextension link . --no-build",
     "watch": "tsc -w"
   },
   "dependencies": {
