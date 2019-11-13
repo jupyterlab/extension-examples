@@ -3,10 +3,9 @@ name: CI
 on: [push, pull_request]
 
 jobs:
+
   build:
-    
     runs-on: ubuntu-latest
-    
     strategy:
       fail-fast: false
       matrix:
@@ -42,3 +41,27 @@ jobs:
         python -m jupyterlab.browser_check
       env:
         EXAMPLE_FOLDER: ${{ matrix.example }}
+
+  build_all:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Install node
+      uses: actions/setup-node@v1
+      with:
+       node-version: '10.x'
+    - name: Install Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.7'
+        architecture: 'x64'
+    - name: Install the Python dependencies
+      run: python -m pip install jupyterlab
+    - name: Bootstrap the jlpm deps
+      run: jlpm
+    - name: Build all the extensions
+      run: |
+        jlpm build-ext
+        jlpm link-ext
+        jlpm build-jlab
