@@ -1,35 +1,14 @@
-# react
+# React Widget - Using React in JupyterLab
 
-Example of using React in a Jupyterlab extension
-
-
-## Requirements
-
-* JupyterLab >= 1.2
+This extension shows how to use the `ReactWidget` wrapper from `@jupyterlab/apputils` to use React in a JupyterLab extension.
 
 ## Install
 
 ```bash
-jupyter labextension install react
-```
-
-## Contributing
-
-### Install
-
-The `jlpm` command is JupyterLab's pinned version of
-[yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
-`yarn` or `npm` in lieu of `jlpm` below.
-
-```bash
-# Clone the repo to your local environment
-# Move to react directory
-# Install dependencies
 jlpm
-# Build Typescript source
 jlpm build
-# Link your development version of the extension with JupyterLab
 jupyter labextension link .
+
 # Rebuild Typescript source after making changes
 jlpm build
 # Rebuild JupyterLab after making any changes
@@ -45,9 +24,8 @@ jlpm watch
 jupyter lab --watch
 ```
 
-### Uninstall
+## React Developer Tools
 
-```bash
-jupyter labextension uninstall react
-```
+It is possible to use the [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=de) Chrome extension to inspect React components.
 
+![react-dev-tools](./_images/react-tools.gif)
