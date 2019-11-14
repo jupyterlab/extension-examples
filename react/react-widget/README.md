@@ -2,6 +2,8 @@
 
 This extension shows how to use the `ReactWidget` wrapper from `@jupyterlab/apputils` to use React in a JupyterLab extension.
 
+![react-widget](./_images/react-widget.gif)
+
 ## Install
 
 ```bash
