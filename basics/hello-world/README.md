@@ -9,10 +9,10 @@ Minimal lab extension that prints to the console
 ## The template folder structure ####
 
 Writing a JupyterLab extension usually starts from a configurable template. It
-can be downloded with the `cookiecutter` tool and the following command:
+can be downloaded with the [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/) tool and the following command:
 
 ```bash
-cookiecutter https://github.com/JupyterLab/extension-cookiecutter-ts
+cookiecutter https://github.com/jupyterlab/extension-cookiecutter-ts
 ```
 
 `cookiecutter` asks for some basic information that could for example be setup
@@ -20,9 +20,9 @@ like this:
 
 ```bash
 author_name []: tuto
-extension_name [JupyterLab_myextension]: hello-world
+extension_name [myextension]: hello-world
 project_short_description [A JupyterLab extension.]: minimal lab example
-repository [https://github.com/my_name/JupyterLab_myextension]: 
+repository [https://github.com/my_name/myextension]: 
 ```
 
 The cookiecutter creates the directory `hello-world` [or your extension name]
@@ -56,32 +56,30 @@ logic of the extension. It begins with the following import section:
 
 ```typescript
 import {
-  JupyterLab, JupyterLabPlugin
-} from '@JupyterLab/application';
-
-import '../style/index.css';
+  JupyterFrontEnd, JupyterFrontEndPlugin
+} from '@jupyterlab/application';
 ```
 
-`JupyterLab` is class of the main Jupyterlab application. It allows us to
-access and modify some of its main components. `JupyterLabPlugin` is the class
+`JupyterFrontEnd` is class of the main Jupyterlab application. It allows us to
+access and modify some of its main components. `JupyterFrontEndPlugin` is the class
 of the extension that we are building. Both classes are imported from a package
-called `@JupyterLab/application`. The dependency of our extension on this
+called `@jupyterlab/application`. The dependency of our extension on this
 package is declared in the file `package.json`:
 
 ```json
   "dependencies": {
-    "@JupyterLab/application": "^0.16.0"
+    "@jupyterlab/application": "^1.0.0"
   },
 ```
 
 With this basic import setup, we can move on to construct a new instance
-of the `JupyterLabPlugin` class:
+of the `JupyterFrontEndPlugin` class:
 
 ```typescript
-const extension: JupyterLabPlugin<void> = {
+const extension: JupyterFrontEndPlugin<void> = {
   id: 'hello-world',
   autoStart: true,
-  activate: (app: JupyterLab) => {
+  activate: (app: JupyterFrontEnd) => {
     console.log('JupyterLab extension hello-world is activated!');
   }
 };
@@ -89,16 +87,16 @@ const extension: JupyterLabPlugin<void> = {
 export default extension;
 ```
 
-a JupyterLabPlugin contains a few attributes that are fairly self-explanatory
+a `JupyterFrontEndPlugin` contains a few attributes that are fairly self-explanatory
 in the case of `id` and `autoStart`. The `activate` attribute links to a
 function (`() => {}` notation) that takes one argument `app` of type
-`JupyterLab` and then calls the `console.log` function that is used to output
+`JupyterFrontEnd` and then calls the `console.log` function that is used to output
 something into the browser console in javascript. `app` is simply the main
 JupyterLab application. The activate function acts as an entry point into the
 extension and we will gradually extend it to access and modify functionality
 through the `app` object.
 
-Our new `JupyterLabPlugin` instance has to be finally exported to be visible to
+Our new `JupyterFrontEndPlugin` instance has to be finally exported to be visible to
 JupyterLab, which is done with the line `export default extension`. This brings
 us to the next point. How can we plug this extension into JupyterLab?
 
@@ -107,12 +105,18 @@ us to the next point. How can we plug this extension into JupyterLab?
 Let's look at the `README.md` file. It contains instructions how our
 labextension can be installed for development:
 
-> For a development install (requires npm version 4 or later), do the following
-> in the repository directory:
+> The `jlpm` command is JupyterLab's pinned version of
+> [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
+> `yarn` or `npm` in lieu of `jlpm` below.
 
 ```bash
-npm install
-npm run build
+# Clone the repo to your local environment
+# Move to hello-world directory
+# Install dependencies
+jlpm
+# Build Typescript source
+jlpm build
+# Link your development version of the extension with JupyterLab
 jupyter labextension link .
 ```
 
@@ -137,7 +141,7 @@ jupyter lab --watch
 ```
 
 Our extension doesn't do much so far, it just writes something to the browser
-console. So let's check if it worked. In firefox you can open the console
+console. So let's check if it worked. In most webbrowsers you can open the console
 pressing the `f12` key. You should see something like:
 
 ```
@@ -148,14 +152,14 @@ Our extension works but it is incredibly boring. Let's  modify the source code
 a bit. Simply replace the `activate` function with the following lines:
 
 ```typescript
-    activate: (app: JupyterLab) => {
+    activate: (app: JupyterFrontEnd) => {
         console.log('the main JupyterLab application:');
         console.log(app);
     }
 ```
 
 to update the module, we simply need to go into the extension directory and run
-`npm run build` again. Since we used the `--watch` option when starting
+`jlpm build` again. Since we used the `--watch` option when starting
 JupyterLab, we now only have to refresh the JupyterLab website in the browser
 and should see in the browser console:
 
@@ -168,17 +172,17 @@ with it in the next sections.
 
 
 _checkout how the core packages of JupyterLab are defined at
-https://github.com/JupyterLab/JupyterLab/tree/master/packages . Each package is
+https://github.com/jupyterlab/jupyterlab/tree/master/packages . Each package is
 structured similarly to the extension that we are writing. This modular
 structure makes JupyterLab very adapatable_
 
 An overview of the classes and their attributes and methods can be found in the
-JupyterLab documentation. The `@JupyterLab/application` module documentation is
-[here](https://JupyterLab.github.io/JupyterLab/modules/_application_src_index_.html)
-and which links to the [JupyterLab class](https://JupyterLab.github.io/JupyterLab/classes/_application_src_index_.JupyterLab.html).
-The `JupyterLabPlugin` is a type alias [a new name] for the type `IPlugin`.
+JupyterLab documentation. The `@jupyterlab/application` module documentation is
+[here](http://jupyterlab.github.io/jupyterlab/application/index.html)
+and which links to the [JupyterFrontEnd class](http://jupyterlab.github.io/jupyterlab/application/classes/jupyterfrontend.html).
+The `JupyterFrontEndPlugin` is a type alias [a new name] for the type `IPlugin`.
 The definition of `IPlugin` is more difficult to find because it is defined by
-the `phosphor.js` library that runs JupyterLab under the hood (more about this
+the `phosphor.js` library on top of which JupyterLab is built (more about this
 later). Its documentation is therefore located on the [phosphor.js
 website](http://phosphorjs.github.io/phosphor/api/application/interfaces/iplugin.html).
 
