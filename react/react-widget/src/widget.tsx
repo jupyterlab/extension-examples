@@ -2,8 +2,9 @@ import { ReactWidget } from "@jupyterlab/apputils";
 
 import React, { useState }  from 'react';
 
-const REACT_WIDGET_CLASS = 'jp-ReactWidget';
-
+/**
+ * React component for a counter.
+ */
 const CounterComponent = () => {
   const [counter, setCounter] = useState(0);
 
@@ -17,10 +18,16 @@ const CounterComponent = () => {
   )
 }
 
+/**
+ * A Counter Phosphor Widget that wraps a CounterComponent.
+ */
 export class CounterWidget extends ReactWidget {
+  /**
+   * Constructs a new CounterWidget.
+   */
   constructor() {
     super();
-    this.addClass(REACT_WIDGET_CLASS);
+    this.addClass('jp-ReactWidget');
   }
 
   render() {
