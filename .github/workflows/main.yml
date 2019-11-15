@@ -21,6 +21,7 @@ jobs:
           - basics/hello-world
           - basics/signals
           - context-menu/menus
+          - react/react-widget
           - widget-tracker/jupyter-widgets
           - widget-tracker/widgets
     steps:

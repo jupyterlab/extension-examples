@@ -36,6 +36,9 @@ Basics
 Context Menu
 + [Menus](./context-menu/menus)
 
+React
++ [React Widget](./react/react-widget)
+
 Widget Tracker
 + [Widgets](./widget-tracker/widgets)
 + [Jupyter Widgets](./widget-tracker/jupyter-widgets)
