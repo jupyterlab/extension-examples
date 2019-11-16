@@ -7,7 +7,9 @@
     "build-jlab": "jupyter lab build --debug",
     "build-ext": "lerna run build",
     "clean-ext": "lerna run clean",
-    "link-ext": "lerna run link"
+    "link-ext": "lerna run link",
+    "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
+    "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\""
   },
   "workspaces": {
     "packages": [
@@ -27,6 +29,7 @@
     ]
   },
   "devDependencies": {
-    "lerna": "^3.18.4"
+    "lerna": "^3.18.4",
+    "prettier": "^1.19.1"
   }
 }

@@ -1,36 +1,36 @@
-"use strict";
+'use strict';
 
 import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
-} from "@jupyterlab/application";
+} from '@jupyterlab/application';
 
-import { ILauncher } from "@jupyterlab/launcher";
+import { ILauncher } from '@jupyterlab/launcher';
 
-import { IMainMenu } from "@jupyterlab/mainmenu";
+import { IMainMenu } from '@jupyterlab/mainmenu';
 
-import { Menu } from "@phosphor/widgets";
+import { Menu } from '@phosphor/widgets';
 
-import { ICommandPalette } from "@jupyterlab/apputils";
+import { ICommandPalette } from '@jupyterlab/apputils';
 
-import { INotebookTracker } from "@jupyterlab/notebook";
+import { INotebookTracker } from '@jupyterlab/notebook';
 
-import { TutorialPanel } from "./panel";
+import { TutorialPanel } from './panel';
 
 /**
  * The command IDs used by the console plugin.
  */
 namespace CommandIDs {
-  export const create = "Ex4b:create";
+  export const create = 'Ex4b:create';
 
-  export const execute = "Ex4b:execute";
+  export const execute = 'Ex4b:execute';
 }
 
 /**
  * Initialization data for the extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: "jupyter-widgets",
+  id: 'jupyter-widgets',
   autoStart: true,
   requires: [ICommandPalette, INotebookTracker, ILauncher, IMainMenu],
   activate: activate
@@ -45,7 +45,7 @@ function activate(
 ) {
   const manager = app.serviceManager;
   const { commands, shell } = app;
-  let category = "Tutorial";
+  let category = 'Tutorial';
 
   // build panel
   let panel: TutorialPanel;
@@ -66,21 +66,21 @@ function activate(
         return panel.session.ready;
       })
       .then(() => {
-        shell.add(panel, "main");
+        shell.add(panel, 'main');
         return panel;
       });
   }
 
   // add menu tab
   let tutorialMenu: Menu = new Menu({ commands });
-  tutorialMenu.title.label = "Tutorial";
+  tutorialMenu.title.label = 'Tutorial';
   mainMenu.addMenu(tutorialMenu);
 
   // add commands to registry
   let command = CommandIDs.create;
   commands.addCommand(command, {
-    label: "Ex4b: open Panel",
-    caption: "Open the Labtutorial Extension",
+    label: 'Ex4b: open Panel',
+    caption: 'Open the Labtutorial Extension',
     execute: createPanel
   });
 
@@ -90,11 +90,11 @@ function activate(
     category: category
   });
 
-  let code = "widget";
+  let code = 'widget';
   command = CommandIDs.execute;
   commands.addCommand(command, {
-    label: "Ex4b: show widget",
-    caption: "show ipython widget",
+    label: 'Ex4b: show widget',
+    caption: 'show ipython widget',
     execute: () => {
       panel.execute(code);
     }

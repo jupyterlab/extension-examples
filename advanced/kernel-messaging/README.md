@@ -1,10 +1,10 @@
 # Kernel Messaging
 
-* [Component Overview](#component-overview)
-* [Initializing and managing a kernel session (panel.ts)](#initializing-and-managing-a-kernel-session-panelts)
-* [Executing code and retrieving messages from a kernel (model.ts)](#executing-code-and-retrieving-messages-from-a-kernel-modelts)
-* [Connecting a View to the Kernel](#connecting-a-view-to-the-kernel)
-* [How does it look like](#how-does-it-look-like)
+- [Component Overview](#component-overview)
+- [Initializing and managing a kernel session (panel.ts)](#initializing-and-managing-a-kernel-session-panelts)
+- [Executing code and retrieving messages from a kernel (model.ts)](#executing-code-and-retrieving-messages-from-a-kernel-modelts)
+- [Connecting a View to the Kernel](#connecting-a-view-to-the-kernel)
+- [How does it look like](#how-does-it-look-like)
 
 ## Custom Kernel Interactions: Kernel Managment and Messaging
 
@@ -16,10 +16,10 @@ start a kernel and execute a simple command on it.
 
 In terms of organization of this app, we want to have these components:
 
-* `index.ts`: a JupyterLabPlugin that initializes the plugin and registers commands, menu tabs and a launcher
-* `panel.ts`: a panel class that is responsible to initialize and hold the kernel session, widgets and models 
-* `model.ts`: a KernelModel class that is responsible to execute code on the kernel and to store the execution result
-* `widget.tsx`: a KernelView class that is responsible to provide visual elements that trigger the kernel model and display its results
+- `index.ts`: a JupyterLabPlugin that initializes the plugin and registers commands, menu tabs and a launcher
+- `panel.ts`: a panel class that is responsible to initialize and hold the kernel session, widgets and models
+- `model.ts`: a KernelModel class that is responsible to execute code on the kernel and to store the execution result
+- `widget.tsx`: a KernelView class that is responsible to provide visual elements that trigger the kernel model and display its results
 
 The `KernelView` displays the `KernelModel` with some react html elements and
 needs to get updated when `KernelModel` changes state, i.e. retrieves a new
@@ -112,17 +112,17 @@ the `ClientSession` class with the following snippet:
 ```
 
 Without getting too much into the details of what this `future` is, let's think
-about it as an object that can receive some  messages from the kernel as an
+about it as an object that can receive some messages from the kernel as an
 answer on our execution request (see [jupyter messaging](http://jupyter-client.readthedocs.io/en/stable/messaging.html)).
 One of these messages contains the data of the execution result. It is
 published on a channel called `IOPub` and can be identified by the message
 types `execute_result`, `display_data` and `update_display_data`.
 
 Once such a message is received by the `future` object, it can trigger an
-action.  In our case, we just store this message in `this._output` and then
+action. In our case, we just store this message in `this._output` and then
 emit a `stateChanged` signal. As we have explained above, our `KernelModel` is
-a `VDomModel` that provides this  `stateChanged` signal that can be used by a
-`VDomRendered`.  It is implemented as follows:
+a `VDomModel` that provides this `stateChanged` signal that can be used by a
+`VDomRendered`. It is implemented as follows:
 
 ```
 export
@@ -175,7 +175,7 @@ class KernelModel extends VDomModel {
 The only remaining thing left is to connect a View to the Model. We have
 already seen the `TutorialView` before. To trigger the `render` function of a
 `VDomRendered` on a `stateChanged` signal, we just need to add our `VDomModel`
-to `this.model` in the constructor.  We can then connect a button to
+to `this.model` in the constructor. We can then connect a button to
 `this.model.execute` and a text field to `this.model.output` and our extension
 is ready:
 

@@ -1,21 +1,19 @@
 # Widgets
 
-* [A basic tab](#a-basic-tab)
+- [A basic tab](#a-basic-tab)
 
-## Widgets: Adding new Elements to the Main Window ##
+## Widgets: Adding new Elements to the Main Window
 
 Finally we are going to do some real stuff and add a new tab to JupyterLab.
 Visible elements such as a tab are represented by widgets in the phosphor
 library that is the basis of the JupyterLab application.
 
-#### A basic tab ####
+#### A basic tab
 
 The base widget class can be imported with:
 
 ```typescript
-import {
-    Widget
-} from '@phosphor/widgets';
+import { Widget } from '@phosphor/widgets';
 ```
 
 A Widget can be added to the main area through the main JupyterLab
@@ -51,13 +49,13 @@ The custom widget `TutorialView` is straight-forward as well:
 
 ```typescript
 class TutorialView extends Widget {
-    constructor() {
-        super();
-        this.addClass('jp-tutorial-view')
-        this.id = 'tutorial'
-        this.title.label = 'Tutorial View'
-        this.title.closable = true;
-    }
+  constructor() {
+    super();
+    this.addClass('jp-tutorial-view');
+    this.id = 'tutorial';
+    this.title.label = 'Tutorial View';
+    this.title.closable = true;
+  }
 }
 ```
 

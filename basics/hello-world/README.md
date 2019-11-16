@@ -2,11 +2,11 @@
 
 Minimal lab extension that prints to the console
 
-* [The template folder structure](#the-template-folder-structure)
-* [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
-* [Building and Installing an Extension](#building-and-installing-an-extension)
+- [The template folder structure](#the-template-folder-structure)
+- [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
+- [Building and Installing an Extension](#building-and-installing-an-extension)
 
-## The template folder structure ####
+## The template folder structure
 
 Writing a JupyterLab extension usually starts from a configurable template. It
 can be downloaded with the [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/) tool and the following command:
@@ -22,7 +22,7 @@ like this:
 author_name []: tuto
 extension_name [myextension]: hello-world
 project_short_description [A JupyterLab extension.]: minimal lab example
-repository [https://github.com/my_name/myextension]: 
+repository [https://github.com/my_name/myextension]:
 ```
 
 The cookiecutter creates the directory `hello-world` [or your extension name]
@@ -40,11 +40,11 @@ hello-world/
     └── index.css
 ```
 
-* `README.md` contains some instructions
-* `package.json` contains information about the extension such as dependencies
-* `tsconfig.json` contains information for the typescript compilation
-* `src/index.ts` _this contains the actual code of our extension_
-* `style/index.css` contains style elements that we can use
+- `README.md` contains some instructions
+- `package.json` contains information about the extension such as dependencies
+- `tsconfig.json` contains information for the typescript compilation
+- `src/index.ts` _this contains the actual code of our extension_
+- `style/index.css` contains style elements that we can use
 
 What does this extension do? You don't need a PhD in Computer Science to take a
 guess from the title of this section, but let's have a closer look:
@@ -56,7 +56,8 @@ logic of the extension. It begins with the following import section:
 
 ```typescript
 import {
-  JupyterFrontEnd, JupyterFrontEndPlugin
+  JupyterFrontEnd,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 ```
 
@@ -129,6 +130,7 @@ directory. Finally, we link the module to JupyterLab.
 
 After all of these steps are done, running `jupyter labextension list` should
 now show something like:
+
 ```bash
    local extensions:
         hello-world: [...]/labextension_tutorial/hello-world
@@ -148,14 +150,14 @@ pressing the `f12` key. You should see something like:
 JupyterLab extension hello-world is activated
 ```
 
-Our extension works but it is incredibly boring. Let's  modify the source code
+Our extension works but it is incredibly boring. Let's modify the source code
 a bit. Simply replace the `activate` function with the following lines:
 
 ```typescript
-    activate: (app: JupyterFrontEnd) => {
-        console.log('the main JupyterLab application:');
-        console.log(app);
-    }
+activate: (app: JupyterFrontEnd) => {
+  console.log('the main JupyterLab application:');
+  console.log(app);
+};
 ```
 
 to update the module, we simply need to go into the extension directory and run
@@ -169,7 +171,6 @@ Object { _started: true, _pluginMap: {…}, _serviceMap: Map(28), _delegate: {�
 
 This is the main application JupyterLab object and we will see how to interact
 with it in the next sections.
-
 
 _checkout how the core packages of JupyterLab are defined at
 https://github.com/jupyterlab/jupyterlab/tree/master/packages . Each package is

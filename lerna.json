@@ -1,4 +1,3 @@
-
 {
   "packages": [
     "advanced/*",
@@ -14,7 +13,7 @@
     "status-bar/*",
     "copy-shareable-link/*",
     "widget-tracker/*"
-],
+  ],
   "npmClient": "jlpm",
   "useWorkspaces": true,
   "version": "independent"

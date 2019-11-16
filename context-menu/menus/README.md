@@ -1,7 +1,7 @@
 # Commands and Menus: Extending the main app
 
-* [Jupyterlab Commands](#jupyterlab-commands)
-* [Adding new Menu tabs and items](#adding-new-menu-tabs-and-items)
+- [Jupyterlab Commands](#jupyterlab-commands)
+- [Adding new Menu tabs and items](#adding-new-menu-tabs-and-items)
 
 For the next extension you can either copy the last folder to a new one or
 simply continue modifying it. In case that you want to have a new extension,
@@ -13,7 +13,7 @@ open the file `package.json` and modify the package name, e.g. into
 
 Start it with `jupyter lab --watch`. In this extension, we are going to add a
 command to the application command registry and expose it to the user in the
-command palette.  The command palette can be seen when clicking on _Commands_
+command palette. The command palette can be seen when clicking on _Commands_
 on the left hand side of Jupyterlab. The command palette can be seen as a list
 of actions that can be executed by JupyterLab. (see screenshot below).
 
@@ -27,9 +27,7 @@ Two types play a role in this: the `CommandRegistry` type ([documentation](http:
 and the command palette interface `ICommandPalette` that is imported with:
 
 ```typescript
-import {
-  ICommandPalette
-} from '@JupyterLab/apputils';
+import { ICommandPalette } from '@JupyterLab/apputils';
 ```
 
 To see how we access the applications command registry and command palette
@@ -37,25 +35,25 @@ open the file `src/index.ts`.
 
 ```typescript
 const extension: JupyterLabPlugin<void> = {
-    id: 'menus',
-    autoStart: true,
-    requires: [ICommandPalette],
-    activate: (
-        app: JupyterLab,
-        palette: ICommandPalette) =>
-    {
-        const { commands } = app;
+  id: 'menus',
+  autoStart: true,
+  requires: [ICommandPalette],
+  activate: (app: JupyterLab, palette: ICommandPalette) => {
+    const { commands } = app;
 
-        let command = 'labtutorial';
-        let category = 'Tutorial';
+    let command = 'labtutorial';
+    let category = 'Tutorial';
 
-        commands.addCommand(command, {
-            label: 'New Labtutorial',
-            caption: 'Open the Labtutorial',
-            execute: (args) => {console.log('Hey')}});
+    commands.addCommand(command, {
+      label: 'New Labtutorial',
+      caption: 'Open the Labtutorial',
+      execute: args => {
+        console.log('Hey');
+      }
+    });
 
-        palette.addItem({command, category});
-    }
+    palette.addItem({ command, category });
+  }
 };
 
 export default extension;
@@ -87,13 +85,9 @@ JupyterLab is built, and that will be frequently encountered when developing
 JupyterLab extensions:
 
 ```typescript
-import {
-  IMainMenu
-} from '@JupyterLab/mainmenu';
+import { IMainMenu } from '@JupyterLab/mainmenu';
 
-import {
-  Menu
-} from '@phosphor/widgets';
+import { Menu } from '@phosphor/widgets';
 ```
 
 We add the IMainMenu in the `requires:` property such that it is injected into
@@ -101,29 +95,32 @@ the `activate` function. The Extension is then changed to:
 
 ```typescript
 const extension: JupyterLabPlugin<void> = {
-    id: 'menus',
-    autoStart: true,
-    requires: [ICommandPalette, IMainMenu],
-    activate: (
-        app: JupyterLab,
-        palette: ICommandPalette,
-        mainMenu: IMainMenu) =>
-    {
-        const { commands } = app;
-        let command = 'labtutorial';
-        let category = 'Tutorial';
-        commands.addCommand(command, {
-            label: 'New Labtutorial',
-            caption: 'Open the Labtutorial',
-            execute: (args) => {console.log('Hey')}});
-        palette.addItem({command, category});
+  id: 'menus',
+  autoStart: true,
+  requires: [ICommandPalette, IMainMenu],
+  activate: (
+    app: JupyterLab,
+    palette: ICommandPalette,
+    mainMenu: IMainMenu
+  ) => {
+    const { commands } = app;
+    let command = 'labtutorial';
+    let category = 'Tutorial';
+    commands.addCommand(command, {
+      label: 'New Labtutorial',
+      caption: 'Open the Labtutorial',
+      execute: args => {
+        console.log('Hey');
+      }
+    });
+    palette.addItem({ command, category });
 
-        let tutorialMenu: Menu = new Menu({commands});
+    let tutorialMenu: Menu = new Menu({ commands });
 
-        tutorialMenu.title.label = 'Tutorial';
-        mainMenu.addMenu(tutorialMenu, {rank: 80});
-        tutorialMenu.addItem({ command });
-    }
+    tutorialMenu.title.label = 'Tutorial';
+    mainMenu.addMenu(tutorialMenu, { rank: 80 });
+    tutorialMenu.addItem({ command });
+  }
 };
 
 export default extension;
@@ -156,6 +153,7 @@ should now show:
 [ps:
 
 for the build to run, the `tsconfig.json` file might have to be updated to:
+
 ```
 {
   "compilerOptions": {
@@ -173,6 +171,7 @@ for the build to run, the `tsconfig.json` file might have to be updated to:
   "include": ["src/*"]
 }
 ```
+
 ]
 
 [Click here for the final extension menus](menus)

@@ -1,5 +1,6 @@
 import {
-  JupyterFrontEnd, JupyterFrontEndPlugin
+  JupyterFrontEnd,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import { MainAreaWidget } from '@jupyterlab/apputils';
@@ -33,7 +34,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       execute: () => {
         const content = new CounterWidget();
         const widget = new MainAreaWidget<CounterWidget>({ content });
-        widget.title.label = "React Widget";
+        widget.title.label = 'React Widget';
         app.shell.add(widget, 'main');
       }
     });
@@ -41,7 +42,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     if (launcher) {
       launcher.add({
         command
-      })
+      });
     }
   }
 };
