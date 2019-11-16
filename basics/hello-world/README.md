@@ -54,7 +54,9 @@ guess from the title of this section, but let's have a closer look:
 We start with the file `src/index.ts`. This typescript file contains the main
 logic of the extension. It begins with the following import section:
 
-```typescript
+```ts
+// src/index.ts#L1-L4
+
 import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
@@ -67,26 +69,39 @@ of the extension that we are building. Both classes are imported from a package
 called `@jupyterlab/application`. The dependency of our extension on this
 package is declared in the file `package.json`:
 
-```json
-  "dependencies": {
-    "@jupyterlab/application": "^1.0.0"
-  },
+```json5
+// package.json#L34-L36
+
+"dependencies": {
+  "@jupyterlab/application": "^1.0.0"
+},
 ```
 
 With this basic import setup, we can move on to construct a new instance
 of the `JupyterFrontEndPlugin` class:
 
-```typescript
+<!-- prettier-ignore-start -->
+```ts
+// src/index.ts#L9-L12
+
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'hello-world',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
+```
+
+```ts
     console.log('JupyterLab extension hello-world is activated!');
+```
+
+<!-- embedme src/index.ts#L15-L18 -->
+```ts
   }
 };
 
 export default extension;
 ```
+<!-- prettier-ignore-end -->
 
 a `JupyterFrontEndPlugin` contains a few attributes that are fairly self-explanatory
 in the case of `id` and `autoStart`. The `activate` attribute links to a
@@ -153,12 +168,16 @@ JupyterLab extension hello-world is activated
 Our extension works but it is incredibly boring. Let's modify the source code
 a bit. Simply replace the `activate` function with the following lines:
 
-```typescript
+<!-- prettier-ignore-start -->
+```ts
+// src/index.ts#L12-L15
+
 activate: (app: JupyterFrontEnd) => {
-  console.log('the main JupyterLab application:');
+  console.log('the JupyterLab main application:');
   console.log(app);
-};
+}
 ```
+<!-- prettier-ignore-end -->
 
 to update the module, we simply need to go into the extension directory and run
 `jlpm build` again. Since we used the `--watch` option when starting
@@ -185,6 +204,6 @@ The `JupyterFrontEndPlugin` is a type alias [a new name] for the type `IPlugin`.
 The definition of `IPlugin` is more difficult to find because it is defined by
 the `phosphor.js` library on top of which JupyterLab is built (more about this
 later). Its documentation is therefore located on the [phosphor.js
-website](http://phosphorjs.github.io/phosphor/api/application/interfaces/iplugin.html).
+website](https://phosphorjs.github.io/phosphor/api/application/interfaces/iplugin.html).
 
 [Click here for the final extension: hello-world](hello-world)
