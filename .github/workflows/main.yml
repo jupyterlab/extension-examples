@@ -68,5 +68,6 @@ jobs:
     - name: Build all the extensions
       run: |
         jlpm build-ext
+        jlpm lint
         jlpm link-ext
         jlpm build-jlab
