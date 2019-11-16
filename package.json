@@ -2,12 +2,12 @@
   "name": "@jupyterlab-examples/all",
   "private": true,
   "scripts": {
-    "bootstrap": "FORCE_COLOR=true lerna bootstrap",
-    "install": "FORCE_COLOR=true lerna bootstrap",
+    "bootstrap": "lerna bootstrap",
+    "install": "lerna bootstrap",
     "build-jlab": "jupyter lab build --debug",
-    "build-ext": "FORCE_COLOR=true lerna run build",
-    "clean-ext": "FORCE_COLOR=true lerna run clean",
-    "link-ext": "FORCE_COLOR=true lerna run link"
+    "build-ext": "lerna run build",
+    "clean-ext": "lerna run clean",
+    "link-ext": "lerna run link"
   },
   "workspaces": {
     "packages": [
