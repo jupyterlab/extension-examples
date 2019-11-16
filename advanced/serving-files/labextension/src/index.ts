@@ -1,5 +1,3 @@
-'use strict'
-
 import {
     JupyterLab, JupyterLabPlugin
 } from '@jupyterlab/application';

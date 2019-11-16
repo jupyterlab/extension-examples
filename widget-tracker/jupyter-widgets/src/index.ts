@@ -5,8 +5,6 @@ import {
   JupyterFrontEndPlugin
 } from "@jupyterlab/application";
 
-import "../style/index.css";
-
 import { ILauncher } from "@jupyterlab/launcher";
 
 import { IMainMenu } from "@jupyterlab/mainmenu";

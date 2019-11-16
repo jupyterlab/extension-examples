@@ -20,9 +20,7 @@ import {
 
 import {
     TutorialPanel
-} from './panel'
-
-import '../style/index.css';
+} from './panel';
 
 
 /**
