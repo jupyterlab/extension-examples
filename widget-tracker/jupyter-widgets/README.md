@@ -1,4 +1,4 @@
-# Jupyter Widgets: Adding Interactive Elements ####
+# Jupyter Widgets: Adding Interactive Elements
 
 A lot of advanced functionality in Jupyter notebooks comes in the form of
 jupyter widgets (ipython widgets). Jupyter widgets are elements that have one
@@ -14,12 +14,14 @@ JupyterLab. As a first step, install `ipywidgets` and `grid`. It should work
 in a similar way with any other ipywidget.
 
 (These are the commands to install the ipywidgets with anaconda:
+
 ```
 conda install -c conda-forge ipywidgets
 conda install -c conda-forge qgrid
 jupyter labextension install @jupyter-widgets/JupyterLab-manager
 jupyter labextension install qgrid
 ```
+
 )
 
 Before continuing, test if you can (a) open a notebook, and (b) see a table
@@ -39,25 +41,30 @@ widget. Only some minor adjustments have to be made to make it work.
 
 The first thing is to understand the nature of the jupyter-widgets JupyterLab
 extension (called `jupyterlab-manager`). As this text is written (26/6/2018) it
-is a *document* extension and not a general extension to JupyterLab. This means
+is a _document_ extension and not a general extension to JupyterLab. This means
 it provides extra functionality to the notebook document type and not the the
 full Jupyterlab app. The relevant lines from the jupyter-widgets source code
 that show how it registers its renderer with Jupyterlab are the following:
 
 ```typescript
-export
-class NBWidgetExtension implements INBWidgetExtension {
+export class NBWidgetExtension implements INBWidgetExtension {
   /**
    * Create a new extension object.
    */
-  createNew(nb: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
+  createNew(
+    nb: NotebookPanel,
+    context: DocumentRegistry.IContext<INotebookModel>
+  ): IDisposable {
     let wManager = new WidgetManager(context, nb.rendermime);
     this._registry.forEach(data => wManager.register(data));
-    nb.rendermime.addFactory({
-      safe: false,
-      mimeTypes: [WIDGET_MIMETYPE],
-      createRenderer: (options) => new WidgetRenderer(options, wManager)
-    }, 0);
+    nb.rendermime.addFactory(
+      {
+        safe: false,
+        mimeTypes: [WIDGET_MIMETYPE],
+        createRenderer: options => new WidgetRenderer(options, wManager)
+      },
+      0
+    );
     return new DisposableDelegate(() => {
       if (nb.rendermime) {
         nb.rendermime.removeMimeType(WIDGET_MIMETYPE);

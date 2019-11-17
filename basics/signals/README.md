@@ -1,8 +1,8 @@
 # Signals and Buttons - Interactions Between Different Widgets
 
-* [Phosphor Signaling 101](#phosphor-signaling-101)
-* [A simple react button](#a-simple-react-button)
-* [subscribing to a signal](#subscribing-to-a-signal)
+- [Phosphor Signaling 101](#phosphor-signaling-101)
+- [A simple react button](#a-simple-react-button)
+- [subscribing to a signal](#subscribing-to-a-signal)
 
 ## Phosphor Signaling 101
 
@@ -35,7 +35,7 @@ subscribes to the `stateChanged` signal and links some function to it:
 The function is executed when the signal is triggered with
 
 ```typescript
-_stateChanged.emit(void 0)
+_stateChanged.emit(void 0);
 ```
 
 Let's see how we can implement this ...
@@ -55,34 +55,36 @@ XML-like syntax with the tag notation `<>`to represent some visual elements
 `Signal`. A signal object can be triggered and then emits an actual message.
 Other Widgets can subscribe to such a signal and react when a message is
 emitted. We configure one of the buttons `onClick` event to trigger the
-stateChanged` signal with `_stateChanged.emit(void 0)`:
+stateChanged`signal with`\_stateChanged.emit(void 0)`:
 
 ```typescript
-export
-class TutorialView extends VDomRenderer<any> {
-    constructor() {
-        super();
-        this.id = `TutorialVDOM`
-    }
+export class TutorialView extends VDomRenderer<any> {
+  constructor() {
+    super();
+    this.id = `TutorialVDOM`;
+  }
 
-    protected render(): React.ReactElement<any>[] {
-        const elements: React.ReactElement<any>[] = [];
-        elements.push(
-            <button
-                key='header-thread'
-                className="jp-tutorial-button"
-                onClick={() => {this._stateChanged.emit(void 0)}}>
-            Clickme
-            </button>
-            );
-        return elements;
-    }
+  protected render(): React.ReactElement<any>[] {
+    const elements: React.ReactElement<any>[] = [];
+    elements.push(
+      <button
+        key="header-thread"
+        className="jp-tutorial-button"
+        onClick={() => {
+          this._stateChanged.emit(void 0);
+        }}
+      >
+        Clickme
+      </button>
+    );
+    return elements;
+  }
 
-    get stateChanged(): ISignal<TutorialView, void> {
-        return this._stateChanged;
-    }
+  get stateChanged(): ISignal<TutorialView, void> {
+    return this._stateChanged;
+  }
 
-    private _stateChanged = new Signal<TutorialView, void>(this);
+  private _stateChanged = new Signal<TutorialView, void>(this);
 }
 ```
 
@@ -91,26 +93,27 @@ class TutorialView extends VDomRenderer<any> {
 The `panel.ts` class defines an extension panel that displays the
 `TutorialView` widget and that subscribes to its `stateChanged` signal.
 Subscription to a signal is done using the `connect` method of the
-`stateChanged` attribute.  It registers a function (in this case
+`stateChanged` attribute. It registers a function (in this case
 `() => { console.log('changed'); }` that is triggered when the signal is
 emitted:
 
 ```typescript
-export
-class TutorialPanel extends StackedPanel {
-    constructor() {
-        super();
-        this.addClass(PANEL_CLASS);
-        this.id = 'TutorialPanel';
-        this.title.label = 'Tutorial View'
-        this.title.closable = true;
+export class TutorialPanel extends StackedPanel {
+  constructor() {
+    super();
+    this.addClass(PANEL_CLASS);
+    this.id = 'TutorialPanel';
+    this.title.label = 'Tutorial View';
+    this.title.closable = true;
 
-        this.tutorial = new TutorialView();
-        this.addWidget(this.tutorial);
-        this.tutorial.stateChanged.connect(() => { console.log('changed'); });
-    }
+    this.tutorial = new TutorialView();
+    this.addWidget(this.tutorial);
+    this.tutorial.stateChanged.connect(() => {
+      console.log('changed');
+    });
+  }
 
-    private tutorial: TutorialView;
+  private tutorial: TutorialView;
 }
 ```
 

@@ -1,34 +1,34 @@
 import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
-} from "@jupyterlab/application";
+} from '@jupyterlab/application';
 
-import { ICommandPalette } from "@jupyterlab/apputils";
+import { ICommandPalette } from '@jupyterlab/apputils';
 
-import { ILauncher } from "@jupyterlab/launcher";
+import { ILauncher } from '@jupyterlab/launcher';
 
-import { IMainMenu } from "@jupyterlab/mainmenu";
+import { IMainMenu } from '@jupyterlab/mainmenu';
 
-import { IRenderMimeRegistry } from "@jupyterlab/rendermime";
+import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 
-import { Menu } from "@phosphor/widgets";
+import { Menu } from '@phosphor/widgets';
 
-import { TutorialPanel } from "./panel";
+import { TutorialPanel } from './panel';
 
 /**
  * The command IDs used by the console plugin.
  */
 namespace CommandIDs {
-  export const create = "Ex4a:create";
+  export const create = 'Ex4a:create';
 
-  export const execute = "Ex4a:execute";
+  export const execute = 'Ex4a:execute';
 }
 
 /**
  * Initialization data for the extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: "kernel-output",
+  id: 'kernel-output',
   autoStart: true,
   requires: [ICommandPalette, ILauncher, IMainMenu, IRenderMimeRegistry],
   activate: activate
@@ -43,7 +43,7 @@ function activate(
 ) {
   const manager = app.serviceManager;
   const { commands, shell } = app;
-  let category = "Tutorial";
+  let category = 'Tutorial';
 
   let panel: TutorialPanel;
 
@@ -54,31 +54,31 @@ function activate(
         return panel.session.ready;
       })
       .then(() => {
-        shell.add(panel, "main");
+        shell.add(panel, 'main');
         return panel;
       });
   }
 
   // add menu tab
   let tutorialMenu: Menu = new Menu({ commands });
-  tutorialMenu.title.label = "Tutorial";
+  tutorialMenu.title.label = 'Tutorial';
   mainMenu.addMenu(tutorialMenu);
 
   // add commands to registry
   let command = CommandIDs.create;
   commands.addCommand(command, {
-    label: "Ex7: open Panel",
-    caption: "Open the Labtutorial Extension",
+    label: 'Ex7: open Panel',
+    caption: 'Open the Labtutorial Extension',
     execute: createPanel
   });
 
   command = CommandIDs.execute;
   commands.addCommand(command, {
-    label: "Ex4a: show dataframe",
-    caption: "show dataframe",
+    label: 'Ex4a: show dataframe',
+    caption: 'show dataframe',
     execute: async () => {
       await createPanel();
-      panel.execute("df");
+      panel.execute('df');
     }
   });
 
@@ -93,7 +93,6 @@ function activate(
     command: CommandIDs.create,
     category: category
   });
-
 }
 
 export default extension;

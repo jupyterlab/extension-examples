@@ -1,23 +1,23 @@
-"use strict";
+'use strict';
 
-import { StackedPanel } from "@phosphor/widgets";
+import { StackedPanel } from '@phosphor/widgets';
 
-import { ClientSession, IClientSession } from "@jupyterlab/apputils";
+import { ClientSession, IClientSession } from '@jupyterlab/apputils';
 
-import { KernelMessage } from "@jupyterlab/services";
+import { KernelMessage } from '@jupyterlab/services';
 
-import { ServiceManager } from "@jupyterlab/services";
+import { ServiceManager } from '@jupyterlab/services';
 
-import { Message } from "@phosphor/messaging";
+import { Message } from '@phosphor/messaging';
 
-import { OutputAreaModel, SimplifiedOutputArea } from "@jupyterlab/outputarea";
+import { OutputAreaModel, SimplifiedOutputArea } from '@jupyterlab/outputarea';
 
-import { IRenderMimeRegistry } from "@jupyterlab/rendermime";
+import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 
 /**
  * The class name added to console panels.
  */
-const PANEL_CLASS = "jp-RovaPanel";
+const PANEL_CLASS = 'jp-RovaPanel';
 
 /**
  * A panel which contains a console and the ability to add other children.
@@ -29,16 +29,16 @@ export class TutorialPanel extends StackedPanel {
   ) {
     super();
     this.addClass(PANEL_CLASS);
-    this.id = "TutorialPanel";
-    this.title.label = "Tutorial View";
+    this.id = 'TutorialPanel';
+    this.title.label = 'Tutorial View';
     this.title.closable = true;
 
-    let path = "./console";
+    let path = './console';
 
     this._session = new ClientSession({
       manager: manager.sessions,
       path,
-      name: "Tutorial"
+      name: 'Tutorial'
     });
 
     this._outputareamodel = new OutputAreaModel({ trusted: true });

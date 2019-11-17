@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 
-import { VDomModel } from "@jupyterlab/apputils";
+import { VDomModel } from '@jupyterlab/apputils';
 
-import { Kernel, KernelMessage } from "@jupyterlab/services";
+import { Kernel, KernelMessage } from '@jupyterlab/services';
 
-import { nbformat } from "@jupyterlab/coreutils";
+import { nbformat } from '@jupyterlab/coreutils';
 
-import { IClientSession } from "@jupyterlab/apputils";
+import { IClientSession } from '@jupyterlab/apputils';
 
 export class KernelModel extends VDomModel {
   constructor(session: IClientSession) {
@@ -24,9 +24,9 @@ export class KernelModel extends VDomModel {
   private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
     let msgType = msg.header.msg_type;
     switch (msgType) {
-      case "execute_result":
-      case "display_data":
-      case "update_display_data":
+      case 'execute_result':
+      case 'display_data':
+      case 'update_display_data':
         this._output = msg.content as nbformat.IOutput;
         console.log(this._output);
         this.stateChanged.emit(undefined);

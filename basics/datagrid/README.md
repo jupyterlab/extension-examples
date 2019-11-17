@@ -8,13 +8,9 @@ We start by importing the `Panel` widget and the `DataGrid` and `DataModel`
 classes from phosphor:
 
 ```typescript
-import {
-    Panel
-} from '@phosphor/widgets';
+import { Panel } from '@phosphor/widgets';
 
-import {
-  DataGrid, DataModel
-} from '@phosphor/datagrid';
+import { DataGrid, DataModel } from '@phosphor/datagrid';
 ```
 
 The Panel widget can hold several sub-widgets that are added with its
@@ -25,19 +21,19 @@ With these three classes, we adapt the `TutorialView` as follows:
 
 ```typescript
 class TutorialView extends Panel {
-    constructor() {
-        super();
-        this.addClass('jp-tutorial-view')
-        this.id = 'tutorial'
-        this.title.label = 'Tutorial View'
-        this.title.closable = true;
+  constructor() {
+    super();
+    this.addClass('jp-tutorial-view');
+    this.id = 'tutorial';
+    this.title.label = 'Tutorial View';
+    this.title.closable = true;
 
-        let model = new LargeDataModel();
-        let grid = new DataGrid();
-        grid.model = model;
+    let model = new LargeDataModel();
+    let grid = new DataGrid();
+    grid.model = model;
 
-        this.addWidget(grid);
-    }
+    this.addWidget(grid);
+  }
 }
 ```
 
@@ -62,20 +58,21 @@ the `RowRegion` and the `ColumnRegion` input arguments are. Let's have a
 look at their definition in the phosphor.js source code:
 
 ```typescript
-export
-type RowRegion = 'body' | 'column-header';
+export type RowRegion = 'body' | 'column-header';
 
 /**
  * A type alias for the data model column regions.
  */
-export
-type ColumnRegion = 'body' | 'row-header';
+export type ColumnRegion = 'body' | 'row-header';
 
 /**
  * A type alias for the data model cell regions.
  */
-export
-type CellRegion = 'body' | 'row-header' | 'column-header' | 'corner-header';
+export type CellRegion =
+  | 'body'
+  | 'row-header'
+  | 'column-header'
+  | 'corner-header';
 ```
 
 The meaning of these lines might be obvious for experienced users of typescript

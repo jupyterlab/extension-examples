@@ -29,24 +29,29 @@ open http:/localhost:8888?token=???
 You may find easier to learn how to extend `by examples` instead of going through the documentation. Start with the `hello-world` and jump then to the topic you are interested in. We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html).
 
 Basics
-+ [Hello World](./basics/hello-world)
-+ [Signals](./basics/signals)
-+ [Datagrid](./basics/datagrid)
+
+- [Hello World](./basics/hello-world)
+- [Signals](./basics/signals)
+- [Datagrid](./basics/datagrid)
 
 Context Menu
-+ [Menus](./context-menu/menus)
+
+- [Menus](./context-menu/menus)
 
 React
-+ [React Widget](./react/react-widget)
+
+- [React Widget](./react/react-widget)
 
 Widget Tracker
-+ [Widgets](./widget-tracker/widgets)
-+ [Jupyter Widgets](./widget-tracker/jupyter-widgets)
+
+- [Widgets](./widget-tracker/widgets)
+- [Jupyter Widgets](./widget-tracker/jupyter-widgets)
 
 Advanced
-+ [Kernel Output](./advanced/kernel-output)
-+ [Kernel Messaging](./advanced/kernel-messaging)
-+ [Serving Files](./advanced/serving-files)
+
+- [Kernel Output](./advanced/kernel-output)
+- [Kernel Messaging](./advanced/kernel-messaging)
+- [Serving Files](./advanced/serving-files)
 
 ## About JupyterLab
 
@@ -118,9 +123,9 @@ jupyter lab --watch
 
 Complementary to these examples, you can rely on the official JupyterLab documentation.
 
-* [Extension Developer Guide](https://jupyterlab.readthedocs.io/en/stable/developer/extension_dev.html)
-* [Common Extension Points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html)
-* [Astronomy Picture of the Day JupyterLab Extension](https://jupyterLab.readthedocs.io/en/stable/developer/extension_tutorial.html)
+- [Extension Developer Guide](https://jupyterlab.readthedocs.io/en/stable/developer/extension_dev.html)
+- [Common Extension Points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html)
+- [Astronomy Picture of the Day JupyterLab Extension](https://jupyterLab.readthedocs.io/en/stable/developer/extension_tutorial.html)
 
 ## Install a Published Extension
 

@@ -1,11 +1,11 @@
 ## Kernel Output - Simple Notebook-style Rendering
 
-* [Reorganizing the extension code](#reorganizing-the-extension-code)
-* [Initializing a Kernel Session](#initializing-a-kernel-session)
-* [OutputArea and Model](#outputarea-and-model)
-* [asynchronous extension initialization](#asynchronous-extension-initialization)
-* [Make it Run](#make-it-run)
-* [Jupyter-Widgets: Adding Interactive Elements](#jupyter-widgets-adding-interactive-elements)
+- [Reorganizing the extension code](#reorganizing-the-extension-code)
+- [Initializing a Kernel Session](#initializing-a-kernel-session)
+- [OutputArea and Model](#outputarea-and-model)
+- [asynchronous extension initialization](#asynchronous-extension-initialization)
+- [Make it Run](#make-it-run)
+- [Jupyter-Widgets: Adding Interactive Elements](#jupyter-widgets-adding-interactive-elements)
 
 In this extension we will see how initialize a kernel, and how to execute code
 and how to display the rendered output. We use the `OutputArea` class for this
@@ -15,7 +15,7 @@ notebook cell or the output area in the console.
 Essentially, `OutputArea` will renders the data that comes as a reply to an
 execute message that was sent to an underlying kernel. Under the hood, the
 `OutputArea` and the `OutputAreaModel` classes act similar to the `KernelView`
-and `KernelModel` classes that we have defined ourselves before.  We therefore
+and `KernelModel` classes that we have defined ourselves before. We therefore
 get rid of the `model.ts` and `widget.tsx` files and change the panel class to:
 
 ## Reorganizing the extension code
@@ -92,7 +92,7 @@ class TutorialPanel extends StackedPanel {
 
 ## Initializing a Kernel Session
 
-The first thing that we want to focus on is the `ClientSession` that is 
+The first thing that we want to focus on is the `ClientSession` that is
 stored in the private `_session` variable:
 
 ```
@@ -113,9 +113,11 @@ the kernel) is started with these lines:
 ```
 
 A kernel is initialized with this line:
+
 ```
         this._session.initialize();
 ```
+
 In case that a session has no predefined favourite kernel, a popup will be
 started that asks the user which kernel should be used. Conveniently, this can
 also be an already existing kernel, as we will see later.
@@ -123,6 +125,7 @@ also be an already existing kernel, as we will see later.
 The following three methods add functionality to cleanly dispose of the session
 when we close the panel, and to expose the private session variable such that
 other users can access it.
+
 ```
     dispose(): void {
         this._session.dispose();
@@ -167,9 +170,11 @@ does not contain the data that is displayed). When this message is received,
 `.then` is executed and prints this message to the console.
 
 We just have to add the `SimplifiedOutputArea` Widget to our Panel with:
+
 ```
         this.addWidget(this._outputarea);
 ```
+
 and we are ready to add the whole Panel to Jupyterlab.
 
 ## Asynchronous extension initialization
@@ -181,11 +186,9 @@ First we reorganize the extension commands into one unified namespace:
 
 ```typescript
 namespace CommandIDs {
-    export
-    const create = 'Ex7:create';
+  export const create = 'Ex7:create';
 
-    export
-    const execute = 'Ex7:execute';
+  export const execute = 'Ex7:execute';
 }
 ```
 
@@ -193,14 +196,11 @@ This allows us to add commands from the command registry to the pallette and
 menu tab in a single call:
 
 ```typescript
-    // add items in command palette and menu
-    [
-        CommandIDs.create,
-        CommandIDs.execute
-    ].forEach(command => {
-        palette.addItem({ command, category });
-        tutorialMenu.addItem({ command });
-    });
+// add items in command palette and menu
+[CommandIDs.create, CommandIDs.execute].forEach(command => {
+  palette.addItem({ command, category });
+  tutorialMenu.addItem({ command });
+});
 ```
 
 Another change is that we now use the `manager` to add our extension after the
@@ -208,23 +208,25 @@ other jupyter services are ready. The serviceManager can be obtained from the
 main application as:
 
 ```typescript
-    const manager = app.serviceManager;
+const manager = app.serviceManager;
 ```
 
 to launch our application, we can then use:
 
 ```typescript
-    let panel: TutorialPanel;
+let panel: TutorialPanel;
 
-    function createPanel() {
-        return manager.ready
-            .then(() => {
-                panel = new TutorialPanel(manager, rendermime);
-                return panel.session.ready})
-            .then(() => {
-                shell.addToMainArea(panel);
-                return panel});
-    }
+function createPanel() {
+  return manager.ready
+    .then(() => {
+      panel = new TutorialPanel(manager, rendermime);
+      return panel.session.ready;
+    })
+    .then(() => {
+      shell.addToMainArea(panel);
+      return panel;
+    });
+}
 ```
 
 ## Make it Run
