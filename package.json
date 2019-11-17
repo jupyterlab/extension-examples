@@ -8,6 +8,8 @@
     "build-ext": "lerna run build",
     "clean-ext": "lerna run clean",
     "link-ext": "lerna run link",
+    "lint": "jlpm && jlpm run prettier && jlpm run tslint",
+    "lint:check": "jlpm run prettier:check && jlpm run tslint:check",
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "tslint": "tslint --fix -c tslint.json --project tsconfig-base.json \"**/*{.ts,.tsx}\"",
