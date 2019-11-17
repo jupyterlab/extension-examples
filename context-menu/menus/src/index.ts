@@ -14,8 +14,6 @@ import {
   ICommandPalette
 } from '@jupyterlab/apputils';
 
-import '../style/index.css';
-
 /**
  * Initialization data for the extension1 extension.
  */

@@ -8,8 +8,6 @@ import { ILauncher } from '@jupyterlab/launcher';
 
 import { CounterWidget } from './widget';
 
-import '../style/index.css';
-
 /**
  * The command IDs used by the react-widget plugin.
  */

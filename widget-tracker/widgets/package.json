@@ -19,6 +19,7 @@
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "style": "style/index.css",
   "repository": {
     "type": "git",
     "url": "https://github.com/my_name/jupyterlab_myextension.git"
@@ -26,6 +27,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf lib tsconfig.tsbuildinfo",
+    "prepare": "jlpm run clean && jlpm run build",
     "watch": "tsc -w"
   },
   "dependencies": {
@@ -39,6 +41,9 @@
     "rimraf": "^3.0.0",
     "typescript": "^3.7.2"
   },
+  "sideEffects": [
+    "style/*.css"
+  ],
   "jupyterlab": {
     "extension": true
   }
