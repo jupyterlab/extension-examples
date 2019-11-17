@@ -48,7 +48,7 @@ export class TutorialPanel extends StackedPanel {
     });
     console.log(rendermime);
     this.addWidget(this._outputarea);
-    this._session.initialize();
+    void this._session.initialize();
   }
 
   dispose(): void {
@@ -57,11 +57,11 @@ export class TutorialPanel extends StackedPanel {
   }
 
   public execute(code: string) {
-    SimplifiedOutputArea.execute(code, this._outputarea, this._session).then(
-      (msg: KernelMessage.IExecuteReplyMsg) => {
+    SimplifiedOutputArea.execute(code, this._outputarea, this._session)
+      .then((msg: KernelMessage.IExecuteReplyMsg) => {
         console.log(msg);
-      }
-    );
+      })
+      .catch(reason => console.error(reason));
   }
 
   protected onCloseRequest(msg: Message): void {

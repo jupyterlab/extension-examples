@@ -8,8 +8,12 @@
     "build-ext": "lerna run build",
     "clean-ext": "lerna run clean",
     "link-ext": "lerna run link",
+    "lint": "jlpm && jlpm run prettier && jlpm run tslint",
+    "lint:check": "jlpm run prettier:check && jlpm run tslint:check",
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
-    "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\""
+    "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
+    "tslint": "tslint --fix -c tslint.json --project tsconfig-base.json \"**/*{.ts,.tsx}\"",
+    "tslint:check": "tslint -c tslint.json --project tsconfig-base.json \"**/*{.ts,.tsx}\""
   },
   "husky": {
     "hooks": {
@@ -37,6 +41,10 @@
     "husky": "^3.0.9",
     "lerna": "^3.18.4",
     "lint-staged": "^9.4.3",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "tslint-react": "^4.1.0"
   }
 }

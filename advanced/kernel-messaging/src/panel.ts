@@ -38,7 +38,7 @@ export class TutorialPanel extends StackedPanel {
     this._tutorial = new KernelView(this._model);
 
     this.addWidget(this._tutorial);
-    this._session.initialize();
+    void this._session.initialize();
   }
 
   dispose(): void {
