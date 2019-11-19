@@ -40,53 +40,63 @@ Let's go first through `panel.ts`. This is the full Panel class that displays
 starts a kernel, then sends code to it end displays the returned data with the
 jupyter renderers:
 
-```
-export
-class TutorialPanel extends StackedPanel {
-    constructor(manager: ServiceManager.IManager, rendermime: RenderMimeRegistry) {
-        super();
-        this.addClass(PANEL_CLASS);
-        this.id = 'TutorialPanel';
-        this.title.label = 'Tutorial View'
-        this.title.closable = true;
+```ts
+// src/panel.ts#L23-L77
 
-        let path = './console';
+export class TutorialPanel extends StackedPanel {
+  constructor(
+    manager: ServiceManager.IManager,
+    rendermime: IRenderMimeRegistry
+  ) {
+    super();
+    this.addClass(PANEL_CLASS);
+    this.id = 'TutorialPanel';
+    this.title.label = 'Tutorial View';
+    this.title.closable = true;
 
-        this._session = new ClientSession({
-            manager: manager.sessions,
-            path,
-            name: 'Tutorial',
-        });
+    let path = './console';
 
-        this._outputareamodel = new OutputAreaModel();
-        this._outputarea = new SimplifiedOutputArea({ model: this._outputareamodel, rendermime: rendermime });
+    this._session = new ClientSession({
+      manager: manager.sessions,
+      path,
+      name: 'Tutorial'
+    });
 
-        this.addWidget(this._outputarea);
-        this._session.initialize();
-    }
+    this._outputareamodel = new OutputAreaModel();
+    this._outputarea = new SimplifiedOutputArea({
+      model: this._outputareamodel,
+      rendermime: rendermime
+    });
 
-    dispose(): void {
-        this._session.dispose();
-        super.dispose();
-    }
+    this.addWidget(this._outputarea);
+    void this._session.initialize();
+  }
 
-    public execute(code: string) {
-        SimplifiedOutputArea.execute(code, this._outputarea, this._session)
-            .then((msg: KernelMessage.IExecuteReplyMsg) => {console.log(msg); })
-    }
+  dispose(): void {
+    this._session.dispose();
+    super.dispose();
+  }
 
-    protected onCloseRequest(msg: Message): void {
-        super.onCloseRequest(msg);
-        this.dispose();
-    }
+  public execute(code: string) {
+    SimplifiedOutputArea.execute(code, this._outputarea, this._session)
+      .then((msg: KernelMessage.IExecuteReplyMsg) => {
+        console.log(msg);
+      })
+      .catch(reason => console.error(reason));
+  }
 
-    get session(): IClientSession {
-        return this._session;
-    }
+  protected onCloseRequest(msg: Message): void {
+    super.onCloseRequest(msg);
+    this.dispose();
+  }
 
-    private _session: ClientSession;
-    private _outputarea: SimplifiedOutputArea;
-    private _outputareamodel: OutputAreaModel;
+  get session(): IClientSession {
+    return this._session;
+  }
+
+  private _session: ClientSession;
+  private _outputarea: SimplifiedOutputArea;
+  private _outputareamodel: OutputAreaModel;
 }
 ```
 
@@ -95,27 +105,33 @@ class TutorialPanel extends StackedPanel {
 The first thing that we want to focus on is the `ClientSession` that is
 stored in the private `_session` variable:
 
-```
+```ts
+// src/panel.ts#L74-L74
+
 private _session: ClientSession;
 ```
 
 A ClientSession handles a single kernel session. The session itself (not yet
 the kernel) is started with these lines:
 
-```
-        let path = './console';
+```ts
+// src/panel.ts#L34-L40
 
-        this._session = new ClientSession({
-            manager: manager.sessions,
-            path,
-            name: 'Tutorial',
-        });
+let path = './console';
+
+this._session = new ClientSession({
+  manager: manager.sessions,
+  path,
+  name: 'Tutorial'
+});
 ```
 
 A kernel is initialized with this line:
 
-```
-        this._session.initialize();
+```ts
+// src/panel.ts#L49-L49
+
+void this._session.initialize();
 ```
 
 In case that a session has no predefined favourite kernel, a popup will be
@@ -126,20 +142,26 @@ The following three methods add functionality to cleanly dispose of the session
 when we close the panel, and to expose the private session variable such that
 other users can access it.
 
+```ts
+// src/panel.ts#L52-L55
+
+dispose(): void {
+  this._session.dispose();
+  super.dispose();
+}
 ```
-    dispose(): void {
-        this._session.dispose();
-        super.dispose();
-    }
 
-    protected onCloseRequest(msg: Message): void {
-        super.onCloseRequest(msg);
-        this.dispose();
-    }
+```ts
+// src/panel.ts#L65-L72
 
-    get session(): IClientSession {
-        return this._session;
-    }
+protected onCloseRequest(msg: Message): void {
+  super.onCloseRequest(msg);
+  this.dispose();
+}
+
+get session(): IClientSession {
+  return this._session;
+}
 ```
 
 ## OutputArea and Model
@@ -148,20 +170,30 @@ The `SimplifiedOutputArea` class is a Widget, as we have seen them before. We
 can instantiate it with a new `OutputAreaModel` (this is class that contains
 the data that will be shown):
 
-```
-        this._outputareamodel = new OutputAreaModel();
-        this._outputarea = new SimplifiedOutputArea({ model: this._outputareamodel, rendermime: rendermime });
+```ts
+// src/panel.ts#L42-L46
+
+this._outputareamodel = new OutputAreaModel();
+this._outputarea = new SimplifiedOutputArea({
+  model: this._outputareamodel,
+  rendermime: rendermime
+});
 ```
 
 `SimplifiedOutputArea` provides the classmethod `execute` that basically sends
 some code to a kernel through a ClientSession and that then displays the result
 in a specific `SimplifiedOutputArea` instance:
 
-```
-    public execute(code: string) {
-        SimplifiedOutputArea.execute(code, this._outputarea, this._session)
-            .then((msg: KernelMessage.IExecuteReplyMsg) => {console.log(msg); })
-    }
+```ts
+// src/panel.ts#L57-L63
+
+public execute(code: string) {
+  SimplifiedOutputArea.execute(code, this._outputarea, this._session)
+    .then((msg: KernelMessage.IExecuteReplyMsg) => {
+      console.log(msg);
+    })
+    .catch(reason => console.error(reason));
+}
 ```
 
 The `SimplifiedOutputArea.execute` function receives at some point a response
@@ -171,8 +203,10 @@ does not contain the data that is displayed). When this message is received,
 
 We just have to add the `SimplifiedOutputArea` Widget to our Panel with:
 
-```
-        this.addWidget(this._outputarea);
+```ts
+// src/panel.ts#L48-L48
+
+this.addWidget(this._outputarea);
 ```
 
 and we are ready to add the whole Panel to Jupyterlab.
@@ -184,18 +218,22 @@ the changes with respect to the last sections.
 
 First we reorganize the extension commands into one unified namespace:
 
-```typescript
-namespace CommandIDs {
-  export const create = 'Ex7:create';
+```ts
+// src/index.ts#L21-L25
 
-  export const execute = 'Ex7:execute';
+namespace CommandIDs {
+  export const create = 'Ex4a:create';
+
+  export const execute = 'Ex4a:execute';
 }
 ```
 
 This allows us to add commands from the command registry to the pallette and
 menu tab in a single call:
 
-```typescript
+```ts
+// src/index.ts#L85-L89
+
 // add items in command palette and menu
 [CommandIDs.create, CommandIDs.execute].forEach(command => {
   palette.addItem({ command, category });
@@ -207,13 +245,17 @@ Another change is that we now use the `manager` to add our extension after the
 other jupyter services are ready. The serviceManager can be obtained from the
 main application as:
 
-```typescript
+```ts
+// src/index.ts#L44-L44
+
 const manager = app.serviceManager;
 ```
 
 to launch our application, we can then use:
 
-```typescript
+```ts
+// src/index.ts#L48-L60
+
 let panel: TutorialPanel;
 
 function createPanel() {
@@ -223,7 +265,7 @@ function createPanel() {
       return panel.session.ready;
     })
     .then(() => {
-      shell.addToMainArea(panel);
+      shell.add(panel, 'main');
       return panel;
     });
 }
@@ -235,12 +277,18 @@ Let's for example display the variable `df` from a python kernel that could
 contain a pandas dataframe. To do this, we just need to add a command to the
 command registry in `index.ts`
 
-```
-    command = CommandIDs.execute
-    commands.addCommand(command, {
-        label: 'Ex7: show dataframe',
-        caption: 'show dataframe',
-        execute: (args) => {panel.execute('df')}});
+```ts
+// src/index.ts#L75-L83
+
+command = CommandIDs.execute;
+commands.addCommand(command, {
+  label: 'Ex4a: show dataframe',
+  caption: 'show dataframe',
+  execute: async () => {
+    await createPanel();
+    panel.execute('df');
+  }
+});
 ```
 
 and we are ready to see it. The final extension looks like this:
