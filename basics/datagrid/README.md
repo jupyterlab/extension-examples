@@ -7,8 +7,10 @@ into JupyterLab.
 We start by importing the `Panel` widget and the `DataGrid` and `DataModel`
 classes from phosphor:
 
-```typescript
-import { Panel } from '@phosphor/widgets';
+```ts
+// src/index.ts#L12-L14
+
+import { StackedPanel } from '@phosphor/widgets';
 
 import { DataGrid, DataModel } from '@phosphor/datagrid';
 ```
@@ -19,8 +21,10 @@ displayed by the `DataGrid` widget.
 
 With these three classes, we adapt the `TutorialView` as follows:
 
-```typescript
-class TutorialView extends Panel {
+```ts
+// src/index.ts#L51-L65
+
+class TutorialView extends StackedPanel {
   constructor() {
     super();
     this.addClass('jp-tutorial-view');
@@ -30,7 +34,7 @@ class TutorialView extends Panel {
 
     let model = new LargeDataModel();
     let grid = new DataGrid();
-    grid.model = model;
+    grid.dataModel = model;
 
     this.addWidget(grid);
   }
@@ -40,9 +44,10 @@ class TutorialView extends Panel {
 That's rather easy. Let's now dive into the `DataModel` class that is taken
 from the official phosphor.js example. The first few lines look like this:
 
-```typescript
-class LargeDataModel extends DataModel {
+```ts
+// src/index.ts#L67-L74
 
+class LargeDataModel extends DataModel {
   rowCount(region: DataModel.RowRegion): number {
     return region === 'body' ? 1000000000000 : 2;
   }
@@ -57,22 +62,19 @@ to return some number of rows and columns, it is a little more cryptic what
 the `RowRegion` and the `ColumnRegion` input arguments are. Let's have a
 look at their definition in the phosphor.js source code:
 
-```typescript
-export type RowRegion = 'body' | 'column-header';
-
+```ts
+/**
+ * A type alias for the data model row regions.
+ */
+type RowRegion = 'body' | 'column-header';
 /**
  * A type alias for the data model column regions.
  */
-export type ColumnRegion = 'body' | 'row-header';
-
+type ColumnRegion = 'body' | 'row-header';
 /**
  * A type alias for the data model cell regions.
  */
-export type CellRegion =
-  | 'body'
-  | 'row-header'
-  | 'column-header'
-  | 'corner-header';
+type CellRegion = 'body' | 'row-header' | 'column-header' | 'corner-header';
 ```
 
 The meaning of these lines might be obvious for experienced users of typescript
@@ -86,19 +88,20 @@ datagrid. In this case it simply displays the row and column index in each
 cell, and adds a letter prefix in case that we are in any of the header
 regions:
 
-```typescript
-  data(region: DataModel.CellRegion, row: number, column: number): any {
-    if (region === 'row-header') {
-      return `R: ${row}, ${column}`;
-    }
-    if (region === 'column-header') {
-      return `C: ${row}, ${column}`;
-    }
-    if (region === 'corner-header') {
-      return `N: ${row}, ${column}`;
-    }
-    return `(${row}, ${column})`;
+```ts
+// src/index.ts#L76-L87
+
+data(region: DataModel.CellRegion, row: number, column: number): any {
+  if (region === 'row-header') {
+    return `R: ${row}, ${column}`;
   }
+  if (region === 'column-header') {
+    return `C: ${row}, ${column}`;
+  }
+  if (region === 'corner-header') {
+    return `N: ${row}, ${column}`;
+  }
+  return `(${row}, ${column})`;
 }
 ```
 
