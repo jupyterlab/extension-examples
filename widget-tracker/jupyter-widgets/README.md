@@ -15,7 +15,7 @@ in a similar way with any other ipywidget.
 
 (These are the commands to install the ipywidgets with anaconda:
 
-```
+```bash
 conda install -c conda-forge ipywidgets
 conda install -c conda-forge qgrid
 jupyter labextension install @jupyter-widgets/JupyterLab-manager
@@ -27,7 +27,7 @@ jupyter labextension install qgrid
 Before continuing, test if you can (a) open a notebook, and (b) see a table
 when executing these commands in a cell:
 
-```
+```bash
 import pandas as pd
 import numpy as np
 import qgrid
@@ -46,7 +46,7 @@ it provides extra functionality to the notebook document type and not the the
 full Jupyterlab app. The relevant lines from the jupyter-widgets source code
 that show how it registers its renderer with Jupyterlab are the following:
 
-```typescript
+```ts
 export class NBWidgetExtension implements INBWidgetExtension {
   /**
    * Create a new extension object.
@@ -94,60 +94,78 @@ attached to it.
 To access the current notebook, we can use an `INotebookTracker` in the
 plugin's activate function:
 
-```
-const extension: JupyterLabPlugin<void> = {
-    id: '6_ipywidgets',
-    autoStart: true,
-    requires: [ICommandPalette, INotebookTracker, ILauncher, IMainMenu],
-    activate: activate
+```ts
+// src/index.ts#L32-L45
+
+const extension: JupyterFrontEndPlugin<void> = {
+  id: 'jupyter-widgets',
+  autoStart: true,
+  requires: [ICommandPalette, INotebookTracker, ILauncher, IMainMenu],
+  activate: activate
 };
 
-
 function activate(
-    app: JupyterLab,
-    palette: ICommandPalette,
-    tracker: INotebookTracker,
-    launcher: ILauncher,
-    mainMenu: IMainMenu)
-{
-    [...]
+  app: JupyterFrontEnd,
+  palette: ICommandPalette,
+  tracker: INotebookTracker,
+  launcher: ILauncher,
+  mainMenu: IMainMenu
+) {
 ```
 
 We then pass the `rendermime` registry of the notebook (the one that has the
 jupyter-widgets renderer added) to our panel:
 
-```
-    function createPanel() {
-        let current = tracker.currentWidget;
-        console.log(current.rendermime);
+```ts
+// src/index.ts#L52-L72
 
-        return manager.ready
-            .then(() => {
-                panel = new TutorialPanel(manager, current.rendermime);
-                return panel.session.ready})
-            .then(() => {
-                shell.addToMainArea(panel);
-                return panel});
-    }
+function createPanel() {
+  let current = tracker.currentWidget;
+  if (!current) {
+    return;
+  }
+
+  console.log(current.content.rendermime);
+
+  return manager.ready
+    .then(() => {
+      if (!current) {
+        return;
+      }
+      panel = new TutorialPanel(manager, current.content.rendermime);
+      return panel.session.ready;
+    })
+    .then(() => {
+      shell.add(panel, 'main');
+      return panel;
+    });
+}
 ```
 
 Finally we add a command to the registry that executes the code `widget` that
 displays the variable `widget` in which we are going to store the qgrid widget:
 
-```
-    let code = 'widget'
-    command = CommandIDs.execute
-    commands.addCommand(command, {
-        label: 'Ex8: show widget',
-        caption: 'show ipython widget',
-        execute: () => {panel.execute(code)}});
+```ts
+// src/index.ts#L93-L101
+
+let code = 'widget';
+command = CommandIDs.execute;
+commands.addCommand(command, {
+  label: 'Ex4b: show widget',
+  caption: 'show ipython widget',
+  execute: () => {
+    panel.execute(code);
+  }
+});
 ```
 
 To render the Output we have to allow the `OutputAreaModel` to use non-default
 mime types, which can be done like this:
 
-```
-        this._outputareamodel = new OutputAreaModel({ trusted: true });
+```ts
+// src/panel.ts#L44-L44
+
+this._outputareamodel = new OutputAreaModel({ trusted: true });
 ```
 
 The final output looks is demonstrated in the gif below. We also show that we
