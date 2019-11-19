@@ -37,13 +37,20 @@ Jupyterlab provides a class `ClientSession`
 that manages a single kernel session. Here are the lines that we need to start
 a kernel with it:
 
+```ts
+// src/panel.ts#L31-L35
+
+this._session = new ClientSession({
+  manager: manager.sessions,
+  path,
+  name: 'Tutorial'
+});
 ```
-        this._session = new ClientSession({
-            manager: manager.sessions,
-            path,
-            name: 'Tutorial',
-        });
-        this._session.initialize();
+
+<!-- embedme src/panel.ts#L41-L41 -->
+
+```ts
+void this._session.initialize();
 ```
 
 well, that's short, isn't it? We have already seen the `manager` class that is
@@ -57,48 +64,49 @@ overwrite the `dispose` and `onCloseRequest` methods of the `StackedPanel`
 to free the kernel session resources if the panel is closed. The whole adapted
 panel class looks like this:
 
-```
-export
-class TutorialPanel extends StackedPanel {
-    constructor(manager: ServiceManager.IManager) {
-        super();
-        this.addClass(PANEL_CLASS);
-        this.id = 'TutorialPanel';
-        this.title.label = 'Tutorial View'
-        this.title.closable = true;
+```ts
+// src/panel.ts#L21-L61
 
-        let path = './console';
+export class TutorialPanel extends StackedPanel {
+  constructor(manager: ServiceManager.IManager) {
+    super();
+    this.addClass(PANEL_CLASS);
+    this.id = 'TutorialPanel';
+    this.title.label = 'Tutorial View';
+    this.title.closable = true;
 
-        this._session = new ClientSession({
-            manager: manager.sessions,
-            path,
-            name: 'Tutorial',
-        });
+    let path = './console';
 
-        this._model = new KernelModel(this._session);
-        this._tutorial = new TutorialView(this._model);
+    this._session = new ClientSession({
+      manager: manager.sessions,
+      path,
+      name: 'Tutorial'
+    });
 
-        this.addWidget(this._tutorial);
-        this._session.initialize();
-    }
+    this._model = new KernelModel(this._session);
+    this._tutorial = new KernelView(this._model);
 
-    dispose(): void {
-        this._session.dispose();
-        super.dispose();
-    }
+    this.addWidget(this._tutorial);
+    void this._session.initialize();
+  }
 
-    protected onCloseRequest(msg: Message): void {
-        super.onCloseRequest(msg);
-        this.dispose();
-    }
+  dispose(): void {
+    this._session.dispose();
+    super.dispose();
+  }
 
-    get session(): IClientSession {
-        return this._session;
-    }
+  protected onCloseRequest(msg: Message): void {
+    super.onCloseRequest(msg);
+    this.dispose();
+  }
 
-    private _model: KernelModel;
-    private _session: ClientSession;
-    private _tutorial: TutorialView;
+  get session(): IClientSession {
+    return this._session;
+  }
+
+  private _model: KernelModel;
+  private _session: ClientSession;
+  private _tutorial: KernelView;
 }
 ```
 
@@ -107,8 +115,10 @@ class TutorialPanel extends StackedPanel {
 Once a kernel is initialized and ready, code can be executed on it through
 the `ClientSession` class with the following snippet:
 
-```
-        this.future = this._session.kernel.requestExecute({ code });
+```ts
+// src/model.ts#L21-L21
+
+this.future = this._session.kernel.requestExecute({ code });
 ```
 
 Without getting too much into the details of what this `future` is, let's think
@@ -124,49 +134,68 @@ emit a `stateChanged` signal. As we have explained above, our `KernelModel` is
 a `VDomModel` that provides this `stateChanged` signal that can be used by a
 `VDomRendered`. It is implemented as follows:
 
-```
-export
-class KernelModel extends VDomModel {
-    constructor(session: IClientSession) {
-        super();
-        this._session = session;
-    }
+```ts
+// src/model.ts#L11-L70
 
-    public execute(code: string) {
-        this.future = this._session.kernel.requestExecute({ code });
-    }
+export class KernelModel extends VDomModel {
+  constructor(session: IClientSession) {
+    super();
+    this._session = session;
+  }
 
-    private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
-        let msgType = msg.header.msg_type;
-        switch (msgType) {
-            case 'execute_result':
-            case 'display_data':
-            case 'update_display_data':
-                this._output = msg.content as nbformat.IOutput;
-                console.log(this._output);
-                this.stateChanged.emit(undefined);
-            default:
-                break;
-        }
-        return true
+  public execute(code: string) {
+    if (!this._session || !this._session.kernel) {
+      return;
     }
+    this.future = this._session.kernel.requestExecute({ code });
+  }
 
-    get output(): nbformat.IOutput {
-        return this._output;
+  private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
+    let msgType = msg.header.msg_type;
+    switch (msgType) {
+      case 'execute_result':
+      case 'display_data':
+      case 'update_display_data':
+        this._output = msg.content as nbformat.IOutput;
+        console.log(this._output);
+        this.stateChanged.emit(undefined);
+        break;
+      default:
+        break;
     }
+    return;
+  };
 
-    get future(): Kernel.IFuture {
-        return this._future;
+  get output(): nbformat.IOutput | null {
+    return this._output;
+  }
+
+  get future(): Kernel.IFuture<
+    KernelMessage.IExecuteRequestMsg,
+    KernelMessage.IExecuteReplyMsg
+  > | null {
+    return this._future;
+  }
+
+  set future(
+    value: Kernel.IFuture<
+      KernelMessage.IExecuteRequestMsg,
+      KernelMessage.IExecuteReplyMsg
+    > | null
+  ) {
+    this._future = value;
+    if (!value) {
+      return;
     }
+    value.onIOPub = this._onIOPub;
+  }
 
-    set future(value: Kernel.IFuture) {
-        this._future = value;
-        value.onIOPub = this._onIOPub;
-    }
-
-    private _output: nbformat.IOutput = null;
-    private _future: Kernel.IFuture = null;
-    private _session: IClientSession;
+  private _output: nbformat.IOutput | null = null;
+  private _future: Kernel.IFuture<
+    KernelMessage.IExecuteRequestMsg,
+    KernelMessage.IExecuteReplyMsg
+  > | null = null;
+  private _session: IClientSession;
 }
 ```
 
@@ -179,28 +208,34 @@ to `this.model` in the constructor. We can then connect a button to
 `this.model.execute` and a text field to `this.model.output` and our extension
 is ready:
 
-```
-export
-class KernelView extends VDomRenderer<any> {
-    constructor(model: KernelModel) {
-        super();
-        this.id = `TutorialVDOM`
-        this.model = model
-    }
+```ts
+// src/widget.tsx#L9-L34
 
-    protected render(): React.ReactElement<any>[] {
-        console.log('render');
-        const elements: React.ReactElement<any>[] = [];
-        elements.push(
-            <button key='header-thread'
-            className="jp-tutorial-button"
-            onClick={() => {this.model.execute('3+5')}}>
-            Compute 3+5</button>,
+export class KernelView extends VDomRenderer<any> {
+  constructor(model: KernelModel) {
+    super();
+    this.id = `TutorialVDOM`;
+    this.model = model;
+  }
 
-            <span key='output field'>{JSON.stringify(this.model.output)}</span>
-        );
-        return elements;
-    }
+  protected render(): React.ReactElement<any>[] {
+    console.log('render');
+    const elements: React.ReactElement<any>[] = [];
+    elements.push(
+      <button
+        key="header-thread"
+        className="jp-tutorial-button"
+        onClick={() => {
+          this.model.execute('3+5');
+        }}
+      >
+        Compute 3+5
+      </button>,
+
+      <span key="output field">{JSON.stringify(this.model.output)}</span>
+    );
+    return elements;
+  }
 }
 ```
 
