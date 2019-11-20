@@ -12,7 +12,9 @@ library that is the basis of the JupyterLab application.
 
 The base widget class can be imported with:
 
-```typescript
+```ts
+// src/index.ts#L12-L12
+
 import { Widget } from '@phosphor/widgets';
 ```
 
@@ -20,34 +22,42 @@ A Widget can be added to the main area through the main JupyterLab
 application`app.shell`. Inside of our previous `activate` function, this looks
 like this:
 
-```
-    activate: (
-        app: JupyterLab,
-        palette: ICommandPalette,
-        mainMenu: IMainMenu) =>
-    {
-        const { commands, shell } = app;
-        let command = 'ex3:labtutorial';
-        let category = 'Tutorial';
-        commands.addCommand(command, {
-            label: 'Ex3 command',
-            caption: 'Open the Labtutorial',
-            execute: (args) => {
-                const widget = new TutorialView();
-                shell.addToMainArea(widget);}});
-        palette.addItem({command, category});
+<!-- prettier-ignore-start -->
+```ts
+// src/index.ts#L21-L44
 
-        let tutorialMenu: Menu = new Menu({commands});
-
-        tutorialMenu.title.label = 'Tutorial';
-        mainMenu.addMenu(tutorialMenu, {rank: 80});
-        tutorialMenu.addItem({ command });
+activate: (
+  app: JupyterFrontEnd,
+  palette: ICommandPalette,
+  mainMenu: IMainMenu
+) => {
+  const { commands, shell } = app;
+  let command = 'ex3:labtutorial';
+  let category = 'Tutorial';
+  commands.addCommand(command, {
+    label: 'Ex3 command',
+    caption: 'Open the Labtutorial',
+    execute: (args: any) => {
+      const widget = new TutorialView();
+      shell.add(widget, 'main');
     }
+  });
+  palette.addItem({ command, category });
+
+  let tutorialMenu: Menu = new Menu({ commands });
+
+  tutorialMenu.title.label = 'Tutorial';
+  mainMenu.addMenu(tutorialMenu, { rank: 80 });
+  tutorialMenu.addItem({ command });
+}
 ```
+<!-- prettier-ignore-end -->
 
 The custom widget `TutorialView` is straight-forward as well:
 
-```typescript
+```ts
+// src/index.ts#L49-L57
+
 class TutorialView extends Widget {
   constructor() {
     super();
@@ -62,9 +72,11 @@ class TutorialView extends Widget {
 Note that we have used a custom css class that is defined in the file
 `style/index.css` as:
 
-```
+<!-- embedme style/index.css -->
+
+```css
 .jp-tutorial-view {
-    background-color: AliceBlue;
+  background-color: AliceBlue;
 }
 ```
 

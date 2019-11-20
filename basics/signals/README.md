@@ -17,25 +17,33 @@ The basic concept is the following: A widget, in our case the one that contains
 some visual elements such as a button, defines a signal and exposes it to other
 widgets, as this `_stateChanged` signal:
 
-```typescript
-    get stateChanged(): ISignal<TutorialView, void> {
-        return this._stateChanged;
-    }
+```ts
+// src/widget.tsx#L31-L35
 
-    private _stateChanged = new Signal<TutorialView, void>(this);
+get stateChanged(): ISignal<TutorialView, void> {
+  return this._stateChanged;
+}
+
+private _stateChanged = new Signal<TutorialView, void>(this);
 ```
 
 Another widget, in our case the panel that boxes several different widgets,
 subscribes to the `stateChanged` signal and links some function to it:
 
-```typescript
-[...].stateChanged.connect(() => { console.log('changed'); });
+```ts
+// src/panel.ts#L22-L24
+
+this.tutorial.stateChanged.connect(() => {
+  console.log('changed');
+});
 ```
 
 The function is executed when the signal is triggered with
 
-```typescript
-_stateChanged.emit(void 0);
+```ts
+// src/widget.tsx#L22-L22
+
+this._stateChanged.emit(void 0);
 ```
 
 Let's see how we can implement this ...
@@ -57,7 +65,9 @@ Other Widgets can subscribe to such a signal and react when a message is
 emitted. We configure one of the buttons `onClick` event to trigger the
 stateChanged`signal with`\_stateChanged.emit(void 0)`:
 
-```typescript
+```ts
+// src/widget.tsx#L9-L36
+
 export class TutorialView extends VDomRenderer<any> {
   constructor() {
     super();
@@ -97,7 +107,9 @@ Subscription to a signal is done using the `connect` method of the
 `() => { console.log('changed'); }` that is triggered when the signal is
 emitted:
 
-```typescript
+```ts
+// src/panel.ts#L12-L28
+
 export class TutorialPanel extends StackedPanel {
   constructor() {
     super();

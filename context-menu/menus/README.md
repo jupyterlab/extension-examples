@@ -26,33 +26,44 @@ item.
 Two types play a role in this: the `CommandRegistry` type ([documentation](http://phosphorjs.github.io/phosphor/api/commands/classes/commandregistry.html))
 and the command palette interface `ICommandPalette` that is imported with:
 
-```typescript
-import { ICommandPalette } from '@JupyterLab/apputils';
+```ts
+// src/index.ts#L10-L10
+
+import { ICommandPalette } from '@jupyterlab/apputils';
 ```
 
 To see how we access the applications command registry and command palette
 open the file `src/index.ts`.
 
-```typescript
-const extension: JupyterLabPlugin<void> = {
+```ts
+// src/index.ts#L15-L44
+
+const extension: JupyterFrontEndPlugin<void> = {
   id: 'menus',
   autoStart: true,
-  requires: [ICommandPalette],
-  activate: (app: JupyterLab, palette: ICommandPalette) => {
+  requires: [ICommandPalette, IMainMenu],
+  activate: (
+    app: JupyterFrontEnd,
+    palette: ICommandPalette,
+    mainMenu: IMainMenu
+  ) => {
     const { commands } = app;
-
-    let command = 'labtutorial';
+    let command = 'ex2:tutorial';
     let category = 'Tutorial';
-
     commands.addCommand(command, {
-      label: 'New Labtutorial',
+      label: 'ex2:tutorial',
       caption: 'Open the Labtutorial',
-      execute: args => {
+      execute: (args: any) => {
         console.log('Hey');
       }
     });
-
     palette.addItem({ command, category });
+
+    let tutorialMenu: Menu = new Menu({ commands });
+
+    tutorialMenu.title.label = 'Tutorial';
+    mainMenu.addMenu(tutorialMenu, { rank: 80 });
+    tutorialMenu.addItem({ command });
   }
 };
 
@@ -84,8 +95,10 @@ imported. The Menu class is imported from the phosphor library on top of which
 JupyterLab is built, and that will be frequently encountered when developing
 JupyterLab extensions:
 
-```typescript
-import { IMainMenu } from '@JupyterLab/mainmenu';
+```ts
+// src/index.ts#L6-L8
+
+import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { Menu } from '@phosphor/widgets';
 ```
@@ -93,23 +106,25 @@ import { Menu } from '@phosphor/widgets';
 We add the IMainMenu in the `requires:` property such that it is injected into
 the `activate` function. The Extension is then changed to:
 
-```typescript
-const extension: JupyterLabPlugin<void> = {
+```ts
+// src/index.ts#L15-L44
+
+const extension: JupyterFrontEndPlugin<void> = {
   id: 'menus',
   autoStart: true,
   requires: [ICommandPalette, IMainMenu],
   activate: (
-    app: JupyterLab,
+    app: JupyterFrontEnd,
     palette: ICommandPalette,
     mainMenu: IMainMenu
   ) => {
     const { commands } = app;
-    let command = 'labtutorial';
+    let command = 'ex2:tutorial';
     let category = 'Tutorial';
     commands.addCommand(command, {
-      label: 'New Labtutorial',
+      label: 'ex2:tutorial',
       caption: 'Open the Labtutorial',
-      execute: args => {
+      execute: (args: any) => {
         console.log('Hey');
       }
     });
@@ -126,21 +141,22 @@ const extension: JupyterLabPlugin<void> = {
 export default extension;
 ```
 
-In this extension, we have added the dependencies _JupyterLab/mainmenu_ and
+In this extension, we have added the dependencies _@jupyterlab/mainmenu_ and
 _phosphor/widgets_. Before it builds, this dependencies have to be added to the
 `package.json` file:
 
-```json
-  "dependencies": {
-    "@JupyterLab/application": "^0.16.0",
-    "@JupyterLab/mainmenu": "*",
-    "@phosphor/widgets": "*"
-  }
+```json5
+// package.json#L34-L37
+
+"dependencies": {
+  "@jupyterlab/application": "^1.2.0",
+  "@jupyterlab/mainmenu": "^1.2.0"
+},
 ```
 
 we can then do
 
-```
+```bash
 npm install
 npm run build
 ```
@@ -154,7 +170,7 @@ should now show:
 
 for the build to run, the `tsconfig.json` file might have to be updated to:
 
-```
+```json
 {
   "compilerOptions": {
     "declaration": true,
