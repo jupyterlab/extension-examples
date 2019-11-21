@@ -205,5 +205,3 @@ The definition of `IPlugin` is more difficult to find because it is defined by
 the `phosphor.js` library on top of which JupyterLab is built (more about this
 later). Its documentation is therefore located on the [phosphor.js
 website](https://phosphorjs.github.io/phosphor/api/application/interfaces/iplugin.html).
-
-[Click here for the final extension: hello-world](hello-world)
