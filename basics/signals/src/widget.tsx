@@ -1,20 +1,14 @@
-'use strict';
-
+import { ReactWidget } from '@jupyterlab/apputils';
+import { ISignal, Signal } from '@phosphor/signaling';
 import * as React from 'react';
 
-import { VDomRenderer } from '@jupyterlab/apputils';
-
-import { ISignal, Signal } from '@phosphor/signaling';
-
-export class TutorialView extends VDomRenderer<any> {
-  constructor() {
-    super();
-    this.id = `TutorialVDOM`;
+export class TutorialView extends ReactWidget {
+  get stateChanged(): ISignal<TutorialView, void> {
+    return this._stateChanged;
   }
 
-  protected render(): React.ReactElement<any>[] {
-    const elements: React.ReactElement<any>[] = [];
-    elements.push(
+  protected render(): React.ReactElement<any> {
+    return (
       <button
         key="header-thread"
         className="jp-tutorial-button"
@@ -25,11 +19,6 @@ export class TutorialView extends VDomRenderer<any> {
         Clickme
       </button>
     );
-    return elements;
-  }
-
-  get stateChanged(): ISignal<TutorialView, void> {
-    return this._stateChanged;
   }
 
   private _stateChanged = new Signal<TutorialView, void>(this);
