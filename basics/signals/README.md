@@ -63,7 +63,7 @@ HTML-like syntax with the tag notation `<>`to represent some visual elements
 `Signal`. A signal object can be triggered and then emits an actual message.
 Other Widgets can subscribe to such a signal and react when a message is
 emitted. We configure one of the buttons `onClick` event to trigger the
-stateChanged`signal with`\_stateChanged.emit(void 0)`:
+`stateChanged`signal with `\_stateChanged.emit(void 0)`:
 
 ```ts
 // src/widget.tsx#L9-L36
