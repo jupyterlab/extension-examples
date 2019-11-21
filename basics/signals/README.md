@@ -51,9 +51,9 @@ Let's see how we can implement this ...
 ## A simple React button
 
 We start with a file called `src/widget.tsx`. The `tsx` extension allows to use
-XML-like syntax with the tag notation `<>`to represent some visual elements
-(note that you might have to add a line: `"jsx": "react",` to the
-`tsconfig.json` file).
+HTML-like syntax with the tag notation `<>`to represent some visual elements
+(note that you have to add a line: `"jsx": "react",` to the
+`tsconfig.json` file). This is a special syntax used by [React](https://reactjs.org/tutorial/tutorial.html).
 
 `widget.tsx` contains one major class `TutorialView` that extends the
 `VDomRendered` class that is provided by Jupyterlab. `VDomRenderer` defines a
