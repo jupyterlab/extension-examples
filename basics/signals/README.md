@@ -9,20 +9,24 @@
 In this extension, we are going to add some simple buttons to the widget that
 trigger the panel to print something to the console. Communication between
 different components of JupyterLab are a key ingredient in building an
-extension. Jupyterlab's phosphor engine uses the `ISignal` interface and the
+extension. JupyterLab's phosphor engine uses the `ISignal` interface and the
 `Signal` class that implements this interface for communication
-([documentation](http://phosphorjs.github.io/phosphor/api/signaling/globals.html)).
+([documentation](https://phosphorjs.github.io/phosphor/api/signaling/globals.html)).
 
 The basic concept is the following: A widget, in our case the one that contains
 some visual elements such as a button, defines a signal and exposes it to other
 widgets, as this `_stateChanged` signal:
 
 ```ts
-// src/widget.tsx#L31-L35
+// src/widget.tsx#L6-L8
 
 get stateChanged(): ISignal<TutorialView, void> {
   return this._stateChanged;
 }
+```
+
+```ts
+// src/widget.tsx#L24-L24
 
 private _stateChanged = new Signal<TutorialView, void>(this);
 ```
@@ -41,7 +45,7 @@ this.tutorial.stateChanged.connect(() => {
 The function is executed when the signal is triggered with
 
 ```ts
-// src/widget.tsx#L22-L22
+// src/widget.tsx#L16-L16
 
 this._stateChanged.emit(void 0);
 ```
@@ -51,32 +55,32 @@ Let's see how we can implement this ...
 ## A simple React button
 
 We start with a file called `src/widget.tsx`. The `tsx` extension allows to use
-XML-like syntax with the tag notation `<>`to represent some visual elements
-(note that you might have to add a line: `"jsx": "react",` to the
-`tsconfig.json` file).
+HTML-like syntax with the tag notation `<>`to represent some visual elements
+(note that you have to add a line: `"jsx": "react",` to the
+`tsconfig.json` file). This is a special syntax used by [React](https://reactjs.org/tutorial/tutorial.html).
 
 `widget.tsx` contains one major class `TutorialView` that extends the
-`VDomRendered` class that is provided by Jupyterlab. `VDomRenderer` defines a
-`render()` method that defines some html elements (react) such as a button.
+`ReactWidget` class provided by JupyterLab. `ReactWidget` defines a
+`render()` method that defines some React elements such as a button. This
+is the recommended way to include React component inside the JupyterLab widget
+based UI.
 
-`TutorialView` further contains a private variable `stateChanged` of type
+`TutorialView` further contains a private variable `\_stateChanged` of type
 `Signal`. A signal object can be triggered and then emits an actual message.
 Other Widgets can subscribe to such a signal and react when a message is
 emitted. We configure one of the buttons `onClick` event to trigger the
-stateChanged`signal with`\_stateChanged.emit(void 0)`:
+`stateChanged`signal with `\_stateChanged.emit(void 0)`:
 
 ```ts
-// src/widget.tsx#L9-L36
+// src/widget.tsx#L5-L25
 
-export class TutorialView extends VDomRenderer<any> {
-  constructor() {
-    super();
-    this.id = `TutorialVDOM`;
+export class TutorialView extends ReactWidget {
+  get stateChanged(): ISignal<TutorialView, void> {
+    return this._stateChanged;
   }
 
-  protected render(): React.ReactElement<any>[] {
-    const elements: React.ReactElement<any>[] = [];
-    elements.push(
+  protected render(): React.ReactElement<any> {
+    return (
       <button
         key="header-thread"
         className="jp-tutorial-button"
@@ -87,11 +91,6 @@ export class TutorialView extends VDomRenderer<any> {
         Clickme
       </button>
     );
-    return elements;
-  }
-
-  get stateChanged(): ISignal<TutorialView, void> {
-    return this._stateChanged;
   }
 
   private _stateChanged = new Signal<TutorialView, void>(this);
@@ -133,6 +132,4 @@ The final extension writes a little `changed` text to the browser console when
 a big red button is clicked. It is not very spectacular but the signaling is
 conceptualy important for building extensions. It looks like this:
 
-![Button with Signal](_images/button_with_signal.png)
-
-[Click here for the final extension: signals](signals)
+![Button with Signal](../../_images/button_with_signal.png)
