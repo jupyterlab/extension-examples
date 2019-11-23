@@ -9,7 +9,7 @@
 In this extension, we are going to add some simple buttons to the widget that
 trigger the panel to print something to the console. Communication between
 different components of JupyterLab are a key ingredient in building an
-extension. Jupyterlab's phosphor engine uses the `ISignal` interface and the
+extension. JupyterLab's phosphor engine uses the `ISignal` interface and the
 `Signal` class that implements this interface for communication
 ([documentation](https://phosphorjs.github.io/phosphor/api/signaling/globals.html)).
 
@@ -60,10 +60,10 @@ HTML-like syntax with the tag notation `<>`to represent some visual elements
 `tsconfig.json` file). This is a special syntax used by [React](https://reactjs.org/tutorial/tutorial.html).
 
 `widget.tsx` contains one major class `TutorialView` that extends the
-`ReactWidget` class provided by Jupyterlab. `ReactWidget` defines a
-`render()` method that defines some React elements such as a button. In
-this the recommanded way to include React component inside the Jupyterlab widget based
-UI.
+`ReactWidget` class provided by JupyterLab. `ReactWidget` defines a
+`render()` method that defines some React elements such as a button. This
+is the recommended way to include React component inside the JupyterLab widget
+based UI.
 
 `TutorialView` further contains a private variable `\_stateChanged` of type
 `Signal`. A signal object can be triggered and then emits an actual message.
