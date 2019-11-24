@@ -6,7 +6,7 @@ import {
 import { ICommandPalette } from '@jupyterlab/apputils';
 
 /**
- * Initialization data for the extension1 extension.
+ * Initialization data for the command palette example.
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'command-palette',

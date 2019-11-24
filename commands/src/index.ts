@@ -4,7 +4,7 @@ import {
 } from '@jupyterlab/application';
 
 /**
- * Initialization data for the extension1 extension.
+ * Initialization data for the commands example.
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'commands',

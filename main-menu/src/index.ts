@@ -10,7 +10,7 @@ import { Menu } from '@phosphor/widgets';
 import { ICommandPalette } from '@jupyterlab/apputils';
 
 /**
- * Initialization data for the extension1 extension.
+ * Initialization data for the main menu example.
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'main-menu',
