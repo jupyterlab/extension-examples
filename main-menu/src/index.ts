@@ -13,7 +13,7 @@ import { ICommandPalette } from '@jupyterlab/apputils';
  * Initialization data for the extension1 extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'menus',
+  id: 'main-menu',
   autoStart: true,
   requires: [ICommandPalette, IMainMenu],
   activate: (
@@ -22,22 +22,32 @@ const extension: JupyterFrontEndPlugin<void> = {
     mainMenu: IMainMenu
   ) => {
     const { commands } = app;
-    let command = 'ex2:tutorial';
-    let category = 'Tutorial';
+
+    // Add a command
+    let command = 'tutorial:main-menu';
     commands.addCommand(command, {
-      label: 'ex2:tutorial',
-      caption: 'Open the Labtutorial',
+      label: 'tutorial:main-menu',
+      caption: 'Execute tutorial:main-menu',
       execute: (args: any) => {
-        console.log('Hey');
+        console.log(`tutorial:main-menu has been called ${args['origin']}.`);
       }
     });
-    palette.addItem({ command, category });
 
+    // Add the command to the command palette
+    let category = 'Tutorial';
+    palette.addItem({
+      command,
+      category,
+      args: { origin: 'from the palette' }
+    });
+
+    // Create a menu
     let tutorialMenu: Menu = new Menu({ commands });
-
     tutorialMenu.title.label = 'Tutorial';
     mainMenu.addMenu(tutorialMenu, { rank: 80 });
-    tutorialMenu.addItem({ command });
+
+    // Add the command to the menu
+    tutorialMenu.addItem({ command, args: { origin: 'from the menu' } });
   }
 };
 
