@@ -1,8 +1,8 @@
 # Signals and Buttons - Interactions Between Different Widgets
 
 - [Phosphor Signaling 101](#phosphor-signaling-101)
-- [A simple react button](#a-simple-react-button)
-- [subscribing to a signal](#subscribing-to-a-signal)
+- [A simple React Button](#a-simple-react-button)
+- [Subscribing to a Signal](#subscribing-to-a-signal)
 
 ## Phosphor Signaling 101
 
@@ -52,7 +52,7 @@ this._stateChanged.emit(void 0);
 
 Let's see how we can implement this ...
 
-## A simple React button
+## A Simple React Button
 
 We start with a file called `src/widget.tsx`. The `tsx` extension allows to use
 HTML-like syntax with the tag notation `<>`to represent some visual elements
@@ -65,11 +65,11 @@ HTML-like syntax with the tag notation `<>`to represent some visual elements
 is the recommended way to include React component inside the JupyterLab widget
 based UI.
 
-`TutorialView` further contains a private variable `\_stateChanged` of type
+`TutorialView` further contains a private variable `_stateChanged` of type
 `Signal`. A signal object can be triggered and then emits an actual message.
 Other Widgets can subscribe to such a signal and react when a message is
 emitted. We configure one of the buttons `onClick` event to trigger the
-`stateChanged`signal with `\_stateChanged.emit(void 0)`:
+`stateChanged`signal with `_stateChanged.emit(void 0)`:
 
 ```ts
 // src/widget.tsx#L5-L25
