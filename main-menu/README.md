@@ -93,4 +93,4 @@ in the web browser console:
 tutorial:main-menu has been called from the menu.
 ```
 
-![New Menu](_images/new_menu.png)
+![New Menu](../_images/new_menu.png)
