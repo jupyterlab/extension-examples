@@ -143,7 +143,7 @@ activate: (app: JupyterFrontEnd, settings: ISettingRegistry) => {
       setting.changed.connect(loadSetting);
 
       // Programmatically change a setting
-      setting.set('limit', 20);
+      return setting.set('limit', 20);
     })
     .catch(reason => {
       console.error(
@@ -198,7 +198,7 @@ use case can be interesting for example if some dialogs ask new values.
 // src/index.ts#L40-L41
 
 // Programmatically change a setting
-setting.set('limit', 20);
+return setting.set('limit', 20);
 ```
 
 Note
