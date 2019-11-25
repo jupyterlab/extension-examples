@@ -31,7 +31,9 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^1.0.0"
+    "@jupyterlab/application": "^1.0.0",
+    "@jupyterlab/apputils": "^1.2.1",
+    "@jupyterlab/coreutils": "^3.2.0"
   },
   "devDependencies": {
     "rimraf": "^2.6.1",
