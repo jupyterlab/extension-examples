@@ -94,3 +94,11 @@ tutorial:main-menu has been called from the menu.
 ```
 
 ![New Menu](../_images/new_menu.png)
+
+## Where to Go Next
+
+A command can be triggered by other UI elements:
+
+- Add the command to the [command palette](../../command-palette/README.md)
+- Add the command to a [context menu](../../context-menu/README.md)
+- Add the command to the [launcher](../../launcher/README.md)

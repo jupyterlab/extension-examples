@@ -62,3 +62,11 @@ When running JupyterLab with this extension active, the following message should
 appears in the web browser console after clicking on the command in the palette:
 
 ![Command Palette](../_images/command_palette.png)
+
+## Where to Go Next
+
+A command can be triggered by other UI elements:
+
+- Add the command to a [menu](../../main-menu/README.md)
+- Add the command to a [context menu](../../context-menu/README.md)
+- Add the command to the [launcher](../../launcher/README.md)
