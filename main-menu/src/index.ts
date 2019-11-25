@@ -26,7 +26,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     // Add a command
     let command = 'tutorial:main-menu';
     commands.addCommand(command, {
-      label: 'tutorial:main-menu',
+      label: 'Call tutorial:main-menu',
       caption: 'Execute tutorial:main-menu',
       execute: (args: any) => {
         console.log(`tutorial:main-menu has been called ${args['origin']}.`);

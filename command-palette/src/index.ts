@@ -19,7 +19,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // Add a command
     commands.addCommand(command, {
-      label: 'tutorial:command',
+      label: 'Call tutorial:command-palette',
       caption: 'Execute tutorial:command-palette',
       execute: (args: any) => {
         console.log(
