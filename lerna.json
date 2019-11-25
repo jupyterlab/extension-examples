@@ -12,6 +12,7 @@
     "react/*",
     "state",
     "status-bar/*",
+    "settings",
     "copy-shareable-link/*",
     "widget-tracker/*"
   ],

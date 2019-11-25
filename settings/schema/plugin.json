@@ -1,0 +1,19 @@
+{
+  "title": "My settings",
+  "description": "Settings of the settings example.",
+  "type": "object",
+  "properties": {
+    "limit": {
+      "type": "integer",
+      "title": "Limit",
+      "description": "This is an example of an integer setting.",
+      "default": 25
+    },
+    "flag": {
+      "type": "boolean",
+      "title": "Simple flag",
+      "description": "This is an example of a boolean setting.",
+      "default": false
+    }
+  }
+}
