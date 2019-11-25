@@ -33,6 +33,7 @@
       "left-right-areas/*",
       "main-menu",
       "react/*",
+      "state",
       "status-bar/*",
       "copy-shareable-link/*",
       "widget-tracker/*"
