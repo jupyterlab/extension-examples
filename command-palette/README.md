@@ -2,7 +2,7 @@
 
 One major concept of the phosphorjs library on which JupyterLab is built is
 the notion of _Commands_ as explained in the [commands example](../commands/README.md).
-One of the possibility offered to the user to trigger that command is to call it from
+Commands can be used from the command palette.
 the command palette.
 
 In this extension, we are going to add a command to command palette.
@@ -55,10 +55,10 @@ with the property `requires: [ICommandPalette],`. It lists the additional argume
 we want to inject into the `activate` function in the `JupyterFontEndPlugin`.
 
 `ICommandPalette` provides the method `addItem` that links a palette entry to a command in the command registry. It requires two arguments: the unique command id and the command
-category (that can be either an existing or a new one). And optionnaly, you can specify
+category (that can be either an existing category or a new one). And optionally, you can specify
 the arguments that will be passed to the command when executed from the palette.
 
-When running JupyterLab with this extension active, the following message should
+When running JupyterLab with this extension, the following message should
 appears in the web browser console after clicking on the command in the palette:
 
 ![Command Palette](../_images/command_palette.png)
