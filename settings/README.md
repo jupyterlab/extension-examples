@@ -76,15 +76,25 @@ For all extensions, this will be an `object` as the settings are defined
 by a _dictionary_. Then the most important entry is `properties` describing a mapping of _setting id_ and the associated properties.
 
 The naming of the file needs to follow a strict convention. When using
-settings, your extension name must be structured as _package name_**:**_settings name_. The settings file must be named _settings name_. In the example, the extension name is:
+settings, your extension name must be structured as _package name_**:**_settings name_. The settings file must be named _settings name_. In the example, the package name is:
+
+<!-- prettier-ignore-start -->
+```json5
+// package.json#L2-L2
+
+"name": "@jupyterlab-examples/settings",
+```
+<!-- prettier-ignore-end -->
+
+and the extension id is:
 
 ```ts
 // src/index.ts#L8-L8
 
-const PLUGIN_ID = 'settings:plugin';
+const PLUGIN_ID = '@jupyterlab-examples/settings:plugin';
 ```
 
-Therefore the settings file is named `plugin.json`.
+Therefore the settings file must be named `plugin.json`.
 
 The folder containing the settings definition needs to be specified in
 the `package.json` file in the `jupyterlab` section (here `schema`):

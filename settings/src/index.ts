@@ -5,7 +5,7 @@ import {
 
 import { ISettingRegistry } from '@jupyterlab/coreutils';
 
-const PLUGIN_ID = 'settings:plugin';
+const PLUGIN_ID = '@jupyterlab-examples/settings:plugin';
 
 /**
  * Initialization data for the settings extension.
