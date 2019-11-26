@@ -37,7 +37,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     // Call the command execution
     commands.execute(command, { origin: 'from init' }).catch(reason => {
       console.error(
-        `An error occurs during the execution of tutorial:command.\n${reason}`
+        `An error occurred during the execution of tutorial:command.\n${reason}`
       );
     });
   }
@@ -62,12 +62,12 @@ with the unique command id and optionnally the arguments.
 
 commands.execute(command, { origin: 'from init' }).catch(reason => {
   console.error(
-    `An error occurs during the execution of tutorial:command.\n${reason}`
+    `An error occurred during the execution of tutorial:command.\n${reason}`
   );
 });
 ```
 
-When running JupyterLab with this extension active, the following message should
+When running JupyterLab with this extension, the following message should
 appears in the web browser console:
 
 ```

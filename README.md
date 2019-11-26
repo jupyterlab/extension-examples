@@ -28,30 +28,32 @@ open http:/localhost:8888?token=???
 
 You may find easier to learn how to extend `by examples` instead of going through the documentation. Start with the `hello-world` and jump then to the topic you are interested in. We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html).
 
-Basics
+- Basics
 
-- [Hello World](./basics/hello-world)
-- [Signals](./basics/signals)
-- [Datagrid](./basics/datagrid)
+  - [Hello World](./basics/hello-world)
+  - [Signals](./basics/signals)
+  - [Datagrid](./basics/datagrid)
 
-Context Menu
+- [Command Palette](./command-palette)
 
-- [Menus](./context-menu/menus)
+- [Commands](./commands)
 
-React
+- [Main Menu](./main-menu)
 
-- [React Widget](./react/react-widget)
+- React
 
-Widget Tracker
+  - [React Widget](./react/react-widget)
 
-- [Widgets](./widget-tracker/widgets)
-- [Jupyter Widgets](./widget-tracker/jupyter-widgets)
+- Widget Tracker
 
-Advanced
+  - [Widgets](./widget-tracker/widgets)
+  - [Jupyter Widgets](./widget-tracker/jupyter-widgets)
 
-- [Kernel Output](./advanced/kernel-output)
-- [Kernel Messaging](./advanced/kernel-messaging)
-- [Serving Files](./advanced/serving-files)
+- Advanced
+
+  - [Kernel Output](./advanced/kernel-output)
+  - [Kernel Messaging](./advanced/kernel-messaging)
+  - [Serving Files](./advanced/serving-files)
 
 ## About JupyterLab
 
