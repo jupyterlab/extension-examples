@@ -19,7 +19,8 @@ const extension: JupyterFrontEndPlugin<void> = {
   autoStart: true,
   requires: [IStateDB],
   activate: (app: JupyterFrontEnd, state: IStateDB) => {
-    let choice = 'one';
+    const choices = ['one', 'two', 'three'];
+    let choice = choices[0];
 
     app.restored
       // Get the state object
@@ -33,8 +34,8 @@ const extension: JupyterFrontEndPlugin<void> = {
         // Ask the user to pick a choice with `choice` as default
         return InputDialog.getItem({
           title: 'Pick a choice',
-          items: ['one', 'two', 'three'],
-          current: choice
+          items: choices,
+          current: Math.max(0, choices.indexOf(choice))
         });
       })
       .then(result => {

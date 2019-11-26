@@ -23,14 +23,15 @@ To see how we can access the state, let's have a look at
 `src/index.ts`.
 
 ```ts
-// src/index.ts#L17-L55
+// src/index.ts#L17-L56
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
   autoStart: true,
   requires: [IStateDB],
   activate: (app: JupyterFrontEnd, state: IStateDB) => {
-    let choice = 'one';
+    const choices = ['one', 'two', 'three'];
+    let choice = choices[0];
 
     app.restored
       // Get the state object
@@ -44,8 +45,8 @@ const extension: JupyterFrontEndPlugin<void> = {
         // Ask the user to pick a choice with `choice` as default
         return InputDialog.getItem({
           title: 'Pick a choice',
-          items: ['one', 'two', 'three'],
-          current: choice
+          items: choices,
+          current: Math.max(0, choices.indexOf(choice))
         });
       })
       .then(result => {
@@ -77,7 +78,7 @@ loading the state data for your plugin:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L24-L26
+// src/index.ts#L25-L27
 
 app.restored
   // Get the state object
@@ -90,7 +91,7 @@ JSON-able and its type value should be specifically set when accessing the value
 For instance, in this example the variable `choice` is of type `string`:
 
 ```ts
-// src/index.ts#L29-L31
+// src/index.ts#L30-L32
 
 if (value) {
   choice = (value as ReadonlyJSONObject)['choice'] as string;
@@ -105,12 +106,12 @@ In the example, once the state is read, the user is prompted to choose a choice 
 an item list with the default choice being stored as state variable.
 
 ```ts
-// src/index.ts#L34-L38
+// src/index.ts#L35-L39
 
 return InputDialog.getItem({
   title: 'Pick a choice',
-  items: ['one', 'two', 'three'],
-  current: choice
+  items: choices,
+  current: Math.max(0, choices.indexOf(choice))
 });
 ```
 
@@ -118,7 +119,7 @@ This implies to store the new choice done by the user in the state. This is done
 using the `save` methode of `IStateDB`:
 
 ```ts
-// src/index.ts#L46-L46
+// src/index.ts#L47-L47
 
 return state.save(PLUGIN_ID, { choice });
 ```
