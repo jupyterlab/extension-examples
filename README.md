@@ -1,4 +1,4 @@
-# Jupyterlab Extensions by Examples
+# JupyterLab Extensions by Examples
 
 ![Github Actions Status](https://github.com/jtpio/jupyterlab-extension-examples/workflows/CI/badge.svg)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jtpio/jupyterlab-extension-examples/master?urlpath=lab)
@@ -20,8 +20,6 @@ git clone https://github.com/jtpio/jupyterlab-extension-examples.git &&
 
 # In another terminal
 jupyter lab --watch
-
-open http:/localhost:8888?token=???
 ```
 
 ## Develop by Examples
@@ -55,7 +53,7 @@ Advanced
 
 ## About JupyterLab
 
-Jupyterlab can be used as a platform to combine existing data-science components into a
+JupyterLab can be used as a platform to combine existing data-science components into a
 new powerful application that can be deployed remotely for many users. Some of the higher
 level components that can be used are text editors, terminals, notebooks, interactive widgets,
 filebrowser, renderers for different file formats that provide access to an enormous ecosystem
