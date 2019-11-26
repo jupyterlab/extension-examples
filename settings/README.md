@@ -213,3 +213,8 @@ Note
 This example makes use of the _Signal_ concept used in JupyterLab. To
 get more information about the signals, you can look at the [signal
 example](../basics/signals/README.md).
+
+You may be interested to save state variables instead of settings; i.e. save variables that the
+user is not aware of (e.g. the current opened widgets). For that, you
+will need another core token `IStateDB` (see [that example](../state/README.md)
+for more information).
