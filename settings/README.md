@@ -211,6 +211,14 @@ use case can be interesting for example if some dialogs ask new values.
 return setting.set('limit', 20);
 ```
 
+Once executed, the settings panel will look like this and two messages will be
+in the console:
+
+![settings example](../_images/settings_example.png)
+
+If you change the settings and refresh the page, the first message will display
+the user settings. And the second one will always have `limit` = 20.
+
 Note
 
 > This example uses [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
