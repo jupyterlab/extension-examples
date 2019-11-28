@@ -20,7 +20,9 @@ jobs:
           - basics/datagrid
           - basics/hello-world
           - basics/signals
-          - context-menu/menus
+          - command-palette
+          - commands
+          - main-menu
           - react/react-widget
           - widget-tracker/jupyter-widgets
           - widget-tracker/widgets
