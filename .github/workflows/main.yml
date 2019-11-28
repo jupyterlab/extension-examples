@@ -34,6 +34,8 @@ jobs:
     - name: Check TS config
       run: |
         diff basics/hello-world/tsconfig.json ${EXAMPLE_FOLDER}/tsconfig.json
+      env:
+        EXAMPLE_FOLDER: ${{ matrix.example }}
     - name: Install node
       uses: actions/setup-node@v1
       with:
