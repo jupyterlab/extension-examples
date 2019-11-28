@@ -42,6 +42,8 @@ You may find easier to learn how to extend `by examples` instead of going throug
 
   - [React Widget](./react/react-widget)
 
+- [State](./state)
+
 - Widget Tracker
 
   - [Widgets](./widget-tracker/widgets)

@@ -131,6 +131,8 @@ To see it action,
 3. Refresh your browser
 4. The input dialog should have your choice as default value
 
+![state example](../_images/state_example.gif)
+
 Note
 
 > This example uses [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
