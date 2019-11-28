@@ -26,15 +26,18 @@
     "noStrictGenericChecks": false,
     "noUnusedLocals": true,
     "noUnusedParameters": false,
+    "preserveWatchOutput": true,
     "pretty": true,
+    "resolveJsonModule": true,
     "sourceMap": true,
+    "strict": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "strictPropertyInitialization": true,
     "suppressExcessPropertyErrors": false,
     "suppressImplicitAnyIndexErrors": false,
-    "target": "es2019"
+    "target": "es2017"
   },
   "exclude": ["node_modules"]
 }
