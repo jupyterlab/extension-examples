@@ -26,32 +26,53 @@ open http:/localhost:8888?token=???
 
 ## Develop by Examples
 
-You may find easier to learn how to extend `by examples` instead of going through the documentation. Start with the `hello-world` and jump then to the topic you are interested in. We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html).
+You may find easier to learn how to extend `by examples` instead of going through the documentation.
+
+You can expect from each example:
+
+- An explanation of its functionality.
+- A gif or screenshot showing its usage.
+- Listing of used JupyterLabo API and Contribution Points.
+- Code parts to example the internal working.
+
+Start with the `hello-world` and jump then to the topic you are interested in.
+
+We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html).
 
 Basics
 
-- [Hello World](./basics/hello-world)
-- [Signals](./basics/signals)
-- [Datagrid](./basics/datagrid)
+| Sample                              | Usage                                             |
+| ----------------------------------- | ------------------------------------------------- |
+| [Hello World](./basics/hello-world) |                                                   |
+| [Signals](./basics/signals)         | ![Button with Signal](basics/signals/preview.png) |
+| [Datagrid](./basics/datagrid)       | ![Datagrid](basics/datagrid/preview.png)          |
 
 Context Menu
 
-- [Menus](./context-menu/menus)
+| Sample                        | Usage                                                       |
+| ----------------------------- | ----------------------------------------------------------- |
+| [Menus](./context-menu/menus) | ![Jupyter Command Registry](context-menu/menus/preview.png) |
 
 React
 
-- [React Widget](./react/react-widget)
+| Sample                               | Usage                                           |
+| ------------------------------------ | ----------------------------------------------- |
+| [React Widget](./react/react-widget) | ![react-widget](react/react-widget/preview.gif) |
 
 Widget Tracker
 
-- [Widgets](./widget-tracker/widgets)
-- [Jupyter Widgets](./widget-tracker/jupyter-widgets)
+| Sample                                              | Usage                                                       |
+| --------------------------------------------------- | ----------------------------------------------------------- |
+| [Widgets](./widget-tracker/widgets)                 | ![Custom Tab](widget-tracker/widgets/preview.png)           |
+| [Jupyter Widgets](./widget-tracker/jupyter-widgets) | ![Qgrid widget](widget-tracker/jupyter-widgets/preview.gif) |
 
 Advanced
 
-- [Kernel Output](./advanced/kernel-output)
-- [Kernel Messaging](./advanced/kernel-messaging)
-- [Serving Files](./advanced/serving-files)
+| Sample                                          | Usage                                                     |
+| ----------------------------------------------- | --------------------------------------------------------- |
+| [Kernel Output](./advanced/kernel-output)       | ![OutputArea class](advanced/kernel-output/preview.gif)   |
+| [Kernel Messaging](./advanced/kernel-messaging) | ![Kernel Messages](advanced/kernel-messaging/preview.gif) |
+| [Serving Files](./advanced/serving-files)       |                                                           |
 
 ## About JupyterLab
 

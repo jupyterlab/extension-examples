@@ -17,7 +17,7 @@ command palette. The command palette can be seen when clicking on _Commands_
 on the left hand side of Jupyterlab. The command palette can be seen as a list
 of actions that can be executed by JupyterLab. (see screenshot below).
 
-![Jupyter Command Registry](_images/command_registry.png)
+![Jupyter Command Registry](preview.png)
 
 Extensions can provide a bunch of functions to the JupyterLab command registry
 and then expose them to the user through the command palette or through a menu
@@ -85,7 +85,7 @@ command registry. Our new plugin code then becomes:
 When this extension is build (and linked if necessary), JupyterLab looks like
 this:
 
-![New Command](_images/new_command.png)
+![New Command](preview2.png)
 
 ## Adding new Menu tabs and items
 
@@ -164,7 +164,7 @@ npm run build
 to rebuild the application. After a browser refresh, the JupyterLab website
 should now show:
 
-![New Menu](_images/new_menu.png)
+![New Menu](preview3.png)
 
 [ps:
 

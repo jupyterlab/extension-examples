@@ -172,6 +172,6 @@ The final output looks is demonstrated in the gif below. We also show that we
 can attach a console to a kernel, that shows all executed commands, including
 the one that we send from our Extension.
 
-![Qgrid widget](_images/qgrid_widget.gif)
+![Qgrid widget](preview.gif)
 
 [Click here for the final extension: jupyter-widgets](jupyter-widgets)

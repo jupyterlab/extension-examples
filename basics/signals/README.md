@@ -133,6 +133,6 @@ The final extension writes a little `changed` text to the browser console when
 a big red button is clicked. It is not very spectacular but the signaling is
 conceptualy important for building extensions. It looks like this:
 
-![Button with Signal](_images/button_with_signal.png)
+![Button with Signal](preview.png)
 
 [Click here for the final extension: signals](signals)

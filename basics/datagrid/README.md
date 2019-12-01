@@ -107,6 +107,6 @@ data(region: DataModel.CellRegion, row: number, column: number): any {
 
 Let's see how this looks like in Jupyterlab:
 
-![Datagrid](_images/datagrid.png)
+![Datagrid](preview.png)
 
 [Click here for the final extension: datagrid](datagrid)
