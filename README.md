@@ -48,7 +48,7 @@ You can expect from each example:
 - The list of used JupyterLabo API and Contribution Points.
 - Some code parts to explain the internal working.
 
-We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html).
+We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html). Browse the previews here after or skip them and [jump directly to the sections for developers](#prerequisites).
 
 ## Basic
 
@@ -96,14 +96,6 @@ We have structured the examples based on the [extension points](https://jupyterl
 | [Kernel Output](advanced/kernel-output)       | [![OutputArea class](advanced/kernel-output/preview.gif)](advanced/kernel-output)      |
 | [Kernel Messaging](advanced/kernel-messaging) | [![Kernel Messages](advanced/kernel-messaging/preview.gif)](advanced/kernel-messaging) |
 | [Serving Files](advanced/serving-files)       |                                                                                        |
-
-## About JupyterLab
-
-JupyterLab can be used as a platform to combine existing data-science components into a
-new powerful application that can be deployed remotely for many users. Some of the higher
-level components that can be used are text editors, terminals, notebooks, interactive widgets,
-filebrowser, renderers for different file formats that provide access to an enormous ecosystem
-of libraries from different languages.
 
 ## Prerequisites
 
@@ -163,7 +155,15 @@ Start JupyterLab in watch mode.
 jupyter lab --watch
 ```
 
-## Official Documentation
+## About JupyterLab
+
+JupyterLab can be used as a platform to combine existing data-science components into a
+new powerful application that can be deployed remotely for many users. Some of the higher
+level components that can be used are text editors, terminals, notebooks, interactive widgets,
+filebrowser, renderers for different file formats that provide access to an enormous ecosystem
+of libraries from different languages.
+
+## JupyterLab Documentation
 
 Complementary to these examples, you can rely on the official JupyterLab documentation.
 
