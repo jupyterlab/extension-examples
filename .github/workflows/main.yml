@@ -24,6 +24,7 @@ jobs:
           - commands
           - main-menu
           - react/react-widget
+          - state
           - widget-tracker/jupyter-widgets
           - widget-tracker/widgets
     steps:

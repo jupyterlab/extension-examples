@@ -34,6 +34,7 @@ Start with the [Hello World](basics/hello-world) and then jump to the topic you 
 - [Command Palette](command-palette)
 - [Commands](commands)
 - [Main Menu](main-menu)
+- [State](state)
 - [React Widget](react/react-widget)
 - [Widgets](widget-tracker/widgets)
 - [Jupyter Widgets](widget-tracker/jupyter-widgets)
@@ -72,9 +73,15 @@ We have structured the examples based on the [extension points](https://jupyterl
 
 ## Menus
 
-| Example                | Preview                             |
-| ---------------------- | ----------------------------------- |
-| [Main Menu](main-menu) | ![Main Menu](main-menu/preview.png) |
+| Example                | Preview                                          |
+| ---------------------- | ------------------------------------------------ |
+| [Main Menu](main-menu) | [![Main Menu](main-menu/preview.png)](main-menu) |
+
+## State
+
+| Example        | Preview                              |
+| -------------- | ------------------------------------ |
+| [State](state) | [![State](state/preview.gif)](state) |
 
 ## React
 
