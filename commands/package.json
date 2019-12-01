@@ -1,0 +1,47 @@
+{
+  "name": "@jupyterlab-examples/commands",
+  "version": "0.1.0",
+  "description": "Minimal JupyterLab example creating a new command.",
+  "keywords": [
+    "jupyter",
+    "jupyterlab",
+    "jupyterlab-extension"
+  ],
+  "homepage": "https://github.com/my_name/jupyterlab_myextension",
+  "bugs": {
+    "url": "https://github.com/my_name/jupyterlab_myextension/issues"
+  },
+  "license": "BSD-3-Clause",
+  "author": "my_name",
+  "files": [
+    "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
+    "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "style": "style/index.css",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/my_name/jupyterlab_myextension.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf lib tsconfig.tsbuildinfo",
+    "link": "jupyter labextension link . --no-build",
+    "prepare": "jlpm run clean && jlpm run build",
+    "watch": "tsc -w"
+  },
+  "dependencies": {
+    "@jupyterlab/application": "^1.2.0"
+  },
+  "devDependencies": {
+    "rimraf": "~3.0.0",
+    "typescript": "~3.7.2"
+  },
+  "sideEffects": [
+    "style/*.css"
+  ],
+  "jupyterlab": {
+    "extension": true
+  }
+}

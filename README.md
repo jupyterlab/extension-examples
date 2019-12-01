@@ -1,4 +1,4 @@
-# Jupyterlab Extensions by Examples
+# JupyterLab Extensions by Examples
 
 ![Github Actions Status](https://github.com/jtpio/jupyterlab-extension-examples/workflows/CI/badge.svg)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jtpio/jupyterlab-extension-examples/master?urlpath=lab)
@@ -20,8 +20,6 @@ git clone https://github.com/jtpio/jupyterlab-extension-examples.git &&
 
 # In another terminal
 jupyter lab --watch
-
-open http:/localhost:8888?token=???
 ```
 
 ## Develop by Examples
@@ -39,36 +37,48 @@ Start with the `hello-world` and jump then to the topic you are interested in.
 
 We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html).
 
-Basics
+## Basic
 
-| Sample                              | Usage                                             |
+| Example                             | Preview                                           |
 | ----------------------------------- | ------------------------------------------------- |
 | [Hello World](./basics/hello-world) |                                                   |
 | [Signals](./basics/signals)         | ![Button with Signal](basics/signals/preview.png) |
 | [Datagrid](./basics/datagrid)       | ![Datagrid](basics/datagrid/preview.png)          |
 
-Context Menu
+## Command Palette
 
-| Sample                        | Usage                                                       |
-| ----------------------------- | ----------------------------------------------------------- |
-| [Menus](./context-menu/menus) | ![Jupyter Command Registry](context-menu/menus/preview.png) |
+| Example                              | Preview                                          |
+| ------------------------------------ | ------------------------------------------------ |
+| [Command Palette](./command-palette) | ![Commmand Palette](command-palette/preview.png) |
 
-React
+## Commands
 
-| Sample                               | Usage                                           |
+| Example                | Preview |
+| ---------------------- | ------- |
+| [Commands](./commands) |         |
+
+## Menus
+
+| Example                  | Preview                             |
+| ------------------------ | ----------------------------------- |
+| [Main Menu](./main-menu) | ![Main Menu](main-menu/preview.png) |
+
+## React
+
+| Example                              | Preview                                         |
 | ------------------------------------ | ----------------------------------------------- |
 | [React Widget](./react/react-widget) | ![react-widget](react/react-widget/preview.gif) |
 
-Widget Tracker
+## Widget Tracker
 
-| Sample                                              | Usage                                                       |
+| Example                                             | Preview                                                     |
 | --------------------------------------------------- | ----------------------------------------------------------- |
 | [Widgets](./widget-tracker/widgets)                 | ![Custom Tab](widget-tracker/widgets/preview.png)           |
 | [Jupyter Widgets](./widget-tracker/jupyter-widgets) | ![Qgrid widget](widget-tracker/jupyter-widgets/preview.gif) |
 
-Advanced
+## Advanced
 
-| Sample                                          | Usage                                                     |
+| Example                                         | Preview                                                   |
 | ----------------------------------------------- | --------------------------------------------------------- |
 | [Kernel Output](./advanced/kernel-output)       | ![OutputArea class](advanced/kernel-output/preview.gif)   |
 | [Kernel Messaging](./advanced/kernel-messaging) | ![Kernel Messages](advanced/kernel-messaging/preview.gif) |
@@ -76,7 +86,7 @@ Advanced
 
 ## About JupyterLab
 
-Jupyterlab can be used as a platform to combine existing data-science components into a
+JupyterLab can be used as a platform to combine existing data-science components into a
 new powerful application that can be deployed remotely for many users. Some of the higher
 level components that can be used are text editors, terminals, notebooks, interactive widgets,
 filebrowser, renderers for different file formats that provide access to an enormous ecosystem
