@@ -26,14 +26,27 @@ jupyter lab --watch
 
 You may find easier to learn how to extend `by examples` instead of going through the documentation.
 
+Start with the [Hello World](./basics/hello-world) and then jump to the topic you are interested in.
+
+- [Hello World](./basics/hello-world)
+- [Signals](./basics/signals)
+- [Datagrid](./basics/datagrid)
+- [Command Palette](./command-palette)
+- [Commands](./commands)
+- [Main Menu](./main-menu)
+- [React Widget](./react/react-widget)
+- [Widgets](./widget-tracker/widgets)
+- [Jupyter Widgets](./widget-tracker/jupyter-widgets)
+- [Kernel Output](./advanced/kernel-output)
+- [Kernel Messaging](./advanced/kernel-messaging)
+- [Serving Files](./advanced/serving-files)
+
 You can expect from each example:
 
 - An explanation of its functionality.
 - A gif or screenshot showing its usage.
 - Listing of used JupyterLabo API and Contribution Points.
 - Code parts to example the internal working.
-
-Start with the `hello-world` and jump then to the topic you are interested in.
 
 We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html).
 
