@@ -5,7 +5,13 @@ import {
 
 import { ISettingRegistry } from '@jupyterlab/coreutils';
 
-const PLUGIN_ID = '@jupyterlab-examples/settings:plugin';
+import { IMainMenu } from '@jupyterlab/mainmenu';
+
+import { Menu } from '@phosphor/widgets';
+
+const PLUGIN_ID = '@jupyterlab-examples/settings:my-settings-example';
+
+const COMMAND_ID = '@jupyterlab-examples/settings:toggle-flag';
 
 /**
  * Initialization data for the settings extension.
@@ -13,8 +19,13 @@ const PLUGIN_ID = '@jupyterlab-examples/settings:plugin';
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
   autoStart: true,
-  requires: [ISettingRegistry],
-  activate: (app: JupyterFrontEnd, settings: ISettingRegistry) => {
+  requires: [IMainMenu, ISettingRegistry],
+  activate: (
+    app: JupyterFrontEnd,
+    mainMenu: IMainMenu,
+    settings: ISettingRegistry
+  ) => {
+    const { commands } = app;
     let limit = 25;
     let flag = false;
 
@@ -26,19 +37,38 @@ const extension: JupyterFrontEndPlugin<void> = {
       console.log(`Limit is set to ${limit} and flag to ${flag}`);
     }
 
-    // Wait for the application to be restored
-    app.restored
-      // Load the settings for this plugin
-      .then(() => settings.load(PLUGIN_ID))
-      .then(setting => {
+    // Wait for the application to be restored and
+    // for the settings for this plugin to be loaded
+    Promise.all([app.restored, settings.load(PLUGIN_ID)])
+      .then(([, setting]) => {
         // Read the settings
         loadSetting(setting);
 
-        // Listen for settings changes using Signal
+        // Listen for your plugin setting changes using Signal
         setting.changed.connect(loadSetting);
 
-        // Programmatically change a setting
-        return setting.set('limit', 20);
+        commands.addCommand(COMMAND_ID, {
+          label: 'Toggle flag setting',
+          isToggled: () => flag,
+          execute: () => {
+            // Programmatically change a setting
+            setting.set('flag', !flag).catch(reason => {
+              console.error(
+                `Something went wrong when setting flag.\n${reason}`
+              );
+            });
+          }
+        });
+
+        // Create a menu
+        const tutorialMenu = new Menu({ commands });
+        tutorialMenu.title.label = 'Tutorial';
+        mainMenu.addMenu(tutorialMenu, { rank: 80 });
+
+        // Add the command to the menu
+        tutorialMenu.addItem({
+          command: COMMAND_ID
+        });
       })
       .catch(reason => {
         console.error(

@@ -3,6 +3,8 @@
 This example shows how to create and use settings
 in a JupyterLab extension.
 
+![settings example](preview.gif)
+
 The core token required for handling the settings is
 `ISettingRegistry` ([documentation](https://jupyterlab.github.io/jupyterlab/coreutils/modules/isettingregistry.html)). To use it,
 you first need to install its npm package:
@@ -23,13 +25,17 @@ To see how we can access the settings, let's have a look at
 `src/index.ts`.
 
 ```ts
-// src/index.ts#L13-L17
+// src/index.ts#L19-L27
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
   autoStart: true,
-  requires: [ISettingRegistry],
-  activate: (app: JupyterFrontEnd, settings: ISettingRegistry) => {
+  requires: [IMainMenu, ISettingRegistry],
+  activate: (
+    app: JupyterFrontEnd,
+    mainMenu: IMainMenu,
+    settings: ISettingRegistry
+  ) => {
 ```
 
 The `ISettingRegistry` is passed to the `activate` function as an
@@ -40,11 +46,11 @@ you want to inject into the `activate` function in the `JupyterFontEndPlugin`.
 
 But before going further, you need to define the settings of your
 extension. This is done through a [JSON Schema](https://json-schema.org/understanding-json-schema/).
-In the example it is called `schema/plugin.json`.
+In the example it is called `schema/my-settings-example.json`.
 
 <!-- prettier-ignore-start -->
 ```json5
-// schema/plugin.json
+// schema/my-settings-example.json
 
 {
   "title": "My settings",
@@ -89,19 +95,19 @@ settings, your extension name must be structured as _package name_**:**_settings
 and the extension id is:
 
 ```ts
-// src/index.ts#L8-L8
+// src/index.ts#L12-L12
 
-const PLUGIN_ID = '@jupyterlab-examples/settings:plugin';
+const PLUGIN_ID = '@jupyterlab-examples/settings:my-settings-example';
 ```
 
-Therefore the settings file must be named `plugin.json`.
+Therefore the settings file must be named `my-settings-example.json`.
 
 The folder containing the settings definition needs to be specified in
 the `package.json` file in the `jupyterlab` section (here `schema`):
 
 <!-- prettier-ignore-start -->
 ```json5
-// package.json#L45-L48
+// package.json#L47-L50
 
 "jupyterlab": {
   "extension": true,
@@ -127,9 +133,14 @@ use it inside your extension. Let's look at this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L17-L48
+// src/index.ts#L23-L78
 
-activate: (app: JupyterFrontEnd, settings: ISettingRegistry) => {
+activate: (
+  app: JupyterFrontEnd,
+  mainMenu: IMainMenu,
+  settings: ISettingRegistry
+) => {
+  const { commands } = app;
   let limit = 25;
   let flag = false;
 
@@ -141,19 +152,38 @@ activate: (app: JupyterFrontEnd, settings: ISettingRegistry) => {
     console.log(`Limit is set to ${limit} and flag to ${flag}`);
   }
 
-  // Wait for the application to be restored
-  app.restored
-    // Load the settings for this plugin
-    .then(() => settings.load(PLUGIN_ID))
-    .then(setting => {
+  // Wait for the application to be restored and
+  // for the settings for this plugin to be loaded
+  Promise.all([app.restored, settings.load(PLUGIN_ID)])
+    .then(([, setting]) => {
       // Read the settings
       loadSetting(setting);
 
-      // Listen for settings changes using Signal
+      // Listen for your plugin setting changes using Signal
       setting.changed.connect(loadSetting);
 
-      // Programmatically change a setting
-      return setting.set('limit', 20);
+      commands.addCommand(COMMAND_ID, {
+        label: 'Toggle flag setting',
+        isToggled: () => flag,
+        execute: () => {
+          // Programmatically change a setting
+          setting.set('flag', !flag).catch(reason => {
+            console.error(
+              `Something went wrong when setting flag.\n${reason}`
+            );
+          });
+        }
+      });
+
+      // Create a menu
+      const tutorialMenu = new Menu({ commands });
+      tutorialMenu.title.label = 'Tutorial';
+      mainMenu.addMenu(tutorialMenu, { rank: 80 });
+
+      // Add the command to the menu
+      tutorialMenu.addItem({
+        command: COMMAND_ID
+      });
     })
     .catch(reason => {
       console.error(
@@ -164,14 +194,16 @@ activate: (app: JupyterFrontEnd, settings: ISettingRegistry) => {
 ```
 <!-- prettier-ignore-end -->
 
-First, the extension waits for the application to be restored before
-loading the settings for your plugin:
+First, the extension waits for the application and for
+your plugin settings to be loaded :
 
+<!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L32-L32
+// src/index.ts#L42-L42
 
-.then(() => settings.load(PLUGIN_ID))
+Promise.all([app.restored, settings.load(PLUGIN_ID)])
 ```
+<!-- prettier-ignore-end -->
 
 Then once the settings are loaded, each setting can be read using
 the `get` method and the _setting id_ (the key defined in the settings
@@ -179,7 +211,7 @@ JSON file). After getting the setting, you need to require the
 `composite` attribute to get its value and specify the type explicitly.
 
 ```ts
-// src/index.ts#L21-L27
+// src/index.ts#L32-L38
 
 function loadSetting(setting: ISettingRegistry.ISettings) {
   // Read the settings and convert to the correct type
@@ -190,34 +222,68 @@ function loadSetting(setting: ISettingRegistry.ISettings) {
 }
 ```
 
+> `composite` means the setting value is the composition of the default
+> and the user values.
+
 To react at a setting change by the user, you should use the signal
 `changed`. In this case, when that signal is emitted the function
 `loadSetting` is called with the new settings.
 
 ```ts
-// src/index.ts#L37-L38
+// src/index.ts#L47-L48
 
-// Listen for settings changes using Signal
+// Listen for your plugin setting changes using Signal
 setting.changed.connect(loadSetting);
 ```
 
-Finally, in this example, a setting is changed programmatically. This
-use case can be interesting for example if some dialogs ask new values.
+Finally, to demonstrate the programmatical change of a setting. A command to toggle
+the `flag` setting is created.
+
+<!-- prettier-ignore-start -->
+```ts
+// src/index.ts#L50-L61
+
+commands.addCommand(COMMAND_ID, {
+  label: 'Toggle flag setting',
+  isToggled: () => flag,
+  execute: () => {
+    // Programmatically change a setting
+    setting.set('flag', !flag).catch(reason => {
+      console.error(
+        `Something went wrong when setting flag.\n${reason}`
+      );
+    });
+  }
+});
+```
+<!-- prettier-ignore-end -->
+
+The `set` method of `setting` is the one storing the
+new value.
 
 ```ts
-// src/index.ts#L40-L41
+// src/index.ts#L54-L55
 
 // Programmatically change a setting
-return setting.set('limit', 20);
+setting.set('flag', !flag).catch(reason => {
 ```
 
-Once executed, the settings panel will look like this and two messages will be
-in the console:
+That command can be executed by clicking on the item menu created at the end of the
+`activate` function.
 
-![settings example](../_images/settings_example.png)
+```ts
+// src/index.ts#L63-L71
 
-If you change the settings and refresh the page, the first message will display
-the user settings. And the second one will always have `limit` = 20.
+// Create a menu
+const tutorialMenu = new Menu({ commands });
+tutorialMenu.title.label = 'Tutorial';
+mainMenu.addMenu(tutorialMenu, { rank: 80 });
+
+// Add the command to the menu
+tutorialMenu.addItem({
+  command: COMMAND_ID
+});
+```
 
 Note
 
@@ -228,9 +294,12 @@ Note
 
 ## Where to Go Next
 
-This example makes use of the _Signal_ concept used in JupyterLab. To
-get more information about the signals, you can look at the [signal
-example](../basics/signals/README.md).
+This example makes use of various concepts of JupyterLab. To
+get more information about them, have a look at the corresponding examples:
+
+- [Commands](../commands/README.md)
+- [Main Menu](../main-menu/README.md)
+- [Signal](../basics/signals/README.md)
 
 You may be interested to save state variables instead of settings; i.e. save variables that the
 user is not aware of (e.g. the current opened widgets). For that, you
