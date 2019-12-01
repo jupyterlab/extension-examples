@@ -26,76 +26,76 @@ jupyter lab --watch
 
 You may find easier to learn how to extend `by examples` instead of going through the documentation.
 
-Start with the [Hello World](./basics/hello-world) and then jump to the topic you are interested in.
+Start with the [Hello World](basics/hello-world) and then jump to the topic you are interested in.
 
-- [Hello World](./basics/hello-world)
-- [Signals](./basics/signals)
-- [Datagrid](./basics/datagrid)
-- [Command Palette](./command-palette)
-- [Commands](./commands)
-- [Main Menu](./main-menu)
-- [React Widget](./react/react-widget)
-- [Widgets](./widget-tracker/widgets)
-- [Jupyter Widgets](./widget-tracker/jupyter-widgets)
-- [Kernel Output](./advanced/kernel-output)
-- [Kernel Messaging](./advanced/kernel-messaging)
-- [Serving Files](./advanced/serving-files)
+- [Hello World](basics/hello-world)
+- [Signals](basics/signals)
+- [Datagrid](basics/datagrid)
+- [Command Palette](command-palette)
+- [Commands](commands)
+- [Main Menu](main-menu)
+- [React Widget](react/react-widget)
+- [Widgets](widget-tracker/widgets)
+- [Jupyter Widgets](widget-tracker/jupyter-widgets)
+- [Kernel Output](advanced/kernel-output)
+- [Kernel Messaging](advanced/kernel-messaging)
+- [Serving Files](advanced/serving-files)
 
 You can expect from each example:
 
 - An explanation of its functionality.
-- A gif or screenshot showing its usage.
-- Listing of used JupyterLabo API and Contribution Points.
-- Code parts to example the internal working.
+- A image or screencast showing its usage.
+- The list of used JupyterLabo API and Contribution Points.
+- Some code parts to explain the internal working.
 
 We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html).
 
 ## Basic
 
-| Example                             | Preview                                           |
-| ----------------------------------- | ------------------------------------------------- |
-| [Hello World](./basics/hello-world) |                                                   |
-| [Signals](./basics/signals)         | ![Button with Signal](basics/signals/preview.png) |
-| [Datagrid](./basics/datagrid)       | ![Datagrid](basics/datagrid/preview.png)          |
+| Example                           | Preview                                                             |
+| --------------------------------- | ------------------------------------------------------------------- |
+| [Hello World](basics/hello-world) |                                                                     |
+| [Signals](basics/signals)         | [![Button with Signal](basics/signals/preview.png)](basics/signals) |
+| [Datagrid](basics/datagrid)       | [![Datagrid](basics/datagrid/preview.png)](basics/datagrid)         |
 
 ## Command Palette
 
-| Example                              | Preview                                          |
-| ------------------------------------ | ------------------------------------------------ |
-| [Command Palette](./command-palette) | ![Commmand Palette](command-palette/preview.png) |
+| Example                            | Preview                                                             |
+| ---------------------------------- | ------------------------------------------------------------------- |
+| [Command Palette](command-palette) | [![Commmand Palette](command-palette/preview.png)](command-palette) |
 
 ## Commands
 
-| Example                | Preview |
-| ---------------------- | ------- |
-| [Commands](./commands) |         |
+| Example              | Preview |
+| -------------------- | ------- |
+| [Commands](commands) |         |
 
 ## Menus
 
-| Example                  | Preview                             |
-| ------------------------ | ----------------------------------- |
-| [Main Menu](./main-menu) | ![Main Menu](main-menu/preview.png) |
+| Example                | Preview                             |
+| ---------------------- | ----------------------------------- |
+| [Main Menu](main-menu) | ![Main Menu](main-menu/preview.png) |
 
 ## React
 
-| Example                              | Preview                                         |
-| ------------------------------------ | ----------------------------------------------- |
-| [React Widget](./react/react-widget) | ![react-widget](react/react-widget/preview.gif) |
+| Example                            | Preview                                                               |
+| ---------------------------------- | --------------------------------------------------------------------- |
+| [React Widget](react/react-widget) | [![react-widget](react/react-widget/preview.gif)](react/react-widget) |
 
 ## Widget Tracker
 
-| Example                                             | Preview                                                     |
-| --------------------------------------------------- | ----------------------------------------------------------- |
-| [Widgets](./widget-tracker/widgets)                 | ![Custom Tab](widget-tracker/widgets/preview.png)           |
-| [Jupyter Widgets](./widget-tracker/jupyter-widgets) | ![Qgrid widget](widget-tracker/jupyter-widgets/preview.gif) |
+| Example                                           | Preview                                                                                       |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| [Widgets](widget-tracker/widgets)                 | [![Custom Tab](widget-tracker/widgets/preview.png)](widget-tracker/widgets)                   |
+| [Jupyter Widgets](widget-tracker/jupyter-widgets) | [![Qgrid widget](widget-tracker/jupyter-widgets/preview.gif)](widget-tracker/jupyter-widgets) |
 
 ## Advanced
 
-| Example                                         | Preview                                                   |
-| ----------------------------------------------- | --------------------------------------------------------- |
-| [Kernel Output](./advanced/kernel-output)       | ![OutputArea class](advanced/kernel-output/preview.gif)   |
-| [Kernel Messaging](./advanced/kernel-messaging) | ![Kernel Messages](advanced/kernel-messaging/preview.gif) |
-| [Serving Files](./advanced/serving-files)       |                                                           |
+| Example                                       | Preview                                                                                |
+| --------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [Kernel Output](advanced/kernel-output)       | [![OutputArea class](advanced/kernel-output/preview.gif)](advanced/kernel-output)      |
+| [Kernel Messaging](advanced/kernel-messaging) | [![Kernel Messages](advanced/kernel-messaging/preview.gif)](advanced/kernel-messaging) |
+| [Serving Files](advanced/serving-files)       |                                                                                        |
 
 ## About JupyterLab
 
