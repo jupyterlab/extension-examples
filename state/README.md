@@ -1,7 +1,9 @@
 # Using State Persistence in an Extension
 
-This example shows how to save and restore data save in persistent state database
+This example shows how to save and restore data saved in persistent state database
 in a JupyterLab extension.
+
+![state example](preview.gif)
 
 The core token required for handling the state database (DB) is
 `IStateDB` ([documentation](https://jupyterlab.github.io/jupyterlab/coreutils/modules/istatedb.html)). To use it,
@@ -23,39 +25,40 @@ To see how we can access the state, let's have a look at
 `src/index.ts`.
 
 ```ts
-// src/index.ts#L17-L56
+// src/index.ts#L17-L57
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
   autoStart: true,
   requires: [IStateDB],
   activate: (app: JupyterFrontEnd, state: IStateDB) => {
-    const choices = ['one', 'two', 'three'];
-    let choice = choices[0];
+    const options = ['one', 'two', 'three'];
+    let option = options[0];
 
     app.restored
       // Get the state object
       .then(() => state.fetch(PLUGIN_ID))
       .then(value => {
-        // Get the choice attribute
+        // Get the option attribute
         if (value) {
-          choice = (value as ReadonlyJSONObject)['choice'] as string;
+          option = (value as ReadonlyJSONObject)['option'] as string;
+          console.log(`Option ${option} read from state.`);
         }
 
-        // Ask the user to pick a choice with `choice` as default
+        // Ask the user to pick a option with `option` as default
         return InputDialog.getItem({
-          title: 'Pick a choice',
-          items: choices,
-          current: Math.max(0, choices.indexOf(choice))
+          title: 'Pick an option',
+          items: options,
+          current: Math.max(0, options.indexOf(option))
         });
       })
       .then(result => {
         // If the user click on the accept button of the dialog
         if (result.button.accept) {
-          // Get the user choice
-          choice = result.value;
-          // Save the choice in the state database
-          return state.save(PLUGIN_ID, { choice });
+          // Get the user option
+          option = result.value;
+          // Save the option in the state database
+          return state.save(PLUGIN_ID, { option });
         }
       })
       .catch(reason => {
@@ -86,52 +89,51 @@ app.restored
 ```
 <!-- prettier-ignore-end -->
 
-The data are loaded as a `ReadonlyJSONValue` object. So all stored data must be
+The data is loaded as a `ReadonlyJSONValue` object. So all stored data must be
 JSON-able and its type value should be specifically set when accessing the value.
-For instance, in this example the variable `choice` is of type `string`:
+For instance, in this example the variable `option` is of type `string`:
 
 ```ts
-// src/index.ts#L30-L32
+// src/index.ts#L30-L33
 
 if (value) {
-  choice = (value as ReadonlyJSONObject)['choice'] as string;
+  option = (value as ReadonlyJSONObject)['option'] as string;
+  console.log(`Option ${option} read from state.`);
 }
 ```
 
 The `if` test ensure some value has been read. It is important to set a default value.
-Indeed the first time an user will installed your extension, the state won't contain
-any value for your plugin.
+Indeed the first time a user will install the extension, the state won't contain
+any value for the plugin.
 
-In the example, once the state is read, the user is prompted to choose a choice from
-an item list with the default choice being stored as state variable.
+In the example, once the state is read, the user is prompted to choose an option from
+an item list with the default option being stored as a state variable.
 
 ```ts
-// src/index.ts#L35-L39
+// src/index.ts#L36-L40
 
 return InputDialog.getItem({
-  title: 'Pick a choice',
-  items: choices,
-  current: Math.max(0, choices.indexOf(choice))
+  title: 'Pick an option',
+  items: options,
+  current: Math.max(0, options.indexOf(option))
 });
 ```
 
-This implies to store the new choice done by the user in the state. This is done
-using the `save` methode of `IStateDB`:
+This implies to store the new option done by the user in the state. This is done
+using the `save` method of `IStateDB`:
 
 ```ts
-// src/index.ts#L47-L47
+// src/index.ts#L48-L48
 
-return state.save(PLUGIN_ID, { choice });
+return state.save(PLUGIN_ID, { option });
 ```
 
-To see it action,
+To see it in action,
 
 1. Install the example within JupyterLab
-2. Pick a different choice that _one_
+2. Pick a different option that _one_
 3. Refresh your browser
-4. The input dialog should have your choice as default value
-
-![state example](../_images/state_example.gif)
+4. The input dialog should have your option as default value
 
 Note
 
@@ -146,3 +148,6 @@ You may be interested to save settings instead of state; i.e. save variables tha
 user knows and changes explicitly (e.g. which JupyterLab theme to use). For that, you
 will need another core token `ISettingRegistry` (see [that example](../settings/README.md)
 for more information).
+
+This example makes use of a dialog to quickly request information from the user. JupyterLab
+comes with a couple of helpful dialogs; see the [documentation](https://jupyterlab.readthedocs.io/en/stable/developer/ui_helpers.html#dialogs).

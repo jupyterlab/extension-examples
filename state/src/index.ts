@@ -19,32 +19,33 @@ const extension: JupyterFrontEndPlugin<void> = {
   autoStart: true,
   requires: [IStateDB],
   activate: (app: JupyterFrontEnd, state: IStateDB) => {
-    const choices = ['one', 'two', 'three'];
-    let choice = choices[0];
+    const options = ['one', 'two', 'three'];
+    let option = options[0];
 
     app.restored
       // Get the state object
       .then(() => state.fetch(PLUGIN_ID))
       .then(value => {
-        // Get the choice attribute
+        // Get the option attribute
         if (value) {
-          choice = (value as ReadonlyJSONObject)['choice'] as string;
+          option = (value as ReadonlyJSONObject)['option'] as string;
+          console.log(`Option ${option} read from state.`);
         }
 
-        // Ask the user to pick a choice with `choice` as default
+        // Ask the user to pick a option with `option` as default
         return InputDialog.getItem({
-          title: 'Pick a choice',
-          items: choices,
-          current: Math.max(0, choices.indexOf(choice))
+          title: 'Pick an option',
+          items: options,
+          current: Math.max(0, options.indexOf(option))
         });
       })
       .then(result => {
         // If the user click on the accept button of the dialog
         if (result.button.accept) {
-          // Get the user choice
-          choice = result.value;
-          // Save the choice in the state database
-          return state.save(PLUGIN_ID, { choice });
+          // Get the user option
+          option = result.value;
+          // Save the option in the state database
+          return state.save(PLUGIN_ID, { option });
         }
       })
       .catch(reason => {
