@@ -24,44 +24,85 @@ jupyter lab --watch
 
 ## Develop by Examples
 
-You may find easier to learn how to extend `by examples` instead of going through the documentation. Start with the `hello-world` and jump then to the topic you are interested in. We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html).
+You may find easier to learn how to extend `by examples` instead of going through the documentation.
 
-- Basics
+Start with the [Hello World](basics/hello-world) and then jump to the topic you are interested in.
 
-  - [Hello World](./basics/hello-world)
-  - [Signals](./basics/signals)
-  - [Datagrid](./basics/datagrid)
+- [Hello World](basics/hello-world)
+- [Signals](basics/signals)
+- [Datagrid](basics/datagrid)
+- [Command Palette](command-palette)
+- [Commands](commands)
+- [Main Menu](main-menu)
+- [State](state)
+- [React Widget](react/react-widget)
+- [Widgets](widget-tracker/widgets)
+- [Jupyter Widgets](widget-tracker/jupyter-widgets)
+- [Kernel Output](advanced/kernel-output)
+- [Kernel Messaging](advanced/kernel-messaging)
+- [Serving Files](advanced/serving-files)
 
-- [Command Palette](./command-palette)
+You can expect from each example:
 
-- [Commands](./commands)
+- An explanation of its functionality.
+- A image or screencast showing its usage.
+- The list of used JupyterLabo API and Contribution Points.
+- Some code parts to explain the internal working.
 
-- [Main Menu](./main-menu)
+We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html). Browse the previews here after or skip them and [jump directly to the sections for developers](#prerequisites).
 
-- React
+## Basic
 
-  - [React Widget](./react/react-widget)
+| Example                           | Preview                                                             |
+| --------------------------------- | ------------------------------------------------------------------- |
+| [Hello World](basics/hello-world) |                                                                     |
+| [Signals](basics/signals)         | [![Button with Signal](basics/signals/preview.png)](basics/signals) |
+| [Datagrid](basics/datagrid)       | [![Datagrid](basics/datagrid/preview.png)](basics/datagrid)         |
 
-- [State](./state)
+## Command Palette
 
-- Widget Tracker
+| Example                            | Preview                                                             |
+| ---------------------------------- | ------------------------------------------------------------------- |
+| [Command Palette](command-palette) | [![Commmand Palette](command-palette/preview.png)](command-palette) |
 
-  - [Widgets](./widget-tracker/widgets)
-  - [Jupyter Widgets](./widget-tracker/jupyter-widgets)
+## Commands
 
-- Advanced
+| Example              | Preview |
+| -------------------- | ------- |
+| [Commands](commands) |         |
 
-  - [Kernel Output](./advanced/kernel-output)
-  - [Kernel Messaging](./advanced/kernel-messaging)
-  - [Serving Files](./advanced/serving-files)
+## Menus
 
-## About JupyterLab
+| Example                | Preview                                          |
+| ---------------------- | ------------------------------------------------ |
+| [Main Menu](main-menu) | [![Main Menu](main-menu/preview.png)](main-menu) |
 
-JupyterLab can be used as a platform to combine existing data-science components into a
-new powerful application that can be deployed remotely for many users. Some of the higher
-level components that can be used are text editors, terminals, notebooks, interactive widgets,
-filebrowser, renderers for different file formats that provide access to an enormous ecosystem
-of libraries from different languages.
+## State
+
+| Example        | Preview                              |
+| -------------- | ------------------------------------ |
+| [State](state) | [![State](state/preview.gif)](state) |
+
+## React
+
+| Example                            | Preview                                                               |
+| ---------------------------------- | --------------------------------------------------------------------- |
+| [React Widget](react/react-widget) | [![react-widget](react/react-widget/preview.gif)](react/react-widget) |
+
+## Widget Tracker
+
+| Example                                           | Preview                                                                                       |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| [Widgets](widget-tracker/widgets)                 | [![Custom Tab](widget-tracker/widgets/preview.png)](widget-tracker/widgets)                   |
+| [Jupyter Widgets](widget-tracker/jupyter-widgets) | [![Qgrid widget](widget-tracker/jupyter-widgets/preview.gif)](widget-tracker/jupyter-widgets) |
+
+## Advanced
+
+| Example                                       | Preview                                                                                |
+| --------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [Kernel Output](advanced/kernel-output)       | [![OutputArea class](advanced/kernel-output/preview.gif)](advanced/kernel-output)      |
+| [Kernel Messaging](advanced/kernel-messaging) | [![Kernel Messages](advanced/kernel-messaging/preview.gif)](advanced/kernel-messaging) |
+| [Serving Files](advanced/serving-files)       |                                                                                        |
 
 ## Prerequisites
 
@@ -121,7 +162,15 @@ Start JupyterLab in watch mode.
 jupyter lab --watch
 ```
 
-## Official Documentation
+## About JupyterLab
+
+JupyterLab can be used as a platform to combine existing data-science components into a
+new powerful application that can be deployed remotely for many users. Some of the higher
+level components that can be used are text editors, terminals, notebooks, interactive widgets,
+filebrowser, renderers for different file formats that provide access to an enormous ecosystem
+of libraries from different languages.
+
+## JupyterLab Documentation
 
 Complementary to these examples, you can rely on the official JupyterLab documentation.
 

@@ -83,6 +83,6 @@ Note that we have used a custom css class that is defined in the file
 Our custom tab can be started in JupyterLab from the command palette and looks
 like this:
 
-![Custom Tab](_images/custom_tab.png)
+![Custom Tab](preview.png)
 
 [Click here for the final extension: 3_widgets](widgets)

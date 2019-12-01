@@ -6,6 +6,8 @@
 - [Connecting a View to the Kernel](#connecting-a-view-to-the-kernel)
 - [How does it look like](#how-does-it-look-like)
 
+![Kernel Messages](preview.gif)
+
 ## Custom Kernel Interactions: Kernel Managment and Messaging
 
 One of the main features of JupyterLab is the possibility to manage and
@@ -241,7 +243,7 @@ export class KernelView extends VDomRenderer<any> {
 
 ## How does it look like
 
-![Kernel Execution](_images/kernel_extension.gif)
+![Kernel Execution](kernel_extension.gif)
 
 Well that's nice, the basics are clear, but what about this weird output
 object? In the next extensions, we will explore how we can reuse some jupyter

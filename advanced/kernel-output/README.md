@@ -293,6 +293,6 @@ commands.addCommand(command, {
 
 and we are ready to see it. The final extension looks like this:
 
-![OutputArea class](_images/outputarea.gif)
+![OutputArea class](preview.gif)
 
 [Click here for the final extension: 4a_outputareas](4a_outputareas)
