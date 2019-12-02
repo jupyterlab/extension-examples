@@ -62,7 +62,7 @@ category (that can be either an existing category or a new one). And optionally,
 the arguments that will be passed to the command when executed from the palette.
 
 When running JupyterLab with this extension, a message should
-appears in the web browser console after clicking on the command in the palette.
+appear in the web browser console after clicking on the command in the palette.
 
 ## Where to Go Next
 
