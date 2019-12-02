@@ -1,5 +1,7 @@
 # Datagrid: a Fancy Phosphor Widget
 
+![Datagrid](preview.png)
+
 Now let's do something a little more advanced. Jupyterlab is build on top of
 Phosphor.js. Let's see if we can plug [this phosphor example](http://phosphorjs.github.io/examples/datagrid/)
 into JupyterLab.
@@ -104,9 +106,3 @@ data(region: DataModel.CellRegion, row: number, column: number): any {
   return `(${row}, ${column})`;
 }
 ```
-
-Let's see how this looks like in Jupyterlab:
-
-![Datagrid](preview.png)
-
-[Click here for the final extension: datagrid](datagrid)

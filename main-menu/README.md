@@ -1,5 +1,7 @@
 # Menus: Extending the main app
 
+![New Menu](preview.png)
+
 One major concept of the phosphorjs library on which JupyterLab is built is
 the notion of _Commands_ as explained in the [commands example](../commands/README.md).
 One of the possibilities offered to the user to trigger that command is to call it from
@@ -87,18 +89,8 @@ After the execution of that command, `package.json` should list them in the
 
 With this extension installed, a new menu _Tutorial_ should be present. And when
 clicking on the menu item _tutorial:main-menu_, the following text should appear
-in the web browser console:
+in the web browser console.
 
 ```
 tutorial:main-menu has been called from the menu.
 ```
-
-![New Menu](../_images/new_menu.png)
-
-## Where to Go Next
-
-A command can be triggered by other UI elements:
-
-- Add the command to the [command palette](../../command-palette/README.md)
-- Add the command to a [context menu](../../context-menu/README.md)
-- Add the command to the [launcher](../../launcher/README.md)

@@ -1,14 +1,15 @@
-# Signals and Buttons - Interactions Between Different Widgets
+# Signals - Communication between Widgets
 
 - [Phosphor Signaling 101](#phosphor-signaling-101)
 - [A simple React Button](#a-simple-react-button)
 - [Subscribing to a Signal](#subscribing-to-a-signal)
 
+![Button with Signal](preview.png)
+
 ## Phosphor Signaling 101
 
-In this extension, we are going to add some simple buttons to the widget that
-trigger the panel to print something to the console. Communication between
-different components of JupyterLab are a key ingredient in building an
+In this extension, we are going to add a simple buttons to print something to the console.
+Communication between different components of JupyterLab are a key ingredient in building an
 extension. JupyterLab's phosphor engine uses the `ISignal` interface and the
 `Signal` class that implements this interface for communication
 ([documentation](https://phosphorjs.github.io/phosphor/api/signaling/globals.html)).
@@ -130,6 +131,4 @@ export class TutorialPanel extends StackedPanel {
 
 The final extension writes a little `changed` text to the browser console when
 a big red button is clicked. It is not very spectacular but the signaling is
-conceptualy important for building extensions. It looks like this:
-
-![Button with Signal](preview.png)
+conceptualy important for building extensions.
