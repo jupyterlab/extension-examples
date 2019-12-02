@@ -194,7 +194,7 @@ with it in the next sections.
 Checkout how the core packages of JupyterLab are defined
 [on this page](https://github.com/jupyterlab/jupyterlab/tree/master/packages). Each package is
 structured similarly to the extension that we are writing. This modular
-structure makes JupyterLab very adapatable
+structure makes JupyterLab very adaptable.
 
 An overview of the classes and their attributes and methods can be found in the
 JupyterLab documentation. The `@jupyterlab/application` module documentation is
