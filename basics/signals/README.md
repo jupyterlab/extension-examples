@@ -131,4 +131,4 @@ export class TutorialPanel extends StackedPanel {
 
 The final extension writes a little `changed` text to the browser console when
 a big red button is clicked. It is not very spectacular but the signaling is
-conceptualy important for building extensions.
+conceptually important for building extensions.
