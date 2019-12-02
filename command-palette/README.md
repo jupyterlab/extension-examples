@@ -1,9 +1,12 @@
 # Command Palette: Extending the main app
 
+![Command Palette](preview.png)
+
 One major concept of the phosphorjs library on which JupyterLab is built is
-the notion of _Commands_ as explained in the [commands example](../commands/README.md).
+the notion of _Commands_ as explained in the
+[commands example](https://github.com/jtpio/jupyterlab-extension-examples/blob/master/commands/README.md).
+
 Commands can be used from the command palette.
-the command palette.
 
 In this extension, we are going to add a command to command palette.
 
@@ -58,10 +61,8 @@ we want to inject into the `activate` function in the `JupyterFontEndPlugin`.
 category (that can be either an existing category or a new one). And optionally, you can specify
 the arguments that will be passed to the command when executed from the palette.
 
-When running JupyterLab with this extension, the following message should
-appears in the web browser console after clicking on the command in the palette:
-
-![Command Palette](../_images/command_palette.png)
+When running JupyterLab with this extension, a message should
+appear in the web browser console after clicking on the command in the palette.
 
 ## Where to Go Next
 

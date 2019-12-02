@@ -1,6 +1,6 @@
-# Hello World - Setting up the development environment
+# Hello World - Print to the console
 
-Minimal lab extension that prints to the console
+This minimal JupyterLab extension explains how to set up the development environment and prints to the console
 
 - [The template folder structure](#the-template-folder-structure)
 - [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
@@ -91,13 +91,13 @@ const extension: JupyterFrontEndPlugin<void> = {
 ```
 
 ```ts
-    console.log('JupyterLab extension hello-world is activated!');
+// src/index.ts#L13-L13
+
+console.log('the JupyterLab main application:');
 ```
 
-<!-- embedme src/index.ts#L15-L18 -->
 ```ts
-  }
-};
+// src/index.ts#L18-L18
 
 export default extension;
 ```
@@ -118,7 +118,7 @@ us to the next point. How can we plug this extension into JupyterLab?
 
 ## Building and Installing an Extension
 
-Let's look at the `README.md` file. It contains instructions how our
+These are the instructions on how our
 labextension can be installed for development:
 
 > The `jlpm` command is JupyterLab's pinned version of
@@ -159,7 +159,7 @@ jupyter lab --watch
 
 Our extension doesn't do much so far, it just writes something to the browser
 console. So let's check if it worked. In most webbrowsers you can open the console
-pressing the `f12` key. You should see something like:
+pressing the `F12` key. You should see something like:
 
 ```
 JupyterLab extension hello-world is activated
@@ -191,16 +191,17 @@ Object { _started: true, _pluginMap: {â€¦}, _serviceMap: Map(28), _delegate: {â€
 This is the main application JupyterLab object and we will see how to interact
 with it in the next sections.
 
-_checkout how the core packages of JupyterLab are defined at
-https://github.com/jupyterlab/jupyterlab/tree/master/packages . Each package is
+Checkout how the core packages of JupyterLab are defined
+[on this page](https://github.com/jupyterlab/jupyterlab/tree/master/packages). Each package is
 structured similarly to the extension that we are writing. This modular
-structure makes JupyterLab very adapatable_
+structure makes JupyterLab very adaptable.
 
 An overview of the classes and their attributes and methods can be found in the
 JupyterLab documentation. The `@jupyterlab/application` module documentation is
 [here](https://jupyterlab.github.io/jupyterlab/application/index.html)
 and which links to the [JupyterFrontEnd class](https://jupyterlab.github.io/jupyterlab/application/classes/jupyterfrontend.html).
-The `JupyterFrontEndPlugin` is a type alias [a new name] for the type `IPlugin`.
+
+The `JupyterFrontEndPlugin` is a type alias (a new name) for the type `IPlugin`.
 The definition of `IPlugin` is more difficult to find because it is defined by
 the `phosphor.js` library on top of which JupyterLab is built (more about this
 later). Its documentation is therefore located on the [phosphor.js

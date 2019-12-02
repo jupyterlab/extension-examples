@@ -1,12 +1,10 @@
-# Widgets
+# Widgets - Adding new Elements to the Main Window
 
-- [A basic tab](#a-basic-tab)
+We are going to do some real stuff and add a new tab to JupyterLab.
+Visible elements such as tabs and notebooks are represented by widgets in the Phosphor library
+that is the basis of the JupyterLab application.
 
-## Widgets: Adding new Elements to the Main Window
-
-Finally we are going to do some real stuff and add a new tab to JupyterLab.
-Visible elements such as a tab are represented by widgets in the phosphor
-library that is the basis of the JupyterLab application.
+![Custom Tab](preview.png)
 
 #### A basic tab
 
@@ -80,9 +78,4 @@ Note that we have used a custom css class that is defined in the file
 }
 ```
 
-Our custom tab can be started in JupyterLab from the command palette and looks
-like this:
-
-![Custom Tab](preview.png)
-
-[Click here for the final extension: 3_widgets](widgets)
+Our custom tab can be started in JupyterLab from the command palette.

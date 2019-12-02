@@ -4,7 +4,6 @@
 - [Initializing and managing a kernel session (panel.ts)](#initializing-and-managing-a-kernel-session-panelts)
 - [Executing code and retrieving messages from a kernel (model.ts)](#executing-code-and-retrieving-messages-from-a-kernel-modelts)
 - [Connecting a View to the Kernel](#connecting-a-view-to-the-kernel)
-- [How does it look like](#how-does-it-look-like)
 
 ![Kernel Messages](preview.gif)
 
@@ -241,12 +240,6 @@ export class KernelView extends VDomRenderer<any> {
 }
 ```
 
-## How does it look like
-
-![Kernel Execution](kernel_extension.gif)
-
 Well that's nice, the basics are clear, but what about this weird output
-object? In the next extensions, we will explore how we can reuse some jupyter
-components to make things look nicer...
-
-[Click here for the final extension: 6_kernel_messages](6_kernel_messages)
+object? In the [Kernel Output](https://github.com/jtpio/jupyterlab-extension-examples/tree/master/advanced/kernel-output)
+example, we will explore how we can reuse some jupyter components to make things look nicer...
