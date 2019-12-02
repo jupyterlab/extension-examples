@@ -1,7 +1,7 @@
 # Widgets - Adding new Elements to the Main Window
 
 We are going to do some real stuff and add a new tab to JupyterLab.
-Visible elements such as a tab are represented by widgets in the phosphor library
+Visible elements such as tabs and notebooks are represented by widgets in the Phosphor library
 that is the basis of the JupyterLab application.
 
 ![Custom Tab](preview.png)
