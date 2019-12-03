@@ -29,6 +29,8 @@
     "clean": "rimraf lib tsconfig.tsbuildinfo",
     "link": "jupyter labextension link . --no-build",
     "prepare": "jlpm run clean && jlpm run build",
+    "tslint": "tslint --fix -c tslint.json --project tsconfig.json \"**/*{.ts,.tsx}\"",
+    "tslint:check": "tslint -c tslint.json --project tsconfig.json \"**/*{.ts,.tsx}\"",
     "watch": "tsc -w"
   },
   "dependencies": {
@@ -36,6 +38,10 @@
   },
   "devDependencies": {
     "rimraf": "~3.0.0",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "tslint-react": "^4.1.0",
     "typescript": "~3.7.2"
   },
   "sideEffects": [
