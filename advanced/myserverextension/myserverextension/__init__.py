@@ -2,6 +2,12 @@ from ._version import __version__
 from .handlers import setup_handlers
 
 
+def _jupyter_server_extension_paths():
+    return [{
+        'module': 'myserverextension'
+    }]
+
+
 def load_jupyter_server_extension(nb_app):
     """Registers the API handler to receive HTTP requests from the frontend extension.
     Parameters

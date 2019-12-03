@@ -257,13 +257,19 @@ Note:
 The server part of the extension is gonna presented next.
 
 JupyterLab server is built on top of the [Tornado](https://tornadoweb.org/en/stable/guide.html) Python package. To extend the server,
-your extension needs to be defined as a proper Python package with one hook function:
+your extension needs to be defined as a proper Python package with some hook functions:
 
 ```py
 # myserverextension/__init__.py
 
 from ._version import __version__
 from .handlers import setup_handlers
+
+
+def _jupyter_server_extension_paths():
+    return [{
+        'module': 'myserverextension'
+    }]
 
 
 def load_jupyter_server_extension(nb_app):
@@ -278,10 +284,12 @@ def load_jupyter_server_extension(nb_app):
 
 ```
 
-The `load_jupyter_server_extension` registers new handlers.
+The `_jupyter_server_extension_paths` provides the Python package name
+to the server. But the most important one is `load_jupyter_server_extension`
+that register new handlers.
 
 ```py
-# myserverextension/__init__.py#L12-L12
+# myserverextension/__init__.py#L18-L18
 
 setup_handlers(nb_app.web_app)
 ```
