@@ -13,7 +13,7 @@ you first need to install its npm package:
 jlpm add @jupyterlab/coreutils
 ```
 
-Once this is done. You can import the interface in your code.
+Once this is done, you can import the interface in your code.
 
 ```ts
 // src/index.ts#L6-L6
@@ -76,8 +76,8 @@ In the example it is called `schema/my-settings-example.json`.
 <!-- prettier-ignore-end -->
 
 The _title_ is the entry shown in the JupyterLab Advanced Settings. The
-_description_ entry is a more detail explanation of the extension using
-those settings. The _type_ is a mandatory key require by [JSON Schema](https://json-schema.org/understanding-json-schema/reference/type.html).
+_description_ entry is a more detailed explanation of the extension using
+those settings. The _type_ is a mandatory key required by [JSON Schema](https://json-schema.org/understanding-json-schema/reference/type.html).
 For all extensions, this will be an `object` as the settings are defined
 by a _dictionary_. Then the most important entry is `properties` describing a mapping of _setting id_ and the associated properties.
 
@@ -129,7 +129,7 @@ And you should not forget to add it to the files of the package:
 ```
 
 Now that the settings are defined and included in the package, you can
-use it inside your extension. Let's look at this example:
+use them inside your extension. Let's look at this example:
 
 <!-- prettier-ignore-start -->
 ```ts
