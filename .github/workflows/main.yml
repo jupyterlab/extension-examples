@@ -101,6 +101,7 @@ jobs:
         jupyter labextension list
     - name: Build and check extension as dev
       run: |
+        cd advanced/myserverextension
         pip install -e .
         jupyter serverextension enable --py myextension
         jupyter labextension link .
