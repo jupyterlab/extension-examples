@@ -1,11 +1,18 @@
 # Introduction to Server Extension
 
 This extension describe a minimal JupyterLab extension with a backend (i.e. server) and
-frontend parts. It is strongly adviced to go over the [basic hello-world](../../basics/hello-world)
+frontend parts.
+
+![server extension example](./preview.png)
+
+It is strongly adviced to go over the [basic hello-world](../../basics/hello-world)
 example before diving into this one.
 
 - [The template folder structure](#the-template-folder-structure)
-- [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
+- [Frontend Part](#frontend-part)
+- [Backend (server) Part](<#backend-(server)-part>)
+- [Packaging the Extension](#packaging-the-extension)
+- [Installing the Package](#installing-the-package)
 
 ## The template folder structure
 
@@ -73,6 +80,8 @@ communication with the server extension is contained in another file
 
 ```ts
 // src/index.ts#L6-L6
+
+import { requestAPI } from './myserverextension';
 ```
 
 In the activate function, the server extension is first called through
@@ -81,6 +90,14 @@ is printed in the web browser console:
 
 ```ts
 // src/index.ts#L17-L23
+
+// GET request
+try {
+  const data = await requestAPI<any>('personal');
+  console.log(data);
+} catch (reason) {
+  console.error(`Error on GET /hello/personal.\n${reason}`);
+}
 ```
 
 As the server response is not instantanious, the request is done asynchronously
@@ -88,6 +105,8 @@ using the `await` keyword:
 
 ```ts
 // src/index.ts#L19-L19
+
+const data = await requestAPI<any>('personal');
 ```
 
 To use that `await` keyword, the function needs to be marked as asynchrone
@@ -95,6 +114,8 @@ using the `async` keyword:
 
 ```ts
 // src/index.ts#L14-L14
+
+activate: async (app: JupyterFrontEnd) => {
 ```
 
 A GET request cannot carry data from the frontend to the server. To achieve that,
@@ -103,6 +124,18 @@ is sent to the _/hello/personal_ endpoint with the data `{name: 'George'}`:
 
 ```ts
 // src/index.ts#L25-L35
+
+// POST request
+const dataToSend = { name: 'George' };
+try {
+  const reply = await requestAPI<any>('personal', {
+    body: JSON.stringify(dataToSend),
+    method: 'POST'
+  });
+  console.log(reply);
+} catch (reason) {
+  console.error(`Error on POST /hello/personal ${dataToSend}.\n${reason}`);
+}
 ```
 
 The difference with the GET request is the use of the `body` option to send data
@@ -117,12 +150,38 @@ Its definition is :
 
 ```ts
 // src/myserverextension.ts#L12-L34
+
+export async function requestAPI<T>(
+  endPoint: string = '',
+  init: RequestInit = {}
+): Promise<T> {
+  // Make request to Jupyter API
+  const settings = ServerConnection.makeSettings();
+  const requestUrl = URLExt.join(settings.baseUrl, 'hello', endPoint);
+
+  let response: Response;
+  try {
+    response = await ServerConnection.makeRequest(requestUrl, init, settings);
+  } catch (error) {
+    throw new ServerConnection.NetworkError(error);
+  }
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new ServerConnection.ResponseError(response, data.message);
+  }
+
+  return data;
+}
 ```
 
 First the server settings are obtained from:
 
 ```ts
 // src/myserverextension.ts#L17-L17
+
+const settings = ServerConnection.makeSettings();
 ```
 
 This requires to add `@jupyterlab/services` to the package dependencies:
@@ -135,18 +194,24 @@ Then the class `ServerConnection` can be imported:
 
 ```ts
 // src/myserverextension.ts#L3-L3
+
+import { ServerConnection } from '@jupyterlab/services';
 ```
 
 The next step is to build the full request URL:
 
 ```ts
 // src/myserverextension.ts#L18-L18
+
+const requestUrl = URLExt.join(settings.baseUrl, 'hello', endPoint);
 ```
 
 To concatenate the various parts, the `URLExt` utility is imported:
 
 ```ts
 // src/myserverextension.ts#L1-L1
+
+import { URLExt } from '@jupyterlab/coreutils';
 ```
 
 This requires to add another dependency to the package:
@@ -159,6 +224,8 @@ You now have all the elements to make the request:
 
 ```ts
 // src/myserverextension.ts#L22-L22
+
+response = await ServerConnection.makeRequest(requestUrl, init, settings);
 ```
 
 Finally, once the server response is obtained, its body is interpreted as
@@ -166,6 +233,14 @@ JSON. And the resulting data is returned.
 
 ```ts
 // src/myserverextension.ts#L27-L33
+
+const data = await response.json();
+
+if (!response.ok) {
+  throw new ServerConnection.ResponseError(response, data.message);
+}
+
+return data;
 ```
 
 Note:
@@ -179,154 +254,282 @@ Note:
 
 ## Backend (server) Part
 
-## Building and Installing an Extension
+The server part of the extension is gonna presented next.
 
-Let's look at the `README.md` file. It contains instructions how our
-labextension can be installed for development:
+JupyterLab server is built on top of the [Tornado]() Python package. To extend the server,
+your extension needs to be defined as a proper Python package with some hook functions:
 
-> The `jlpm` command is JupyterLab's pinned version of
-> [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
-> `yarn` or `npm` in lieu of `jlpm` below.
+```py
+# myserverextension/__init__.py
 
-```bash
-# Clone the repo to your local environment
-# Move to hello-world directory
-# Install dependencies
-jlpm
-# Build Typescript source
-jlpm build
-# Link your development version of the extension with JupyterLab
-jupyter labextension link .
-```
+from ._version import __version__
+from .handlers import setup_handlers
 
-Roughly the first command installs the dependencies that are specified in
-`package.json`. Among the dependencies are also all of the `JupyterLab`
-components that we want to use in our project, but more about this later. The
-second step runs the build script. In this step, the typescript code gets
-converted to javascript using the compiler `tsc` and stored in a `lib`
-directory. Finally, we link the module to JupyterLab.
 
-After all of these steps are done, running `jupyter labextension list` should
-now show something like:
+def _jupyter_server_extension_paths():
+    return [{
+        'module': 'myserverextension'
+    }]
 
-```bash
-   local extensions:
-        hello-world: [...]/labextension_tutorial/hello-world
-```
 
-Now let's check inside of JupyterLab if it works. Run [can take a while]:
-
-```bash
-jupyter lab --watch
-```
-
-Our extension doesn't do much so far, it just writes something to the browser
-console. So let's check if it worked. In most webbrowsers you can open the console
-pressing the `f12` key. You should see something like:
+def load_jupyter_server_extension(nb_app):
+    """Registers the API handler to receive HTTP requests from the frontend extension.
+    Parameters
+    ----------
+    nb_app: notebook.notebookapp.NotebookApp
+        Notebook application instance
+    """
+    setup_handlers(nb_app.web_app)
+    nb_app.log.info(f'Registered HelloWorld extension at URL path /hello')
 
 ```
-JupyterLab extension hello-world is activated
+
+The `_jupyter_server_extension_paths` provides paths to extension resources. But the most
+important one is `load_jupyter_server_extension` that actually register new handlers.
+
+```py
+# myserverextension/__init__.py#L18-L18
+
+setup_handlers(nb_app.web_app)
 ```
 
-Our extension works but it is incredibly boring. Let's modify the source code
-a bit. Simply replace the `activate` function with the following lines:
+A handler is registered in the web application by linking an url to a class. In this
+example the url is _base_server_url_`/hello/personal` and the class handler is `RouteHandler`:
 
-<!-- prettier-ignore-start -->
-```ts
-// src/index.ts#L12-L15
+```py
+# myserverextension/handlers.py#L21-L27
 
-activate: (app: JupyterFrontEnd) => {
-  console.log('the JupyterLab main application:');
-  console.log(app);
+def setup_handlers(web_app):
+    host_pattern = '.*$'
+
+    base_url = web_app.settings['base_url']
+    route_pattern = url_path_join(base_url, 'hello', 'personal')
+    handlers = [(route_pattern, RouteHandler)]
+    web_app.add_handlers(host_pattern, handlers)
+```
+
+For Jupyter server, the handler class must inherit from the `APIHandler` and it should
+implemented the wanted HTTP verbs. For example, here, `/hello/personal` can be requested
+by a _GET_ or a _POST_ requests. They will call the `get` or `post` methods respectively.
+
+```py
+# myserverextension/handlers.py#L6-L18
+
+class RouteHandler(APIHandler):
+    def get(self):
+        self.finish(json.dumps({
+            'data': 'This is /hello/personal endpoint!'
+        }))
+
+    def post(self):
+        # input_data is a dictionnary with a key 'name'
+        input_data = self.get_json_body()
+        data = {
+            'greetings': 'Hello {}, enjoy JupyterLab!'.format(input_data['name'])
+        }
+        self.finish(json.dumps(data))
+```
+
+Once the server has carried out the appropriate task, the handler should finish the request
+by calling the `finish` method. That method can optionally takes a argument that will
+become the response body of the request in the frontend.
+
+```py
+# myserverextension/handlers.py#L8-L10
+
+self.finish(json.dumps({
+    'data': 'This is /hello/personal endpoint!'
+}))
+```
+
+In Jupyter, it is common to use JSON as format between the frontend and the backend.
+But it should first be stringified to be a valid response body. This can be done executing
+`json.dumps` on a dictionary.
+
+A _POST_ request is similar to a _GET_ request except it may have a body containing data
+sent by the frontend. When using JSON as communication format, you can directly use the
+`get_json_body` helper method to convert the request body into a Python dictionary.
+
+```py
+# myserverextension/handlers.py#L14-L17
+
+input_data = self.get_json_body()
+data = {
+    'greetings': 'Hello {}, enjoy JupyterLab!'.format(input_data['name'])
 }
 ```
-<!-- prettier-ignore-end -->
 
-to update the module, we simply need to go into the extension directory and run
-`jlpm build` again. Since we used the `--watch` option when starting
-JupyterLab, we now only have to refresh the JupyterLab website in the browser
-and should see in the browser console:
+## Packaging the Extension
 
+### Python Package Manager
+
+In the previous sections, the acting code has been described. But there are other files
+with the sole purpose of packaging the full extension nicely to help its distribution
+through `pip`.
+
+The `setup.py` file is the entry point to describe package metadata:
+
+```py
+# setup.py#L54-L83
+
+setup_args = dict(
+    name=name,
+    version=version,
+    url="https://github.com/my_name/myextension",
+    author="my_name",
+    description="A minimal JupyterLab extension with backend and frontend parts.",
+    long_description= long_description,
+    long_description_content_type="text/markdown",
+    cmdclass= cmdclass,
+    packages=setuptools.find_packages(),
+    install_requires=[
+        "jupyterlab",
+    ],
+    zip_safe=False,
+    include_package_data=True,
+    license="BSD-3-Clause",
+    platforms="Linux, Mac OS X, Windows",
+    keywords=["Jupyter", "JupyterLab"],
+    classifiers=[
+        "License :: OSI Approved :: BSD License",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Framework :: Jupyter",
+    ],
+)
+
+setuptools.setup(**setup_args)
 ```
-Object { _started: true, _pluginMap: {…}, _serviceMap: Map(28), _delegate: {…}, commands: {…}, contextMenu: {…}, shell: {…}, registerPluginErrors: [], _dirtyCount: 0, _info: {…}, … } index.js:12
+
+But in this case, it is a bit more complicated to build the frontend extension and ship it
+directely with the Python package. To deploy simultaneously the frontend and the backend,
+the frontend NPM package needs to be built and inserted in the Python package. This is
+done by using a special `cmdclass`:
+
+```py
+# setup.py#L41-L49
+
+cmdclass = create_cmdclass("jsdeps",
+    package_data_spec=package_data_spec,
+    data_files_spec=data_files_spec
+)
+
+cmdclass["jsdeps"] = combine_commands(
+    install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
+    ensure_targets(jstargets),
+)
 ```
 
-This is the main application JupyterLab object and we will see how to interact
-with it in the next sections.
+Basically it will built the frontend NPM package:
 
-_checkout how the core packages of JupyterLab are defined at
-https://github.com/jupyterlab/jupyterlab/tree/master/packages . Each package is
-structured similarly to the extension that we are writing. This modular
-structure makes JupyterLab very adapatable_
+```py
+# setup.py#L47-L47
 
-An overview of the classes and their attributes and methods can be found in the
-JupyterLab documentation. The `@jupyterlab/application` module documentation is
-[here](https://jupyterlab.github.io/jupyterlab/application/index.html)
-and which links to the [JupyterFrontEnd class](https://jupyterlab.github.io/jupyterlab/application/classes/jupyterfrontend.html).
-The `JupyterFrontEndPlugin` is a type alias [a new name] for the type `IPlugin`.
-The definition of `IPlugin` is more difficult to find because it is defined by
-the `phosphor.js` library on top of which JupyterLab is built (more about this
-later). Its documentation is therefore located on the [phosphor.js
-website](https://phosphorjs.github.io/phosphor/api/application/interfaces/iplugin.html).
+install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
+```
 
-# myserverextension
+It will ensure one of built JS file is `lib/myserverextension.js`:
 
-![Github Actions Status](https://github.com/my_name/myextension/workflows/Build/badge.svg)
+```py
+# setup.py$L25-L27
+```
 
-A minimal JupyterLab extension with backend and frontend parts.
+It will copy the NPM package in the Python package and force it to be copied in a place
+JupyterLab is looking for frontend extension:
 
-This extension is composed of a Python package named `myserverextension`
-for the server extension and a NPM package named `jupyterlab_myserverextension`
-for the frontend extension.
+```py
+# setup.py#L36-L36
 
-## Requirements
+("share/jupyter/lab/extensions", lab_path, "*.tgz"),
+```
 
-- JupyterLab >= 1.0
+The last piece of configuration needed is the enabling of the server extension. This is
+done by copying the JSON:
 
-## Install
+```json5
+// jupyter-config/myserverextension.json
 
-Note: You will need NodeJS to installed the extension.
+{
+  NotebookApp: {
+    nbserver_extensions: {
+      myserverextension: true
+    }
+  }
+}
+```
+
+in the appropriate jupyter folder:
+
+```py
+# setup.py#L37-L38
+
+("etc/jupyter/jupyter_notebook_config.d",
+ "jupyter-config", "myserverextension.json"),
+```
+
+### JupyterLab Extension Manager
+
+The distribution as a Python package has been described in the previous subsection. But
+in JupyterLab, user have an extension manager at their disposal to find extension. If,
+like in this example, your extension needs a server extension, you should inform the
+user about that dependency by adding the `discovery` metadata in your `package.json`
+file:
+
+```json5
+// package.json#L52-L62
+
+"jupyterlab": {
+  "discovery": {
+      "server": {
+        "managers": [
+          "pip"
+        ],
+        "base": {
+          "name": "myserverextension"
+        }
+      }
+    },
+```
+
+In this example, the extension requires a `server` extension:
+
+```json5
+// package.json#L54-L54
+
+"server": {
+```
+
+And that server extension is available through `pip`:
+
+```json5
+// package.json#L55-57
+```
+
+For more information on the `discovery` metadata, please refer to the [documentation]()
+
+## Installing the Package
+
+With the packaging described above, installing the extension is done in two commands:
 
 ```bash
+# Install the server extension and
+# copy the frontend extension where JupyterLab can find it
 pip install myserverextension
+# Build JupyterLab to integrate the frontend extension
 jupyter lab build
 ```
 
-## Troubleshoot
+Note: User will need NodeJS to installed the extension.
 
-If you are see the frontend extension but it is not working, check
-that the server extension is enabled:
-
-```bash
-jupyter serverextension list
-```
-
-If the server extension is installed and enabled but your not seeing
-the frontend, check the frontend is installed:
+As developer, you will be interested to install the package in local editable mode.
+This will shunt the installation machinery described above. Therefore the commands
+to get you set are:
 
 ```bash
-jupyter labextension list
-```
-
-If it is installed, try:
-
-```bash
-jupyter lab clean
-jupyter lab build
-```
-
-## Contributing
-
-### Development Install
-
-The `jlpm` command is JupyterLab's pinned version of
-[yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
-`yarn` or `npm` in lieu of `jlpm` below.
-
-```bash
-# Clone the repo to your local environment
-# Move to myserverextension directory
-# Install server extension
+# Install server extension in editable mode
 pip install -e .
 # Register server extension
 jupyter serverextension enable --py myserverextension
@@ -341,20 +544,4 @@ jupyter labextension link .
 jlpm build
 # Rebuild JupyterLab after making any changes
 jupyter lab build
-```
-
-You can watch the source directory and run JupyterLab in watch mode to watch for changes in the extension's source and automatically rebuild the extension and application.
-
-```bash
-# Watch the source directory in another terminal tab
-jlpm watch
-# Run jupyterlab in watch mode in one terminal tab
-jupyter lab --watch
-```
-
-### Uninstall
-
-```bash
-pip uninstall myserverextension
-jupyter labextension uninstall jupyterlab_myserverextension
 ```
