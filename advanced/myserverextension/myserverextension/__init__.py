@@ -1,4 +1,4 @@
-from ._version import __version__ 
+from ._version import __version__
 from .handlers import setup_handlers
 
 

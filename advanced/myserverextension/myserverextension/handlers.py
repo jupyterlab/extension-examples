@@ -20,7 +20,7 @@ class RouteHandler(APIHandler):
 
 def setup_handlers(web_app):
     host_pattern = '.*$'
-    
+
     base_url = web_app.settings['base_url']
     route_pattern = url_path_join(base_url, 'hello', 'personal')
     handlers = [(route_pattern, RouteHandler)]

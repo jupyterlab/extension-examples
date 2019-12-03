@@ -434,7 +434,11 @@ install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
 It will ensure one of built JS file is `lib/myserverextension.js`:
 
 ```py
-# setup.py$L25-L27
+# setup.py#L25-L27
+
+jstargets = [
+    pjoin(HERE, "lib", "myserverextension.js"),
+]
 ```
 
 It will copy the NPM package in the Python package and force it to be copied in a place
@@ -449,17 +453,20 @@ JupyterLab is looking for frontend extension:
 The last piece of configuration needed is the enabling of the server extension. This is
 done by copying the JSON:
 
+<!-- prettier-ignore-start -->
 ```json5
 // jupyter-config/myserverextension.json
 
 {
-  NotebookApp: {
-    nbserver_extensions: {
-      myserverextension: true
+  "NotebookApp": {
+    "nbserver_extensions": {
+      "myserverextension": true
     }
   }
 }
+
 ```
+<!-- prettier-ignore-end -->
 
 in the appropriate jupyter folder:
 
@@ -505,7 +512,11 @@ In this example, the extension requires a `server` extension:
 And that server extension is available through `pip`:
 
 ```json5
-// package.json#L55-57
+// package.json#L55-L57
+
+"managers": [
+  "pip"
+],
 ```
 
 For more information on the `discovery` metadata, please refer to the [documentation]()

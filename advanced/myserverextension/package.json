@@ -49,7 +49,7 @@
   "sideEffects": [
     "style/*.css"
   ],
-  "jupyterlab": {    
+  "jupyterlab": {
     "discovery": {
         "server": {
           "managers": [
