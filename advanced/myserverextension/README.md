@@ -1,6 +1,6 @@
 # Introduction to Server Extension
 
-This extension describe a minimal JupyterLab extension with a backend (i.e. server) and
+This extension describes a minimal JupyterLab extension with backend (i.e. server) and
 frontend parts.
 
 ![server extension example](./preview.png)
@@ -74,9 +74,9 @@ to demonstrate the use of GET and POST request.
 
 ## Frontend Part
 
-The entry point for the frontend extension is `src/index.ts`. In
+The entry point for the frontend extension is `src/index.ts`. The
 communication with the server extension is contained in another file
-`src/myserverextension.ts`. This is the reason in this imported:
+`src/myserverextension.ts`. So you need to import it:
 
 ```ts
 // src/index.ts#L6-L6
@@ -84,7 +84,7 @@ communication with the server extension is contained in another file
 import { requestAPI } from './myserverextension';
 ```
 
-In the activate function, the server extension is first called through
+In the `activate` function, the server extension is first called through
 a GET request on the endpoint _/hello/personal_. And the server response
 is printed in the web browser console:
 
@@ -139,11 +139,11 @@ try {
 ```
 
 The difference with the GET request is the use of the `body` option to send data
-and the `method` option to set the HTTP method.
+and the `method` option to set the appropriate HTTP method.
 
-The data sent from the frontend to the backend can have different type. But in
+The data sent from the frontend to the backend can have different types. In
 JupyterLab, the most common format is JSON. But JSON cannot directly be sent to
-the server, it needs to stringified to be carried over by the request.
+the server, it needs to be stringified to be carried over by the request.
 
 The communication logic with the server is hidden in the `requestAPI` function.
 Its definition is :
@@ -256,20 +256,14 @@ Note:
 
 The server part of the extension is gonna presented next.
 
-JupyterLab server is built on top of the [Tornado]() Python package. To extend the server,
-your extension needs to be defined as a proper Python package with some hook functions:
+JupyterLab server is built on top of the [Tornado](https://tornadoweb.org/en/stable/guide.html) Python package. To extend the server,
+your extension needs to be defined as a proper Python package with one hook function:
 
 ```py
 # myserverextension/__init__.py
 
 from ._version import __version__
 from .handlers import setup_handlers
-
-
-def _jupyter_server_extension_paths():
-    return [{
-        'module': 'myserverextension'
-    }]
 
 
 def load_jupyter_server_extension(nb_app):
@@ -284,11 +278,10 @@ def load_jupyter_server_extension(nb_app):
 
 ```
 
-The `_jupyter_server_extension_paths` provides paths to extension resources. But the most
-important one is `load_jupyter_server_extension` that actually register new handlers.
+The `load_jupyter_server_extension` registers new handlers.
 
 ```py
-# myserverextension/__init__.py#L18-L18
+# myserverextension/__init__.py#L12-L12
 
 setup_handlers(nb_app.web_app)
 ```
@@ -310,7 +303,7 @@ def setup_handlers(web_app):
 
 For Jupyter server, the handler class must inherit from the `APIHandler` and it should
 implemented the wanted HTTP verbs. For example, here, `/hello/personal` can be requested
-by a _GET_ or a _POST_ requests. They will call the `get` or `post` methods respectively.
+by a _GET_ or a _POST_ request. They will call the `get` or `post` method respectively.
 
 ```py
 # myserverextension/handlers.py#L6-L18
@@ -331,7 +324,7 @@ class RouteHandler(APIHandler):
 ```
 
 Once the server has carried out the appropriate task, the handler should finish the request
-by calling the `finish` method. That method can optionally takes a argument that will
+by calling the `finish` method. That method can optionally takes an argument that will
 become the response body of the request in the frontend.
 
 ```py
@@ -359,13 +352,17 @@ data = {
 }
 ```
 
+> Note: Server extensions can be used for different frontends (like
+> JupyterLab and the classical Jupyter Notebook). Some additional
+> documentation is available in the [Notebook documentation](https://jupyter-notebook.readthedocs.io/en/stable/extending/handlers.html)
+
 ## Packaging the Extension
 
 ### Python Package Manager
 
 In the previous sections, the acting code has been described. But there are other files
 with the sole purpose of packaging the full extension nicely to help its distribution
-through `pip`.
+through package manager like `pip`.
 
 The `setup.py` file is the entry point to describe package metadata:
 
@@ -405,7 +402,7 @@ setuptools.setup(**setup_args)
 ```
 
 But in this case, it is a bit more complicated to build the frontend extension and ship it
-directely with the Python package. To deploy simultaneously the frontend and the backend,
+directly with the Python package. To deploy simultaneously the frontend and the backend,
 the frontend NPM package needs to be built and inserted in the Python package. This is
 done by using a special `cmdclass`:
 
@@ -431,7 +428,7 @@ Basically it will built the frontend NPM package:
 install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
 ```
 
-It will ensure one of built JS file is `lib/myserverextension.js`:
+It will ensure one of the generated JS files is `lib/myserverextension.js`:
 
 ```py
 # setup.py#L25-L27
@@ -442,7 +439,7 @@ jstargets = [
 ```
 
 It will copy the NPM package in the Python package and force it to be copied in a place
-JupyterLab is looking for frontend extension:
+JupyterLab is looking for frontend extensions:
 
 ```py
 # setup.py#L36-L36
@@ -451,7 +448,7 @@ JupyterLab is looking for frontend extension:
 ```
 
 The last piece of configuration needed is the enabling of the server extension. This is
-done by copying the JSON:
+done by copying the following JSON file:
 
 <!-- prettier-ignore-start -->
 ```json5
@@ -468,7 +465,7 @@ done by copying the JSON:
 ```
 <!-- prettier-ignore-end -->
 
-in the appropriate jupyter folder:
+in the appropriate jupyter folder (`etc/jupyter/jupyter_notebook_config.d`):
 
 ```py
 # setup.py#L37-L38
@@ -480,7 +477,7 @@ in the appropriate jupyter folder:
 ### JupyterLab Extension Manager
 
 The distribution as a Python package has been described in the previous subsection. But
-in JupyterLab, user have an extension manager at their disposal to find extension. If,
+in JupyterLab, user have an extension manager at their disposal to find extensions. If,
 like in this example, your extension needs a server extension, you should inform the
 user about that dependency by adding the `discovery` metadata in your `package.json`
 file:
@@ -519,7 +516,7 @@ And that server extension is available through `pip`:
 ],
 ```
 
-For more information on the `discovery` metadata, please refer to the [documentation]()
+For more information on the `discovery` metadata, please refer to the [documentation](https://jupyterlab.readthedocs.io/en/stable/developer/extension_dev.html#ext-author-companion-packages).
 
 ## Installing the Package
 
@@ -533,7 +530,7 @@ pip install myserverextension
 jupyter lab build
 ```
 
-Note: User will need NodeJS to installed the extension.
+> Note: User will need NodeJS to installed the extension.
 
 As developer, you will be interested to install the package in local editable mode.
 This will shunt the installation machinery described above. Therefore the commands
