@@ -78,7 +78,7 @@ After the execution of that command, `package.json` should list them in the
 `dependencies`:
 
 ```json5
-// package.json#L34-L38
+// package.json#L36-L40
 
 "dependencies": {
   "@jupyterlab/application": "^1.2.0",
