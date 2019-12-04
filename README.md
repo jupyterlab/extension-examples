@@ -82,7 +82,7 @@ We have structured the examples based on the [extension points](https://jupyterl
 
 | Example              | Preview                              |
 | -------------------- | ------------------------------------ |
-| [Settings](settings) | [![Settings](preview.gif)](settings) |
+| [Settings](settings) | [![Settings](settings/preview.gif)](settings) |
 
 ## State
 
