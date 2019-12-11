@@ -1,6 +1,6 @@
 {
   "name": "@jupyterlab-examples/server-extension",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A minimal JupyterLab extension with backend and frontend parts.",
   "keywords": [
     "jupyter",
