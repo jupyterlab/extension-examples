@@ -35,6 +35,7 @@ jobs:
       run: |
         diff basics/hello-world/tsconfig.json ${EXAMPLE_FOLDER}/tsconfig.json
         diff basics/hello-world/tslint.json ${EXAMPLE_FOLDER}/tslint.json
+        diff basics/hello-world/.gitignore ${EXAMPLE_FOLDER}/.gitignore
       env:
         EXAMPLE_FOLDER: ${{ matrix.example }}
     - name: Install node
