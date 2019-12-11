@@ -70,7 +70,7 @@ called `@jupyterlab/application`. The dependency of our extension on this
 package is declared in the file `package.json`:
 
 ```json5
-// package.json#L34-L36
+// package.json#L36-L38
 
 "dependencies": {
   "@jupyterlab/application": "^1.0.0"

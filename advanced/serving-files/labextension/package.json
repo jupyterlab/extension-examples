@@ -28,6 +28,8 @@
     "build": "tsc",
     "clean": "rimraf lib tsconfig.tsbuildinfo",
     "prepare": "jlpm run clean && jlpm run build",
+    "tslint": "tslint --fix -c tslint.json --project tsconfig.json \"**/*{.ts,.tsx}\"",
+    "tslint:check": "tslint -c tslint.json --project tsconfig.json \"**/*{.ts,.tsx}\"",
     "watch": "tsc -w"
   },
   "dependencies": {
@@ -38,6 +40,10 @@
   },
   "devDependencies": {
     "rimraf": "^2.6.1",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "tslint-react": "^4.1.0",
     "typescript": "~2.6.0"
   },
   "sideEffects": [

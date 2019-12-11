@@ -80,8 +80,8 @@ We have structured the examples based on the [extension points](https://jupyterl
 
 ## Settings
 
-| Example              | Preview                              |
-| -------------------- | ------------------------------------ |
+| Example              | Preview                                       |
+| -------------------- | --------------------------------------------- |
 | [Settings](settings) | [![Settings](settings/preview.gif)](settings) |
 
 ## State

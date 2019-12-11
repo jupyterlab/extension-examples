@@ -31,6 +31,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
+    - name: Check config files
+      run: |
+        diff basics/hello-world/tsconfig.json ${EXAMPLE_FOLDER}/tsconfig.json
+        diff basics/hello-world/tslint.json ${EXAMPLE_FOLDER}/tslint.json
+      env:
+        EXAMPLE_FOLDER: ${{ matrix.example }}
     - name: Install node
       uses: actions/setup-node@v1
       with:
@@ -42,10 +48,22 @@ jobs:
         architecture: 'x64'
     - name: Install the Python dependencies
       run: python -m pip install jupyterlab
+    - name: Install the NPM dependencies
+      run: |
+        cd ${EXAMPLE_FOLDER}
+        jlpm
+      env:
+        EXAMPLE_FOLDER: ${{ matrix.example }}
+    - name: Lint the files
+      run: |
+        cd ${EXAMPLE_FOLDER}
+        jlpm run tslint:check
+      env:
+        EXAMPLE_FOLDER: ${{ matrix.example }}
     - name: Build and check by extension
       run: |
         cd ${EXAMPLE_FOLDER}
-        jlpm && jlpm run build
+        jlpm run build
         jupyter labextension link .
         python -m jupyterlab.browser_check
       env:
