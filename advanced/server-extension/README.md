@@ -28,17 +28,17 @@ like this:
 
 ```bash
 author_name []: my_name
-extension_name [myextension]: myserverextension
+extension_name [myextension]: server-extension
 project_short_description [A JupyterLab extension.]: A minimal JupyterLab extension with backend and frontend parts.
 api_namespace [hello]:
 repository [https://github.com/my_name/myextension]:
 ```
 
-The cookiecutter creates the directory `myserverextension` [or your extension name]
+The cookiecutter creates the directory `server-extension` [or your extension name]
 that looks like this:
 
 ```bash
-myserverextension/
+server-extension/
 │  # Generic Files
 ├── LICENSE                     # License of your code
 ├── README.md                   # Instructions to install and build
@@ -48,8 +48,8 @@ myserverextension/
 ├── setup.py                    # Information about the server package
 ├── setupbase.py                # Helpers to package the code
 ├── jupyter-config
-│   └── myserverextension.json  # Server extension enabler
-├── myserverextension
+│   └── server-extension.json  # Server extension enabler
+├── server-extension
 │   ├── __init__.py             # Hook the extension in the server
 │   ├── _version.py             # Server extension version
 │   └── handlers.py             # API handler (where things happen)
@@ -59,7 +59,7 @@ myserverextension/
 ├── tsconfig.json               # Typescript compilation configuration
 ├── src
 │   ├── index.ts                # Actual code of the extension
-│   └── myserverextension.ts    # More code used by the extension
+│   └── server-extension.ts    # More code used by the extension
 └── style
     └── index.css               # CSS styling
 ```
@@ -76,12 +76,12 @@ to demonstrate the use of GET and POST request.
 
 The entry point for the frontend extension is `src/index.ts`. The
 communication with the server extension is contained in another file
-`src/myserverextension.ts`. So you need to import it:
+`src/server-extension.ts`. So you need to import it:
 
 ```ts
 // src/index.ts#L6-L6
 
-import { requestAPI } from './myserverextension';
+import { requestAPI } from './server-extension';
 ```
 
 In the `activate` function, the server extension is first called through
@@ -149,7 +149,7 @@ The communication logic with the server is hidden in the `requestAPI` function.
 Its definition is :
 
 ```ts
-// src/myserverextension.ts#L12-L34
+// src/server-extension.ts#L12-L34
 
 export async function requestAPI<T>(
   endPoint: string = '',
@@ -179,7 +179,7 @@ export async function requestAPI<T>(
 First the server settings are obtained from:
 
 ```ts
-// src/myserverextension.ts#L17-L17
+// src/server-extension.ts#L17-L17
 
 const settings = ServerConnection.makeSettings();
 ```
@@ -193,7 +193,7 @@ jlpm add @jupyterlab/services
 Then the class `ServerConnection` can be imported:
 
 ```ts
-// src/myserverextension.ts#L3-L3
+// src/server-extension.ts#L3-L3
 
 import { ServerConnection } from '@jupyterlab/services';
 ```
@@ -201,7 +201,7 @@ import { ServerConnection } from '@jupyterlab/services';
 The next step is to build the full request URL:
 
 ```ts
-// src/myserverextension.ts#L18-L18
+// src/server-extension.ts#L18-L18
 
 const requestUrl = URLExt.join(settings.baseUrl, 'hello', endPoint);
 ```
@@ -209,7 +209,7 @@ const requestUrl = URLExt.join(settings.baseUrl, 'hello', endPoint);
 To concatenate the various parts, the `URLExt` utility is imported:
 
 ```ts
-// src/myserverextension.ts#L1-L1
+// src/server-extension.ts#L1-L1
 
 import { URLExt } from '@jupyterlab/coreutils';
 ```
@@ -223,7 +223,7 @@ jlpm add @jupyterlab/coreutils
 You now have all the elements to make the request:
 
 ```ts
-// src/myserverextension.ts#L22-L22
+// src/server-extension.ts#L22-L22
 
 response = await ServerConnection.makeRequest(requestUrl, init, settings);
 ```
@@ -232,7 +232,7 @@ Finally, once the server response is obtained, its body is interpreted as
 JSON. And the resulting data is returned.
 
 ```ts
-// src/myserverextension.ts#L27-L33
+// src/server-extension.ts#L27-L33
 
 const data = await response.json();
 
@@ -260,7 +260,7 @@ JupyterLab server is built on top of the [Tornado](https://tornadoweb.org/en/sta
 your extension needs to be defined as a proper Python package with some hook functions:
 
 ```py
-# myserverextension/__init__.py
+# server-extension/__init__.py
 
 from ._version import __version__
 from .handlers import setup_handlers
@@ -268,7 +268,7 @@ from .handlers import setup_handlers
 
 def _jupyter_server_extension_paths():
     return [{
-        'module': 'myserverextension'
+        'module': 'server-extension'
     }]
 
 
@@ -289,7 +289,7 @@ to the server. But the most important one is `load_jupyter_server_extension`
 that register new handlers.
 
 ```py
-# myserverextension/__init__.py#L18-L18
+# server-extension/__init__.py#L18-L18
 
 setup_handlers(nb_app.web_app)
 ```
@@ -298,7 +298,7 @@ A handler is registered in the web application by linking an url to a class. In 
 example the url is _base_server_url_`/hello/personal` and the class handler is `RouteHandler`:
 
 ```py
-# myserverextension/handlers.py#L21-L27
+# server-extension/handlers.py#L21-L27
 
 def setup_handlers(web_app):
     host_pattern = '.*$'
@@ -314,7 +314,7 @@ implemented the wanted HTTP verbs. For example, here, `/hello/personal` can be r
 by a _GET_ or a _POST_ request. They will call the `get` or `post` method respectively.
 
 ```py
-# myserverextension/handlers.py#L6-L18
+# server-extension/handlers.py#L6-L18
 
 class RouteHandler(APIHandler):
     def get(self):
@@ -336,7 +336,7 @@ by calling the `finish` method. That method can optionally takes an argument tha
 become the response body of the request in the frontend.
 
 ```py
-# myserverextension/handlers.py#L8-L10
+# server-extension/handlers.py#L8-L10
 
 self.finish(json.dumps({
     'data': 'This is /hello/personal endpoint!'
@@ -352,7 +352,7 @@ sent by the frontend. When using JSON as communication format, you can directly 
 `get_json_body` helper method to convert the request body into a Python dictionary.
 
 ```py
-# myserverextension/handlers.py#L14-L17
+# server-extension/handlers.py#L14-L17
 
 input_data = self.get_json_body()
 data = {
@@ -436,13 +436,13 @@ Basically it will built the frontend NPM package:
 install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
 ```
 
-It will ensure one of the generated JS files is `lib/myserverextension.js`:
+It will ensure one of the generated JS files is `lib/server-extension.js`:
 
 ```py
 # setup.py#L25-L27
 
 jstargets = [
-    pjoin(HERE, "lib", "myserverextension.js"),
+    pjoin(HERE, "lib", "server-extension.js"),
 ]
 ```
 
@@ -460,12 +460,12 @@ done by copying the following JSON file:
 
 <!-- prettier-ignore-start -->
 ```json5
-// jupyter-config/myserverextension.json
+// jupyter-config/server-extension.json
 
 {
   "NotebookApp": {
     "nbserver_extensions": {
-      "myserverextension": true
+      "server-extension": true
     }
   }
 }
@@ -479,7 +479,7 @@ in the appropriate jupyter folder (`etc/jupyter/jupyter_notebook_config.d`):
 # setup.py#L37-L38
 
 ("etc/jupyter/jupyter_notebook_config.d",
- "jupyter-config", "myserverextension.json"),
+ "jupyter-config", "server-extension.json"),
 ```
 
 ### JupyterLab Extension Manager
@@ -500,7 +500,7 @@ file:
           "pip"
         ],
         "base": {
-          "name": "myserverextension"
+          "name": "server-extension"
         }
       }
     },
@@ -533,7 +533,7 @@ With the packaging described above, installing the extension is done in two comm
 ```bash
 # Install the server extension and
 # copy the frontend extension where JupyterLab can find it
-pip install myserverextension
+pip install server-extension
 # Build JupyterLab to integrate the frontend extension
 jupyter lab build
 ```
@@ -548,7 +548,7 @@ to get you set are:
 # Install server extension in editable mode
 pip install -e .
 # Register server extension
-jupyter serverextension enable --py myserverextension
+jupyter serverextension enable --py server-extension
 # Install dependencies
 jlpm
 # Build Typescript source

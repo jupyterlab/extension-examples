@@ -1,5 +1,5 @@
 """
-Setup Module to setup Python Handlers for the myserverextension extension.
+Setup Module to setup Python Handlers for the server-extension extension.
 """
 from os.path import join as pjoin
 
@@ -11,7 +11,7 @@ from setupbase import (
 import setuptools
 
 # The name of the project
-name="myserverextension"
+name="server_extension"
 
 # Ensure a valid python version
 ensure_python(">=3.6")
@@ -23,7 +23,7 @@ lab_path = pjoin(HERE, name, "labextension")
 
 # Representative files that should exist after a successful build
 jstargets = [
-    pjoin(HERE, "lib", "myserverextension.js"),
+    pjoin(HERE, "lib", "server_extension.js"),
 ]
 
 package_data_spec = {
@@ -35,7 +35,7 @@ package_data_spec = {
 data_files_spec = [
     ("share/jupyter/lab/extensions", lab_path, "*.tgz"),
     ("etc/jupyter/jupyter_notebook_config.d",
-     "jupyter-config", "myserverextension.json"),
+     "jupyter-config", "server_extension.json"),
 ]
 
 cmdclass = create_cmdclass("jsdeps",

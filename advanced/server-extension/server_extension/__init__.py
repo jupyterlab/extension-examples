@@ -4,7 +4,7 @@ from .handlers import setup_handlers
 
 def _jupyter_server_extension_paths():
     return [{
-        'module': 'myserverextension'
+        'module': 'server_extension'
     }]
 
 

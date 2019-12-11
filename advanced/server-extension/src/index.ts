@@ -3,16 +3,16 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { requestAPI } from './myserverextension';
+import { requestAPI } from './server_extension';
 
 /**
- * Initialization data for the myserverextension extension.
+ * Initialization data for the server-extension extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'myserverextension',
+  id: 'server-extension',
   autoStart: true,
   activate: async (app: JupyterFrontEnd) => {
-    console.log('JupyterLab extension myserverextension is activated!');
+    console.log('JupyterLab extension server-extension is activated!');
 
     // GET request
     try {

@@ -1,5 +1,5 @@
 {
-  "name": "jupyterlab_myserverextension",
+  "name": "@jupyterlab-examples/server-extension",
   "version": "0.0.0",
   "description": "A minimal JupyterLab extension with backend and frontend parts.",
   "keywords": [
@@ -26,12 +26,12 @@
   },
   "scripts": {
     "build": "jlpm run build:lib",
-    "build:labextension": "cd myserverextension && rimraf labextension && mkdirp labextension && cd labextension && npm pack ../..",
+    "build:labextension": "cd server-extension && rimraf labextension && mkdirp labextension && cd labextension && npm pack ../..",
     "build:lib": "tsc",
     "build:all": "jlpm run build:labextension",
     "clean": "jlpm run clean:lib",
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
-    "clean:labextension": "rimraf myserverextension/labextension",
+    "clean:labextension": "rimraf server-extension/labextension",
     "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
     "prepare": "jlpm run clean && jlpm run build",
     "watch": "tsc -w"
@@ -56,7 +56,7 @@
             "pip"
           ],
           "base": {
-            "name": "myserverextension"
+            "name": "server-extension"
           }
         }
       },

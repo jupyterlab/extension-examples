@@ -87,7 +87,7 @@ jobs:
       run: python -m pip install jupyterlab
     - name: Build and check extension as user
       run: |
-        cd advanced/myserverextension
+        cd advanced/server-extension
         pip install .
         jupyter lab build
         jupyter serverextension list
@@ -95,15 +95,15 @@ jobs:
         python -m jupyterlab.browser_check
     - name: Clean extension installation
       run: |
-        pip uninstall -y myserverextension
+        pip uninstall -y server_extension
         jupyter lab clean
         jupyter serverextension list
         jupyter labextension list
     - name: Build and check extension as dev
       run: |
-        cd advanced/myserverextension
+        cd advanced/server-extension
         pip install -e .
-        jupyter serverextension enable --py myserverextension
+        jupyter serverextension enable --py server_extension
         jupyter labextension link .
         jupyter serverextension list
         jupyter labextension list
