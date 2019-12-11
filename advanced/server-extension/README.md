@@ -5,7 +5,7 @@ frontend parts.
 
 ![server extension example](./preview.png)
 
-It is strongly adviced to go over the [basic hello-world](../../basics/hello-world)
+It is strongly recommended to read the [basic hello-world](../../basics/hello-world)
 example before diving into this one.
 
 - [The template folder structure](#the-template-folder-structure)
@@ -70,7 +70,7 @@ There are two major parts in the full extension:
 - A NPM package for the frontend extension
 
 In this example, you will see that the template code have been extended
-to demonstrate the use of GET and POST request.
+to demonstrate the use of GET and POST requests.
 
 ## Frontend Part
 
@@ -85,7 +85,7 @@ import { requestAPI } from './server-extension';
 ```
 
 In the `activate` function, the server extension is first called through
-a GET request on the endpoint _/hello/personal_. And the server response
+a GET request on the endpoint _/hello/personal_. The response from the server
 is printed in the web browser console:
 
 ```ts
@@ -109,7 +109,7 @@ using the `await` keyword:
 const data = await requestAPI<any>('personal');
 ```
 
-To use that `await` keyword, the function needs to be marked as asynchrone
+To use that `await` keyword, the function must be declared as asynchronous
 using the `async` keyword:
 
 ```ts
@@ -310,7 +310,7 @@ def setup_handlers(web_app):
 ```
 
 For Jupyter server, the handler class must inherit from the `APIHandler` and it should
-implemented the wanted HTTP verbs. For example, here, `/hello/personal` can be requested
+implement the wanted HTTP verbs. For example, here, `/hello/personal` can be requested
 by a _GET_ or a _POST_ request. They will call the `get` or `post` method respectively.
 
 ```py
@@ -332,7 +332,7 @@ class RouteHandler(APIHandler):
 ```
 
 Once the server has carried out the appropriate task, the handler should finish the request
-by calling the `finish` method. That method can optionally takes an argument that will
+by calling the `finish` method. That method can optionally take an argument that will
 become the response body of the request in the frontend.
 
 ```py
@@ -370,7 +370,7 @@ data = {
 
 In the previous sections, the acting code has been described. But there are other files
 with the sole purpose of packaging the full extension nicely to help its distribution
-through package manager like `pip`.
+through package managers like `pip`.
 
 The `setup.py` file is the entry point to describe package metadata:
 
@@ -412,7 +412,7 @@ setuptools.setup(**setup_args)
 But in this case, it is a bit more complicated to build the frontend extension and ship it
 directly with the Python package. To deploy simultaneously the frontend and the backend,
 the frontend NPM package needs to be built and inserted in the Python package. This is
-done by using a special `cmdclass`:
+done using a special `cmdclass`:
 
 ```py
 # setup.py#L41-L49
@@ -428,7 +428,7 @@ cmdclass["jsdeps"] = combine_commands(
 )
 ```
 
-Basically it will built the frontend NPM package:
+Basically it will build the frontend NPM package:
 
 ```py
 # setup.py#L47-L47
@@ -485,9 +485,9 @@ in the appropriate jupyter folder (`etc/jupyter/jupyter_notebook_config.d`):
 ### JupyterLab Extension Manager
 
 The distribution as a Python package has been described in the previous subsection. But
-in JupyterLab, user have an extension manager at their disposal to find extensions. If,
+in JupyterLab, users have an extension manager at their disposal to find extensions. If,
 like in this example, your extension needs a server extension, you should inform the
-user about that dependency by adding the `discovery` metadata in your `package.json`
+user about that dependency by adding the `discovery` metadata to your `package.json`
 file:
 
 ```json5
@@ -538,9 +538,9 @@ pip install server-extension
 jupyter lab build
 ```
 
-> Note: User will need NodeJS to installed the extension.
+> Note: User will need NodeJS to install the extension.
 
-As developer, you will be interested to install the package in local editable mode.
+As developer, you might want to install the package in local editable mode.
 This will shunt the installation machinery described above. Therefore the commands
 to get you set are:
 
