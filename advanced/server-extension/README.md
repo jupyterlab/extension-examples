@@ -81,7 +81,7 @@ communication with the server extension is contained in another file
 ```ts
 // src/index.ts#L6-L6
 
-import { requestAPI } from './server-extension';
+import { requestAPI } from './server_extension';
 ```
 
 In the `activate` function, the server extension is first called through
@@ -442,7 +442,7 @@ It will ensure one of the generated JS files is `lib/server-extension.js`:
 # setup.py#L25-L27
 
 jstargets = [
-    pjoin(HERE, "lib", "server-extension.js"),
+    pjoin(HERE, "lib", "server_extension.js"),
 ]
 ```
 
@@ -479,7 +479,7 @@ in the appropriate jupyter folder (`etc/jupyter/jupyter_notebook_config.d`):
 # setup.py#L37-L38
 
 ("etc/jupyter/jupyter_notebook_config.d",
- "jupyter-config", "server-extension.json"),
+ "jupyter-config", "server_extension.json"),
 ```
 
 ### JupyterLab Extension Manager
@@ -491,7 +491,7 @@ user about that dependency by adding the `discovery` metadata to your `package.j
 file:
 
 ```json5
-// package.json#L52-L62
+// package.json#L53-L63
 
 "jupyterlab": {
   "discovery": {
@@ -500,7 +500,7 @@ file:
           "pip"
         ],
         "base": {
-          "name": "server-extension"
+          "name": "server_extension"
         }
       }
     },
@@ -509,7 +509,7 @@ file:
 In this example, the extension requires a `server` extension:
 
 ```json5
-// package.json#L54-L54
+// package.json#L55-L55
 
 "server": {
 ```
@@ -517,7 +517,7 @@ In this example, the extension requires a `server` extension:
 And that server extension is available through `pip`:
 
 ```json5
-// package.json#L55-L57
+// package.json#L56-L58
 
 "managers": [
   "pip"
