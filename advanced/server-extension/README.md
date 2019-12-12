@@ -254,7 +254,7 @@ Note:
 
 ## Backend (server) Part
 
-The server part of the extension is gonna presented next.
+The server part of the extension is going to be presented next.
 
 JupyterLab server is built on top of the [Tornado](https://tornadoweb.org/en/stable/guide.html) Python package. To extend the server,
 your extension needs to be defined as a proper Python package with some hook functions:
@@ -344,7 +344,7 @@ self.finish(json.dumps({
 ```
 
 In Jupyter, it is common to use JSON as format between the frontend and the backend.
-But it should first be stringified to be a valid response body. This can be done executing
+But it should first be stringified to be a valid response body. This can be done using
 `json.dumps` on a dictionary.
 
 A _POST_ request is similar to a _GET_ request except it may have a body containing data
