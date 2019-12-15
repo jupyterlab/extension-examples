@@ -375,7 +375,7 @@ through package managers like `pip`.
 The `setup.py` file is the entry point to describe package metadata:
 
 ```py
-# setup.py#L54-L83
+# setup.py#L56-L87
 
 setup_args = dict(
     name=name,
@@ -406,7 +406,9 @@ setup_args = dict(
     ],
 )
 
-setuptools.setup(**setup_args)
+
+if __name__ == '__main__':
+    setuptools.setup(**setup_args)
 ```
 
 But in this case, it is a bit more complicated to build the frontend extension and ship it
@@ -415,7 +417,7 @@ the frontend NPM package needs to be built and inserted in the Python package. T
 done using a special `cmdclass`:
 
 ```py
-# setup.py#L41-L49
+# setup.py#L43-L51
 
 cmdclass = create_cmdclass("jsdeps",
     package_data_spec=package_data_spec,
@@ -431,7 +433,7 @@ cmdclass["jsdeps"] = combine_commands(
 Basically it will build the frontend NPM package:
 
 ```py
-# setup.py#L47-L47
+# setup.py#L49-L49
 
 install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
 ```
@@ -439,7 +441,7 @@ install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
 It will ensure one of the generated JS files is `lib/server-extension.js`:
 
 ```py
-# setup.py#L25-L27
+# setup.py#L27-L29
 
 jstargets = [
     pjoin(HERE, "lib", "server_extension.js"),
@@ -450,7 +452,7 @@ It will copy the NPM package in the Python package and force it to be copied in 
 JupyterLab is looking for frontend extensions:
 
 ```py
-# setup.py#L36-L36
+# setup.py#L38-L38
 
 ("share/jupyter/lab/extensions", lab_path, "*.tgz"),
 ```
@@ -476,7 +478,7 @@ done by copying the following JSON file:
 in the appropriate jupyter folder (`etc/jupyter/jupyter_notebook_config.d`):
 
 ```py
-# setup.py#L37-L38
+# setup.py#L39-L40
 
 ("etc/jupyter/jupyter_notebook_config.d",
  "jupyter-config", "server_extension.json"),
