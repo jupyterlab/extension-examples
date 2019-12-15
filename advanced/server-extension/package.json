@@ -33,7 +33,6 @@
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
     "clean:labextension": "rimraf server_extension/labextension",
     "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
-    "link": "jupyter labextension link . --no-build",
     "prepare": "jlpm run clean && jlpm run build",
     "watch": "tsc -w"
   },
