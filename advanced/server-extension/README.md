@@ -28,7 +28,7 @@ like this:
 
 ```bash
 author_name []: my_name
-extension_name [myextension]: server-extension
+extension_name [myextension]: server_extension
 project_short_description [A JupyterLab extension.]: A minimal JupyterLab extension with backend and frontend parts.
 api_namespace [hello]:
 repository [https://github.com/my_name/myextension]:
@@ -48,8 +48,8 @@ server-extension/
 ├── setup.py                    # Information about the server package
 ├── setupbase.py                # Helpers to package the code
 ├── jupyter-config
-│   └── server-extension.json  # Server extension enabler
-├── server-extension
+│   └── server_extension.json  # Server extension enabler
+├── server_extension
 │   ├── __init__.py             # Hook the extension in the server
 │   ├── _version.py             # Server extension version
 │   └── handlers.py             # API handler (where things happen)
@@ -59,7 +59,7 @@ server-extension/
 ├── tsconfig.json               # Typescript compilation configuration
 ├── src
 │   ├── index.ts                # Actual code of the extension
-│   └── server-extension.ts    # More code used by the extension
+│   └── server_extension.ts    # More code used by the extension
 └── style
     └── index.css               # CSS styling
 ```
@@ -70,7 +70,7 @@ There are two major parts in the full extension:
 - A NPM package for the frontend extension
 
 In this example, you will see that the template code have been extended
-to demonstrate the use of GET and POST requests.
+to demonstrate the use of GET and POST HTTP requests.
 
 ## Frontend Part
 
@@ -254,7 +254,7 @@ Note:
 
 ## Backend (server) Part
 
-The server part of the extension is going to be presented next.
+The server part of the extension is going to be presented in this section.
 
 JupyterLab server is built on top of the [Tornado](https://tornadoweb.org/en/stable/guide.html) Python package. To extend the server,
 your extension needs to be defined as a proper Python package with some hook functions:

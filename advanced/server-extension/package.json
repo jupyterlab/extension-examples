@@ -26,7 +26,7 @@
   },
   "scripts": {
     "build": "jlpm run build:lib",
-    "build:labextension": "cd server_extension && rimraf labextension && mkdirp labextension && cd labextension && npm pack ../..",
+    "build:labextension": "cd server_extension && rimraf labextension && mkdirp labextension && cd labextension && jlpm pack ../..",
     "build:lib": "tsc",
     "build:all": "jlpm run build:labextension",
     "clean": "jlpm run clean:lib",

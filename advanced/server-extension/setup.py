@@ -1,14 +1,16 @@
 """
 Setup Module to setup Python Handlers for the server-extension extension.
 """
+import os
 from os.path import join as pjoin
 
 from setupbase import (
     create_cmdclass, install_npm, ensure_targets,
-    combine_commands, ensure_python, get_version,
-    HERE
+    combine_commands, ensure_python, get_version    
 )
 import setuptools
+
+HERE = os.path.abspath(os.path.dirname(__file__))
 
 # The name of the project
 name="server_extension"
@@ -80,4 +82,6 @@ setup_args = dict(
     ],
 )
 
-setuptools.setup(**setup_args)
+
+if __name__ == '__main__':
+    setuptools.setup(**setup_args)

@@ -23,9 +23,9 @@ import sys
 if os.path.exists('MANIFEST'): os.remove('MANIFEST')
 
 
-from distutils.cmd import Command
-from distutils.command.build_py import build_py
-from distutils.command.sdist import sdist
+from setuptools import Command
+from setuptools.command.build_py import build_py
+from setuptools.command.sdist import sdist
 from distutils import log
 
 from setuptools.command.develop import develop
@@ -43,22 +43,13 @@ else:
         return ' '.join(map(pipes.quote, cmd_list))
 
 
-__version__ = '0.3.0'
+__version__ = '0.4.0'
 
 # ---------------------------------------------------------------------------
 # Top Level Variables
 # ---------------------------------------------------------------------------
 
-HERE = os.path.abspath(os.path.dirname(__file__))
-is_repo = os.path.exists(pjoin(HERE, '.git'))
-node_modules = pjoin(HERE, 'node_modules')
-
 SEPARATORS = os.sep if os.altsep is None else os.sep + os.altsep
-
-npm_path = ':'.join([
-    pjoin(HERE, 'node_modules', '.bin'),
-    os.environ.get('PATH', os.defpath),
-])
 
 if "--skip-npm" in sys.argv:
     print("Skipping npm install as requested.")
@@ -101,18 +92,17 @@ def ensure_python(specs):
     raise ValueError('Python version %s unsupported' % part)
 
 
-def find_packages(top=HERE):
+def find_packages(top):
     """
     Find all of the packages.
     """
-    packages = []
-    for d, dirs, _ in os.walk(top, followlinks=True):
-        if os.path.exists(pjoin(d, '__init__.py')):
-            packages.append(os.path.relpath(d, top).replace(os.path.sep, '.'))
-        elif d != top:
-            # Do not look for packages in subfolders if current is not a package
-            dirs[:] = []
-    return packages
+    import warnings
+    warnings.warn(
+        'Deprecated, please use setuptools.find_packages',
+        category=DeprecationWarning
+    )
+    from setuptools import find_packages as fp
+    return fp(top)
 
 
 def update_package_data(distribution):
@@ -123,6 +113,7 @@ def update_package_data(distribution):
 
 class bdist_egg_disabled(bdist_egg):
     """Disabled version of bdist_egg
+
     Prevents setup.py install performing setuptools' default easy_install,
     which it should never ever do.
     """
@@ -132,8 +123,9 @@ class bdist_egg_disabled(bdist_egg):
 
 
 def create_cmdclass(prerelease_cmd=None, package_data_spec=None,
-        data_files_spec=None):
+                    data_files_spec=None):
     """Create a command class with the given optional prerelease class.
+
     Parameters
     ----------
     prerelease_cmd: (name, Command) tuple, optional
@@ -145,14 +137,17 @@ def create_cmdclass(prerelease_cmd=None, package_data_spec=None,
         A list of (path, dname, pattern) tuples where the path is the
         `data_files` install path, dname is the source directory, and the
         pattern is a glob pattern.
+
     Notes
     -----
     We use specs so that we can find the files *after* the build
     command has run.
+
     The package data glob patterns should be relative paths from the package
     folder containing the __init__.py file, which is given as the package
     name.
     e.g. `dict(foo=['./bar/*', './baz/**'])`
+
     The data files directories should be absolute paths or relative paths
     from the root directory of the repository.  Data files are specified
     differently from `package_data` because we need a separate path entry
@@ -170,6 +165,8 @@ def create_cmdclass(prerelease_cmd=None, package_data_spec=None,
         egg = wrapper(bdist_egg, strict=True)
     else:
         egg = bdist_egg_disabled
+
+    is_repo = os.path.exists('.git')
 
     cmdclass = dict(
         build_py=wrapper(build_py, strict=is_repo),
@@ -198,13 +195,17 @@ def command_for_func(func):
 
 
 def run(cmd, **kwargs):
-    """Echo a command before running it.  Defaults to repo as cwd"""
+    """Echo a command before running it."""
     log.info('> ' + list2cmdline(cmd))
-    kwargs.setdefault('cwd', HERE)
     kwargs.setdefault('shell', os.name == 'nt')
     if not isinstance(cmd, (list, tuple)) and os.name != 'nt':
         cmd = shlex.split(cmd)
-    cmd[0] = which(cmd[0])
+    cmd_path = which(cmd[0])
+    if not cmd_path:
+        sys.exit("Aborting. Could not find cmd (%s) in path. "
+                 "If command is not expected to be in user's path, "
+                 "use an absolute path." % cmd[0])
+    cmd[0] = cmd_path
     return subprocess.check_call(cmd, **kwargs)
 
 
@@ -260,6 +261,7 @@ def combine_commands(*commands):
 
 def compare_recursive_mtime(path, cutoff, newest=True):
     """Compare the newest/oldest mtime for all files in a directory.
+
     Cutoff should be another mtime to be compared against. If an mtime that is
     newer/older than the cutoff is found it will return True.
     E.g. if newest=True, and a file in path is newer than the cutoff, it will
@@ -304,13 +306,16 @@ def mtime(path):
     return os.stat(path).st_mtime
 
 
-def install_npm(path=None, build_dir=None, source_dir=None, build_cmd='build', force=False, npm=None):
+def install_npm(path=None, build_dir=None, source_dir=None, build_cmd='build',
+                force=False, npm=None):
     """Return a Command for managing an npm installation.
+
     Note: The command is skipped if the `--skip-npm` flag is used.
+
     Parameters
     ----------
     path: str, optional
-        The base path of the node package.  Defaults to the repo root.
+        The base path of the node package. Defaults to the current directory.
     build_dir: str, optional
         The target build directory.  If this and source_dir are given,
         the JavaScript will only be build if necessary.
@@ -329,7 +334,7 @@ def install_npm(path=None, build_dir=None, source_dir=None, build_cmd='build', f
             if skip_npm:
                 log.info('Skipping npm-installation')
                 return
-            node_package = path or HERE
+            node_package = path or os.path.abspath(os.getcwd())
             node_modules = pjoin(node_package, 'node_modules')
             is_yarn = os.path.exists(pjoin(node_package, 'yarn.lock'))
 
@@ -363,7 +368,9 @@ def install_npm(path=None, build_dir=None, source_dir=None, build_cmd='build', f
 
 def ensure_targets(targets):
     """Return a Command that checks that certain files exist.
+
     Raises a ValueError if any of the files are missing.
+
     Note: The check is skipped if the `--skip-npm` flag is used.
     """
 
@@ -440,6 +447,7 @@ def which(cmd, mode=os.F_OK | os.X_OK, path=None):
 
 def _wrap_command(cmds, cls, strict=True):
     """Wrap a setup command
+
     Parameters
     ----------
     cmds: list(str)
@@ -485,18 +493,29 @@ def _get_file_handler(package_data_spec, data_files_spec):
     return FileHandler
 
 
-def _get_data_files(data_specs, existing):
+def _glob_pjoin(*parts):
+    """Join paths for glob processing"""
+    if parts[0] in ('.', ''):
+        parts = parts[1:]
+    return pjoin(*parts).replace(os.sep, '/')
+
+
+def _get_data_files(data_specs, existing, top=None):
     """Expand data file specs into valid data files metadata.
+
     Parameters
     ----------
     data_specs: list of tuples
-        See [createcmdclass] for description.
+        See [create_cmdclass] for description.
     existing: list of tuples
         The existing distribution data_files metadata.
+
     Returns
     -------
     A valid list of data_files items.
     """
+    if top is None:
+        top = os.path.abspath(os.getcwd())
     # Extract the existing data files into a staging object.
     file_data = defaultdict(list)
     for (path, files) in existing or []:
@@ -505,14 +524,15 @@ def _get_data_files(data_specs, existing):
     # Extract the files and assign them to the proper data
     # files path.
     for (path, dname, pattern) in data_specs or []:
+        if os.path.isabs(dname):
+            dname = os.path.relpath(dname, top)
         dname = dname.replace(os.sep, '/')
-        offset = len(dname) + 1
-
-        files = _get_files(pjoin(dname, pattern))
+        offset = 0 if dname in ('.', '') else len(dname) + 1
+        files = _get_files(_glob_pjoin(dname, pattern), top=top)
         for fname in files:
             # Normalize the path.
             root = os.path.dirname(fname)
-            full_path = '/'.join([path, root[offset:]])
+            full_path = _glob_pjoin(path, root[offset:])
             if full_path.endswith('/'):
                 full_path = full_path[:-1]
             file_data[full_path].append(fname)
@@ -524,8 +544,9 @@ def _get_data_files(data_specs, existing):
     return data_files
 
 
-def _get_files(file_patterns, top=HERE):
+def _get_files(file_patterns, top=None):
     """Expand file patterns to a list of paths.
+
     Parameters
     -----------
     file_patterns: list or str
@@ -535,9 +556,12 @@ def _get_files(file_patterns, top=HERE):
         absolute paths.
     top: str
         the directory to consider for data files
+
     Note:
     Files in `node_modules` are ignored.
     """
+    if top is None:
+        top = os.path.abspath(os.getcwd())
     if not isinstance(file_patterns, (list, tuple)):
         file_patterns = [file_patterns]
 
@@ -555,30 +579,33 @@ def _get_files(file_patterns, top=HERE):
             dirnames.remove('node_modules')
         for m in matchers:
             for filename in filenames:
-                fn = os.path.relpath(pjoin(root, filename), top)
+                fn = os.path.relpath(_glob_pjoin(root, filename), top)
+                fn = fn.replace(os.sep, '/')
                 if m(fn):
-                    files.add(fn.replace(os.sep, '/'))
+                    files.add(fn)
 
     return list(files)
 
 
 def _get_package_data(root, file_patterns=None):
     """Expand file patterns to a list of `package_data` paths.
+
     Parameters
     -----------
     root: str
-        The relative path to the package root from `HERE`.
+        The relative path to the package root from the current dir.
     file_patterns: list or str, optional
         A list of glob patterns for the data file locations.
         The globs can be recursive if they include a `**`.
         They should be relative paths from the root or
         absolute paths.  If not given, all files will be used.
+
     Note:
     Files in `node_modules` are ignored.
     """
     if file_patterns is None:
         file_patterns = ['*']
-    return _get_files(file_patterns, pjoin(HERE, root))
+    return _get_files(file_patterns, _glob_pjoin(os.path.abspath(os.getcwd()), root))
 
 
 def _compile_pattern(pat, ignore_case=True):
@@ -595,6 +622,7 @@ def _compile_pattern(pat, ignore_case=True):
 
 def _iexplode_path(path):
     """Iterate over all the parts of a path.
+
     Splits path recursively with os.path.split().
     """
     (head, tail) = os.path.split(path)
@@ -616,11 +644,12 @@ def _translate_glob(pat):
         translated_parts.append(_translate_glob_part(part))
     os_sep_class = '[%s]' % re.escape(SEPARATORS)
     res = _join_translated(translated_parts, os_sep_class)
-    return '{res}\\Z(?ms)'.format(res=res)
+    return '(?ms){res}\\Z'.format(res=res)
 
 
 def _join_translated(translated_parts, os_sep_class):
     """Join translated glob pattern parts.
+
     This is different from a simple join, as care need to be taken
     to allow ** to match ZERO or more directories.
     """
