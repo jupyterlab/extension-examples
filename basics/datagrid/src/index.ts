@@ -2,16 +2,12 @@ import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-
+import { ICommandPalette } from '@jupyterlab/apputils';
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
-import { Menu } from '@phosphor/widgets';
-
-import { ICommandPalette } from '@jupyterlab/apputils';
-
-import { StackedPanel } from '@phosphor/widgets';
-
 import { DataGrid, DataModel } from '@phosphor/datagrid';
+
+import { Menu, StackedPanel } from '@phosphor/widgets';
 
 /**
  * Initialization data for the extension1 extension.
@@ -26,12 +22,12 @@ const extension: JupyterFrontEndPlugin<void> = {
     mainMenu: IMainMenu
   ) => {
     const { commands, shell } = app;
-    let command = 'ex4:datagrid';
+    let command = 'examples:datagrid';
     let category = 'Tutorial';
     commands.addCommand(command, {
-      label: 'Ex4 datagrid',
+      label: 'Datagrid example',
       caption: 'Open a datagrid panel',
-      execute: args => {
+      execute: () => {
         const widget = new TutorialView();
         shell.add(widget, 'main');
       }
