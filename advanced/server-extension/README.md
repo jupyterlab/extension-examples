@@ -372,6 +372,11 @@ In the previous sections, the acting code has been described. But there are othe
 with the sole purpose of packaging the full extension nicely to help its distribution
 through package managers like `pip`.
 
+> Note: In particular, `setupbase.py` provides helpers to package and install JS files
+> with a Python package for jupyter frontend (classical notebook,
+> JupyterLab,...).  
+> Those helpers are maintained in [`jupyter-packaging`](https://github.com/jupyter/jupyter-packaging). As this provides setup helpers, it is easier to copy them along side the `setup.py` file as recommended in the `jupyter-packaging` README.
+
 The `setup.py` file is the entry point to describe package metadata:
 
 ```py
