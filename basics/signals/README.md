@@ -38,7 +38,7 @@ subscribes to the `stateChanged` signal and links some function to it:
 ```ts
 // src/panel.ts#L22-L24
 
-this.widget.stateChanged.connect(() => {
+this._widget.stateChanged.connect(() => {
   console.log('changed');
 });
 ```
@@ -118,14 +118,14 @@ export class ExamplePanel extends StackedPanel {
     this.title.label = 'Example View';
     this.title.closable = true;
 
-    this.widget = new ExampleView();
-    this.addWidget(this.widget);
-    this.widget.stateChanged.connect(() => {
+    this._widget = new ExampleView();
+    this.addWidget(this._widget);
+    this._widget.stateChanged.connect(() => {
       console.log('changed');
     });
   }
 
-  private widget: ExampleView;
+  private _widget: ExampleView;
 }
 ```
 

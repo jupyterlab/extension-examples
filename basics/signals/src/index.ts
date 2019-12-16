@@ -39,7 +39,7 @@ function activate(
 ) {
   const manager = app.serviceManager;
   const { commands, shell } = app;
-  let category = 'Examples';
+  const category = 'Examples';
 
   // Add launcher
   if (launcher) {
@@ -59,13 +59,12 @@ function activate(
   }
 
   // Add menu tab
-  let exampleMenu: Menu = new Menu({ commands });
+  const exampleMenu = new Menu({ commands });
   exampleMenu.title.label = 'Examples';
   mainMenu.addMenu(exampleMenu);
 
   // Add commands to registry
-  let command = CommandIDs.create;
-  commands.addCommand(command, {
+  commands.addCommand(CommandIDs.create, {
     label: 'Signal example: open Panel',
     caption: 'Open the Signal example panel',
     execute: createPanel

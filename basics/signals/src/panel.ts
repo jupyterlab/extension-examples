@@ -17,12 +17,12 @@ export class ExamplePanel extends StackedPanel {
     this.title.label = 'Example View';
     this.title.closable = true;
 
-    this.widget = new ExampleView();
-    this.addWidget(this.widget);
-    this.widget.stateChanged.connect(() => {
+    this._widget = new ExampleView();
+    this.addWidget(this._widget);
+    this._widget.stateChanged.connect(() => {
       console.log('changed');
     });
   }
 
-  private widget: ExampleView;
+  private _widget: ExampleView;
 }
