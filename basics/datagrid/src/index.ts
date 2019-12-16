@@ -23,33 +23,33 @@ const extension: JupyterFrontEndPlugin<void> = {
   ) => {
     const { commands, shell } = app;
     let command = 'examples:datagrid';
-    let category = 'Tutorial';
+    let category = 'Example';
     commands.addCommand(command, {
       label: 'Datagrid example',
       caption: 'Open a datagrid panel',
       execute: () => {
-        const widget = new TutorialView();
+        const widget = new ExampleView();
         shell.add(widget, 'main');
       }
     });
     palette.addItem({ command, category });
 
-    let tutorialMenu: Menu = new Menu({ commands });
+    let exampleMenu: Menu = new Menu({ commands });
 
-    tutorialMenu.title.label = 'Tutorial';
-    mainMenu.addMenu(tutorialMenu, { rank: 80 });
-    tutorialMenu.addItem({ command });
+    exampleMenu.title.label = 'Example';
+    mainMenu.addMenu(exampleMenu, { rank: 80 });
+    exampleMenu.addItem({ command });
   }
 };
 
 export default extension;
 
-class TutorialView extends StackedPanel {
+class ExampleView extends StackedPanel {
   constructor() {
     super();
-    this.addClass('jp-tutorial-view');
-    this.id = 'tutorial';
-    this.title.label = 'Tutorial View';
+    this.addClass('jp-example-view');
+    this.id = 'example';
+    this.title.label = 'Example View';
     this.title.closable = true;
 
     let model = new LargeDataModel();

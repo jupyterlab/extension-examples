@@ -29,17 +29,17 @@ is a class that provides the data that is displayed by the `DataGrid` widget.
 jlpm add @phosphor/datagrid @phosphor/widgets
 ```
 
-With these three classes, you can create your own widget, called `TutorialView` :
+With these three classes, you can create your own widget, called `ExampleView` :
 
 ```ts
 // src/index.ts#L47-L61
 
-class TutorialView extends StackedPanel {
+class ExampleView extends StackedPanel {
   constructor() {
     super();
-    this.addClass('jp-tutorial-view');
-    this.id = 'tutorial';
-    this.title.label = 'Tutorial View';
+    this.addClass('jp-example-view');
+    this.id = 'example';
+    this.title.label = 'Example View';
     this.title.closable = true;
 
     let model = new LargeDataModel();
