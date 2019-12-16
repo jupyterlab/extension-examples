@@ -22,12 +22,10 @@ The `StackedPanel` widget can hold several sub-widgets that are added with its
 the main area of JupyterLab as seen in the above screenshot. `DataModel`
 is a class that provides the data that is displayed by the `DataGrid` widget.
 
-> Note: to be able to import those classes, you will need to add their
-> package as dependencies
-
-```bash
-jlpm add @phosphor/datagrid @phosphor/widgets
-```
+> Note:  
+> To be able to import those classes, you will need to add their
+> package as dependencies:  
+> `jlpm add @phosphor/datagrid @phosphor/widgets`
 
 With these three classes, you can create your own widget, called `ExampleView` :
 
