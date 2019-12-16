@@ -8,20 +8,20 @@
 
 ## Phosphor Signaling 101
 
-In this extension, we are going to add a simple buttons to print something to the console.
+In this extension, a simple button will be added to print something to the console.
 Communication between different components of JupyterLab are a key ingredient in building an
 extension. JupyterLab's phosphor engine uses the `ISignal` interface and the
 `Signal` class that implements this interface for communication
 ([documentation](https://phosphorjs.github.io/phosphor/api/signaling/globals.html)).
 
-The basic concept is the following: A widget, in our case the one that contains
+The basic concept is the following: a widget, in this case the one that contains
 some visual elements such as a button, defines a signal and exposes it to other
 widgets, as this `_stateChanged` signal:
 
 ```ts
 // src/widget.tsx#L6-L8
 
-get stateChanged(): ISignal<TutorialView, void> {
+get stateChanged(): ISignal<ExampleView, void> {
   return this._stateChanged;
 }
 ```
@@ -29,16 +29,16 @@ get stateChanged(): ISignal<TutorialView, void> {
 ```ts
 // src/widget.tsx#L24-L24
 
-private _stateChanged = new Signal<TutorialView, void>(this);
+private _stateChanged = new Signal<ExampleView, void>(this);
 ```
 
-Another widget, in our case the panel that boxes several different widgets,
+Another widget, in this case the panel that boxes several different widgets,
 subscribes to the `stateChanged` signal and links some function to it:
 
 ```ts
 // src/panel.ts#L22-L24
 
-this.tutorial.stateChanged.connect(() => {
+this.widget.stateChanged.connect(() => {
   console.log('changed');
 });
 ```
@@ -51,32 +51,32 @@ The function is executed when the signal is triggered with
 this._stateChanged.emit(void 0);
 ```
 
-Let's see how we can implement this ...
+Let's see how you can implement this ...
 
 ## A Simple React Button
 
-We start with a file called `src/widget.tsx`. The `tsx` extension allows to use
+Start with a file called `src/widget.tsx`. The `tsx` extension allows to use
 HTML-like syntax with the tag notation `<>`to represent some visual elements
 (note that you have to add a line: `"jsx": "react",` to the
 `tsconfig.json` file). This is a special syntax used by [React](https://reactjs.org/tutorial/tutorial.html).
 
-`widget.tsx` contains one major class `TutorialView` that extends the
+`widget.tsx` contains one major class `ExampleView` that extends the
 `ReactWidget` class provided by JupyterLab. `ReactWidget` defines a
 `render()` method that defines some React elements such as a button. This
 is the recommended way to include React component inside the JupyterLab widget
 based UI.
 
-`TutorialView` further contains a private variable `_stateChanged` of type
+`ExampleView` further contains a private variable `_stateChanged` of type
 `Signal`. A signal object can be triggered and then emits an actual message.
 Other Widgets can subscribe to such a signal and react when a message is
-emitted. We configure one of the buttons `onClick` event to trigger the
-`stateChanged`signal with `_stateChanged.emit(void 0)`:
+emitted. The button `onClick` event is configured to trigger the
+`stateChanged` signal with `_stateChanged.emit(void 0)`:
 
 ```ts
 // src/widget.tsx#L5-L25
 
-export class TutorialView extends ReactWidget {
-  get stateChanged(): ISignal<TutorialView, void> {
+export class ExampleView extends ReactWidget {
+  get stateChanged(): ISignal<ExampleView, void> {
     return this._stateChanged;
   }
 
@@ -84,7 +84,7 @@ export class TutorialView extends ReactWidget {
     return (
       <button
         key="header-thread"
-        className="jp-tutorial-button"
+        className="jp-example-button"
         onClick={() => {
           this._stateChanged.emit(void 0);
         }}
@@ -94,14 +94,14 @@ export class TutorialView extends ReactWidget {
     );
   }
 
-  private _stateChanged = new Signal<TutorialView, void>(this);
+  private _stateChanged = new Signal<ExampleView, void>(this);
 }
 ```
 
 ## Subscribing to a Signal
 
 The `panel.ts` class defines an extension panel that displays the
-`TutorialView` widget and that subscribes to its `stateChanged` signal.
+`ExampleView` widget and that subscribes to its `stateChanged` signal.
 Subscription to a signal is done using the `connect` method of the
 `stateChanged` attribute. It registers a function (in this case
 `() => { console.log('changed'); }` that is triggered when the signal is
@@ -110,22 +110,22 @@ emitted:
 ```ts
 // src/panel.ts#L12-L28
 
-export class TutorialPanel extends StackedPanel {
+export class ExamplePanel extends StackedPanel {
   constructor() {
     super();
     this.addClass(PANEL_CLASS);
-    this.id = 'TutorialPanel';
-    this.title.label = 'Tutorial View';
+    this.id = 'ExamplePanel';
+    this.title.label = 'Example View';
     this.title.closable = true;
 
-    this.tutorial = new TutorialView();
-    this.addWidget(this.tutorial);
-    this.tutorial.stateChanged.connect(() => {
+    this.widget = new ExampleView();
+    this.addWidget(this.widget);
+    this.widget.stateChanged.connect(() => {
       console.log('changed');
     });
   }
 
-  private tutorial: TutorialView;
+  private widget: ExampleView;
 }
 ```
 

@@ -2,8 +2,8 @@ import { ReactWidget } from '@jupyterlab/apputils';
 import { ISignal, Signal } from '@phosphor/signaling';
 import * as React from 'react';
 
-export class TutorialView extends ReactWidget {
-  get stateChanged(): ISignal<TutorialView, void> {
+export class ExampleView extends ReactWidget {
+  get stateChanged(): ISignal<ExampleView, void> {
     return this._stateChanged;
   }
 
@@ -11,7 +11,7 @@ export class TutorialView extends ReactWidget {
     return (
       <button
         key="header-thread"
-        className="jp-tutorial-button"
+        className="jp-example-button"
         onClick={() => {
           this._stateChanged.emit(void 0);
         }}
@@ -21,5 +21,5 @@ export class TutorialView extends ReactWidget {
     );
   }
 
-  private _stateChanged = new Signal<TutorialView, void>(this);
+  private _stateChanged = new Signal<ExampleView, void>(this);
 }
