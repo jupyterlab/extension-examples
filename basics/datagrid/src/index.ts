@@ -2,7 +2,9 @@ import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
+
 import { ICommandPalette } from '@jupyterlab/apputils';
+
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { DataGrid, DataModel } from '@phosphor/datagrid';
@@ -22,8 +24,8 @@ const extension: JupyterFrontEndPlugin<void> = {
     mainMenu: IMainMenu
   ) => {
     const { commands, shell } = app;
-    let command = 'examples:datagrid';
-    let category = 'Example';
+
+    const command = 'examples:datagrid';
     commands.addCommand(command, {
       label: 'Datagrid example',
       caption: 'Open a datagrid panel',
@@ -32,9 +34,9 @@ const extension: JupyterFrontEndPlugin<void> = {
         shell.add(widget, 'main');
       }
     });
-    palette.addItem({ command, category });
+    palette.addItem({ command, category: 'Example' });
 
-    let exampleMenu: Menu = new Menu({ commands });
+    const exampleMenu = new Menu({ commands });
 
     exampleMenu.title.label = 'Example';
     mainMenu.addMenu(exampleMenu, { rank: 80 });
@@ -52,8 +54,8 @@ class ExampleView extends StackedPanel {
     this.title.label = 'Example View';
     this.title.closable = true;
 
-    let model = new LargeDataModel();
-    let grid = new DataGrid();
+    const model = new LargeDataModel();
+    const grid = new DataGrid();
     grid.dataModel = model;
 
     this.addWidget(grid);

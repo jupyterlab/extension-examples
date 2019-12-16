@@ -10,7 +10,7 @@ First you need to import `StackedPanel`, `DataGrid`
 and `DataModel` classes from phosphor:
 
 ```ts
-// src/index.ts#L8-L10
+// src/index.ts#L10-L12
 
 import { DataGrid, DataModel } from '@phosphor/datagrid';
 
@@ -30,7 +30,7 @@ is a class that provides the data that is displayed by the `DataGrid` widget.
 With these three classes, you can create your own widget, called `ExampleView` :
 
 ```ts
-// src/index.ts#L47-L61
+// src/index.ts#L49-L63
 
 class ExampleView extends StackedPanel {
   constructor() {
@@ -40,8 +40,8 @@ class ExampleView extends StackedPanel {
     this.title.label = 'Example View';
     this.title.closable = true;
 
-    let model = new LargeDataModel();
-    let grid = new DataGrid();
+    const model = new LargeDataModel();
+    const grid = new DataGrid();
     grid.dataModel = model;
 
     this.addWidget(grid);
@@ -53,12 +53,12 @@ Your widget is derived from `StackedPanel` to inherit its behavior. Then
 some properties for the panel. Then the `DataGrid` widget and its associated model are created.
 Finally the grid is inserted inside the panel.
 
-The `DataModel` class is not used directly as its an abstract class.
+The `DataModel` class is not used directly as it is an abstract class.
 Therefore in this example a class `LargeDataModel` is derived from it
 to implement its abstract methods:
 
 ```ts
-// src/index.ts#L63-L72
+// src/index.ts#L65-L74
 
 class LargeDataModel extends DataModel {
   rowCount(region: DataModel.RowRegion): number {
@@ -95,14 +95,14 @@ type CellRegion = 'body' | 'row-header' | 'column-header' | 'corner-header';
 The `|` can be read as or. This means that the `RowRegion` type is
 either `body` or `column-header`.
 
-So the `rowCount` and `columnCount` functions define a table with `2` header rows, with 3 index columns, with `1000000000000` rows and `1000000000000` columns.
+So the `rowCount` and `columnCount` functions define a table with `2` header rows, with `3` index columns, with `1000000000000` rows and `1000000000000` columns.
 
-Finally the `data` method of `LargeDataModel` class defines the data
+Finally the `data` method of the `LargeDataModel` class defines the data
 values of the datagrid. In this case it simply displays the row and
 column index in each cell, and adds a letter prefix in the header regions:
 
 ```ts
-// src/index.ts#L72-L83
+// src/index.ts#L74-L85
 
 data(region: DataModel.CellRegion, row: number, column: number): any {
   if (region === 'row-header') {
