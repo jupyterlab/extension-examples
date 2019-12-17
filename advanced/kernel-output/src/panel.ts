@@ -1,42 +1,37 @@
-import { StackedPanel } from '@phosphor/widgets';
-
 import { ClientSession, IClientSession } from '@jupyterlab/apputils';
 
-import { KernelMessage } from '@jupyterlab/services';
-
-import { ServiceManager } from '@jupyterlab/services';
-
-import { Message } from '@phosphor/messaging';
-
-import { SimplifiedOutputArea, OutputAreaModel } from '@jupyterlab/outputarea';
+import { OutputAreaModel, SimplifiedOutputArea } from '@jupyterlab/outputarea';
 
 import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 
+import { KernelMessage, ServiceManager } from '@jupyterlab/services';
+
+import { Message } from '@phosphor/messaging';
+
+import { StackedPanel } from '@phosphor/widgets';
+
 /**
- * The class name added to console panels.
+ * The class name added to example panel.
  */
 const PANEL_CLASS = 'jp-RovaPanel';
 
 /**
- * A panel which contains a console and the ability to add other children.
+ * A panel with the ability to add other children.
  */
-export class TutorialPanel extends StackedPanel {
+export class ExamplePanel extends StackedPanel {
   constructor(
     manager: ServiceManager.IManager,
     rendermime: IRenderMimeRegistry
   ) {
     super();
     this.addClass(PANEL_CLASS);
-    this.id = 'TutorialPanel';
-    this.title.label = 'Tutorial View';
+    this.id = 'kernel-output-panel';
+    this.title.label = 'Example View';
     this.title.closable = true;
-
-    let path = './console';
 
     this._session = new ClientSession({
       manager: manager.sessions,
-      path,
-      name: 'Tutorial'
+      name: 'Example'
     });
 
     this._outputareamodel = new OutputAreaModel();
@@ -46,7 +41,13 @@ export class TutorialPanel extends StackedPanel {
     });
 
     this.addWidget(this._outputarea);
-    void this._session.initialize();
+    this._session.initialize().catch(reason => {
+      console.error(`Fail to initialize session in ExamplePanel.\n${reason}`);
+    });
+  }
+
+  get session(): IClientSession {
+    return this._session;
   }
 
   dispose(): void {
@@ -54,7 +55,7 @@ export class TutorialPanel extends StackedPanel {
     super.dispose();
   }
 
-  public execute(code: string) {
+  execute(code: string): void {
     SimplifiedOutputArea.execute(code, this._outputarea, this._session)
       .then((msg: KernelMessage.IExecuteReplyMsg) => {
         console.log(msg);
@@ -65,10 +66,6 @@ export class TutorialPanel extends StackedPanel {
   protected onCloseRequest(msg: Message): void {
     super.onCloseRequest(msg);
     this.dispose();
-  }
-
-  get session(): IClientSession {
-    return this._session;
   }
 
   private _session: ClientSession;

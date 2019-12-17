@@ -1,149 +1,91 @@
-## Kernel Output - Simple Notebook-style Rendering
+# Kernel Output - Simple Notebook-style Rendering
 
-- [Reorganizing the extension code](#reorganizing-the-extension-code)
+- [Code structure](#code-structure)
 - [Initializing a Kernel Session](#initializing-a-kernel-session)
 - [OutputArea and Model](#outputarea-and-model)
-- [asynchronous extension initialization](#asynchronous-extension-initialization)
+- [Asynchronous Extension Initialization](#asynchronous-extension-initialization)
 - [Make it Run](#make-it-run)
-- [Jupyter-Widgets: Adding Interactive Elements](#jupyter-widgets-adding-interactive-elements)
 
-In this extension we will see how initialize a kernel, and how to execute code
-and how to display the rendered output. We use the `OutputArea` class for this
-purpose that Jupyterlab uses internally to render the output area under a
-notebook cell or the output area in the console.
+![OutputArea class](preview.gif)
 
-Essentially, `OutputArea` will renders the data that comes as a reply to an
-execute message that was sent to an underlying kernel. Under the hood, the
-`OutputArea` and the `OutputAreaModel` classes act similar to the `KernelView`
-and `KernelModel` classes that we have defined ourselves before. We therefore
-get rid of the `model.ts` and `widget.tsx` files and change the panel class to:
+In this example, you will see how initialize a kernel, how to execute code
+and how to display the rendered output. The `OutputArea` class used by Jupyterlab
+to render an output area under a notebook cell or in the console will be reused.
 
-## Reorganizing the extension code
+Essentially, `OutputArea` will render the data that comes as a reply to an
+execute message sent to an underlying kernel. Under the hood, the
+`OutputArea` and the `OutputAreaModel` classes act similarly to the `KernelView`
+and `KernelModel` classes defined in the [Kernel Messaging](../kernel-messaging/README.md)
+example.
 
-Since our extension is growing bigger, we begin by splitting our code into more
-managable units. Roughly we can see three larger components of our application:
+## Code structure
 
-1.  the `JupyterLabPlugin` that activates all extension components and connects
-    them to the main `Jupyterlab` application via commands, launcher, or menu
-    items.
-2.  a Panel that combines different widgets into a single application
+The code is separated into two parts:
 
-We split these components in the two files:
+1.  the JupyterLab plugin that activates all the extension components and connects
+    them to the main `Jupyterlab` application via commands, launcher and menu
+    items,
+2.  a panel that contains the extension logic and UI elements to interact with it.
 
-```
-src/
-├── index.ts
-└── panel.ts
-```
+The first part is contained in the `index.ts` file and the second in `panel.ts`.
 
-Let's go first through `panel.ts`. This is the full Panel class that displays
-starts a kernel, then sends code to it end displays the returned data with the
-jupyter renderers:
-
-```ts
-// src/panel.ts#L23-L77
-
-export class TutorialPanel extends StackedPanel {
-  constructor(
-    manager: ServiceManager.IManager,
-    rendermime: IRenderMimeRegistry
-  ) {
-    super();
-    this.addClass(PANEL_CLASS);
-    this.id = 'TutorialPanel';
-    this.title.label = 'Tutorial View';
-    this.title.closable = true;
-
-    let path = './console';
-
-    this._session = new ClientSession({
-      manager: manager.sessions,
-      path,
-      name: 'Tutorial'
-    });
-
-    this._outputareamodel = new OutputAreaModel();
-    this._outputarea = new SimplifiedOutputArea({
-      model: this._outputareamodel,
-      rendermime: rendermime
-    });
-
-    this.addWidget(this._outputarea);
-    void this._session.initialize();
-  }
-
-  dispose(): void {
-    this._session.dispose();
-    super.dispose();
-  }
-
-  public execute(code: string) {
-    SimplifiedOutputArea.execute(code, this._outputarea, this._session)
-      .then((msg: KernelMessage.IExecuteReplyMsg) => {
-        console.log(msg);
-      })
-      .catch(reason => console.error(reason));
-  }
-
-  protected onCloseRequest(msg: Message): void {
-    super.onCloseRequest(msg);
-    this.dispose();
-  }
-
-  get session(): IClientSession {
-    return this._session;
-  }
-
-  private _session: ClientSession;
-  private _outputarea: SimplifiedOutputArea;
-  private _outputareamodel: OutputAreaModel;
-}
-```
+In the following sections, the logic will be first described. It is
+followed by the visual element creation.
 
 ## Initializing a Kernel Session
 
-The first thing that we want to focus on is the `ClientSession` that is
-stored in the private `_session` variable:
+To interact with a kernel, you first need to create a `ClientSession`
+object ([see the documentation](https://jupyterlab.github.io/jupyterlab/apputils/classes/clientsession.html)).
+Here it is stored in the private `_session` variable:
 
 ```ts
-// src/panel.ts#L74-L74
+// src/panel.ts#L71-L71
 
 private _session: ClientSession;
 ```
 
-A ClientSession handles a single kernel session. The session itself (not yet
+A `ClientSession` handles a single kernel session. The session itself (not yet
 the kernel) is started with these lines:
 
 ```ts
-// src/panel.ts#L34-L40
-
-let path = './console';
+// src/panel.ts#L32-L35
 
 this._session = new ClientSession({
   manager: manager.sessions,
-  path,
-  name: 'Tutorial'
+  name: 'Example'
 });
 ```
 
-A kernel is initialized with this line:
+The private session variable is exposed as read-only for other users
+through a getter method:
 
 ```ts
-// src/panel.ts#L49-L49
+// src/panel.ts#L49-L51
 
-void this._session.initialize();
+get session(): IClientSession {
+  return this._session;
+}
 ```
 
-In case that a session has no predefined favourite kernel, a popup will be
-started that asks the user which kernel should be used. Conveniently, this can
-also be an already existing kernel, as we will see later.
-
-The following three methods add functionality to cleanly dispose of the session
-when we close the panel, and to expose the private session variable such that
-other users can access it.
+Once you have created a session, the associated kernel can be initialized
+with this line:
 
 ```ts
-// src/panel.ts#L52-L55
+// src/panel.ts#L44-L46
+
+this._session.initialize().catch(reason => {
+  console.error(`Fail to initialize session in ExamplePanel.\n${reason}`);
+});
+```
+
+When a session has no predefined favourite kernel, a dialog will request the user to choose a kernel to start. Conveniently, this can
+also be an already existing kernel, as you will see later.
+
+The following two methods unsure the clean disposal of the session
+when you close the panel.
+
+```ts
+// src/panel.ts#L53-L56
 
 dispose(): void {
   this._session.dispose();
@@ -152,26 +94,22 @@ dispose(): void {
 ```
 
 ```ts
-// src/panel.ts#L65-L72
+// src/panel.ts#L66-L69
 
 protected onCloseRequest(msg: Message): void {
   super.onCloseRequest(msg);
   this.dispose();
 }
-
-get session(): IClientSession {
-  return this._session;
-}
 ```
 
 ## OutputArea and Model
 
-The `SimplifiedOutputArea` class is a Widget, as we have seen them before. We
-can instantiate it with a new `OutputAreaModel` (this is class that contains
-the data that will be shown):
+The `SimplifiedOutputArea` class is a `Widget`, as described in the [widget example](../../widget-tracker/jupyter-widgets/README.md). You
+can instantiate it with a new `OutputAreaModel`; this is class containing
+the data to show:
 
 ```ts
-// src/panel.ts#L42-L46
+// src/panel.ts#L37-L41
 
 this._outputareamodel = new OutputAreaModel();
 this._outputarea = new SimplifiedOutputArea({
@@ -180,14 +118,14 @@ this._outputarea = new SimplifiedOutputArea({
 });
 ```
 
-`SimplifiedOutputArea` provides the classmethod `execute` that basically sends
-some code to a kernel through a ClientSession and that then displays the result
-in a specific `SimplifiedOutputArea` instance:
+`SimplifiedOutputArea` provides a static method `execute` that sends
+some code to a kernel through a `ClientSession` ([see documentation](https://jupyterlab.github.io/jupyterlab/outputarea/classes/simplifiedoutputarea.html#execute)). And then it displays the result
+in the specific `SimplifiedOutputArea` object you created:
 
 ```ts
-// src/panel.ts#L57-L63
+// src/panel.ts#L58-L64
 
-public execute(code: string) {
+execute(code: string): void {
   SimplifiedOutputArea.execute(code, this._outputarea, this._session)
     .then((msg: KernelMessage.IExecuteReplyMsg) => {
       console.log(msg);
@@ -201,67 +139,68 @@ message from the kernel which says that the code was executed (this message
 does not contain the data that is displayed). When this message is received,
 `.then` is executed and prints this message to the console.
 
-We just have to add the `SimplifiedOutputArea` Widget to our Panel with:
+To display the `SimplifiedOutputArea` Widget you need to add it to your
+panel with:
 
 ```ts
-// src/panel.ts#L48-L48
+// src/panel.ts#L43-L43
 
 this.addWidget(this._outputarea);
 ```
 
-and we are ready to add the whole Panel to Jupyterlab.
+The last step is to add the panel into JupyterLab.
 
-## Asynchronous extension initialization
+## Asynchronous Extension Initialization
 
-`index.ts` is responsible to initialize the extension. We only go through
-the changes with respect to the last sections.
+`index.ts` contains the code to initialize the extension.
 
-First we reorganize the extension commands into one unified namespace:
+First, it is a good practice to unify the extension commands into one namespace at the top of the file:
 
 ```ts
 // src/index.ts#L21-L25
 
 namespace CommandIDs {
-  export const create = 'Ex4a:create';
+  export const create = 'kernel-output:create';
 
-  export const execute = 'Ex4a:execute';
+  export const execute = 'kernel-output:execute';
 }
 ```
 
-This allows us to add commands from the command registry to the pallette and
-menu tab in a single call:
+You can then add the commands to the palette and the menu by iterating
+on a list:
 
 ```ts
-// src/index.ts#L85-L89
+// src/index.ts#L86-L90
 
 // add items in command palette and menu
 [CommandIDs.create, CommandIDs.execute].forEach(command => {
   palette.addItem({ command, category });
-  tutorialMenu.addItem({ command });
+  exampleMenu.addItem({ command });
 });
 ```
 
-Another change is that we now use the `manager` to add our extension after the
-other jupyter services are ready. The serviceManager can be obtained from the
-main application as:
+To create new client session, the service manager must be obtained from
+the JupyterLab application:
 
 ```ts
-// src/index.ts#L44-L44
+// src/index.ts#L45-L45
 
 const manager = app.serviceManager;
 ```
 
-to launch our application, we can then use:
+To launch the panel, you need to wait for the service manager to be
+ready. Then once the panel is created and its session is ready. It
+can be inserted in the JupyterLab main area:
 
 ```ts
-// src/index.ts#L48-L60
+// src/index.ts#L49-L61
 
-let panel: TutorialPanel;
+let panel: ExamplePanel;
 
 function createPanel() {
   return manager.ready
     .then(() => {
-      panel = new TutorialPanel(manager, rendermime);
+      panel = new ExamplePanel(manager, rendermime);
       return panel.session.ready;
     })
     .then(() => {
@@ -273,26 +212,20 @@ function createPanel() {
 
 ## Make it Run
 
-Let's for example display the variable `df` from a python kernel that could
-contain a pandas dataframe. To do this, we just need to add a command to the
-command registry in `index.ts`
+This example assumes you have a variable, named `df`, in your python kernel that could
+contain a [pandas](https://pandas.pydata.org/) dataframe. You can display it in your panel by adding the following command:
 
 ```ts
-// src/index.ts#L75-L83
+// src/index.ts#L75-L84
 
-command = CommandIDs.execute;
-commands.addCommand(command, {
-  label: 'Ex4a: show dataframe',
-  caption: 'show dataframe',
+commands.addCommand(CommandIDs.execute, {
+  label: 'kernel-output: Show Dataframe',
+  caption: 'Show Dataframe',
   execute: async () => {
-    await createPanel();
+    if (!panel) {
+      await createPanel();
+    }
     panel.execute('df');
   }
 });
 ```
-
-and we are ready to see it. The final extension looks like this:
-
-![OutputArea class](preview.gif)
-
-[Click here for the final extension: 4a_outputareas](4a_outputareas)

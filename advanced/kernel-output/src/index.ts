@@ -13,15 +13,15 @@ import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 
 import { Menu } from '@phosphor/widgets';
 
-import { TutorialPanel } from './panel';
+import { ExamplePanel } from './panel';
 
 /**
  * The command IDs used by the console plugin.
  */
 namespace CommandIDs {
-  export const create = 'Ex4a:create';
+  export const create = 'kernel-output:create';
 
-  export const execute = 'Ex4a:execute';
+  export const execute = 'kernel-output:execute';
 }
 
 /**
@@ -30,27 +30,28 @@ namespace CommandIDs {
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'kernel-output',
   autoStart: true,
-  requires: [ICommandPalette, ILauncher, IMainMenu, IRenderMimeRegistry],
+  optional: [ILauncher],
+  requires: [ICommandPalette, IMainMenu, IRenderMimeRegistry],
   activate: activate
 };
 
 function activate(
   app: JupyterFrontEnd,
   palette: ICommandPalette,
-  launcher: ILauncher,
   mainMenu: IMainMenu,
-  rendermime: IRenderMimeRegistry
+  rendermime: IRenderMimeRegistry,
+  launcher: ILauncher | null
 ) {
   const manager = app.serviceManager;
   const { commands, shell } = app;
-  let category = 'Tutorial';
+  const category = 'Example';
 
-  let panel: TutorialPanel;
+  let panel: ExamplePanel;
 
   function createPanel() {
     return manager.ready
       .then(() => {
-        panel = new TutorialPanel(manager, rendermime);
+        panel = new ExamplePanel(manager, rendermime);
         return panel.session.ready;
       })
       .then(() => {
@@ -60,24 +61,24 @@ function activate(
   }
 
   // add menu tab
-  let tutorialMenu: Menu = new Menu({ commands });
-  tutorialMenu.title.label = 'Tutorial';
-  mainMenu.addMenu(tutorialMenu);
+  const exampleMenu = new Menu({ commands });
+  exampleMenu.title.label = 'Example';
+  mainMenu.addMenu(exampleMenu);
 
   // add commands to registry
-  let command = CommandIDs.create;
-  commands.addCommand(command, {
-    label: 'Ex7: open Panel',
-    caption: 'Open the Labtutorial Extension',
+  commands.addCommand(CommandIDs.create, {
+    label: 'kernel-output: Open Panel',
+    caption: 'Open the Kernel Output Panel',
     execute: createPanel
   });
 
-  command = CommandIDs.execute;
-  commands.addCommand(command, {
-    label: 'Ex4a: show dataframe',
-    caption: 'show dataframe',
+  commands.addCommand(CommandIDs.execute, {
+    label: 'kernel-output: Show Dataframe',
+    caption: 'Show Dataframe',
     execute: async () => {
-      await createPanel();
+      if (!panel) {
+        await createPanel();
+      }
       panel.execute('df');
     }
   });
@@ -85,14 +86,16 @@ function activate(
   // add items in command palette and menu
   [CommandIDs.create, CommandIDs.execute].forEach(command => {
     palette.addItem({ command, category });
-    tutorialMenu.addItem({ command });
+    exampleMenu.addItem({ command });
   });
 
   // Add launcher
-  launcher.add({
-    command: CommandIDs.create,
-    category: category
-  });
+  if (launcher) {
+    launcher.add({
+      command: CommandIDs.create,
+      category: category
+    });
+  }
 }
 
 export default extension;
