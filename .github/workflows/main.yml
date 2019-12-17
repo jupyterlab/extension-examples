@@ -16,7 +16,6 @@ jobs:
         example:
           - advanced/kernel-messaging
           - advanced/kernel-output
-#          - advanced/serving-files
           - basics/datagrid
           - basics/hello-world
           - basics/signals
