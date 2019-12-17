@@ -2,40 +2,46 @@
 
 ![Datagrid](preview.png)
 
-Now let's do something a little more advanced. Jupyterlab is build on top of
-Phosphor.js. Let's see if we can plug [this phosphor example](http://phosphorjs.github.io/examples/datagrid/)
-into JupyterLab.
+Jupyterlab is built on top of
+[PhosphorJS](https://phosphorjs.github.io/). That library defines `Widget` as the primary interface brick. In this example [the datagrid phosphor example](http://phosphorjs.github.io/examples/datagrid/)
+is integrated into JupyterLab.
 
-We start by importing the `Panel` widget and the `DataGrid` and `DataModel`
-classes from phosphor:
+First you need to import `StackedPanel`, `DataGrid`
+and `DataModel` classes from phosphor:
 
 ```ts
-// src/index.ts#L12-L14
-
-import { StackedPanel } from '@phosphor/widgets';
+// src/index.ts#L10-L12
 
 import { DataGrid, DataModel } from '@phosphor/datagrid';
+
+import { Menu, StackedPanel } from '@phosphor/widgets';
 ```
 
-The Panel widget can hold several sub-widgets that are added with its
-`.addWidget` method. `DataModel` is a class that provides the data that is
-displayed by the `DataGrid` widget.
+The `StackedPanel` widget can hold several sub-widgets that are added with its
+`.addWidget` method. _Stacked_ means that the panel can be stacked in
+the main area of JupyterLab as seen in the above screenshot. `DataModel`
+is a class that provides the data that is displayed by the `DataGrid` widget.
 
-With these three classes, we adapt the `TutorialView` as follows:
+> Note:  
+> To be able to import those classes, you will need to add their
+> package as dependencies:  
+> `jlpm add @phosphor/datagrid @phosphor/widgets`
+
+With these three classes, you can create your own widget, called `ExampleView` :
 
 ```ts
-// src/index.ts#L51-L65
+// src/index.ts#L49-L63
 
-class TutorialView extends StackedPanel {
+class ExampleView extends StackedPanel {
   constructor() {
     super();
-    this.addClass('jp-tutorial-view');
-    this.id = 'tutorial';
-    this.title.label = 'Tutorial View';
+    this.addClass('jp-example-view');
+    this.id = 'example';
+    this.title.label = 'Example View';
     this.title.closable = true;
 
-    let model = new LargeDataModel();
-    let grid = new DataGrid();
+    const model = new LargeDataModel();
+    const grid = new DataGrid();
     grid.dataModel = model;
 
     this.addWidget(grid);
@@ -43,11 +49,16 @@ class TutorialView extends StackedPanel {
 }
 ```
 
-That's rather easy. Let's now dive into the `DataModel` class that is taken
-from the official phosphor.js example. The first few lines look like this:
+Your widget is derived from `StackedPanel` to inherit its behavior. Then
+some properties for the panel. Then the `DataGrid` widget and its associated model are created.
+Finally the grid is inserted inside the panel.
+
+The `DataModel` class is not used directly as it is an abstract class.
+Therefore in this example a class `LargeDataModel` is derived from it
+to implement its abstract methods:
 
 ```ts
-// src/index.ts#L67-L74
+// src/index.ts#L65-L74
 
 class LargeDataModel extends DataModel {
   rowCount(region: DataModel.RowRegion): number {
@@ -57,12 +68,14 @@ class LargeDataModel extends DataModel {
   columnCount(region: DataModel.ColumnRegion): number {
     return region === 'body' ? 1000000000000 : 3;
   }
+
+  data(region: DataModel.CellRegion, row: number, column: number): any {
 ```
 
-While it is fairly obvious that `rowCount` and `columnCount` are supposed
-to return some number of rows and columns, it is a little more cryptic what
-the `RowRegion` and the `ColumnRegion` input arguments are. Let's have a
-look at their definition in the phosphor.js source code:
+The three abstract methods are `rowCount`, `columnCount` and `data`. The
+first two must return a number from a region argument. To know the possible
+values of `RowRegion` and the `ColumnRegion`, you can look at the [PhosphorJS
+code](https://github.com/phosphorjs/phosphor/blob/9f5e11025b62d2c4a6fb59e2681ae1ed323dcde4/packages/datagrid/src/datamodel.ts#L112-L129):
 
 ```ts
 /**
@@ -79,19 +92,17 @@ type ColumnRegion = 'body' | 'row-header';
 type CellRegion = 'body' | 'row-header' | 'column-header' | 'corner-header';
 ```
 
-The meaning of these lines might be obvious for experienced users of typescript
-or Haskell. The `|` can be read as or. This means that the `RowRegion` type is
-either `body` or `column-header`, explaining what the `rowCount` and
-`columnCount` functions do: They define a table with `2` header rows, with 3
-index columns, with `1000000000000` rows and `1000000000000` columns.
+The `|` can be read as or. This means that the `RowRegion` type is
+either `body` or `column-header`.
 
-The remaining part of the LargeDataModel class defines the data values of the
-datagrid. In this case it simply displays the row and column index in each
-cell, and adds a letter prefix in case that we are in any of the header
-regions:
+So the `rowCount` and `columnCount` functions define a table with `2` header rows, with `3` index columns, with `1000000000000` rows and `1000000000000` columns.
+
+Finally the `data` method of the `LargeDataModel` class defines the data
+values of the datagrid. In this case it simply displays the row and
+column index in each cell, and adds a letter prefix in the header regions:
 
 ```ts
-// src/index.ts#L76-L87
+// src/index.ts#L74-L85
 
 data(region: DataModel.CellRegion, row: number, column: number): any {
   if (region === 'row-header') {

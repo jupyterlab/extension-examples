@@ -3,15 +3,13 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { IMainMenu } from '@jupyterlab/mainmenu';
-
-import { Menu } from '@phosphor/widgets';
-
 import { ICommandPalette } from '@jupyterlab/apputils';
 
-import { StackedPanel } from '@phosphor/widgets';
+import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { DataGrid, DataModel } from '@phosphor/datagrid';
+
+import { Menu, StackedPanel } from '@phosphor/widgets';
 
 /**
  * Initialization data for the extension1 extension.
@@ -26,38 +24,38 @@ const extension: JupyterFrontEndPlugin<void> = {
     mainMenu: IMainMenu
   ) => {
     const { commands, shell } = app;
-    let command = 'ex4:datagrid';
-    let category = 'Tutorial';
+
+    const command = 'examples:datagrid';
     commands.addCommand(command, {
-      label: 'Ex4 datagrid',
+      label: 'Datagrid example',
       caption: 'Open a datagrid panel',
-      execute: args => {
-        const widget = new TutorialView();
+      execute: () => {
+        const widget = new ExampleView();
         shell.add(widget, 'main');
       }
     });
-    palette.addItem({ command, category });
+    palette.addItem({ command, category: 'Example' });
 
-    let tutorialMenu: Menu = new Menu({ commands });
+    const exampleMenu = new Menu({ commands });
 
-    tutorialMenu.title.label = 'Tutorial';
-    mainMenu.addMenu(tutorialMenu, { rank: 80 });
-    tutorialMenu.addItem({ command });
+    exampleMenu.title.label = 'Example';
+    mainMenu.addMenu(exampleMenu, { rank: 80 });
+    exampleMenu.addItem({ command });
   }
 };
 
 export default extension;
 
-class TutorialView extends StackedPanel {
+class ExampleView extends StackedPanel {
   constructor() {
     super();
-    this.addClass('jp-tutorial-view');
-    this.id = 'tutorial';
-    this.title.label = 'Tutorial View';
+    this.addClass('jp-example-view');
+    this.id = 'example';
+    this.title.label = 'Example View';
     this.title.closable = true;
 
-    let model = new LargeDataModel();
-    let grid = new DataGrid();
+    const model = new LargeDataModel();
+    const grid = new DataGrid();
     grid.dataModel = model;
 
     this.addWidget(grid);
