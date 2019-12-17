@@ -373,7 +373,7 @@ with the sole purpose of packaging the full extension nicely to help its distrib
 through package managers like `pip`.
 
 > Note: In particular, `setupbase.py` provides helpers to package and install JS files
-> with a Python package for jupyter frontend (classical notebook,
+> with a Python package for Jupyter frontends (classical notebook,
 > JupyterLab,...).  
 > Those helpers are maintained in [`jupyter-packaging`](https://github.com/jupyter/jupyter-packaging). As this provides setup helpers, it is easier to copy them along side the `setup.py` file as recommended in the `jupyter-packaging` README.
 
