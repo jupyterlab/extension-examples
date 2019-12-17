@@ -89,6 +89,10 @@ jobs:
         architecture: 'x64'
     - name: Install the Python dependencies
       run: python -m pip install jupyterlab
+    - name: Install the NPM dependencies
+      run: |
+        cd advanced/server-extension
+        jlpm
     - name: Lint the files
       run: |
         cd advanced/server-extension
