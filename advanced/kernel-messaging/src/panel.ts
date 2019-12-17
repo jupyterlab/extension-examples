@@ -11,34 +11,37 @@ import { KernelView } from './widget';
 import { KernelModel } from './model';
 
 /**
- * The class name added to console panels.
+ * The class name added to the panels.
  */
 const PANEL_CLASS = 'jp-RovaPanel';
 
 /**
- * A panel which contains a console and the ability to add other children.
+ * A panel which has the ability to add other children.
  */
-export class TutorialPanel extends StackedPanel {
+export class ExamplePanel extends StackedPanel {
   constructor(manager: ServiceManager.IManager) {
     super();
     this.addClass(PANEL_CLASS);
-    this.id = 'TutorialPanel';
-    this.title.label = 'Tutorial View';
+    this.id = 'kernel-messaging-panel';
+    this.title.label = 'Example View';
     this.title.closable = true;
-
-    let path = './console';
 
     this._session = new ClientSession({
       manager: manager.sessions,
-      path,
-      name: 'Tutorial'
+      name: 'Example'
     });
 
     this._model = new KernelModel(this._session);
-    this._tutorial = new KernelView(this._model);
+    this._example = new KernelView(this._model);
 
-    this.addWidget(this._tutorial);
-    void this._session.initialize();
+    this.addWidget(this._example);
+    this._session.initialize().catch(reason => {
+      console.error(`Fail to initialize session in ExamplePanel.\n${reason}`);
+    });
+  }
+
+  get session(): IClientSession {
+    return this._session;
   }
 
   dispose(): void {
@@ -51,11 +54,7 @@ export class TutorialPanel extends StackedPanel {
     this.dispose();
   }
 
-  get session(): IClientSession {
-    return this._session;
-  }
-
   private _model: KernelModel;
   private _session: ClientSession;
-  private _tutorial: KernelView;
+  private _example: KernelView;
 }

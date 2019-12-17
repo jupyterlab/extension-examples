@@ -10,85 +10,89 @@
 ## Custom Kernel Interactions: Kernel Managment and Messaging
 
 One of the main features of JupyterLab is the possibility to manage and
-interact underlying compute kernels. In this section, we explore how to
-start a kernel and execute a simple command on it.
+interact with execution [kernels](https://jupyter-client.readthedocs.io/en/latest/kernels.html). In this example, youu will explore how to
+start a kernel and execute a command on it.
 
 ## Component Overview
 
-In terms of organization of this app, we want to have these components:
+This example is structured in four files:
 
-- `index.ts`: a JupyterLabPlugin that initializes the plugin and registers commands, menu tabs and a launcher
-- `panel.ts`: a panel class that is responsible to initialize and hold the kernel session, widgets and models
+- `index.ts`: the JupyterLab frontend plugin that initializes the plugin and registers commands, add a menu entry and a launcher item,
+- `panel.ts`: a panel class that is responsible to initialize and hold the kernel session, widgets and model
 - `model.ts`: a KernelModel class that is responsible to execute code on the kernel and to store the execution result
 - `widget.tsx`: a KernelView class that is responsible to provide visual elements that trigger the kernel model and display its results
 
-The `KernelView` displays the `KernelModel` with some react html elements and
-needs to get updated when `KernelModel` changes state, i.e. retrieves a new
-execution result. Jupyterlab provides a two class model for such classes,
-a `VDomRendered` that has a link to a `VDomModel` and a `render` function.
-The `VDomRendered` listens to a `stateChanged` signal that is defined by the
-`VDomModel`. Whenever the `stateChanged` signal is emitted, the
-`VDomRendered` calls its `render` function again and updates the html elements
-according to the new state of the model.
+The `KernelView` displays the `KernelModel` thanks to some React HTML elements and
+get updated when the `KernelModel` state changes, i.e. retrieves a new
+execution result.
 
 ## Initializing and managing a kernel session (`panel.ts`)
 
 Jupyterlab provides a class `ClientSession`
-([documentation](http://JupyterLab.github.io/JupyterLab/classes/_apputils_src_clientsession_.clientsession.html))
-that manages a single kernel session. Here are the lines that we need to start
-a kernel with it:
+([see the documentation](https://jupyterlab.github.io/jupyterlab/apputils/classes/clientsession.html))
+that manages a single kernel session. The construction and initialization
+of such session is done like this:
 
 ```ts
-// src/panel.ts#L31-L35
+// src/panel.ts#L28-L31
+
 
 this._session = new ClientSession({
   manager: manager.sessions,
-  path,
-  name: 'Tutorial'
-});
+  name: 'Example'
 ```
 
-<!-- embedme src/panel.ts#L41-L41 -->
+<!-- embedme src/panel.ts#L37-L39 -->
 
 ```ts
-void this._session.initialize();
+this.addWidget(this._example);
+this._session.initialize().catch(reason => {
+  console.error(`Fail to initialize session in ExamplePanel.\n${reason}`);
 ```
 
-well, that's short, isn't it? We have already seen the `manager` class that is
-provided directly by the main JupyterLab application. `path` is a link to the
-path under which the console is opened (?).
+The session manager object is
+provided directly by the JupyterLab application:
 
-With these lines, we can extend the panel widget from 7_signals to intialize a
-kernel. In addition, we will initialize a `KernelModel` class in it and
+```ts
+// src/index.ts#L40-L40
+
+const manager = app.serviceManager;
+```
+
+With these lines, you can extend the panel widget from the [signal example](../../basics/signals) to initialize a
+kernel. In addition, you will create a `KernelModel` class in it and
 overwrite the `dispose` and `onCloseRequest` methods of the `StackedPanel`
-([documentation](phosphorjs.github.io/phosphor/api/widgets/classes/stackedpanel.html))
+([see the documentation](https://phosphorjs.github.io/phosphor/api/widgets/classes/stackedpanel.html))
 to free the kernel session resources if the panel is closed. The whole adapted
 panel class looks like this:
 
 ```ts
-// src/panel.ts#L21-L61
+// src/panel.ts#L21-L59
 
-export class TutorialPanel extends StackedPanel {
+export class ExamplePanel extends StackedPanel {
   constructor(manager: ServiceManager.IManager) {
     super();
     this.addClass(PANEL_CLASS);
-    this.id = 'TutorialPanel';
-    this.title.label = 'Tutorial View';
+    this.id = 'kernel-messaging-panel';
+    this.title.label = 'Example View';
     this.title.closable = true;
-
-    let path = './console';
 
     this._session = new ClientSession({
       manager: manager.sessions,
-      path,
-      name: 'Tutorial'
+      name: 'Example'
     });
 
     this._model = new KernelModel(this._session);
-    this._tutorial = new KernelView(this._model);
+    this._example = new KernelView(this._model);
 
-    this.addWidget(this._tutorial);
-    void this._session.initialize();
+    this.addWidget(this._example);
+    this._session.initialize().catch(reason => {
+      console.error(`Fail to initialize session in ExamplePanel.\n${reason}`);
+    });
+  }
+
+  get session(): IClientSession {
+    return this._session;
   }
 
   dispose(): void {
@@ -101,74 +105,40 @@ export class TutorialPanel extends StackedPanel {
     this.dispose();
   }
 
-  get session(): IClientSession {
-    return this._session;
-  }
-
   private _model: KernelModel;
   private _session: ClientSession;
-  private _tutorial: KernelView;
-}
+  private _example: KernelView;
 ```
 
 ## Executing code and retrieving messages from a kernel (`model.ts`)
 
 Once a kernel is initialized and ready, code can be executed on it through
-the `ClientSession` class with the following snippet:
+the `ClientSession` object with the following snippet:
 
 ```ts
-// src/model.ts#L21-L21
+// src/model.ts#L46-L46
 
 this.future = this._session.kernel.requestExecute({ code });
 ```
 
-Without getting too much into the details of what this `future` is, let's think
-about it as an object that can receive some messages from the kernel as an
-answer on our execution request (see [jupyter messaging](http://jupyter-client.readthedocs.io/en/stable/messaging.html)).
+`future` is an object that can receive some messages from the kernel as an
+answer on your execution request (see [jupyter messaging](https://jupyter-client.readthedocs.io/en/stable/messaging.html)).
 One of these messages contains the data of the execution result. It is
 published on a channel called `IOPub` and can be identified by the message
 types `execute_result`, `display_data` and `update_display_data`.
 
 Once such a message is received by the `future` object, it can trigger an
-action. In our case, we just store this message in `this._output` and then
-emit a `stateChanged` signal. As we have explained above, our `KernelModel` is
-a `VDomModel` that provides this `stateChanged` signal that can be used by a
-`VDomRendered`. It is implemented as follows:
+action. In our case, this message is stored in `this._output`. Then
+a `stateChanged` signal is emitted.  
+The `KernelModel` has a `stateChanged` signal that will be used by the
+view. It is implemented as follows:
 
 ```ts
-// src/model.ts#L11-L70
+// src/model.ts#L9-L72
 
-export class KernelModel extends VDomModel {
+export class KernelModel {
   constructor(session: IClientSession) {
-    super();
     this._session = session;
-  }
-
-  public execute(code: string) {
-    if (!this._session || !this._session.kernel) {
-      return;
-    }
-    this.future = this._session.kernel.requestExecute({ code });
-  }
-
-  private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
-    let msgType = msg.header.msg_type;
-    switch (msgType) {
-      case 'execute_result':
-      case 'display_data':
-      case 'update_display_data':
-        this._output = msg.content as nbformat.IOutput;
-        console.log(this._output);
-        this.stateChanged.emit(undefined);
-        break;
-      default:
-        break;
-    }
-    return;
-  };
-
-  get output(): nbformat.IOutput | null {
-    return this._output;
   }
 
   get future(): Kernel.IFuture<
@@ -191,55 +161,95 @@ export class KernelModel extends VDomModel {
     value.onIOPub = this._onIOPub;
   }
 
-  private _output: nbformat.IOutput | null = null;
+  get output(): nbformat.IOutput | null {
+    return this._output;
+  }
+
+  get stateChanged(): ISignal<KernelModel, void> {
+    return this._stateChanged;
+  }
+
+  execute(code: string) {
+    if (!this._session || !this._session.kernel) {
+      return;
+    }
+    this.future = this._session.kernel.requestExecute({ code });
+  }
+
+  private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
+    let msgType = msg.header.msg_type;
+    switch (msgType) {
+      case 'execute_result':
+      case 'display_data':
+      case 'update_display_data':
+        this._output = msg.content as nbformat.IOutput;
+        console.log(this._output);
+        this._stateChanged.emit();
+        break;
+      default:
+        break;
+    }
+    return;
+  };
+
   private _future: Kernel.IFuture<
     KernelMessage.IExecuteRequestMsg,
     KernelMessage.IExecuteReplyMsg
   > | null = null;
+  private _output: nbformat.IOutput | null = null;
   private _session: IClientSession;
+  private _stateChanged = new Signal<KernelModel, void>(this);
 }
 ```
 
 ## Connecting a View to the Kernel
 
-The only remaining thing left is to connect a View to the Model. We have
-already seen the `TutorialView` before. To trigger the `render` function of a
-`VDomRendered` on a `stateChanged` signal, we just need to add our `VDomModel`
-to `this.model` in the constructor. We can then connect a button to
-`this.model.execute` and a text field to `this.model.output` and our extension
-is ready:
+Now that the session is created and the model is defined, the view can
+be connected to the model to display the execution results.
+
+In this example, the view contains a `UseSignal` React element that listens
+to the `stateChanged` signal defined by the model. Whenever the `stateChanged`
+signal is emitted, the `UseSignal` React element will update its children
+according to the new state of the model. In this example the execution
+results are retrieved through `this._model.output` attribute and display
+in a text field.
+
+<!-- prettier-ignore-start -->
+```ts
+// src/widget.tsx#L26-L30
+
+<UseSignal signal={this._model.stateChanged}>
+  {() => (
+    <span key="output field">{JSON.stringify(this._model.output)}</span>
+  )}
+</UseSignal>
+```
+<!-- prettier-ignore-end -->
+
+Finally to trigger a statement execution, the click event of a button is
+implemented to call the `this._model.execute` method.
 
 ```ts
-// src/widget.tsx#L9-L34
+// src/widget.tsx#L17-L25
 
-export class KernelView extends VDomRenderer<any> {
-  constructor(model: KernelModel) {
-    super();
-    this.id = `TutorialVDOM`;
-    this.model = model;
-  }
-
-  protected render(): React.ReactElement<any>[] {
-    console.log('render');
-    const elements: React.ReactElement<any>[] = [];
-    elements.push(
-      <button
-        key="header-thread"
-        className="jp-tutorial-button"
-        onClick={() => {
-          this.model.execute('3+5');
-        }}
-      >
-        Compute 3+5
-      </button>,
-
-      <span key="output field">{JSON.stringify(this.model.output)}</span>
-    );
-    return elements;
-  }
-}
+<button
+  key="header-thread"
+  className="jp-example-button"
+  onClick={() => {
+    this._model.execute('3+5');
+  }}
+>
+  Compute 3+5
+</button>
 ```
 
-Well that's nice, the basics are clear, but what about this weird output
-object? In the [Kernel Output](https://github.com/jtpio/jupyterlab-extension-examples/tree/master/advanced/kernel-output)
-example, we will explore how we can reuse some jupyter components to make things look nicer...
+## Where to Go Next
+
+In the [Kernel Output](../kernel-output)
+example, you will explore how you can reuse some jupyter components to have a nicer display for kernel messages.
+
+This example uses React to define UI elements. You can
+learn more about React in JupyterLab in [that example](../../react/react-widget/README.md).
+
+The UI refresh is triggered by signal emitions. To know more about it,
+you can have a look at the [signal example](../../basics/signals/README.md).
