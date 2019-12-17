@@ -47,6 +47,10 @@
   "devDependencies": {
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.1",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "tslint-react": "^4.1.0",
     "typescript": "~3.5.2"
   },
   "sideEffects": [
@@ -54,15 +58,15 @@
   ],
   "jupyterlab": {
     "discovery": {
-        "server": {
-          "managers": [
-            "pip"
-          ],
-          "base": {
-            "name": "server_extension"
-          }
+      "server": {
+        "managers": [
+          "pip"
+        ],
+        "base": {
+          "name": "server_extension"
         }
-      },
+      }
+    },
     "extension": true
   }
 }
