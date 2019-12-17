@@ -42,7 +42,6 @@ Start with the [Hello World](basics/hello-world) and then jump to the topic you 
 - [Kernel Output](advanced/kernel-output)
 - [Kernel Messaging](advanced/kernel-messaging)
 - [Server Hello World](advanced/server-extension)
-- [Serving Files](advanced/serving-files)
 
 You can expect from each example:
 
@@ -111,7 +110,6 @@ We have structured the examples based on the [extension points](https://jupyterl
 | [Kernel Output](advanced/kernel-output)         | [![OutputArea class](advanced/kernel-output/preview.gif)](advanced/kernel-output)         |
 | [Kernel Messaging](advanced/kernel-messaging)   | [![Kernel Messages](advanced/kernel-messaging/preview.gif)](advanced/kernel-messaging)    |
 | [Server Hello World](advanced/server-extension) | [![Server Hello World](advanced/server-extension/preview.png)](advanced/server-extension) |
-| [Serving Files](advanced/serving-files)         |                                                                                           |
 
 ## Prerequisites
 
