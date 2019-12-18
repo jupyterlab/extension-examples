@@ -1,34 +1,36 @@
-'use strict';
+import { ReactWidget, UseSignal } from '@jupyterlab/apputils';
 
 import * as React from 'react';
 
-import { VDomRenderer } from '@jupyterlab/apputils';
-
 import { KernelModel } from './model';
 
-export class KernelView extends VDomRenderer<any> {
+export class KernelView extends ReactWidget {
   constructor(model: KernelModel) {
     super();
-    this.id = `TutorialVDOM`;
-    this.model = model;
+    this._model = model;
   }
 
-  protected render(): React.ReactElement<any>[] {
+  protected render(): React.ReactElement<any> {
     console.log('render');
-    const elements: React.ReactElement<any>[] = [];
-    elements.push(
-      <button
-        key="header-thread"
-        className="jp-tutorial-button"
-        onClick={() => {
-          this.model.execute('3+5');
-        }}
-      >
-        Compute 3+5
-      </button>,
-
-      <span key="output field">{JSON.stringify(this.model.output)}</span>
+    return (
+      <React.Fragment>
+        <button
+          key="header-thread"
+          className="jp-example-button"
+          onClick={() => {
+            this._model.execute('3+5');
+          }}
+        >
+          Compute 3+5
+        </button>
+        <UseSignal signal={this._model.stateChanged}>
+          {() => (
+            <span key="output field">{JSON.stringify(this._model.output)}</span>
+          )}
+        </UseSignal>
+      </React.Fragment>
     );
-    return elements;
   }
+
+  private _model: KernelModel;
 }

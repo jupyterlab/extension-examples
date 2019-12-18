@@ -1,44 +1,14 @@
-'use strict';
-
-import { VDomModel } from '@jupyterlab/apputils';
-
-import { Kernel, KernelMessage } from '@jupyterlab/services';
+import { IClientSession } from '@jupyterlab/apputils';
 
 import { nbformat } from '@jupyterlab/coreutils';
 
-import { IClientSession } from '@jupyterlab/apputils';
+import { Kernel, KernelMessage } from '@jupyterlab/services';
 
-export class KernelModel extends VDomModel {
+import { ISignal, Signal } from '@phosphor/signaling';
+
+export class KernelModel {
   constructor(session: IClientSession) {
-    super();
     this._session = session;
-  }
-
-  public execute(code: string) {
-    if (!this._session || !this._session.kernel) {
-      return;
-    }
-    this.future = this._session.kernel.requestExecute({ code });
-  }
-
-  private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
-    let msgType = msg.header.msg_type;
-    switch (msgType) {
-      case 'execute_result':
-      case 'display_data':
-      case 'update_display_data':
-        this._output = msg.content as nbformat.IOutput;
-        console.log(this._output);
-        this.stateChanged.emit(undefined);
-        break;
-      default:
-        break;
-    }
-    return;
-  };
-
-  get output(): nbformat.IOutput | null {
-    return this._output;
   }
 
   get future(): Kernel.IFuture<
@@ -61,10 +31,42 @@ export class KernelModel extends VDomModel {
     value.onIOPub = this._onIOPub;
   }
 
-  private _output: nbformat.IOutput | null = null;
+  get output(): nbformat.IOutput | null {
+    return this._output;
+  }
+
+  get stateChanged(): ISignal<KernelModel, void> {
+    return this._stateChanged;
+  }
+
+  execute(code: string) {
+    if (!this._session || !this._session.kernel) {
+      return;
+    }
+    this.future = this._session.kernel.requestExecute({ code });
+  }
+
+  private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
+    let msgType = msg.header.msg_type;
+    switch (msgType) {
+      case 'execute_result':
+      case 'display_data':
+      case 'update_display_data':
+        this._output = msg.content as nbformat.IOutput;
+        console.log(this._output);
+        this._stateChanged.emit();
+        break;
+      default:
+        break;
+    }
+    return;
+  };
+
   private _future: Kernel.IFuture<
     KernelMessage.IExecuteRequestMsg,
     KernelMessage.IExecuteReplyMsg
   > | null = null;
+  private _output: nbformat.IOutput | null = null;
   private _session: IClientSession;
+  private _stateChanged = new Signal<KernelModel, void>(this);
 }

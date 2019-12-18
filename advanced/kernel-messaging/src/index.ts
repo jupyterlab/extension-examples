@@ -3,23 +3,21 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
+import { ICommandPalette } from '@jupyterlab/apputils';
+
 import { ILauncher } from '@jupyterlab/launcher';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { Menu } from '@phosphor/widgets';
 
-import { ICommandPalette } from '@jupyterlab/apputils';
-
-import { TutorialPanel } from './panel';
+import { ExamplePanel } from './panel';
 
 /**
  * The command IDs used by the console plugin.
  */
 namespace CommandIDs {
-  export const create = 'Ex6:create';
-
-  export const closeAndShutdown = 'Ex6:close-and-shutdown';
+  export const create = 'kernel-messaging:create';
 }
 
 /**
@@ -28,66 +26,54 @@ namespace CommandIDs {
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'kernel-messaging',
   autoStart: true,
-  requires: [ICommandPalette, ILauncher, IMainMenu],
+  optional: [ILauncher],
+  requires: [ICommandPalette, IMainMenu],
   activate: activate
 };
 
 function activate(
   app: JupyterFrontEnd,
   palette: ICommandPalette,
-  launcher: ILauncher,
-  mainMenu: IMainMenu
+  mainMenu: IMainMenu,
+  launcher: ILauncher | null
 ) {
   const manager = app.serviceManager;
   const { commands, shell } = app;
-  let category = 'Tutorial';
+  const category = 'Example';
 
   // Add launcher
-  launcher.add({
-    command: CommandIDs.create,
-    category: category
-  });
+  if (launcher) {
+    launcher.add({
+      command: CommandIDs.create,
+      category: category
+    });
+  }
 
-  function createPanel() {
-    let panel: TutorialPanel;
-    return manager.ready
-      .then(() => {
-        panel = new TutorialPanel(manager);
-        return panel.session.ready;
-      })
-      .then(() => {
-        shell.add(panel, 'main');
-        return panel;
-      });
+  async function createPanel(): Promise<ExamplePanel> {
+    await manager.ready;
+    const panel = new ExamplePanel(manager);
+
+    await panel.session.ready;
+    shell.add(panel, 'main');
+
+    return panel;
   }
 
   // add menu tab
-  let tutorialMenu: Menu = new Menu({ commands });
-  tutorialMenu.title.label = 'Tutorial';
-  mainMenu.addMenu(tutorialMenu);
+  const exampleMenu = new Menu({ commands });
+  exampleMenu.title.label = 'Example';
+  mainMenu.addMenu(exampleMenu);
 
   // add commands to registry
-  let command = CommandIDs.create;
-  commands.addCommand(command, {
-    label: 'Ex6: open Panel',
-    caption: 'Open the Labtutorial Extension',
+  commands.addCommand(CommandIDs.create, {
+    label: 'kernel-messaging: open Panel',
+    caption: 'Open the Kernel Messaging Panel',
     execute: createPanel
   });
 
-  command = CommandIDs.closeAndShutdown;
-  commands.addCommand(command, {
-    label: 'Ex6: close Panel',
-    caption: 'Close the Labtutorial Extension',
-    execute: args => {
-      console.log('not implemented');
-    }
-  });
-
   // add items in command palette and menu
-  [CommandIDs.create, CommandIDs.closeAndShutdown].forEach(command => {
-    palette.addItem({ command, category });
-    tutorialMenu.addItem({ command });
-  });
+  palette.addItem({ command: CommandIDs.create, category });
+  exampleMenu.addItem({ command: CommandIDs.create });
 }
 
 export default extension;
