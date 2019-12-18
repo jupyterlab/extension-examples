@@ -3,16 +3,14 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { IMainMenu } from '@jupyterlab/mainmenu';
-
-import { Menu } from '@phosphor/widgets';
-
 import { ICommandPalette } from '@jupyterlab/apputils';
 
-import { Widget } from '@phosphor/widgets';
+import { IMainMenu } from '@jupyterlab/mainmenu';
+
+import { Menu, Widget } from '@phosphor/widgets';
 
 /**
- * Initialization data for the extension1 extension.
+ * Activate the widgets example extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'widgets',
@@ -24,34 +22,34 @@ const extension: JupyterFrontEndPlugin<void> = {
     mainMenu: IMainMenu
   ) => {
     const { commands, shell } = app;
-    let command = 'ex3:labtutorial';
-    let category = 'Tutorial';
+    const command = 'widgets:open-tab';
+
     commands.addCommand(command, {
-      label: 'Ex3 command',
-      caption: 'Open the Labtutorial',
-      execute: (args: any) => {
-        const widget = new TutorialView();
+      label: 'widgets: Open Tab',
+      caption: 'Open the Widgets Example Tab',
+      execute: () => {
+        const widget = new ExampleView();
         shell.add(widget, 'main');
       }
     });
-    palette.addItem({ command, category });
+    palette.addItem({ command, category: 'Example' });
 
-    let tutorialMenu: Menu = new Menu({ commands });
+    const exampleMenu = new Menu({ commands });
 
-    tutorialMenu.title.label = 'Tutorial';
-    mainMenu.addMenu(tutorialMenu, { rank: 80 });
-    tutorialMenu.addItem({ command });
+    exampleMenu.title.label = 'Example';
+    mainMenu.addMenu(exampleMenu, { rank: 80 });
+    exampleMenu.addItem({ command });
   }
 };
 
 export default extension;
 
-class TutorialView extends Widget {
+class ExampleView extends Widget {
   constructor() {
     super();
-    this.addClass('jp-tutorial-view');
-    this.id = 'tutorial';
-    this.title.label = 'Tutorial View';
+    this.addClass('jp-example-view');
+    this.id = 'widgets-example';
+    this.title.label = 'Example View';
     this.title.closable = true;
   }
 }

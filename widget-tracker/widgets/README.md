@@ -1,81 +1,94 @@
 # Widgets - Adding new Elements to the Main Window
 
-We are going to do some real stuff and add a new tab to JupyterLab.
-Visible elements such as tabs and notebooks are represented by widgets in the Phosphor library
-that is the basis of the JupyterLab application.
+In this example you will learn how to add a new tab to JupyterLab.
+Visible elements such as tabs and notebooks are represented by widgets in the [PhosphorJS](http://phosphorjs.github.io/phosphor/api/widgets/globals.html)
+library that is the basis of the JupyterLab application. It is the fundamental brick of
+any visual component in the JupyterLab interface.
 
 ![Custom Tab](preview.png)
 
-#### A basic tab
+## A Basic Tab
 
 The base widget class can be imported with:
 
 ```ts
-// src/index.ts#L12-L12
+// src/index.ts#L10-L10
 
-import { Widget } from '@phosphor/widgets';
+import { Menu, Widget } from '@phosphor/widgets';
 ```
 
-A Widget can be added to the main area through the main JupyterLab
-application`app.shell`. Inside of our previous `activate` function, this looks
-like this:
+It requires to add the library as package dependency:
+
+```bash
+jlpm add @phosphor/widgets
+```
+
+A Widget can be added to the main area through the [JupyterLab
+shell](http://jupyterlab.github.io/jupyterlab/application/classes/labshell.html).
+Inside of the `activate` function, you can obtained it through the `shell` attribute
+of the `app` object:
+
+```ts
+// src/index.ts#L24-L24
+
+const { commands, shell } = app;
+```
+
+Then the widget can be inserted through the `add` method, like in the command defined
+in this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L21-L44
+// src/index.ts#L30-L33
 
-activate: (
-  app: JupyterFrontEnd,
-  palette: ICommandPalette,
-  mainMenu: IMainMenu
-) => {
-  const { commands, shell } = app;
-  let command = 'ex3:labtutorial';
-  let category = 'Tutorial';
-  commands.addCommand(command, {
-    label: 'Ex3 command',
-    caption: 'Open the Labtutorial',
-    execute: (args: any) => {
-      const widget = new TutorialView();
-      shell.add(widget, 'main');
-    }
-  });
-  palette.addItem({ command, category });
-
-  let tutorialMenu: Menu = new Menu({ commands });
-
-  tutorialMenu.title.label = 'Tutorial';
-  mainMenu.addMenu(tutorialMenu, { rank: 80 });
-  tutorialMenu.addItem({ command });
+execute: () => {
+  const widget = new ExampleView();
+  shell.add(widget, 'main');
 }
 ```
 <!-- prettier-ignore-end -->
 
-The custom widget `TutorialView` is straight-forward as well:
+The custom widget `ExampleView` is inherited from the base class `Widget`. In this
+case, no specific behavior is defined for the widget. Only some properties are set:
+
+- `addClass`: Add a CSS class to allow widget styling
+- `id`: id of the widget's DOM node - it is mandatory to be set to be included in JupyterLab
+- `title.label`: The widget tab title
+- `title.closable`: Allow the widget tab to be closed
 
 ```ts
-// src/index.ts#L49-L57
+// src/index.ts#L47-L55
 
-class TutorialView extends Widget {
+class ExampleView extends Widget {
   constructor() {
     super();
-    this.addClass('jp-tutorial-view');
-    this.id = 'tutorial';
-    this.title.label = 'Tutorial View';
+    this.addClass('jp-example-view');
+    this.id = 'widgets-example';
+    this.title.label = 'Example View';
     this.title.closable = true;
   }
 }
 ```
 
-Note that we have used a custom css class that is defined in the file
-`style/index.css` as:
+You can associate style propreties to the custom CSS class in the file
+`style/index.css`:
 
 <!-- embedme style/index.css -->
 
 ```css
-.jp-tutorial-view {
+.jp-example-view {
   background-color: AliceBlue;
 }
 ```
 
-Our custom tab can be started in JupyterLab from the command palette.
+## Where to Go Next
+
+This example uses a command to display the widget. Have a look a the
+[commands example](../../commands/README.md) for more information about it.
+
+The widget created in this example is simple. You will find more advanced
+widgets in the following examples:
+
+- Widget showing a [data table](../../basics/datagrid/README.md)
+- Widget integrating [React components](../../react/react-widget/README.md)
+- Widget interacting with a [Kernel](../../advanced/kernel-messaging/README.md)
