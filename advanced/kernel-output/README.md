@@ -8,8 +8,8 @@
 
 ![OutputArea class](preview.gif)
 
-In this example, you will see how initialize a kernel, how to execute code
-and how to display the rendered output. The `OutputArea` class used by Jupyterlab
+In this example, you will see how to initialize a kernel, execute code
+and display the rendered output. The `OutputArea` class used by JupyterLab
 to render an output area under a notebook cell or in the console will be reused.
 
 Essentially, `OutputArea` will render the data that comes as a reply to an
@@ -20,7 +20,7 @@ example.
 
 ## Code structure
 
-The code is separated into two parts:
+The code is split into two parts:
 
 1.  the JupyterLab plugin that activates all the extension components and connects
     them to the main `Jupyterlab` application via commands, launcher and menu
@@ -30,7 +30,7 @@ The code is separated into two parts:
 The first part is contained in the `index.ts` file and the second in `panel.ts`.
 
 In the following sections, the logic will be first described. It is
-followed by the visual element creation.
+followed by the creation of the visual element.
 
 ## Initializing a Kernel Session
 
@@ -39,7 +39,7 @@ object ([see the documentation](https://jupyterlab.github.io/jupyterlab/apputils
 Here it is stored in the private `_session` variable:
 
 ```ts
-// src/panel.ts#L71-L71
+// src/panel.ts#L73-L73
 
 private _session: ClientSession;
 ```
@@ -60,7 +60,7 @@ The private session variable is exposed as read-only for other users
 through a getter method:
 
 ```ts
-// src/panel.ts#L49-L51
+// src/panel.ts#L51-L53
 
 get session(): IClientSession {
   return this._session;
@@ -70,22 +70,26 @@ get session(): IClientSession {
 Once you have created a session, the associated kernel can be initialized
 with this line:
 
+<!-- prettier-ignore-start -->
 ```ts
-// src/panel.ts#L44-L46
+// src/panel.ts#L44-L48
 
 this._session.initialize().catch(reason => {
-  console.error(`Fail to initialize session in ExamplePanel.\n${reason}`);
+  console.error(
+    `Failed to initialize the session in ExamplePanel.\n${reason}`
+  );
 });
 ```
+<!-- prettier-ignore-end -->
 
-When a session has no predefined favourite kernel, a dialog will request the user to choose a kernel to start. Conveniently, this can
+When a session has no predefined preferred kernel, a dialog will request the user to choose a kernel to start. Conveniently, this can
 also be an already existing kernel, as you will see later.
 
-The following two methods unsure the clean disposal of the session
+The following two methods ensure the clean disposal of the session
 when you close the panel.
 
 ```ts
-// src/panel.ts#L53-L56
+// src/panel.ts#L55-L58
 
 dispose(): void {
   this._session.dispose();
@@ -94,7 +98,7 @@ dispose(): void {
 ```
 
 ```ts
-// src/panel.ts#L66-L69
+// src/panel.ts#L68-L71
 
 protected onCloseRequest(msg: Message): void {
   super.onCloseRequest(msg);
@@ -123,7 +127,7 @@ some code to a kernel through a `ClientSession` ([see documentation](https://jup
 in the specific `SimplifiedOutputArea` object you created:
 
 ```ts
-// src/panel.ts#L58-L64
+// src/panel.ts#L60-L66
 
 execute(code: string): void {
   SimplifiedOutputArea.execute(code, this._outputarea, this._session)
@@ -148,7 +152,7 @@ panel with:
 this.addWidget(this._outputarea);
 ```
 
-The last step is to add the panel into JupyterLab.
+The last step is to add the panel to the JupyterLab main area.
 
 ## Asynchronous Extension Initialization
 
@@ -170,7 +174,7 @@ You can then add the commands to the palette and the menu by iterating
 on a list:
 
 ```ts
-// src/index.ts#L86-L90
+// src/index.ts#L84-L88
 
 // add items in command palette and menu
 [CommandIDs.create, CommandIDs.execute].forEach(command => {
@@ -179,7 +183,7 @@ on a list:
 });
 ```
 
-To create new client session, the service manager must be obtained from
+To create a new client session, the service manager must be obtained from
 the JupyterLab application:
 
 ```ts
@@ -189,24 +193,22 @@ const manager = app.serviceManager;
 ```
 
 To launch the panel, you need to wait for the service manager to be
-ready. Then once the panel is created and its session is ready. It
-can be inserted in the JupyterLab main area:
+ready. Then once the panel is created and its session is ready, it
+can be added to the JupyterLab main area:
 
 ```ts
-// src/index.ts#L49-L61
+// src/index.ts#L49-L59
 
 let panel: ExamplePanel;
 
-function createPanel() {
-  return manager.ready
-    .then(() => {
-      panel = new ExamplePanel(manager, rendermime);
-      return panel.session.ready;
-    })
-    .then(() => {
-      shell.add(panel, 'main');
-      return panel;
-    });
+async function createPanel(): Promise<ExamplePanel> {
+  await manager.ready;
+  panel = new ExamplePanel(manager, rendermime);
+
+  await panel.session.ready;
+  shell.add(panel, 'main');
+
+  return panel;
 }
 ```
 
@@ -216,7 +218,7 @@ This example assumes you have a variable, named `df`, in your python kernel that
 contain a [pandas](https://pandas.pydata.org/) dataframe. You can display it in your panel by adding the following command:
 
 ```ts
-// src/index.ts#L75-L84
+// src/index.ts#L73-L82
 
 commands.addCommand(CommandIDs.execute, {
   label: 'kernel-output: Show Dataframe',

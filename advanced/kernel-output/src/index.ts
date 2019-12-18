@@ -48,16 +48,14 @@ function activate(
 
   let panel: ExamplePanel;
 
-  function createPanel() {
-    return manager.ready
-      .then(() => {
-        panel = new ExamplePanel(manager, rendermime);
-        return panel.session.ready;
-      })
-      .then(() => {
-        shell.add(panel, 'main');
-        return panel;
-      });
+  async function createPanel(): Promise<ExamplePanel> {
+    await manager.ready;
+    panel = new ExamplePanel(manager, rendermime);
+
+    await panel.session.ready;
+    shell.add(panel, 'main');
+
+    return panel;
   }
 
   // add menu tab

@@ -11,7 +11,7 @@ import { Message } from '@phosphor/messaging';
 import { StackedPanel } from '@phosphor/widgets';
 
 /**
- * The class name added to example panel.
+ * The class name added to the example panel.
  */
 const PANEL_CLASS = 'jp-RovaPanel';
 
@@ -42,7 +42,9 @@ export class ExamplePanel extends StackedPanel {
 
     this.addWidget(this._outputarea);
     this._session.initialize().catch(reason => {
-      console.error(`Fail to initialize session in ExamplePanel.\n${reason}`);
+      console.error(
+        `Failed to initialize the session in ExamplePanel.\n${reason}`
+      );
     });
   }
 
