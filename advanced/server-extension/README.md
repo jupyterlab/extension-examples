@@ -498,25 +498,25 @@ user about that dependency by adding the `discovery` metadata to your `package.j
 file:
 
 ```json5
-// package.json#L53-L63
+// package.json#L59-L69
 
 "jupyterlab": {
   "discovery": {
-      "server": {
-        "managers": [
-          "pip"
-        ],
-        "base": {
-          "name": "server_extension"
-        }
+    "server": {
+      "managers": [
+        "pip"
+      ],
+      "base": {
+        "name": "server_extension"
       }
-    },
+    }
+  },
 ```
 
 In this example, the extension requires a `server` extension:
 
 ```json5
-// package.json#L55-L55
+// package.json#L61-L61
 
 "server": {
 ```
@@ -524,7 +524,7 @@ In this example, the extension requires a `server` extension:
 And that server extension is available through `pip`:
 
 ```json5
-// package.json#L56-L58
+// package.json#L62-L64
 
 "managers": [
   "pip"
