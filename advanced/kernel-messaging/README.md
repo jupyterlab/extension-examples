@@ -10,8 +10,9 @@
 ## Custom Kernel Interactions: Kernel Managment and Messaging
 
 One of the main features of JupyterLab is the possibility to manage and
-interact with execution [kernels](https://jupyter-client.readthedocs.io/en/latest/kernels.html). In this example, youu will explore how to
-start a kernel and execute a command on it.
+interact with [kernels](https://jupyter-client.readthedocs.io/en/latest/kernels.html).
+In this example, you will explore how to
+start a kernel and send some code to be executed by it.
 
 ## Component Overview
 
@@ -23,32 +24,35 @@ This example is structured in four files:
 - `widget.tsx`: a KernelView class that is responsible to provide visual elements that trigger the kernel model and display its results
 
 The `KernelView` displays the `KernelModel` thanks to some React HTML elements and
-get updated when the `KernelModel` state changes, i.e. retrieves a new
+gets updated when the `KernelModel` state changes, i.e. retrieves a new
 execution result.
 
 ## Initializing and managing a kernel session (`panel.ts`)
 
 Jupyterlab provides a class `ClientSession`
 ([see the documentation](https://jupyterlab.github.io/jupyterlab/apputils/classes/clientsession.html))
-that manages a single kernel session. The construction and initialization
-of such session is done like this:
+that manages a single kernel session. Here is the code to initialize such session:
 
 ```ts
-// src/panel.ts#L28-L31
-
+// src/panel.ts#L29-L32
 
 this._session = new ClientSession({
   manager: manager.sessions,
   name: 'Example'
+});
 ```
 
-<!-- embedme src/panel.ts#L37-L39 -->
+<!-- prettier-ignore-start -->
+<!-- embedme src/panel.ts#L38-L42 -->
 
 ```ts
-this.addWidget(this._example);
 this._session.initialize().catch(reason => {
-  console.error(`Fail to initialize session in ExamplePanel.\n${reason}`);
+  console.error(
+    `Failed to initialize the session in ExamplePanel.\n${reason}`
+  );
+});
 ```
+<!-- prettier-ignore-end -->
 
 The session manager object is
 provided directly by the JupyterLab application:
@@ -67,7 +71,7 @@ to free the kernel session resources if the panel is closed. The whole adapted
 panel class looks like this:
 
 ```ts
-// src/panel.ts#L21-L59
+// src/panel.ts#L21-L62
 
 export class ExamplePanel extends StackedPanel {
   constructor(manager: ServiceManager.IManager) {
@@ -87,7 +91,9 @@ export class ExamplePanel extends StackedPanel {
 
     this.addWidget(this._example);
     this._session.initialize().catch(reason => {
-      console.error(`Fail to initialize session in ExamplePanel.\n${reason}`);
+      console.error(
+        `Failed to initialize the session in ExamplePanel.\n${reason}`
+      );
     });
   }
 
@@ -108,6 +114,7 @@ export class ExamplePanel extends StackedPanel {
   private _model: KernelModel;
   private _session: ClientSession;
   private _example: KernelView;
+}
 ```
 
 ## Executing code and retrieving messages from a kernel (`model.ts`)
@@ -121,8 +128,8 @@ the `ClientSession` object with the following snippet:
 this.future = this._session.kernel.requestExecute({ code });
 ```
 
-`future` is an object that can receive some messages from the kernel as an
-answer on your execution request (see [jupyter messaging](https://jupyter-client.readthedocs.io/en/stable/messaging.html)).
+`future` is an object that can receive some messages from the kernel as a
+reply to your execution request (see [jupyter messaging](https://jupyter-client.readthedocs.io/en/stable/messaging.html)).
 One of these messages contains the data of the execution result. It is
 published on a channel called `IOPub` and can be identified by the message
 types `execute_result`, `display_data` and `update_display_data`.
@@ -246,7 +253,7 @@ implemented to call the `this._model.execute` method.
 ## Where to Go Next
 
 In the [Kernel Output](../kernel-output)
-example, you will explore how you can reuse some jupyter components to have a nicer display for kernel messages.
+example, you will explore how you can reuse some Jupyter components to have a nicer display for kernel messages.
 
 This example uses React to define UI elements. You can
 learn more about React in JupyterLab in [that example](../../react/react-widget/README.md).

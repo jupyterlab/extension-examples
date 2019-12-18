@@ -36,7 +36,9 @@ export class ExamplePanel extends StackedPanel {
 
     this.addWidget(this._example);
     this._session.initialize().catch(reason => {
-      console.error(`Fail to initialize session in ExamplePanel.\n${reason}`);
+      console.error(
+        `Failed to initialize the session in ExamplePanel.\n${reason}`
+      );
     });
   }
 

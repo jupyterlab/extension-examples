@@ -49,17 +49,14 @@ function activate(
     });
   }
 
-  function createPanel() {
-    let panel: ExamplePanel;
-    return manager.ready
-      .then(() => {
-        panel = new ExamplePanel(manager);
-        return panel.session.ready;
-      })
-      .then(() => {
-        shell.add(panel, 'main');
-        return panel;
-      });
+  async function createPanel(): Promise<ExamplePanel> {
+    await manager.ready;
+    const panel = new ExamplePanel(manager);
+
+    await panel.session.ready;
+    shell.add(panel, 'main');
+
+    return panel;
   }
 
   // add menu tab
