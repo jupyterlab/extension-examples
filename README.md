@@ -169,6 +169,14 @@ Start JupyterLab in watch mode.
 jupyter lab --watch
 ```
 
+## Install a Published Extension
+
+Once your extension is published (not part of these explanations), you can install it without source compilation.
+
+```bash
+jupyter labextension install <published_extension>
+```
+
 ## About JupyterLab
 
 JupyterLab can be used as a platform to combine existing data-science components into a
@@ -185,10 +193,6 @@ Complementary to these examples, you can rely on the official JupyterLab documen
 - [Common Extension Points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html)
 - [Astronomy Picture of the Day JupyterLab Extension](https://jupyterLab.readthedocs.io/en/stable/developer/extension_tutorial.html)
 
-## Install a Published Extension
+## Credits
 
-Once your extension is published (not part of these explanations), you can install it without source compilation.
-
-```bash
-jupyter labextension install <published_extension>
-```
+We would like to thank [MMesch](https://github.com/MMesch) for [initiating this work](https://github.com/MMesch/labextension_tutorial), as well as everyone else who contributed!
