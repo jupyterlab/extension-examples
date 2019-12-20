@@ -25,7 +25,7 @@ jlpm add @phosphor/widgets
 
 A Widget can be added to the main area through the [JupyterLab
 shell](http://jupyterlab.github.io/jupyterlab/application/classes/labshell.html).
-Inside of the `activate` function, you can obtained it through the `shell` attribute
+Inside of the `activate` function, you can obtain it through the `shell` attribute
 of the `app` object:
 
 ```ts
@@ -34,7 +34,7 @@ of the `app` object:
 const { commands, shell } = app;
 ```
 
-Then the widget can be inserted through the `add` method, like in the command defined
+Then the widget can be inserted by calling the `add` method, like in the command defined
 in this example:
 
 <!-- prettier-ignore-start -->
@@ -70,7 +70,7 @@ class ExampleView extends Widget {
 }
 ```
 
-You can associate style propreties to the custom CSS class in the file
+You can associate style properties to the custom CSS class in the file
 `style/index.css`:
 
 <!-- embedme style/index.css -->
