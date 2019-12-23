@@ -38,7 +38,6 @@ Start with the [Hello World](basics/hello-world) and then jump to the topic you 
 - [State](state)
 - [React Widget](react/react-widget)
 - [Widgets](widget-tracker/widgets)
-- [Jupyter Widgets](widget-tracker/jupyter-widgets)
 - [Kernel Output](advanced/kernel-output)
 - [Kernel Messaging](advanced/kernel-messaging)
 - [Server Hello World](advanced/server-extension)
@@ -98,10 +97,9 @@ We have structured the examples based on the [extension points](https://jupyterl
 
 ## Widget Tracker
 
-| Example                                           | Preview                                                                                       |
-| ------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| [Widgets](widget-tracker/widgets)                 | [![Custom Tab](widget-tracker/widgets/preview.png)](widget-tracker/widgets)                   |
-| [Jupyter Widgets](widget-tracker/jupyter-widgets) | [![Qgrid widget](widget-tracker/jupyter-widgets/preview.gif)](widget-tracker/jupyter-widgets) |
+| Example                           | Preview                                                                     |
+| --------------------------------- | --------------------------------------------------------------------------- |
+| [Widgets](widget-tracker/widgets) | [![Custom Tab](widget-tracker/widgets/preview.png)](widget-tracker/widgets) |
 
 ## Advanced
 
