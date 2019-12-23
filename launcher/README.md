@@ -3,7 +3,7 @@
 In this example, you will learn how to start your extension from the launcher and how to have optional
 dependencies to JupyterLab features.
 
-![Launcher example](preview.png)
+![Launcher example](preview.gif)
 
 > Acknowledgement: This example is copied from Jeremy Tuloup [Python file extension](https://github.com/jtpio/jupyterlab-python-file).
 
