@@ -68,9 +68,9 @@ We have structured the examples based on the [extension points](https://jupyterl
 
 ## Commands
 
-| Example              | Preview |
-| -------------------- | ------- |
-| [Commands](commands) |         |
+| Example              | Preview                                               |
+| -------------------- | ----------------------------------------------------- |
+| [Commands](commands) | [![Commmand example](commands/preview.png)](commands) |
 
 ## Menus
 
