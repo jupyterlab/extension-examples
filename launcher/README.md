@@ -16,16 +16,16 @@ your extension will use two commands defined by the [documents manager](https://
 The command will create a new Python file and then open it:
 
 ```ts
-// src/index.ts#L36-L58
+// src/index.ts#L37-L59
 
-commands.addCommand(CommandIDs.createNew, {
+commands.addCommand(command, {
   label: args => (args['isPalette'] ? 'New Python File' : 'Python File'),
   caption: 'Create a new Python file',
   iconClass: args => (args['isPalette'] ? '' : ICON_CLASS),
   execute: async args => {
     // Get the directory in which the Python file must be created;
     // otherwise take the current filebrowser directory
-    let cwd = args['cwd'] || browserFactory.defaultBrowser.model.path;
+    const cwd = args['cwd'] || browserFactory.defaultBrowser.model.path;
 
     // Create a new untitled python file
     const model = await commands.execute('docmanager:new-untitled', {
@@ -58,16 +58,16 @@ Then you can use it in the extension by importing it:
 import { ILauncher } from '@jupyterlab/launcher';
 ```
 
-And finally you can request it as extension dependency:
+And finally you can add it to the list of dependencies:
 
 ```ts
 // src/index.ts#L22-L33
 
 const extension: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-examples/launcher',
+  id: 'launcher',
   autoStart: true,
-  optional: [ILauncher, IMainMenu, ICommandPalette],
   requires: [IFileBrowserFactory],
+  optional: [ILauncher, IMainMenu, ICommandPalette],
   activate: (
     app: JupyterFrontEnd,
     browserFactory: IFileBrowserFactory,
@@ -77,20 +77,21 @@ const extension: JupyterFrontEndPlugin<void> = {
   ) => {
 ```
 
-In this example, the `ILauncher` interface is requested as optional dependency and not as classical dependency. This allow other application without launcher to be able
-to use your extension.  
+In this example, the `ILauncher` interface is requested as optional dependency
+and not as a required dependency. This lets other applications without a launcher
+be able to use your extension.  
 If the application is unable to provide an optional interface, it will take a `null`
 value.  
 Therefore before adding the command to the launcher, you need to check if the `launcher`
 variable is not `null`:
 
 ```ts
-// src/index.ts#L60-L67
+// src/index.ts#L61-L68
 
 // Add the command to the launcher
 if (launcher) {
   launcher.add({
-    command: CommandIDs.createNew,
+    command,
     category: 'Other',
     rank: 1
   });
