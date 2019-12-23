@@ -6,7 +6,7 @@
     "command-palette",
     "context-menu/*",
     "keyboard-shortcuts/*",
-    "launcher/*",
+    "launcher",
     "left-right-areas/*",
     "main-menu",
     "react/*",

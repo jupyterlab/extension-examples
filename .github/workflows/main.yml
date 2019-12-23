@@ -21,6 +21,7 @@ jobs:
           - basics/signals
           - command-palette
           - commands
+          - launcher
           - main-menu
           - react/react-widget
           - settings
