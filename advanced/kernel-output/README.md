@@ -23,7 +23,7 @@ example.
 The code is split into two parts:
 
 1.  the JupyterLab plugin that activates all the extension components and connects
-    them to the main `Jupyterlab` application via commands, launcher and menu
+    them to the main _JupyterLab_ application via commands, launcher and menu
     items,
 2.  a panel that contains the extension logic and UI elements to interact with it.
 
@@ -108,8 +108,9 @@ protected onCloseRequest(msg: Message): void {
 
 ## OutputArea and Model
 
-The `SimplifiedOutputArea` class is a `Widget`, as described in the [widget example](../../widget-tracker/jupyter-widgets/README.md). You
-can instantiate it with a new `OutputAreaModel`; this is class containing
+The `SimplifiedOutputArea` class is a `Widget`, as described in the [widget example](../../widget-tracker/widgets/README.md).
+It has the ability to display the results of a notebook cell execution.  
+You can instantiate it with a new `OutputAreaModel`; this is class containing
 the data to show:
 
 ```ts
@@ -174,7 +175,7 @@ You can then add the commands to the palette and the menu by iterating
 on a list:
 
 ```ts
-// src/index.ts#L84-L88
+// src/index.ts#L95-L99
 
 // add items in command palette and menu
 [CommandIDs.create, CommandIDs.execute].forEach(command => {
@@ -214,20 +215,44 @@ async function createPanel(): Promise<ExamplePanel> {
 
 ## Make it Run
 
-This example assumes you have a variable, named `df`, in your python kernel that could
-contain a [pandas](https://pandas.pydata.org/) dataframe. You can display it in your panel by adding the following command:
+To make the output area useful, you will request the user to enter a statement
+to be executed by the kernel. Then you will send it to your panel for execution
+and display:
 
 ```ts
-// src/index.ts#L73-L82
+// src/index.ts#L73-L93
 
 commands.addCommand(CommandIDs.execute, {
-  label: 'kernel-output: Show Dataframe',
-  caption: 'Show Dataframe',
+  label: 'kernel-output: Execute Code',
+  caption: 'Execute Code',
   execute: async () => {
+    // Create the panel if it does not exist
     if (!panel) {
       await createPanel();
     }
-    panel.execute('df');
+    // Ask the user about the statement to be executed
+    const input = await InputDialog.getText({
+      title: 'Code to be executed',
+      okLabel: 'Execute',
+      placeholder: 'Statement to execute'
+    });
+    // Execute the statement
+    if (input.button.accept) {
+      const code = input.value;
+      panel.execute(code);
+    }
   }
 });
 ```
+
+Any advanced output can be displayed by the `SimplifiedOutputArea` widget, from
+raw text to [interactive ipywidgets](https://ipywidgets.readthedocs.io/).
+In the GIF below, it is assumed you have a variable, named `df`, in your python kernel that contains a [pandas](https://pandas.pydata.org/) dataframe. By entering
+the variable name in the input dialog, it will be displayed in the example panel.
+
+![OutputArea class](preview.gif)
+
+## Where to Go Next
+
+This example makes use of input dialogs. To know which input dialogs are available
+have a look at the [documentation](https://jupyterlab.readthedocs.io/en/stable/developer/ui_helpers.html).
