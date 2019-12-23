@@ -76,7 +76,7 @@ tutorial:command has been called from init.
 
 ## Where to Go Next
 
-- Add the command to the [command palette](../../command-palette/README.md)
-- Add the command to a [menu](../../main-menu/README.md)
-- Add the command to a [context menu](../../context-menu/README.md)
-- Add the command to the [launcher](../../launcher/README.md)
+- Add the command to the [command palette](../command-palette/README.md)
+- Add the command to a [menu](../main-menu/README.md)
+- Add the command to a [context menu](../context-menu/README.md)
+- Add the command to the [launcher](../launcher/README.md)
