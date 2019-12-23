@@ -33,6 +33,7 @@ Start with the [Hello World](basics/hello-world) and then jump to the topic you 
 - [Datagrid](basics/datagrid)
 - [Command Palette](command-palette)
 - [Commands](commands)
+- [Launcher](launcher)
 - [Main Menu](main-menu)
 - [Settings](settings)
 - [State](state)
@@ -71,6 +72,12 @@ We have structured the examples based on the [extension points](https://jupyterl
 | Example              | Preview |
 | -------------------- | ------- |
 | [Commands](commands) |         |
+
+## Launcher
+
+| Example              | Preview                                       |
+| -------------------- | --------------------------------------------- |
+| [Launcher](launcher) | [![Launcher](launcher/preview.gif)](launcher) |
 
 ## Menus
 
