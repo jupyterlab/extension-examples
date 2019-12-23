@@ -135,7 +135,7 @@ published on a channel called `IOPub` and can be identified by the message
 types `execute_result`, `display_data` and `update_display_data`.
 
 Once such a message is received by the `future` object, it can trigger an
-action. In our case, this message is stored in `this._output`. Then
+action. In this case, that message is stored in `this._output`. Then
 a `stateChanged` signal is emitted.  
 The `KernelModel` has a `stateChanged` signal that will be used by the
 view. It is implemented as follows:

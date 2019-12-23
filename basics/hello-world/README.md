@@ -45,8 +45,8 @@ hello-world/
 - `README.md` contains some instructions
 - `package.json` contains information about the extension such as dependencies
 - `tsconfig.json` contains information for the typescript compilation
-- `src/index.ts` _this contains the actual code of our extension_
-- `style/index.css` contains style elements that we can use
+- `src/index.ts` _this contains the actual code of your extension_
+- `style/index.css` contains style elements that you can use
 
 The following sections will walk you through those files.
 
@@ -141,7 +141,7 @@ jupyter labextension link .
 
 The first command installs the dependencies that are specified in
 `package.json`. Among the dependencies are also all of the `JupyterLab`
-components that we want to use in our project. The
+components that you want to use in your project. The
 second step runs the build script. In this step, the typescript code gets
 converted to javascript using the compiler `tsc` and stored in a `lib`
 directory. Finally, the module is linked to JupyterLab.
@@ -182,7 +182,7 @@ activate: (app: JupyterFrontEnd) => {
 <!-- prettier-ignore-end -->
 
 to update the module, you simply need to go into the extension directory and run
-`jlpm build` again. Since we used the `--watch` option when starting
+`jlpm build` again. Since you used the `--watch` option when starting
 JupyterLab, you just have to refresh the JupyterLab website in the browser
 and should see in the browser console:
 
