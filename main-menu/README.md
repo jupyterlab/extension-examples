@@ -20,7 +20,7 @@ import { IMainMenu } from '@jupyterlab/mainmenu';
 import { Menu } from '@phosphor/widgets';
 ```
 
-We add the IMainMenu in the `requires:` property such that it is injected into
+You can add the `IMainMenu` in the `requires:` property such that it is injected into
 the `activate` function. The extension looks like:
 
 ```ts
@@ -66,7 +66,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 };
 ```
 
-In this extension, we have added the dependencies _@jupyterlab/mainmenu_ and
+In this extension, you have the dependencies to _@jupyterlab/mainmenu_ and
 _@phosphor/widgets_. Before it builds, this dependencies have to be added to the
 `package.json` file. This is done invoking the following command:
 

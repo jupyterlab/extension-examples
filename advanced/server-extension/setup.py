@@ -18,7 +18,7 @@ name="server_extension"
 # Ensure a valid python version
 ensure_python(">=3.6")
 
-# Get our version
+# Get the version
 version = get_version(pjoin(name, "_version.py"))
 
 lab_path = pjoin(HERE, name, "labextension")

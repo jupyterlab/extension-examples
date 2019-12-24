@@ -48,18 +48,18 @@ You can expect from each example:
 
 - An explanation of its functionality.
 - A image or screencast showing its usage.
-- The list of used JupyterLabo API and Contribution Points.
+- The list of used JupyterLab API and Contribution Points.
 - Some code parts to explain the internal working.
 
 We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html). Browse the previews here after or skip them and [jump directly to the sections for developers](#prerequisites).
 
 ## Basic
 
-| Example                           | Preview                                                             |
-| --------------------------------- | ------------------------------------------------------------------- |
-| [Hello World](basics/hello-world) |                                                                     |
-| [Signals](basics/signals)         | [![Button with Signal](basics/signals/preview.png)](basics/signals) |
-| [Datagrid](basics/datagrid)       | [![Datagrid](basics/datagrid/preview.png)](basics/datagrid)         |
+| Example                           | Preview                                                              |
+| --------------------------------- | -------------------------------------------------------------------- |
+| [Hello World](basics/hello-world) | [![Hello World](basics/hello-world/preview.png)](basics/hello-world) |
+| [Signals](basics/signals)         | [![Button with Signal](basics/signals/preview.png)](basics/signals)  |
+| [Datagrid](basics/datagrid)       | [![Datagrid](basics/datagrid/preview.png)](basics/datagrid)          |
 
 ## Command Palette
 
@@ -69,9 +69,9 @@ We have structured the examples based on the [extension points](https://jupyterl
 
 ## Commands
 
-| Example              | Preview |
-| -------------------- | ------- |
-| [Commands](commands) |         |
+| Example              | Preview                                               |
+| -------------------- | ----------------------------------------------------- |
+| [Commands](commands) | [![Commmand example](commands/preview.png)](commands) |
 
 ## Launcher
 

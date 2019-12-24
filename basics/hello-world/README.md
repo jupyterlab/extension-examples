@@ -1,6 +1,8 @@
 # Hello World - Print to the console
 
-This minimal JupyterLab extension explains how to set up the development environment and prints to the console
+This minimal JupyterLab extension explains how to set up the development environment and prints to the console.
+
+![hello-world example](./preview.png)
 
 - [The template folder structure](#the-template-folder-structure)
 - [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
@@ -43,15 +45,14 @@ hello-world/
 - `README.md` contains some instructions
 - `package.json` contains information about the extension such as dependencies
 - `tsconfig.json` contains information for the typescript compilation
-- `src/index.ts` _this contains the actual code of our extension_
-- `style/index.css` contains style elements that we can use
+- `src/index.ts` _this contains the actual code of your extension_
+- `style/index.css` contains style elements that you can use
 
-What does this extension do? You don't need a PhD in Computer Science to take a
-guess from the title of this section, but let's have a closer look:
+The following sections will walk you through those files.
 
 ## A minimal extension that prints to the browser console
 
-We start with the file `src/index.ts`. This typescript file contains the main
+Start with the file `src/index.ts`. This typescript file contains the main
 logic of the extension. It begins with the following import section:
 
 ```ts
@@ -63,10 +64,10 @@ import {
 } from '@jupyterlab/application';
 ```
 
-`JupyterFrontEnd` is class of the main Jupyterlab application. It allows us to
+`JupyterFrontEnd` is the main Jupyterlab application class. It allows you to
 access and modify some of its main components. `JupyterFrontEndPlugin` is the class
-of the extension that we are building. Both classes are imported from a package
-called `@jupyterlab/application`. The dependency of our extension on this
+of the extension that you are building. Both classes are imported from a package
+called `@jupyterlab/application`. The dependency of your extension on this
 package is declared in the file `package.json`:
 
 ```json5
@@ -77,7 +78,7 @@ package is declared in the file `package.json`:
 },
 ```
 
-With this basic import setup, we can move on to construct a new instance
+With this basic import setup, you can move on to construct a new instance
 of the `JupyterFrontEndPlugin` class:
 
 <!-- prettier-ignore-start -->
@@ -91,9 +92,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 ```
 
 ```ts
-// src/index.ts#L13-L13
-
-console.log('the JupyterLab main application:');
+console.log('JupyterLab extension hello-world is activated!');
 ```
 
 ```ts
@@ -103,23 +102,27 @@ export default extension;
 ```
 <!-- prettier-ignore-end -->
 
-a `JupyterFrontEndPlugin` contains a few attributes that are fairly self-explanatory
-in the case of `id` and `autoStart`. The `activate` attribute links to a
-function (`() => {}` notation) that takes one argument `app` of type
-`JupyterFrontEnd` and then calls the `console.log` function that is used to output
-something into the browser console in javascript. `app` is simply the main
-JupyterLab application. The activate function acts as an entry point into the
-extension and we will gradually extend it to access and modify functionality
-through the `app` object.
+a `JupyterFrontEndPlugin` contains a few attributes:
 
-Our new `JupyterFrontEndPlugin` instance has to be finally exported to be visible to
-JupyterLab, which is done with the line `export default extension`. This brings
-us to the next point. How can we plug this extension into JupyterLab?
+- `id`: the unique id of the extension
+- `autoStart`: a flag to start the extension automatically or not
+- `activate`: a
+  function (`() => {}` notation) that takes one argument `app` of type
+  `JupyterFrontEnd` and will be called by the main application to activate the extension.
+
+`app` is simply the main
+JupyterLab application. The `activate` function acts as an entry point into the
+extension. In this example, it calls the `console.log` function to output
+something into the browser developer tools console.
+
+Your new `JupyterFrontEndPlugin` instance has to be finally exported to be visible to
+JupyterLab, which is done with the line `export default extension`.
+
+Now that the extension code is ready, you need to install it within JupyterLab.
 
 ## Building and Installing an Extension
 
-These are the instructions on how our
-labextension can be installed for development:
+These are the instructions on how your extension can be installed for development:
 
 > The `jlpm` command is JupyterLab's pinned version of
 > [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
@@ -136,19 +139,19 @@ jlpm build
 jupyter labextension link .
 ```
 
-Roughly the first command installs the dependencies that are specified in
+The first command installs the dependencies that are specified in
 `package.json`. Among the dependencies are also all of the `JupyterLab`
-components that we want to use in our project, but more about this later. The
+components that you want to use in your project. The
 second step runs the build script. In this step, the typescript code gets
 converted to javascript using the compiler `tsc` and stored in a `lib`
-directory. Finally, we link the module to JupyterLab.
+directory. Finally, the module is linked to JupyterLab.
 
 After all of these steps are done, running `jupyter labextension list` should
-now show something like:
+show something like:
 
 ```bash
    local extensions:
-        hello-world: [...]/labextension_tutorial/hello-world
+        @jupyterlab-examples/hello-world: [...]/basics/hello-world
 ```
 
 Now let's check inside of JupyterLab if it works. Run [can take a while]:
@@ -157,15 +160,14 @@ Now let's check inside of JupyterLab if it works. Run [can take a while]:
 jupyter lab --watch
 ```
 
-Our extension doesn't do much so far, it just writes something to the browser
-console. So let's check if it worked. In most webbrowsers you can open the console
-pressing the `F12` key. You should see something like:
+Your extension writes something to the browser console. In most web browsers you can
+open the console pressing the `F12` key. You should see something like:
 
 ```
 JupyterLab extension hello-world is activated
 ```
 
-Our extension works but it is incredibly boring. Let's modify the source code
+Your extension works but it is not doing much. Let's modify the source code
 a bit. Simply replace the `activate` function with the following lines:
 
 <!-- prettier-ignore-start -->
@@ -179,30 +181,34 @@ activate: (app: JupyterFrontEnd) => {
 ```
 <!-- prettier-ignore-end -->
 
-to update the module, we simply need to go into the extension directory and run
-`jlpm build` again. Since we used the `--watch` option when starting
-JupyterLab, we now only have to refresh the JupyterLab website in the browser
+to update the module, simply go to the extension directory and run
+`jlpm build` again. Since you used the `--watch` option when starting
+JupyterLab, you just have to refresh the JupyterLab website in the browser
 and should see in the browser console:
 
 ```
-Object { _started: true, _pluginMap: {…}, _serviceMap: Map(28), _delegate: {…}, commands: {…}, contextMenu: {…}, shell: {…}, registerPluginErrors: [], _dirtyCount: 0, _info: {…}, … } index.js:12
+the JupyterLab main application:
+Object { _started: true, _pluginMap: {…}, _serviceMap: Map(...), _delegate: {…}, commands: {…}, contextMenu: {…}, shell: {…}, registerPluginErrors: [], _dirtyCount: 0, _info: {…}, … }
 ```
 
-This is the main application JupyterLab object and we will see how to interact
-with it in the next sections.
+This is the main application JupyterLab object and you will see how to interact
+with it in the other examples.
 
 Checkout how the core packages of JupyterLab are defined
 [on this page](https://github.com/jupyterlab/jupyterlab/tree/master/packages). Each package is
-structured similarly to the extension that we are writing. This modular
+structured similarly to the extension that you are writing. This modular
 structure makes JupyterLab very adaptable.
 
 An overview of the classes and their attributes and methods can be found in the
 JupyterLab documentation. The `@jupyterlab/application` module documentation is
 [here](https://jupyterlab.github.io/jupyterlab/application/index.html)
-and which links to the [JupyterFrontEnd class](https://jupyterlab.github.io/jupyterlab/application/classes/jupyterfrontend.html).
+and here is the [JupyterFrontEnd class documentation](https://jupyterlab.github.io/jupyterlab/application/classes/jupyterfrontend.html).
 
-The `JupyterFrontEndPlugin` is a type alias (a new name) for the type `IPlugin`.
-The definition of `IPlugin` is more difficult to find because it is defined by
-the `phosphor.js` library on top of which JupyterLab is built (more about this
-later). Its documentation is therefore located on the [phosphor.js
-website](https://phosphorjs.github.io/phosphor/api/application/interfaces/iplugin.html).
+## Where to Go Next
+
+JupyterLab is built on top of three major concepts. It is advised to look through the corresponding
+examples in the following order:
+
+- _command_: Function to be executed from UI elements. See the [commands example](../../commands)
+- _widget_: UI based brick. See the [widgets example](../../widget-tracker/widgets)
+- _signal_: Observer pattern between JupyterLab elements. See the [signals example](../signals)

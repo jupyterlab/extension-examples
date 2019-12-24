@@ -8,7 +8,7 @@ the notion of _Commands_ as explained in the
 
 Commands can be used from the command palette.
 
-In this extension, we are going to add a command to command palette.
+In this extension, you are going to add a command to the command palette.
 
 The command palette interface `ICommandPalette` need to be imported with:
 
@@ -18,7 +18,7 @@ The command palette interface `ICommandPalette` need to be imported with:
 import { ICommandPalette } from '@jupyterlab/apputils';
 ```
 
-To see how we add the command to the palette, let's have a look at `src/index.ts`.
+To see how you can add the command to the palette, let's have a look at `src/index.ts`.
 
 ```ts
 // src/index.ts#L11-L35
@@ -53,9 +53,9 @@ const extension: JupyterFrontEndPlugin<void> = {
 The `ICommandPalette`
 ([documentation](https://JupyterLab.github.io/JupyterLab/interfaces/_apputils_src_commandpalette_.icommandpalette.html))
 is passed to the `activate` function as an argument (variable `palette`) in
-addition to the JupyterLab application (variable `app`). We request that dependency
+addition to the JupyterLab application (variable `app`). You should request that dependency
 with the property `requires: [ICommandPalette],`. It lists the additional arguments
-we want to inject into the `activate` function in the `JupyterFontEndPlugin`.
+you want to inject into the `activate` function in the `JupyterFontEndPlugin`.
 
 `ICommandPalette` provides the method `addItem` that links a palette entry to a command in the command registry. It requires two arguments: the unique command id and the command
 category (that can be either an existing category or a new one). And optionally, you can specify
