@@ -230,9 +230,9 @@ commands.addCommand(CommandIDs.execute, {
     if (!panel) {
       await createPanel();
     }
-    // Ask the user about the statement to be executed
+    // Prompt the user about the statement to be executed
     const input = await InputDialog.getText({
-      title: 'Code to be executed',
+      title: 'Code to execute',
       okLabel: 'Execute',
       placeholder: 'Statement to execute'
     });
