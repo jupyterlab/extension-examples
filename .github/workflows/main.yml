@@ -26,7 +26,6 @@ jobs:
           - react/react-widget
           - settings
           - state
-          - widget-tracker/jupyter-widgets
           - widget-tracker/widgets
     steps:
     - name: Checkout

@@ -3,7 +3,7 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { ICommandPalette } from '@jupyterlab/apputils';
+import { ICommandPalette, InputDialog } from '@jupyterlab/apputils';
 
 import { ILauncher } from '@jupyterlab/launcher';
 
@@ -71,13 +71,24 @@ function activate(
   });
 
   commands.addCommand(CommandIDs.execute, {
-    label: 'kernel-output: Show Dataframe',
-    caption: 'Show Dataframe',
+    label: 'kernel-output: Execute Code',
+    caption: 'Execute Code',
     execute: async () => {
+      // Create the panel if it does not exist
       if (!panel) {
         await createPanel();
       }
-      panel.execute('df');
+      // Prompt the user about the statement to be executed
+      const input = await InputDialog.getText({
+        title: 'Code to execute',
+        okLabel: 'Execute',
+        placeholder: 'Statement to execute'
+      });
+      // Execute the statement
+      if (input.button.accept) {
+        const code = input.value;
+        panel.execute(code);
+      }
     }
   });
 
