@@ -8,7 +8,7 @@ the notion of _Commands_ as explained in the
 
 Commands can be used from the command palette.
 
-In this extension, you are going to add a command to command palette.
+In this extension, you are going to add a command to the command palette.
 
 The command palette interface `ICommandPalette` need to be imported with:
 

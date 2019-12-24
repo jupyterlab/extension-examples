@@ -104,7 +104,7 @@ export default extension;
 
 a `JupyterFrontEndPlugin` contains a few attributes:
 
-- `id`: the unique id of the extension,
+- `id`: the unique id of the extension
 - `autoStart`: a flag to start the extension automatically or not
 - `activate`: a
   function (`() => {}` notation) that takes one argument `app` of type
@@ -113,7 +113,7 @@ a `JupyterFrontEndPlugin` contains a few attributes:
 `app` is simply the main
 JupyterLab application. The `activate` function acts as an entry point into the
 extension. In this example, it calls the `console.log` function to output
-something into the browser console in javascript.
+something into the browser developer tools console.
 
 Your new `JupyterFrontEndPlugin` instance has to be finally exported to be visible to
 JupyterLab, which is done with the line `export default extension`.
@@ -181,7 +181,7 @@ activate: (app: JupyterFrontEnd) => {
 ```
 <!-- prettier-ignore-end -->
 
-to update the module, you simply need to go into the extension directory and run
+to update the module, simply go to the extension directory and run
 `jlpm build` again. Since you used the `--watch` option when starting
 JupyterLab, you just have to refresh the JupyterLab website in the browser
 and should see in the browser console:
