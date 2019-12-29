@@ -5,8 +5,9 @@
 
 ## TL;DR
 
-The goal of this repository is to show how to develop extensions on [JupyterLab](https://github.com/jupyterlab/jupyterlab).
-It is presented as short tutorial series.
+The goal of this repository is to show how to develop extensions for [JupyterLab](https://github.com/jupyterlab/jupyterlab), presented as short tutorial series.
+
+To get started:
 
 ```bash
 git clone https://github.com/jtpio/jupyterlab-extension-examples.git &&
@@ -24,7 +25,7 @@ jupyter lab --watch
 
 ## Develop by Examples
 
-You may find easier to learn how to extend `by examples` instead of going through the documentation.
+You may find it easier to learn how to create extensions _by examples_, instead of going through the documentation.
 
 Start with the [Hello World](basics/hello-world) and then jump to the topic you are interested in.
 
@@ -46,83 +47,94 @@ Start with the [Hello World](basics/hello-world) and then jump to the topic you 
 You can expect from each example:
 
 - An explanation of its functionality.
-- A image or screencast showing its usage.
-- The list of used JupyterLab API and Contribution Points.
-- Some code parts to explain the internal working.
+- An image or screencast showing its usage.
+- The list of used JupyterLab API and Extension Points.
+- Explanations of the internal working, illustrated with code snippets.
 
-We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html). Browse the previews here after or skip them and [jump directly to the sections for developers](#prerequisites).
+We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html). Browse the previews below or skip them and [jump directly to the sections for developers](#prerequisites).
 
 ## Basic
 
-| Example                           | Preview                                                              |
-| --------------------------------- | -------------------------------------------------------------------- |
-| [Hello World](basics/hello-world) | [![Hello World](basics/hello-world/preview.png)](basics/hello-world) |
-| [Signals](basics/signals)         | [![Button with Signal](basics/signals/preview.png)](basics/signals)  |
-| [Datagrid](basics/datagrid)       | [![Datagrid](basics/datagrid/preview.png)](basics/datagrid)          |
+### [Hello World](basics/hello-world)
+
+[![Hello World](basics/hello-world/preview.png)](basics/hello-world)
+
+### [Signals](basics/signals)
+
+[![Button with Signal](basics/signals/preview.png)](basics/signals)
+
+### [Datagrid](basics/datagrid)
+
+[![Datagrid](basics/datagrid/preview.png)](basics/datagrid) |
 
 ## Command Palette
 
-| Example                            | Preview                                                             |
-| ---------------------------------- | ------------------------------------------------------------------- |
-| [Command Palette](command-palette) | [![Commmand Palette](command-palette/preview.png)](command-palette) |
+### [Command Palette](command-palette)
+
+[![Commmand Palette](command-palette/preview.png)](command-palette)
 
 ## Commands
 
-| Example              | Preview                                               |
-| -------------------- | ----------------------------------------------------- |
-| [Commands](commands) | [![Commmand example](commands/preview.png)](commands) |
+### [Commands](commands)
+
+[![Commmand example](commands/preview.png)](commands)
 
 ## Launcher
 
-| Example              | Preview                                       |
-| -------------------- | --------------------------------------------- |
-| [Launcher](launcher) | [![Launcher](launcher/preview.gif)](launcher) |
+### [Launcher](launcher)
+
+[![Launcher](launcher/preview.gif)](launcher)
 
 ## Menus
 
-| Example                | Preview                                          |
-| ---------------------- | ------------------------------------------------ |
-| [Main Menu](main-menu) | [![Main Menu](main-menu/preview.png)](main-menu) |
+### [Main Menu](main-menu)
+
+[![Main Menu](main-menu/preview.png)](main-menu)
 
 ## Settings
 
-| Example              | Preview                                       |
-| -------------------- | --------------------------------------------- |
-| [Settings](settings) | [![Settings](settings/preview.gif)](settings) |
+### [Settings](settings)
+
+[![Settings](settings/preview.gif)](settings)
 
 ## State
 
-| Example        | Preview                              |
-| -------------- | ------------------------------------ |
-| [State](state) | [![State](state/preview.gif)](state) |
+### [State](state)
+
+[![State](state/preview.gif)](state)
 
 ## React
 
-| Example                            | Preview                                                               |
-| ---------------------------------- | --------------------------------------------------------------------- |
-| [React Widget](react/react-widget) | [![react-widget](react/react-widget/preview.gif)](react/react-widget) |
+### [React Widget](react/react-widget)
+
+[![react-widget](react/react-widget/preview.gif)](react/react-widget)
 
 ## Widget Tracker
 
-| Example                           | Preview                                                                     |
-| --------------------------------- | --------------------------------------------------------------------------- |
-| [Widgets](widget-tracker/widgets) | [![Custom Tab](widget-tracker/widgets/preview.png)](widget-tracker/widgets) |
+### [Widgets](widget-tracker/widgets)
+
+[![Custom Tab](widget-tracker/widgets/preview.png)](widget-tracker/widgets)
 
 ## Advanced
 
-| Example                                         | Preview                                                                                   |
-| ----------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| [Kernel Output](advanced/kernel-output)         | [![OutputArea class](advanced/kernel-output/preview.gif)](advanced/kernel-output)         |
-| [Kernel Messaging](advanced/kernel-messaging)   | [![Kernel Messages](advanced/kernel-messaging/preview.gif)](advanced/kernel-messaging)    |
-| [Server Hello World](advanced/server-extension) | [![Server Hello World](advanced/server-extension/preview.png)](advanced/server-extension) |
+### [Kernel Output](advanced/kernel-output)
+
+[![OutputArea class](advanced/kernel-output/preview.gif)](advanced/kernel-output)
+
+### [Kernel Messaging](advanced/kernel-messaging)
+
+[![Kernel Messages](advanced/kernel-messaging/preview.gif)](advanced/kernel-messaging)
+
+### [Server Hello World](advanced/server-extension)
+
+[![Server Hello World](advanced/server-extension/preview.png)](advanced/server-extension)
 
 ## Prerequisites
 
-Writing an extension is not particularly difficult but requires very basic knowledge of JavaScript
-and Typescript and potentially Python.
+Writing an extension requires basic knowledge of JavaScript, Typescript and potentially Python.
 
 _Don't be scared of Typescript, even if you never coded in TypeScript before you touch
-JupyterLab you will find it easier to understand than pure JavaScript if you have a
+JupyterLab you may find it easier to understand than pure JavaScript if you have a
 basic understanding of object oriented programming and types._
 
 These examples are developed and tested on top of JupyterLab version 1.2.
@@ -130,12 +142,12 @@ You can create a [conda](https://docs.conda.io/en/latest/miniconda.html) environ
 
 ```bash
 conda env create && \
-  conda activate jupyterlab-extension-tutorial
+  conda activate jupyterlab-extension-examples
 ```
 
 ## Develop and Use the Examples
 
-> Build and Link all examples at once.
+### Build and link all examples at once
 
 ```bash
 jlpm
@@ -145,15 +157,15 @@ jlpm build-jlab
 jupyter lab
 ```
 
-Clean the lib folders.
+To clean the lib folders:
 
 ```bash
 jlpm clean-ext
 ```
 
-> Build and Link one example.
+### Build and link one example
 
-Go into the example directory you want to install, e.g. `cd ./basics/hello-world`, and run the following commands.
+Go to the example directory you want to install, e.g. `cd ./basics/hello-world`, and run the following commands:
 
 ```bash
 jlpm install
@@ -161,14 +173,14 @@ jlpm run build
 jupyter labextension link .
 ```
 
-Rebuild the JupyterLab application.
+Rebuild the JupyterLab application:
 
 ```bash
 jlpm run build
 jupyter lab build
 ```
 
-Start JupyterLab in watch mode.
+Start JupyterLab in watch mode:
 
 ```bash
 jupyter lab --watch
@@ -176,7 +188,7 @@ jupyter lab --watch
 
 ## Install a Published Extension
 
-Once your extension is published (not part of these explanations), you can install it without source compilation.
+Once your extension is published (outside of this scope), you can install it with the following command:
 
 ```bash
 jupyter labextension install <published_extension>
@@ -185,7 +197,7 @@ jupyter labextension install <published_extension>
 ## About JupyterLab
 
 JupyterLab can be used as a platform to combine existing data-science components into a
-new powerful application that can be deployed remotely for many users. Some of the higher
+new powerful application that can be deployed remotely to many users. Some of the higher
 level components that can be used are text editors, terminals, notebooks, interactive widgets,
 filebrowser, renderers for different file formats that provide access to an enormous ecosystem
 of libraries from different languages.
