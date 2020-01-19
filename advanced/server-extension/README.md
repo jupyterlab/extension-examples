@@ -298,7 +298,7 @@ A handler is registered in the web application by linking an url to a class. In 
 example the url is _base_server_url_`/hello/personal` and the class handler is `RouteHandler`:
 
 ```py
-# server-extension/handlers.py#L21-L27
+# server-extension/handlers.py#L28-L34
 
 def setup_handlers(web_app):
     host_pattern = '.*$'
@@ -314,7 +314,7 @@ implement the wanted HTTP verbs. For example, here, `/hello/personal` can be req
 by a _GET_ or a _POST_ request. They will call the `get` or `post` method respectively.
 
 ```py
-# server-extension/handlers.py#L6-L18
+# server-extension/handlers.py#L8-L25
 
 class RouteHandler(APIHandler):
     def get(self):
@@ -331,12 +331,16 @@ class RouteHandler(APIHandler):
         self.finish(json.dumps(data))
 ```
 
+> **Security note**: the methods to handle request like `get`, `post`, etc.
+> must be decorated with `tornado.web.authenticated` to ensure only
+> authenticated users can request the Jupyter server.
+
 Once the server has carried out the appropriate task, the handler should finish the request
 by calling the `finish` method. That method can optionally take an argument that will
 become the response body of the request in the frontend.
 
 ```py
-# server-extension/handlers.py#L8-L10
+# server-extension/handlers.py#L14-L16
 
 self.finish(json.dumps({
     'data': 'This is /hello/personal endpoint!'
@@ -352,7 +356,7 @@ sent by the frontend. When using JSON as communication format, you can directly 
 `get_json_body` helper method to convert the request body into a Python dictionary.
 
 ```py
-# server-extension/handlers.py#L14-L17
+# server-extension/handlers.py#L21-L24
 
 input_data = self.get_json_body()
 data = {

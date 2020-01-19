@@ -1,14 +1,21 @@
+import json
+
 from notebook.base.handlers import APIHandler
 from notebook.utils import url_path_join
-import json
+import tornado
 
 
 class RouteHandler(APIHandler):
+    # The following decorator should be present on all verb methods (head, get, post, 
+    # patch, put, delete, options) to ensure only authorized user can request the 
+    # Jupyter server
+    @tornado.web.authenticated
     def get(self):
         self.finish(json.dumps({
             'data': 'This is /hello/personal endpoint!'
         }))
 
+    @tornado.web.authenticated
     def post(self):
         # input_data is a dictionnary with a key 'name'
         input_data = self.get_json_body()
