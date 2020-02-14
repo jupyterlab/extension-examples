@@ -3,11 +3,11 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { ISettingRegistry } from '@jupyterlab/coreutils';
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
-import { Menu } from '@phosphor/widgets';
+import { Menu } from '@lumino/widgets';
 
 const PLUGIN_ID = '@jupyterlab-examples/settings:my-settings-example';
 

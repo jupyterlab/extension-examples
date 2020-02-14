@@ -1,14 +1,14 @@
-import { IClientSession } from '@jupyterlab/apputils';
+import { ISessionContext } from '@jupyterlab/apputils';
 
-import { nbformat } from '@jupyterlab/coreutils';
+import { IOutput } from '@jupyterlab/nbformat';
 
 import { Kernel, KernelMessage } from '@jupyterlab/services';
 
-import { ISignal, Signal } from '@phosphor/signaling';
+import { ISignal, Signal } from '@lumino/signaling';
 
 export class KernelModel {
-  constructor(session: IClientSession) {
-    this._session = session;
+  constructor(session: ISessionContext) {
+    this._sessionContext = session;
   }
 
   get future(): Kernel.IFuture<
@@ -31,7 +31,7 @@ export class KernelModel {
     value.onIOPub = this._onIOPub;
   }
 
-  get output(): nbformat.IOutput | null {
+  get output(): IOutput | null {
     return this._output;
   }
 
@@ -40,10 +40,12 @@ export class KernelModel {
   }
 
   execute(code: string) {
-    if (!this._session || !this._session.kernel) {
+    if (!this._sessionContext || !this._sessionContext.session?.kernel) {
       return;
     }
-    this.future = this._session.kernel.requestExecute({ code });
+    this.future = this._sessionContext.session?.kernel?.requestExecute({
+      code
+    });
   }
 
   private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
@@ -52,7 +54,7 @@ export class KernelModel {
       case 'execute_result':
       case 'display_data':
       case 'update_display_data':
-        this._output = msg.content as nbformat.IOutput;
+        this._output = msg.content as IOutput;
         console.log(this._output);
         this._stateChanged.emit();
         break;
@@ -66,7 +68,7 @@ export class KernelModel {
     KernelMessage.IExecuteRequestMsg,
     KernelMessage.IExecuteReplyMsg
   > | null = null;
-  private _output: nbformat.IOutput | null = null;
-  private _session: IClientSession;
+  private _output: IOutput | null = null;
+  private _sessionContext: ISessionContext;
   private _stateChanged = new Signal<KernelModel, void>(this);
 }

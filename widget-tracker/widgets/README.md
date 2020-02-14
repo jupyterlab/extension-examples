@@ -1,7 +1,7 @@
 # Widgets - Adding new Elements to the Main Window
 
 In this example you will learn how to add a new tab to JupyterLab.
-Visible elements such as tabs and notebooks are represented by widgets in the [PhosphorJS](http://phosphorjs.github.io/phosphor/api/widgets/globals.html)
+Visible elements such as tabs and notebooks are represented by widgets in the [Lumino](http://jupyterlab.github.io/lumino/api/widgets/globals.html)
 library that is the basis of the JupyterLab application. It is the fundamental brick of
 any visual component in the JupyterLab interface.
 
@@ -14,13 +14,13 @@ The base widget class can be imported with:
 ```ts
 // src/index.ts#L10-L10
 
-import { Menu, Widget } from '@phosphor/widgets';
+import { Menu, Widget } from '@lumino/widgets';
 ```
 
 It requires to add the library as package dependency:
 
 ```bash
-jlpm add @phosphor/widgets
+jlpm add @lumino/widgets
 ```
 
 A Widget can be added to the main area through the [JupyterLab

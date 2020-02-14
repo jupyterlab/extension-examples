@@ -23,7 +23,7 @@ const CounterComponent = () => {
 };
 
 /**
- * A Counter Phosphor Widget that wraps a CounterComponent.
+ * A Counter Lumino Widget that wraps a CounterComponent.
  */
 export class CounterWidget extends ReactWidget {
   /**

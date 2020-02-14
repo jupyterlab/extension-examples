@@ -2,7 +2,7 @@
 
 ![commands example](./preview.png)
 
-One major concept of the phosphorjs library on which JupyterLab is built is
+One major concept of the Lumino library on which JupyterLab is built is
 the notion of _Commands_. They are functions stored in a registry (under an unique
 specifier) that can be executed from any piece of code having accessed to that
 registry. And in particular, they can be attached to a menu item, a launcher
@@ -12,7 +12,7 @@ It is quite common for extension to define one or more such a command.
 
 In this extension, you are going to add a command to the application command registry.
 
-The registry has `CommandRegistry` type ([documentation](https://phosphorjs.github.io/phosphor/api/commands/classes/commandregistry.html)).
+The registry has `CommandRegistry` type ([documentation](https://jupyterlab.github.io/lumino/api/commands/classes/commandregistry.html)).
 
 To see how you can access the application command registry, open the file `src/index.ts`.
 
@@ -49,7 +49,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 The CommandRegistry is an attribute of the main JupyterLab application
 (variable `app` in the previous snippet). It has an `addCommand` method that
 adds your own function. That method takes two arguments: the unique command id
-and [options](https://phosphorjs.github.io/phosphor/api/commands/interfaces/commandregistry.icommandoptions.html) for the command.
+and [options](https://jupyterlab.github.io/lumino/api/commands/interfaces/commandregistry.icommandoptions.html) for the command.
 
 The only mandatory option is `execute`, this takes the function to be called
 when the command is executed. It can optionally takes arguments (arbitrarily defined

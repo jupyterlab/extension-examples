@@ -34,10 +34,10 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^1.0.0",
-    "@jupyterlab/filebrowser": "^1.2.1",
-    "@jupyterlab/launcher": "^1.2.1",
-    "@jupyterlab/mainmenu": "^1.2.1"
+    "@jupyterlab/application": "^2.0.0-rc.0",
+    "@jupyterlab/filebrowser": "^2.0.0-rc.0",
+    "@jupyterlab/launcher": "^2.0.0-rc.0",
+    "@jupyterlab/mainmenu": "^2.0.0-rc.0"
   },
   "devDependencies": {
     "rimraf": "^2.6.1",
@@ -45,10 +45,11 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
     "tslint-react": "^4.1.0",
-    "typescript": "~3.5.2"
+    "typescript": "~3.7.5"
   },
   "sideEffects": [
-    "style/*.css"
+    "style/*.css",
+    "style/*.svg"
   ],
   "jupyterlab": {
     "extension": true

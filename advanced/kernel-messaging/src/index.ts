@@ -9,7 +9,7 @@ import { ILauncher } from '@jupyterlab/launcher';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
-import { Menu } from '@phosphor/widgets';
+import { Menu } from '@lumino/widgets';
 
 import { ExamplePanel } from './panel';
 
@@ -52,10 +52,8 @@ function activate(
   async function createPanel(): Promise<ExamplePanel> {
     await manager.ready;
     const panel = new ExamplePanel(manager);
-
-    await panel.session.ready;
+    await panel.session.initialize();
     shell.add(panel, 'main');
-
     return panel;
   }
 

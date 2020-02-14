@@ -66,7 +66,7 @@ const manager = app.serviceManager;
 With these lines, you can extend the panel widget from the [signal example](../../basics/signals) to initialize a
 kernel. In addition, you will create a `KernelModel` class in it and
 overwrite the `dispose` and `onCloseRequest` methods of the `StackedPanel`
-([see the documentation](https://phosphorjs.github.io/phosphor/api/widgets/classes/stackedpanel.html))
+([see the documentation](https://jupyterlab.github.io/lumino/api/widgets/classes/stackedpanel.html))
 to free the kernel session resources if the panel is closed. The whole adapted
 panel class looks like this:
 
@@ -136,7 +136,7 @@ types `execute_result`, `display_data` and `update_display_data`.
 
 Once such a message is received by the `future` object, it can trigger an
 action. In this case, that message is stored in `this._output`. Then
-a `stateChanged` signal is emitted.  
+a `stateChanged` signal is emitted.
 The `KernelModel` has a `stateChanged` signal that will be used by the
 view. It is implemented as follows:
 

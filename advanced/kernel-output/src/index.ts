@@ -11,7 +11,7 @@ import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 
-import { Menu } from '@phosphor/widgets';
+import { Menu } from '@lumino/widgets';
 
 import { ExamplePanel } from './panel';
 

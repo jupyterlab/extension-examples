@@ -1,4 +1,4 @@
-import { StackedPanel } from '@phosphor/widgets';
+import { StackedPanel } from '@lumino/widgets';
 
 import { ExampleView } from './widget';
 /**

@@ -1,8 +1,9 @@
 name: jupyterlab-extension-examples
 channels:
 - conda-forge
+- conda-forge/label/prerelease-jupyterlab
 dependencies:
 - nodejs
 - python=3
 - yarn
-- jupyterlab=1.2
+- jupyterlab=2

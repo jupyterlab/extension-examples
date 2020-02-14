@@ -1,10 +1,12 @@
-import { StackedPanel } from '@phosphor/widgets';
-
-import { ClientSession, IClientSession } from '@jupyterlab/apputils';
+import { SessionContext, ISessionContext } from '@jupyterlab/apputils';
 
 import { ServiceManager } from '@jupyterlab/services';
 
-import { Message } from '@phosphor/messaging';
+import { UUID } from '@lumino/coreutils';
+
+import { Message } from '@lumino/messaging';
+
+import { StackedPanel } from '@lumino/widgets';
 
 import { KernelView } from './widget';
 
@@ -26,23 +28,20 @@ export class ExamplePanel extends StackedPanel {
     this.title.label = 'Example View';
     this.title.closable = true;
 
-    this._session = new ClientSession({
-      manager: manager.sessions,
-      name: 'Example'
+    this._session = new SessionContext({
+      sessionManager: manager.sessions,
+      specsManager: manager.kernelspecs,
+      name: 'Example',
+      path: UUID.uuid4()
     });
 
     this._model = new KernelModel(this._session);
     this._example = new KernelView(this._model);
 
     this.addWidget(this._example);
-    this._session.initialize().catch(reason => {
-      console.error(
-        `Failed to initialize the session in ExamplePanel.\n${reason}`
-      );
-    });
   }
 
-  get session(): IClientSession {
+  get session(): ISessionContext {
     return this._session;
   }
 
@@ -57,6 +56,6 @@ export class ExamplePanel extends StackedPanel {
   }
 
   private _model: KernelModel;
-  private _session: ClientSession;
+  private _session: SessionContext;
   private _example: KernelView;
 }
