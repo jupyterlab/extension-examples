@@ -11,8 +11,11 @@ import { ILauncher } from '@jupyterlab/launcher';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import { LabIcon } from '@jupyterlab/ui-components';
+
+import pythonIconStr from '../style/Python-logo-notext.svg';
+
 const FACTORY = 'Editor';
-const ICON_CLASS = 'jp-example-PythonIcon';
 const PALETTE_CATEGORY = 'Text Editor';
 
 namespace CommandIDs {
@@ -33,11 +36,15 @@ const extension: JupyterFrontEndPlugin<void> = {
   ) => {
     const { commands } = app;
     const command = CommandIDs.createNew;
+    const icon = new LabIcon({
+      name: 'launcher:python-icon',
+      svgstr: pythonIconStr
+    });
 
     commands.addCommand(command, {
       label: args => (args['isPalette'] ? 'New Python File' : 'Python File'),
       caption: 'Create a new Python file',
-      iconClass: args => (args['isPalette'] ? '' : ICON_CLASS),
+      iconClass: args => (args['isPalette'] ? '' : icon.name),
       execute: async args => {
         // Get the directory in which the Python file must be created;
         // otherwise take the current filebrowser directory
