@@ -29,26 +29,36 @@ execution result.
 
 ## Initializing and managing a kernel session (`panel.ts`)
 
-Jupyterlab provides a class `ClientSession`
-([see the documentation](https://jupyterlab.github.io/jupyterlab/apputils/classes/clientsession.html))
+Jupyterlab provides a class `SessionContext`
+([see the documentation](https://jupyterlab.github.io/jupyterlab/apputils/classes/sessioncontext.html))
 that manages a single kernel session. Here is the code to initialize such session:
 
 ```ts
-// src/panel.ts#L31-L36
+// src/panel.ts#L33-L37
 
-this._session = new SessionContext({
+this._sessionContext = new SessionContext({
   sessionManager: manager.sessions,
   specsManager: manager.kernelspecs,
-  name: 'Example',
-  path: UUID.uuid4()
+  name: 'Example'
 });
 ```
 
 <!-- prettier-ignore-start -->
-<!-- embedme src/index.ts#L55-L55 -->
+<!-- embedme src/panel.ts#L43-L54 -->
 
 ```ts
-await panel.session.initialize();
+void this._sessionContext
+  .initialize()
+  .then(async value => {
+    if (value) {
+      await sessionContextDialogs.selectKernel(this._sessionContext);
+    }
+  })
+  .catch(reason => {
+    console.error(
+      `Failed to initialize the session in ExamplePanel.\n${reason}`
+    );
+  });
 ```
 <!-- prettier-ignore-end -->
 
@@ -69,7 +79,7 @@ to free the kernel session resources if the panel is closed. The whole adapted
 panel class looks like this:
 
 ```ts
-// src/panel.ts#L23-L61
+// src/panel.ts#L25-L74
 
 export class ExamplePanel extends StackedPanel {
   constructor(manager: ServiceManager.IManager) {
@@ -79,25 +89,36 @@ export class ExamplePanel extends StackedPanel {
     this.title.label = 'Example View';
     this.title.closable = true;
 
-    this._session = new SessionContext({
+    this._sessionContext = new SessionContext({
       sessionManager: manager.sessions,
       specsManager: manager.kernelspecs,
-      name: 'Example',
-      path: UUID.uuid4()
+      name: 'Example'
     });
 
-    this._model = new KernelModel(this._session);
+    this._model = new KernelModel(this._sessionContext);
     this._example = new KernelView(this._model);
 
     this.addWidget(this._example);
+    void this._sessionContext
+      .initialize()
+      .then(async value => {
+        if (value) {
+          await sessionContextDialogs.selectKernel(this._sessionContext);
+        }
+      })
+      .catch(reason => {
+        console.error(
+          `Failed to initialize the session in ExamplePanel.\n${reason}`
+        );
+      });
   }
 
   get session(): ISessionContext {
-    return this._session;
+    return this._sessionContext;
   }
 
   dispose(): void {
-    this._session.dispose();
+    this._sessionContext.dispose();
     super.dispose();
   }
 
@@ -107,15 +128,14 @@ export class ExamplePanel extends StackedPanel {
   }
 
   private _model: KernelModel;
-  private _session: SessionContext;
+  private _sessionContext: SessionContext;
   private _example: KernelView;
 }
 ```
 
 ## Executing code and retrieving messages from a kernel (`model.ts`)
 
-Once a kernel is initialized and ready, code can be executed on it through
-the `ClientSession` object with the following snippet:
+Once a kernel is initialized and ready, code can be executed with the following snippet:
 
 ```ts
 // src/model.ts#L46-L48

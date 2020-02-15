@@ -1,4 +1,8 @@
-import { ISessionContext, SessionContext } from '@jupyterlab/apputils';
+import {
+  ISessionContext,
+  SessionContext,
+  sessionContextDialogs
+} from '@jupyterlab/apputils';
 
 import { OutputAreaModel, SimplifiedOutputArea } from '@jupyterlab/outputarea';
 
@@ -42,11 +46,19 @@ export class ExamplePanel extends StackedPanel {
     });
 
     this.addWidget(this._outputarea);
-    this._sessionContext.initialize().catch(reason => {
-      console.error(
-        `Failed to initialize the session in ExamplePanel.\n${reason}`
-      );
-    });
+
+    void this._sessionContext
+      .initialize()
+      .then(async value => {
+        if (value) {
+          await sessionContextDialogs.selectKernel(this._sessionContext);
+        }
+      })
+      .catch(reason => {
+        console.error(
+          `Failed to initialize the session in ExamplePanel.\n${reason}`
+        );
+      });
   }
 
   get session(): ISessionContext {

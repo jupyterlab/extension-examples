@@ -1,4 +1,8 @@
-import { SessionContext, ISessionContext } from '@jupyterlab/apputils';
+import {
+  SessionContext,
+  ISessionContext,
+  sessionContextDialogs
+} from '@jupyterlab/apputils';
 
 import { ServiceManager } from '@jupyterlab/services';
 
@@ -26,25 +30,36 @@ export class ExamplePanel extends StackedPanel {
     this.title.label = 'Example View';
     this.title.closable = true;
 
-    this._session = new SessionContext({
+    this._sessionContext = new SessionContext({
       sessionManager: manager.sessions,
       specsManager: manager.kernelspecs,
-      name: 'Example',
-      kernelPreference: { language: 'python' }
+      name: 'Example'
     });
 
-    this._model = new KernelModel(this._session);
+    this._model = new KernelModel(this._sessionContext);
     this._example = new KernelView(this._model);
 
     this.addWidget(this._example);
+    void this._sessionContext
+      .initialize()
+      .then(async value => {
+        if (value) {
+          await sessionContextDialogs.selectKernel(this._sessionContext);
+        }
+      })
+      .catch(reason => {
+        console.error(
+          `Failed to initialize the session in ExamplePanel.\n${reason}`
+        );
+      });
   }
 
   get session(): ISessionContext {
-    return this._session;
+    return this._sessionContext;
   }
 
   dispose(): void {
-    this._session.dispose();
+    this._sessionContext.dispose();
     super.dispose();
   }
 
@@ -54,6 +69,6 @@ export class ExamplePanel extends StackedPanel {
   }
 
   private _model: KernelModel;
-  private _session: SessionContext;
+  private _sessionContext: SessionContext;
   private _example: KernelView;
 }

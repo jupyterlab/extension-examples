@@ -49,12 +49,8 @@ function activate(
   let panel: ExamplePanel;
 
   async function createPanel(): Promise<ExamplePanel> {
-    await manager.ready;
     panel = new ExamplePanel(manager, rendermime);
-
-    await panel.session.ready;
     shell.add(panel, 'main');
-
     return panel;
   }
 
