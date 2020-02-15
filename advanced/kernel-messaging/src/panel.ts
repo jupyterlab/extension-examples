@@ -2,8 +2,6 @@ import { SessionContext, ISessionContext } from '@jupyterlab/apputils';
 
 import { ServiceManager } from '@jupyterlab/services';
 
-import { UUID } from '@lumino/coreutils';
-
 import { Message } from '@lumino/messaging';
 
 import { StackedPanel } from '@lumino/widgets';
@@ -32,7 +30,7 @@ export class ExamplePanel extends StackedPanel {
       sessionManager: manager.sessions,
       specsManager: manager.kernelspecs,
       name: 'Example',
-      path: UUID.uuid4()
+      kernelPreference: { language: 'python' }
     });
 
     this._model = new KernelModel(this._session);
