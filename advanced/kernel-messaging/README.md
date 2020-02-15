@@ -34,23 +34,21 @@ Jupyterlab provides a class `ClientSession`
 that manages a single kernel session. Here is the code to initialize such session:
 
 ```ts
-// src/panel.ts#L29-L32
+// src/panel.ts#L31-L36
 
-this._session = new ClientSession({
-  manager: manager.sessions,
-  name: 'Example'
+this._session = new SessionContext({
+  sessionManager: manager.sessions,
+  specsManager: manager.kernelspecs,
+  name: 'Example',
+  path: UUID.uuid4()
 });
 ```
 
 <!-- prettier-ignore-start -->
-<!-- embedme src/panel.ts#L38-L42 -->
+<!-- embedme src/index.ts#L55-L55 -->
 
 ```ts
-this._session.initialize().catch(reason => {
-  console.error(
-    `Failed to initialize the session in ExamplePanel.\n${reason}`
-  );
-});
+await panel.session.initialize();
 ```
 <!-- prettier-ignore-end -->
 
@@ -71,7 +69,7 @@ to free the kernel session resources if the panel is closed. The whole adapted
 panel class looks like this:
 
 ```ts
-// src/panel.ts#L21-L62
+// src/panel.ts#L23-L61
 
 export class ExamplePanel extends StackedPanel {
   constructor(manager: ServiceManager.IManager) {
@@ -81,23 +79,20 @@ export class ExamplePanel extends StackedPanel {
     this.title.label = 'Example View';
     this.title.closable = true;
 
-    this._session = new ClientSession({
-      manager: manager.sessions,
-      name: 'Example'
+    this._session = new SessionContext({
+      sessionManager: manager.sessions,
+      specsManager: manager.kernelspecs,
+      name: 'Example',
+      path: UUID.uuid4()
     });
 
     this._model = new KernelModel(this._session);
     this._example = new KernelView(this._model);
 
     this.addWidget(this._example);
-    this._session.initialize().catch(reason => {
-      console.error(
-        `Failed to initialize the session in ExamplePanel.\n${reason}`
-      );
-    });
   }
 
-  get session(): IClientSession {
+  get session(): ISessionContext {
     return this._session;
   }
 
@@ -112,7 +107,7 @@ export class ExamplePanel extends StackedPanel {
   }
 
   private _model: KernelModel;
-  private _session: ClientSession;
+  private _session: SessionContext;
   private _example: KernelView;
 }
 ```
@@ -123,9 +118,11 @@ Once a kernel is initialized and ready, code can be executed on it through
 the `ClientSession` object with the following snippet:
 
 ```ts
-// src/model.ts#L46-L46
+// src/model.ts#L46-L48
 
-this.future = this._session.kernel.requestExecute({ code });
+this.future = this._sessionContext.session?.kernel?.requestExecute({
+  code
+});
 ```
 
 `future` is an object that can receive some messages from the kernel as a
@@ -141,11 +138,11 @@ The `KernelModel` has a `stateChanged` signal that will be used by the
 view. It is implemented as follows:
 
 ```ts
-// src/model.ts#L9-L72
+// src/model.ts#L9-L74
 
 export class KernelModel {
-  constructor(session: IClientSession) {
-    this._session = session;
+  constructor(session: ISessionContext) {
+    this._sessionContext = session;
   }
 
   get future(): Kernel.IFuture<
@@ -168,7 +165,7 @@ export class KernelModel {
     value.onIOPub = this._onIOPub;
   }
 
-  get output(): nbformat.IOutput | null {
+  get output(): IOutput | null {
     return this._output;
   }
 
@@ -177,10 +174,12 @@ export class KernelModel {
   }
 
   execute(code: string) {
-    if (!this._session || !this._session.kernel) {
+    if (!this._sessionContext || !this._sessionContext.session?.kernel) {
       return;
     }
-    this.future = this._session.kernel.requestExecute({ code });
+    this.future = this._sessionContext.session?.kernel?.requestExecute({
+      code
+    });
   }
 
   private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
@@ -189,7 +188,7 @@ export class KernelModel {
       case 'execute_result':
       case 'display_data':
       case 'update_display_data':
-        this._output = msg.content as nbformat.IOutput;
+        this._output = msg.content as IOutput;
         console.log(this._output);
         this._stateChanged.emit();
         break;
@@ -203,8 +202,8 @@ export class KernelModel {
     KernelMessage.IExecuteRequestMsg,
     KernelMessage.IExecuteReplyMsg
   > | null = null;
-  private _output: nbformat.IOutput | null = null;
-  private _session: IClientSession;
+  private _output: IOutput | null = null;
+  private _sessionContext: ISessionContext;
   private _stateChanged = new Signal<KernelModel, void>(this);
 }
 ```
@@ -223,7 +222,7 @@ in a text field.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/widget.tsx#L26-L30
+// src/widget.tsx#L25-L29
 
 <UseSignal signal={this._model.stateChanged}>
   {() => (
@@ -237,7 +236,7 @@ Finally to trigger a statement execution, the click event of a button is
 implemented to call the `this._model.execute` method.
 
 ```ts
-// src/widget.tsx#L17-L25
+// src/widget.tsx#L16-L24
 
 <button
   key="header-thread"

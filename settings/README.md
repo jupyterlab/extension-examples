@@ -18,7 +18,7 @@ Once this is done, you can import the interface in your code.
 ```ts
 // src/index.ts#L6-L6
 
-import { ISettingRegistry } from '@jupyterlab/coreutils';
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
 ```
 
 To see how you can access the settings, let's have a look at

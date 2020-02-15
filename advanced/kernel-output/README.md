@@ -39,19 +39,20 @@ object ([see the documentation](https://jupyterlab.github.io/jupyterlab/apputils
 Here it is stored in the private `_session` variable:
 
 ```ts
-// src/panel.ts#L73-L73
+// src/panel.ts#L74-L74
 
-private _session: ClientSession;
+private _sessionContext: SessionContext;
 ```
 
 A `ClientSession` handles a single kernel session. The session itself (not yet
 the kernel) is started with these lines:
 
 ```ts
-// src/panel.ts#L32-L35
+// src/panel.ts#L32-L36
 
-this._session = new ClientSession({
-  manager: manager.sessions,
+this._sessionContext = new SessionContext({
+  sessionManager: manager.sessions,
+  specsManager: manager.kernelspecs,
   name: 'Example'
 });
 ```
@@ -60,10 +61,10 @@ The private session variable is exposed as read-only for other users
 through a getter method:
 
 ```ts
-// src/panel.ts#L51-L53
+// src/panel.ts#L52-L54
 
-get session(): IClientSession {
-  return this._session;
+get session(): ISessionContext {
+  return this._sessionContext;
 }
 ```
 
@@ -72,9 +73,9 @@ with this line:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/panel.ts#L44-L48
+// src/panel.ts#L45-L49
 
-this._session.initialize().catch(reason => {
+this._sessionContext.initialize().catch(reason => {
   console.error(
     `Failed to initialize the session in ExamplePanel.\n${reason}`
   );
@@ -89,16 +90,16 @@ The following two methods ensure the clean disposal of the session
 when you close the panel.
 
 ```ts
-// src/panel.ts#L55-L58
+// src/panel.ts#L56-L59
 
 dispose(): void {
-  this._session.dispose();
+  this._sessionContext.dispose();
   super.dispose();
 }
 ```
 
 ```ts
-// src/panel.ts#L68-L71
+// src/panel.ts#L69-L72
 
 protected onCloseRequest(msg: Message): void {
   super.onCloseRequest(msg);
@@ -109,12 +110,12 @@ protected onCloseRequest(msg: Message): void {
 ## OutputArea and Model
 
 The `SimplifiedOutputArea` class is a `Widget`, as described in the [widget example](../../widget-tracker/widgets/README.md).
-It has the ability to display the results of a notebook cell execution.  
+It has the ability to display the results of a notebook cell execution.
 You can instantiate it with a new `OutputAreaModel`; this is class containing
 the data to show:
 
 ```ts
-// src/panel.ts#L37-L41
+// src/panel.ts#L38-L42
 
 this._outputareamodel = new OutputAreaModel();
 this._outputarea = new SimplifiedOutputArea({
@@ -128,10 +129,10 @@ some code to a kernel through a `ClientSession` ([see documentation](https://jup
 in the specific `SimplifiedOutputArea` object you created:
 
 ```ts
-// src/panel.ts#L60-L66
+// src/panel.ts#L61-L67
 
 execute(code: string): void {
-  SimplifiedOutputArea.execute(code, this._outputarea, this._session)
+  SimplifiedOutputArea.execute(code, this._outputarea, this._sessionContext)
     .then((msg: KernelMessage.IExecuteReplyMsg) => {
       console.log(msg);
     })
@@ -148,7 +149,7 @@ To display the `SimplifiedOutputArea` Widget you need to add it to your
 panel with:
 
 ```ts
-// src/panel.ts#L43-L43
+// src/panel.ts#L44-L44
 
 this.addWidget(this._outputarea);
 ```

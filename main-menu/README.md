@@ -81,8 +81,8 @@ After the execution of that command, `package.json` should list them in the
 // package.json#L36-L40
 
 "dependencies": {
-  "@jupyterlab/application": "^1.2.0",
-  "@jupyterlab/mainmenu": "^1.2.0",
+  "@jupyterlab/application": "^2.0.0-rc.0",
+  "@jupyterlab/mainmenu": "^2.0.0-rc.0",
   "@lumino/widgets": "^1.9.3"
 },
 ```

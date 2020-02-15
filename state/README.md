@@ -18,7 +18,7 @@ Once this is done. You can import the interface in your code.
 ```ts
 // src/index.ts#L8-L8
 
-import { IStateDB } from '@jupyterlab/coreutils';
+import { IStateDB } from '@jupyterlab/statedb';
 ```
 
 To see how you can access the state, let's have a look at
