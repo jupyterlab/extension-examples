@@ -34,10 +34,10 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^2.0.0-rc.0",
-    "@jupyterlab/filebrowser": "^2.0.0-rc.0",
-    "@jupyterlab/launcher": "^2.0.0-rc.0",
-    "@jupyterlab/mainmenu": "^2.0.0-rc.0"
+    "@jupyterlab/application": "^2.0.0-rc.2",
+    "@jupyterlab/filebrowser": "^2.0.0-rc.2",
+    "@jupyterlab/launcher": "^2.0.0-rc.2",
+    "@jupyterlab/mainmenu": "^2.0.0-rc.2"
   },
   "devDependencies": {
     "rimraf": "^2.6.1",

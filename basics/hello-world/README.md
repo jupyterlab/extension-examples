@@ -74,7 +74,7 @@ package is declared in the file `package.json`:
 // package.json#L36-L38
 
 "dependencies": {
-  "@jupyterlab/application": "^2.0.0-rc.0"
+  "@jupyterlab/application": "^2.0.0-rc.2"
 },
 ```
 

@@ -34,8 +34,8 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^2.0.0-rc.0",
-    "@jupyterlab/mainmenu": "^2.0.0-rc.0",
+    "@jupyterlab/application": "^2.0.0-rc.2",
+    "@jupyterlab/mainmenu": "^2.0.0-rc.2",
     "@lumino/widgets": "^1.9.3"
   },
   "devDependencies": {
