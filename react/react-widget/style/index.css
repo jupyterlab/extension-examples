@@ -1,7 +1,3 @@
-.jp-ReactIcon {
-  background-image: url('react-icon.svg');
-}
-
 .jp-ReactWidget {
   color: var(--jp-ui-font-color1);
   background: var(--jp-layout-color1);

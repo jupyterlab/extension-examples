@@ -23,6 +23,10 @@ git clone https://github.com/jtpio/jupyterlab-extension-examples.git &&
 jupyter lab --watch
 ```
 
+The examples currently target **JupyterLab 2.x**.
+
+If you would like to use the examples with JupyterLab 1.x, check out the [1.x branch](https://github.com/jtpio/jupyterlab-extension-examples/tree/1.x). Note that the `1.x` branch is not updated anymore.
+
 ## Develop by Examples
 
 You may find it easier to learn how to create extensions _by examples_, instead of going through the documentation.

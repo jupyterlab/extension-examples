@@ -5,9 +5,9 @@ import {
 
 import { InputDialog } from '@jupyterlab/apputils';
 
-import { IStateDB } from '@jupyterlab/coreutils';
+import { IStateDB } from '@jupyterlab/statedb';
 
-import { ReadonlyJSONObject } from '@phosphor/coreutils';
+import { ReadonlyJSONObject } from '@lumino/coreutils';
 
 const PLUGIN_ID = 'state';
 

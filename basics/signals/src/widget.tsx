@@ -1,5 +1,5 @@
 import { ReactWidget } from '@jupyterlab/apputils';
-import { ISignal, Signal } from '@phosphor/signaling';
+import { ISignal, Signal } from '@lumino/signaling';
 import * as React from 'react';
 
 export class ExampleView extends ReactWidget {

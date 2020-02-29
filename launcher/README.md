@@ -16,12 +16,12 @@ your extension will use two commands defined by the [documents manager](https://
 The command will create a new Python file and then open it:
 
 ```ts
-// src/index.ts#L37-L59
+// src/index.ts#L44-L66
 
 commands.addCommand(command, {
   label: args => (args['isPalette'] ? 'New Python File' : 'Python File'),
   caption: 'Create a new Python file',
-  iconClass: args => (args['isPalette'] ? '' : ICON_CLASS),
+  icon: args => (args['isPalette'] ? undefined : icon),
   execute: async args => {
     // Get the directory in which the Python file must be created;
     // otherwise take the current filebrowser directory
@@ -61,7 +61,7 @@ import { ILauncher } from '@jupyterlab/launcher';
 And finally you can add it to the list of dependencies:
 
 ```ts
-// src/index.ts#L22-L33
+// src/index.ts#L25-L36
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'launcher',
@@ -79,14 +79,14 @@ const extension: JupyterFrontEndPlugin<void> = {
 
 In this example, the `ILauncher` interface is requested as optional dependency
 and not as a required dependency. This lets other applications without a launcher
-be able to use your extension.  
+be able to use your extension.
 If the application is unable to provide an optional interface, it will take a `null`
-value.  
+value.
 Therefore before adding the command to the launcher, you need to check if the `launcher`
 variable is not `null`:
 
 ```ts
-// src/index.ts#L61-L68
+// src/index.ts#L68-L75
 
 // Add the command to the launcher
 if (launcher) {

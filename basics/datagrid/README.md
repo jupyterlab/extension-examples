@@ -1,20 +1,20 @@
-# Datagrid: a Fancy Phosphor Widget
+# Datagrid: a Fancy Lumino Widget
 
 ![Datagrid](preview.png)
 
 Jupyterlab is built on top of
-[PhosphorJS](https://phosphorjs.github.io/). That library defines `Widget` as the primary interface brick. In this example [the datagrid phosphor example](http://phosphorjs.github.io/examples/datagrid/)
+[Lumino](https://github.com/jupyterlab/lumino). That library defines `Widget` as the primary interface brick. In this example [the datagrid lumino example](https://jupyterlab.github.io/lumino/datagrid/index.html)
 is integrated into JupyterLab.
 
 First you need to import `StackedPanel`, `DataGrid`
-and `DataModel` classes from phosphor:
+and `DataModel` classes from lumino:
 
 ```ts
 // src/index.ts#L10-L12
 
-import { DataGrid, DataModel } from '@phosphor/datagrid';
+import { DataGrid, DataModel } from '@lumino/datagrid';
 
-import { Menu, StackedPanel } from '@phosphor/widgets';
+import { Menu, StackedPanel } from '@lumino/widgets';
 ```
 
 The `StackedPanel` widget can hold several sub-widgets that are added with its
@@ -22,10 +22,10 @@ The `StackedPanel` widget can hold several sub-widgets that are added with its
 the main area of JupyterLab as seen in the above screenshot. `DataModel`
 is a class that provides the data that is displayed by the `DataGrid` widget.
 
-> Note:  
+> Note:
 > To be able to import those classes, you will need to add their
-> package as dependencies:  
-> `jlpm add @phosphor/datagrid @phosphor/widgets`
+> package as dependencies:
+> `jlpm add @lumino/datagrid @lumino/widgets`
 
 With these three classes, you can create your own widget, called `ExampleView` :
 
@@ -74,8 +74,8 @@ class LargeDataModel extends DataModel {
 
 The three abstract methods are `rowCount`, `columnCount` and `data`. The
 first two must return a number from a region argument. To know the possible
-values of `RowRegion` and the `ColumnRegion`, you can look at the [PhosphorJS
-code](https://github.com/phosphorjs/phosphor/blob/9f5e11025b62d2c4a6fb59e2681ae1ed323dcde4/packages/datagrid/src/datamodel.ts#L112-L129):
+values of `RowRegion` and the `ColumnRegion`, you can look at the [Lumino
+code](https://github.com/jupyterlab/lumino/blob/9f5e11025b62d2c4a6fb59e2681ae1ed323dcde4/packages/datagrid/src/datamodel.ts#L112-L129):
 
 ```ts
 /**

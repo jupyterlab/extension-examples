@@ -7,6 +7,8 @@ import { MainAreaWidget } from '@jupyterlab/apputils';
 
 import { ILauncher } from '@jupyterlab/launcher';
 
+import { reactIcon } from '@jupyterlab/ui-components';
+
 import { CounterWidget } from './widget';
 
 /**
@@ -30,7 +32,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     commands.addCommand(command, {
       caption: 'Create a new React Widget',
       label: 'React Widget',
-      iconClass: 'jp-ReactIcon',
+      icon: args => (args['isPalette'] ? undefined : reactIcon),
       execute: () => {
         const content = new CounterWidget();
         const widget = new MainAreaWidget<CounterWidget>({ content });

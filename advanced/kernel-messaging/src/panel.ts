@@ -1,10 +1,14 @@
-import { StackedPanel } from '@phosphor/widgets';
-
-import { ClientSession, IClientSession } from '@jupyterlab/apputils';
+import {
+  SessionContext,
+  ISessionContext,
+  sessionContextDialogs
+} from '@jupyterlab/apputils';
 
 import { ServiceManager } from '@jupyterlab/services';
 
-import { Message } from '@phosphor/messaging';
+import { Message } from '@lumino/messaging';
+
+import { StackedPanel } from '@lumino/widgets';
 
 import { KernelView } from './widget';
 
@@ -26,28 +30,36 @@ export class ExamplePanel extends StackedPanel {
     this.title.label = 'Example View';
     this.title.closable = true;
 
-    this._session = new ClientSession({
-      manager: manager.sessions,
+    this._sessionContext = new SessionContext({
+      sessionManager: manager.sessions,
+      specsManager: manager.kernelspecs,
       name: 'Example'
     });
 
-    this._model = new KernelModel(this._session);
+    this._model = new KernelModel(this._sessionContext);
     this._example = new KernelView(this._model);
 
     this.addWidget(this._example);
-    this._session.initialize().catch(reason => {
-      console.error(
-        `Failed to initialize the session in ExamplePanel.\n${reason}`
-      );
-    });
+    void this._sessionContext
+      .initialize()
+      .then(async value => {
+        if (value) {
+          await sessionContextDialogs.selectKernel(this._sessionContext);
+        }
+      })
+      .catch(reason => {
+        console.error(
+          `Failed to initialize the session in ExamplePanel.\n${reason}`
+        );
+      });
   }
 
-  get session(): IClientSession {
-    return this._session;
+  get session(): ISessionContext {
+    return this._sessionContext;
   }
 
   dispose(): void {
-    this._session.dispose();
+    this._sessionContext.dispose();
     super.dispose();
   }
 
@@ -57,6 +69,6 @@ export class ExamplePanel extends StackedPanel {
   }
 
   private _model: KernelModel;
-  private _session: ClientSession;
+  private _sessionContext: SessionContext;
   private _example: KernelView;
 }

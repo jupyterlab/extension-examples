@@ -1,4 +1,8 @@
-import { ClientSession, IClientSession } from '@jupyterlab/apputils';
+import {
+  ISessionContext,
+  SessionContext,
+  sessionContextDialogs
+} from '@jupyterlab/apputils';
 
 import { OutputAreaModel, SimplifiedOutputArea } from '@jupyterlab/outputarea';
 
@@ -6,9 +10,9 @@ import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 
 import { KernelMessage, ServiceManager } from '@jupyterlab/services';
 
-import { Message } from '@phosphor/messaging';
+import { Message } from '@lumino/messaging';
 
-import { StackedPanel } from '@phosphor/widgets';
+import { StackedPanel } from '@lumino/widgets';
 
 /**
  * The class name added to the example panel.
@@ -29,8 +33,9 @@ export class ExamplePanel extends StackedPanel {
     this.title.label = 'Example View';
     this.title.closable = true;
 
-    this._session = new ClientSession({
-      manager: manager.sessions,
+    this._sessionContext = new SessionContext({
+      sessionManager: manager.sessions,
+      specsManager: manager.kernelspecs,
       name: 'Example'
     });
 
@@ -41,24 +46,32 @@ export class ExamplePanel extends StackedPanel {
     });
 
     this.addWidget(this._outputarea);
-    this._session.initialize().catch(reason => {
-      console.error(
-        `Failed to initialize the session in ExamplePanel.\n${reason}`
-      );
-    });
+
+    void this._sessionContext
+      .initialize()
+      .then(async value => {
+        if (value) {
+          await sessionContextDialogs.selectKernel(this._sessionContext);
+        }
+      })
+      .catch(reason => {
+        console.error(
+          `Failed to initialize the session in ExamplePanel.\n${reason}`
+        );
+      });
   }
 
-  get session(): IClientSession {
-    return this._session;
+  get session(): ISessionContext {
+    return this._sessionContext;
   }
 
   dispose(): void {
-    this._session.dispose();
+    this._sessionContext.dispose();
     super.dispose();
   }
 
   execute(code: string): void {
-    SimplifiedOutputArea.execute(code, this._outputarea, this._session)
+    SimplifiedOutputArea.execute(code, this._outputarea, this._sessionContext)
       .then((msg: KernelMessage.IExecuteReplyMsg) => {
         console.log(msg);
       })
@@ -70,7 +83,7 @@ export class ExamplePanel extends StackedPanel {
     this.dispose();
   }
 
-  private _session: ClientSession;
+  private _sessionContext: SessionContext;
   private _outputarea: SimplifiedOutputArea;
   private _outputareamodel: OutputAreaModel;
 }

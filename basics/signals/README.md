@@ -1,18 +1,18 @@
 # Signals - Communication between Widgets
 
-- [Phosphor Signaling 101](#phosphor-signaling-101)
+- [Lumino Signaling 101](#lumino-signaling-101)
 - [A simple React Button](#a-simple-react-button)
 - [Subscribing to a Signal](#subscribing-to-a-signal)
 
 ![Button with Signal](preview.png)
 
-## Phosphor Signaling 101
+## Lumino Signaling 101
 
 In this extension, a simple button will be added to print something to the console.
 Communication between different components of JupyterLab are a key ingredient in building an
-extension. JupyterLab's phosphor engine uses the `ISignal` interface and the
+extension. JupyterLab's Lumino engine uses the `ISignal` interface and the
 `Signal` class that implements this interface for communication
-([documentation](https://phosphorjs.github.io/phosphor/api/signaling/globals.html)).
+([documentation](https://jupyterlab.github.io/lumino/api/signaling/globals.html)).
 
 The basic concept is the following: a widget, in this case the one that contains
 some visual elements such as a button, defines a signal and exposes it to other

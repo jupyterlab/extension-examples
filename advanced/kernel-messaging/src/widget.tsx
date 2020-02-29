@@ -11,7 +11,6 @@ export class KernelView extends ReactWidget {
   }
 
   protected render(): React.ReactElement<any> {
-    console.log('render');
     return (
       <React.Fragment>
         <button

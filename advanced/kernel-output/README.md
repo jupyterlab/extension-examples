@@ -34,24 +34,25 @@ followed by the creation of the visual element.
 
 ## Initializing a Kernel Session
 
-To interact with a kernel, you first need to create a `ClientSession`
-object ([see the documentation](https://jupyterlab.github.io/jupyterlab/apputils/classes/clientsession.html)).
-Here it is stored in the private `_session` variable:
+To interact with a kernel, you can create a `SessionContext`
+object ([see the documentation](https://jupyterlab.github.io/jupyterlab/apputils/classes/sessioncontext.html)).
+Here it is stored in the private `_sessionContext` variable:
 
 ```ts
-// src/panel.ts#L73-L73
+// src/panel.ts#L86-L86
 
-private _session: ClientSession;
+private _sessionContext: SessionContext;
 ```
 
-A `ClientSession` handles a single kernel session. The session itself (not yet
+A `SessionContext` handles a single kernel session. The session itself (not yet
 the kernel) is started with these lines:
 
 ```ts
-// src/panel.ts#L32-L35
+// src/panel.ts#L36-L40
 
-this._session = new ClientSession({
-  manager: manager.sessions,
+this._sessionContext = new SessionContext({
+  sessionManager: manager.sessions,
+  specsManager: manager.kernelspecs,
   name: 'Example'
 });
 ```
@@ -60,10 +61,10 @@ The private session variable is exposed as read-only for other users
 through a getter method:
 
 ```ts
-// src/panel.ts#L51-L53
+// src/panel.ts#L64-L66
 
-get session(): IClientSession {
-  return this._session;
+get session(): ISessionContext {
+  return this._sessionContext;
 }
 ```
 
@@ -72,13 +73,20 @@ with this line:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/panel.ts#L44-L48
+// src/panel.ts#L50-L61
 
-this._session.initialize().catch(reason => {
-  console.error(
-    `Failed to initialize the session in ExamplePanel.\n${reason}`
-  );
-});
+void this._sessionContext
+  .initialize()
+  .then(async value => {
+    if (value) {
+      await sessionContextDialogs.selectKernel(this._sessionContext);
+    }
+  })
+  .catch(reason => {
+    console.error(
+      `Failed to initialize the session in ExamplePanel.\n${reason}`
+    );
+  });
 ```
 <!-- prettier-ignore-end -->
 
@@ -89,16 +97,16 @@ The following two methods ensure the clean disposal of the session
 when you close the panel.
 
 ```ts
-// src/panel.ts#L55-L58
+// src/panel.ts#L68-L71
 
 dispose(): void {
-  this._session.dispose();
+  this._sessionContext.dispose();
   super.dispose();
 }
 ```
 
 ```ts
-// src/panel.ts#L68-L71
+// src/panel.ts#L81-L84
 
 protected onCloseRequest(msg: Message): void {
   super.onCloseRequest(msg);
@@ -109,12 +117,12 @@ protected onCloseRequest(msg: Message): void {
 ## OutputArea and Model
 
 The `SimplifiedOutputArea` class is a `Widget`, as described in the [widget example](../../widget-tracker/widgets/README.md).
-It has the ability to display the results of a notebook cell execution.  
+It has the ability to display the results of a notebook cell execution.
 You can instantiate it with a new `OutputAreaModel`; this is class containing
 the data to show:
 
 ```ts
-// src/panel.ts#L37-L41
+// src/panel.ts#L42-L46
 
 this._outputareamodel = new OutputAreaModel();
 this._outputarea = new SimplifiedOutputArea({
@@ -124,14 +132,14 @@ this._outputarea = new SimplifiedOutputArea({
 ```
 
 `SimplifiedOutputArea` provides a static method `execute` that sends
-some code to a kernel through a `ClientSession` ([see documentation](https://jupyterlab.github.io/jupyterlab/outputarea/classes/simplifiedoutputarea.html#execute)). And then it displays the result
+some code to a kernel through a `ISessionContext` ([see documentation](https://jupyterlab.github.io/jupyterlab/outputarea/classes/simplifiedoutputarea.html#execute)). And then it displays the result
 in the specific `SimplifiedOutputArea` object you created:
 
 ```ts
-// src/panel.ts#L60-L66
+// src/panel.ts#L73-L79
 
 execute(code: string): void {
-  SimplifiedOutputArea.execute(code, this._outputarea, this._session)
+  SimplifiedOutputArea.execute(code, this._outputarea, this._sessionContext)
     .then((msg: KernelMessage.IExecuteReplyMsg) => {
       console.log(msg);
     })
@@ -148,7 +156,7 @@ To display the `SimplifiedOutputArea` Widget you need to add it to your
 panel with:
 
 ```ts
-// src/panel.ts#L43-L43
+// src/panel.ts#L48-L48
 
 this.addWidget(this._outputarea);
 ```
@@ -175,7 +183,7 @@ You can then add the commands to the palette and the menu by iterating
 on a list:
 
 ```ts
-// src/index.ts#L95-L99
+// src/index.ts#L91-L95
 
 // add items in command palette and menu
 [CommandIDs.create, CommandIDs.execute].forEach(command => {
@@ -198,17 +206,13 @@ ready. Then once the panel is created and its session is ready, it
 can be added to the JupyterLab main area:
 
 ```ts
-// src/index.ts#L49-L59
+// src/index.ts#L49-L55
 
 let panel: ExamplePanel;
 
 async function createPanel(): Promise<ExamplePanel> {
-  await manager.ready;
   panel = new ExamplePanel(manager, rendermime);
-
-  await panel.session.ready;
   shell.add(panel, 'main');
-
   return panel;
 }
 ```
@@ -220,7 +224,7 @@ to be executed by the kernel. Then you will send it to your panel for execution
 and display:
 
 ```ts
-// src/index.ts#L73-L93
+// src/index.ts#L69-L89
 
 commands.addCommand(CommandIDs.execute, {
   label: 'kernel-output: Execute Code',

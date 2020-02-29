@@ -7,9 +7,9 @@ import { ICommandPalette } from '@jupyterlab/apputils';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
-import { DataGrid, DataModel } from '@phosphor/datagrid';
+import { DataGrid, DataModel } from '@lumino/datagrid';
 
-import { Menu, StackedPanel } from '@phosphor/widgets';
+import { Menu, StackedPanel } from '@lumino/widgets';
 
 /**
  * Initialization data for the extension1 extension.

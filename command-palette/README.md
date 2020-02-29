@@ -2,7 +2,7 @@
 
 ![Command Palette](preview.png)
 
-One major concept of the phosphorjs library on which JupyterLab is built is
+One major concept of the Lumino library on which JupyterLab is built is
 the notion of _Commands_ as explained in the
 [commands example](https://github.com/jtpio/jupyterlab-extension-examples/blob/master/commands/README.md).
 
