@@ -34,7 +34,12 @@ const extension: JupyterFrontEndPlugin<void> = {
       limit = setting.get('limit').composite as number;
       flag = setting.get('flag').composite as boolean;
 
-      console.log(`Limit is set to ${limit} and flag to ${flag}`);
+      console.log(
+        `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+      );
+      window.alert(
+        `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+      );
     }
 
     // Wait for the application to be restored and

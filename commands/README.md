@@ -27,25 +27,25 @@ const extension: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd) => {
     const { commands } = app;
 
-    let command = 'tutorial:command';
+    let command = 'jlab-examples:command';
 
     // Add a command
     commands.addCommand(command, {
-      label: 'Call tutorial:command',
-      caption: 'Execute tutorial:command',
+      label: 'Execute jlab-examples:command Command',
+      caption: 'Execute jlab-examples:command Command',
       execute: (args: any) => {
-        console.log(`tutorial:command has been called ${args['origin']}.`);
+        console.log(
+          `jlab-examples:command has been called ${args['origin']}.`
+        );
+        window.alert(
+          `jlab-examples:command has been called ${args['origin']}.`
+        );
       }
     });
 
     // Call the command execution
     commands.execute(command, { origin: 'from init' }).catch(reason => {
       console.error(
-        `An error occurred during the execution of tutorial:command.\n${reason}`
-      );
-    });
-  }
-};
 ```
 
 The CommandRegistry is an attribute of the main JupyterLab application
@@ -64,18 +64,18 @@ with the unique command id and optionally the arguments.
 ```ts
 // src/index.ts#L27-L31
 
-commands.execute(command, { origin: 'from init' }).catch(reason => {
-  console.error(
-    `An error occurred during the execution of tutorial:command.\n${reason}`
-  );
+    );
+  }
 });
+
+// Call the command execution
 ```
 
 When running JupyterLab with this extension, the following message should
-appears in the web browser console:
+appears in the web browser console and as an alert:
 
 ```
-tutorial:command has been called from init.
+jlab-examples:command has been called from init.
 ```
 
 ## Where to Go Next

@@ -55,7 +55,7 @@ the kernel) is started with these lines:
 this._sessionContext = new SessionContext({
   sessionManager: manager.sessions,
   specsManager: manager.kernelspecs,
-  name: 'Extension Example'
+  name: 'Kernel Output'
 });
 ```
 
@@ -229,8 +229,8 @@ and display:
 // src/index.ts#L69-L89
 
 commands.addCommand(CommandIDs.execute, {
-  label: 'kernel-output: Execute Code',
-  caption: 'Execute Code',
+  label: 'Contact Kernel and Execute Code',
+  caption: 'Contact Kernel and Execute Code',
   execute: async () => {
     // Create the panel if it does not exist
     if (!panel) {

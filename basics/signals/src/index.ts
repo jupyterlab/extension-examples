@@ -11,7 +11,7 @@ import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { Menu } from '@lumino/widgets';
 
-import { ExamplePanel } from './panel';
+import { StateExamplePanel } from './panel';
 
 /**
  * The command IDs used by the console plugin.
@@ -50,9 +50,9 @@ function activate(
   }
 
   function createPanel() {
-    let panel: ExamplePanel;
+    let panel: StateExamplePanel;
     return manager.ready.then(() => {
-      panel = new ExamplePanel();
+      panel = new StateExamplePanel();
       shell.add(panel, 'main');
       return panel;
     });

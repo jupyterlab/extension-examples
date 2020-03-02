@@ -30,7 +30,7 @@ export class ExamplePanel extends StackedPanel {
     super();
     this.addClass(PANEL_CLASS);
     this.id = 'kernel-output-panel';
-    this.title.label = 'Example View';
+    this.title.label = 'Kernel Output Example View';
     this.title.closable = true;
 
     this._sessionContext = new SessionContext({

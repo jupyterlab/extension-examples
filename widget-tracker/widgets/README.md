@@ -66,7 +66,7 @@ class ExampleView extends Widget {
     super();
     this.addClass('jp-example-view');
     this.id = 'widgets-example';
-    this.title.label = 'Example View';
+    this.title.label = 'Widget Example View';
     this.title.closable = true;
   }
 }

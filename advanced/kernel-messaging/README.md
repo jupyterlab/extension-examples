@@ -41,7 +41,7 @@ that manages a single kernel session. Here is the code to initialize such sessio
 this._sessionContext = new SessionContext({
   sessionManager: manager.sessions,
   specsManager: manager.kernelspecs,
-  name: 'Extension Example'
+  name: 'Extension Examples'
 });
 ```
 
@@ -88,13 +88,13 @@ export class ExamplePanel extends StackedPanel {
     super();
     this.addClass(PANEL_CLASS);
     this.id = 'kernel-messaging-panel';
-    this.title.label = 'Example View';
+    this.title.label = 'Kernel Messaging Example View';
     this.title.closable = true;
 
     this._sessionContext = new SessionContext({
       sessionManager: manager.sessions,
       specsManager: manager.kernelspecs,
-      name: 'Extension Example'
+      name: 'Extension Examples'
     });
 
     this._model = new KernelModel(this._sessionContext);

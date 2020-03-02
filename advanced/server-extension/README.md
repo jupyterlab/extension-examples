@@ -388,8 +388,8 @@ The `setup.py` file is the entry point to describe package metadata:
 setup_args = dict(
     name=name,
     version=version,
-    url="https://github.com/my_name/myextension",
-    author="my_name",
+    url="https://github.com/jtpio/jupyterlab-extension-examples/",
+    author="JupyterLab",
     description="A minimal JupyterLab extension with backend and frontend parts.",
     long_description= long_description,
     long_description_content_type="text/markdown",

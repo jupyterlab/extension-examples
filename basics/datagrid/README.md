@@ -39,7 +39,7 @@ class ExampleView extends StackedPanel {
     super();
     this.addClass('jp-example-view');
     this.id = 'example';
-    this.title.label = 'Example View';
+    this.title.label = 'Datagrid Example View';
     this.title.closable = true;
 
     const model = new LargeDataModel();

@@ -135,64 +135,65 @@ use them inside your extension. Let's look at this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L23-L78
+// src/index.ts#L23-L79
 
-activate: (
-  app: JupyterFrontEnd,
-  mainMenu: IMainMenu,
-  settings: ISettingRegistry
-) => {
-  const { commands } = app;
-  let limit = 25;
-  let flag = false;
+vate: (
+p: JupyterFrontEnd,
+inMenu: IMainMenu,
+ttings: ISettingRegistry
+ {
+nst { commands } = app;
+t limit = 25;
+t flag = false;
 
-  function loadSetting(setting: ISettingRegistry.ISettings) {
-    // Read the settings and convert to the correct type
-    limit = setting.get('limit').composite as number;
-    flag = setting.get('flag').composite as boolean;
+nction loadSetting(setting: ISettingRegistry.ISettings) {
+// Read the settings and convert to the correct type
+limit = setting.get('limit').composite as number;
+flag = setting.get('flag').composite as boolean;
 
-    console.log(`Limit is set to ${limit} and flag to ${flag}`);
-  }
+console.log(
+  `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+);
+window.alert(
+  `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+);
 
-  // Wait for the application to be restored and
-  // for the settings for this plugin to be loaded
-  Promise.all([app.restored, settings.load(PLUGIN_ID)])
-    .then(([, setting]) => {
-      // Read the settings
-      loadSetting(setting);
 
-      // Listen for your plugin setting changes using Signal
-      setting.changed.connect(loadSetting);
+ Wait for the application to be restored and
+ for the settings for this plugin to be loaded
+omise.all([app.restored, settings.load(PLUGIN_ID)])
+.then(([, setting]) => {
+  // Read the settings
+  loadSetting(setting);
 
-      commands.addCommand(COMMAND_ID, {
-        label: 'Toggle flag setting',
-        isToggled: () => flag,
-        execute: () => {
-          // Programmatically change a setting
-          setting.set('flag', !flag).catch(reason => {
-            console.error(
-              `Something went wrong when setting flag.\n${reason}`
-            );
-          });
-        }
+  // Listen for your plugin setting changes using Signal
+  setting.changed.connect(loadSetting);
+
+  commands.addCommand(COMMAND_ID, {
+    label: 'Toggle Flag Setting',
+    isToggled: () => flag,
+    execute: () => {
+      // Programmatically change a setting
+      setting.set('flag', !flag).catch(reason => {
+        console.error(
+          `Something went wrong when setting flag.\n${reason}`
+        );
       });
+    }
+  });
 
-      // Create a menu
-      const tutorialMenu = new Menu({ commands });
-      tutorialMenu.title.label = 'Extension Example';
-      mainMenu.addMenu(tutorialMenu, { rank: 80 });
+  // Create a menu
+  const tutorialMenu = new Menu({ commands });
+  tutorialMenu.title.label = 'Settings Example';
+  mainMenu.addMenu(tutorialMenu, { rank: 80 });
 
-      // Add the command to the menu
-      tutorialMenu.addItem({
-        command: COMMAND_ID
-      });
-    })
-    .catch(reason => {
-      console.error(
-        `Something went wrong when reading the settings.\n${reason}`
-      );
-    });
-}
+  // Add the command to the menu
+  tutorialMenu.addItem({
+    command: COMMAND_ID
+  });
+})
+.catch(reason => {
+  console.error(
 ```
 <!-- prettier-ignore-end -->
 
@@ -203,7 +204,7 @@ your plugin settings to be loaded :
 ```ts
 // src/index.ts#L42-L42
 
-Promise.all([app.restored, settings.load(PLUGIN_ID)])
+);
 ```
 <!-- prettier-ignore-end -->
 
@@ -213,15 +214,16 @@ JSON file). After getting the setting, you need to require the
 `composite` attribute to get its value and specify the type explicitly.
 
 ```ts
-// src/index.ts#L32-L38
+// src/index.ts#L32-L39
 
-function loadSetting(setting: ISettingRegistry.ISettings) {
-  // Read the settings and convert to the correct type
-  limit = setting.get('limit').composite as number;
-  flag = setting.get('flag').composite as boolean;
+nction loadSetting(setting: ISettingRegistry.ISettings) {
+// Read the settings and convert to the correct type
+limit = setting.get('limit').composite as number;
+flag = setting.get('flag').composite as boolean;
 
-  console.log(`Limit is set to ${limit} and flag to ${flag}`);
-}
+console.log(
+  `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+);
 ```
 
 > `composite` means the setting value is the composition of the default
@@ -232,10 +234,10 @@ To react at a setting change by the user, you should use the signal
 `loadSetting` is called with the new settings.
 
 ```ts
-// src/index.ts#L47-L48
+// src/index.ts#L48-L49
 
-// Listen for your plugin setting changes using Signal
-setting.changed.connect(loadSetting);
+.then(([, setting]) => {
+  // Read the settings
 ```
 
 Finally, to demonstrate the programmatical change of a setting. A command to toggle
@@ -243,20 +245,20 @@ the `flag` setting is created.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L50-L61
+// src/index.ts#L51-L62
+
+
+// Listen for your plugin setting changes using Signal
+setting.changed.connect(loadSetting);
 
 commands.addCommand(COMMAND_ID, {
-  label: 'Toggle flag setting',
+  label: 'Toggle Flag Setting',
   isToggled: () => flag,
   execute: () => {
     // Programmatically change a setting
     setting.set('flag', !flag).catch(reason => {
       console.error(
         `Something went wrong when setting flag.\n${reason}`
-      );
-    });
-  }
-});
 ```
 <!-- prettier-ignore-end -->
 
@@ -264,27 +266,17 @@ The `set` method of `setting` is the one storing the
 new value.
 
 ```ts
-// src/index.ts#L54-L55
+// src/index.ts#L55-L56
 
-// Programmatically change a setting
-setting.set('flag', !flag).catch(reason => {
+commands.addCommand(COMMAND_ID, {
+  label: 'Toggle Flag Setting',
 ```
 
 That command can be executed by clicking on the item menu created at the end of the
 `activate` function.
 
 ```ts
-// src/index.ts#L63-L71
-
-// Create a menu
-const tutorialMenu = new Menu({ commands });
-tutorialMenu.title.label = 'Extension Example';
-mainMenu.addMenu(tutorialMenu, { rank: 80 });
-
-// Add the command to the menu
-tutorialMenu.addItem({
-  command: COMMAND_ID
-});
+// src/index.ts#L64-L72
 ```
 
 Note

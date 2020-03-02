@@ -34,7 +34,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
         // Ask the user to pick a option with `option` as default
         return InputDialog.getItem({
-          title: 'Pick an option',
+          title: 'Pick an option to persist by the State Example extension',
           items: options,
           current: Math.max(0, options.indexOf(option))
         });

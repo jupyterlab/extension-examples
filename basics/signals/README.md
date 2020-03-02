@@ -23,7 +23,7 @@ widgets, as this `_stateChanged` signal:
 ```ts
 // src/widget.tsx#L6-L8
 
-get stateChanged(): ISignal<ExampleView, void> {
+get stateChanged(): ISignal<StateExampleView, void> {
   return this._stateChanged;
 }
 ```
@@ -31,7 +31,7 @@ get stateChanged(): ISignal<ExampleView, void> {
 ```ts
 // src/widget.tsx#L24-L24
 
-private _stateChanged = new Signal<ExampleView, void>(this);
+private _stateChanged = new Signal<StateExampleView, void>(this);
 ```
 
 Another widget, in this case the panel that boxes several different widgets,
@@ -42,7 +42,7 @@ subscribes to the `stateChanged` signal and links some function to it:
 
 this._widget.stateChanged.connect(() => {
   console.log('changed');
-});
+  window.alert('changed')
 ```
 
 The function is executed when the signal is triggered with
@@ -62,13 +62,13 @@ HTML-like syntax with the tag notation `<>`to represent some visual elements
 (note that you have to add a line: `"jsx": "react",` to the
 `tsconfig.json` file). This is a special syntax used by [React](https://reactjs.org/tutorial/tutorial.html).
 
-`widget.tsx` contains one major class `ExampleView` that extends the
+`widget.tsx` contains one major class `StateExampleView` that extends the
 `ReactWidget` class provided by JupyterLab. `ReactWidget` defines a
 `render()` method that defines some React elements such as a button. This
 is the recommended way to include React component inside the JupyterLab widget
 based UI.
 
-`ExampleView` further contains a private variable `_stateChanged` of type
+`StateExampleView` further contains a private variable `_stateChanged` of type
 `Signal`. A signal object can be triggered and then emits an actual message.
 Other Widgets can subscribe to such a signal and react when a message is
 emitted. The button `onClick` event is configured to trigger the
@@ -77,8 +77,8 @@ emitted. The button `onClick` event is configured to trigger the
 ```ts
 // src/widget.tsx#L5-L25
 
-export class ExampleView extends ReactWidget {
-  get stateChanged(): ISignal<ExampleView, void> {
+export class StateExampleView extends ReactWidget {
+  get stateChanged(): ISignal<StateExampleView, void> {
     return this._stateChanged;
   }
 
@@ -96,41 +96,43 @@ export class ExampleView extends ReactWidget {
     );
   }
 
-  private _stateChanged = new Signal<ExampleView, void>(this);
+  private _stateChanged = new Signal<StateExampleView, void>(this);
 }
 ```
 
 ## Subscribing to a Signal
 
 The `panel.ts` class defines an extension panel that displays the
-`ExampleView` widget and that subscribes to its `stateChanged` signal.
+`StateExampleView` widget and that subscribes to its `stateChanged` signal.
 Subscription to a signal is done using the `connect` method of the
 `stateChanged` attribute. It registers a function (in this case
 `() => { console.log('changed'); }` that is triggered when the signal is
 emitted:
 
 ```ts
-// src/panel.ts#L12-L28
+// src/panel.ts#L12-L29
 
-export class ExamplePanel extends StackedPanel {
+export class StateExamplePanel extends StackedPanel {
   constructor() {
     super();
     this.addClass(PANEL_CLASS);
-    this.id = 'ExamplePanel';
-    this.title.label = 'Example View';
+    this.id = 'StateExamplePanel';
+    this.title.label = 'Signal Example View';
     this.title.closable = true;
 
-    this._widget = new ExampleView();
+    this._widget = new StateExampleView();
     this.addWidget(this._widget);
     this._widget.stateChanged.connect(() => {
       console.log('changed');
+      window.alert('changed');
     });
   }
 
-  private _widget: ExampleView;
+  private _widget: StateExampleView;
 }
 ```
 
-The final extension writes a little `changed` text to the browser console when
-a big red button is clicked. It is not very spectacular but the signaling is
-conceptually important for building extensions.
+The final extension writes a little `changed` text to the browser console and on an alter when
+a big red button is clicked.
+
+It is not very spectacular but the signaling is conceptually important for building extensions.

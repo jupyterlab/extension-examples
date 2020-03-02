@@ -15,15 +15,18 @@ const extension: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {
     const { commands } = app;
 
-    let command = 'tutorial:command-palette';
+    let command = 'jlab-examples:command-palette';
 
     // Add a command
     commands.addCommand(command, {
-      label: 'Execute tutorial:command-palette Command',
-      caption: 'Execute tutorial:command-palette Command',
+      label: 'Execute jlab-examples:command-palette Command',
+      caption: 'Execute jlab-examples:command-palette Command',
       execute: (args: any) => {
         console.log(
-          `tutorial:command-palette has been called ${args['origin']}.`
+          `jlab-examples:command-palette has been called ${args['origin']}.`
+        );
+        window.alert(
+          `jlab-examples:command-palette has been called ${args['origin']}.`
         );
       }
     });
