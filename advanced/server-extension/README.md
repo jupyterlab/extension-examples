@@ -475,12 +475,12 @@ done by copying the following JSON file:
 
 <!-- prettier-ignore-start -->
 ```json5
-// jupyter-config/server-extension.json
+// jupyter-config/server_extension.json
 
 {
   "NotebookApp": {
     "nbserver_extensions": {
-      "server-extension": true
+      "server_extension": true
     }
   }
 }
