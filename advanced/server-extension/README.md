@@ -267,7 +267,7 @@ from .handlers import setup_handlers
 
 def _jupyter_server_extension_paths():
     return [{
-        'module': 'server-extension'
+        'module': 'server_extension'
     }]
 
 
@@ -316,11 +316,16 @@ by a _GET_ or a _POST_ request. They will call the `get` or `post` method respec
 # server_extension/handlers.py#L8-L25
 
 class RouteHandler(APIHandler):
+    # The following decorator should be present on all verb methods (head, get, post,
+    # patch, put, delete, options) to ensure only authorized user can request the
+    # Jupyter server
+    @tornado.web.authenticated
     def get(self):
         self.finish(json.dumps({
             'data': 'This is /hello/personal endpoint!'
         }))
 
+    @tornado.web.authenticated
     def post(self):
         # input_data is a dictionnary with a key 'name'
         input_data = self.get_json_body()
