@@ -81,7 +81,7 @@ with the unique command id and optionally the arguments.
 When running JupyterLab with this extension, the following message should
 appears in the web browser console and as an alert:
 
-```
+```bash
 jlab-examples:command has been called from init.
 ```
 

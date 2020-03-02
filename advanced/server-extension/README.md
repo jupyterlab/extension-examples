@@ -259,7 +259,7 @@ JupyterLab server is built on top of the [Tornado](https://tornadoweb.org/en/sta
 your extension needs to be defined as a proper Python package with some hook functions:
 
 ```py
-# server-extension/__init__.py
+# server_extension/__init__.py
 
 from ._version import __version__
 from .handlers import setup_handlers
@@ -288,7 +288,7 @@ to the server. But the most important one is `load_jupyter_server_extension`
 that register new handlers.
 
 ```py
-# server-extension/__init__.py#L18-L18
+# server_extension/__init__.py#L18-L18
 
 setup_handlers(nb_app.web_app)
 ```
@@ -297,7 +297,7 @@ A handler is registered in the web application by linking an url to a class. In 
 example the url is _base_server_url_`/hello/personal` and the class handler is `RouteHandler`:
 
 ```py
-# server-extension/handlers.py#L28-L34
+# server_extension/handlers.py#L28-L34
 
 def setup_handlers(web_app):
     host_pattern = '.*$'
@@ -313,7 +313,7 @@ implement the wanted HTTP verbs. For example, here, `/hello/personal` can be req
 by a _GET_ or a _POST_ request. They will call the `get` or `post` method respectively.
 
 ```py
-# server-extension/handlers.py#L8-L25
+# server_extension/handlers.py#L8-L25
 
 class RouteHandler(APIHandler):
     def get(self):
@@ -339,7 +339,7 @@ by calling the `finish` method. That method can optionally take an argument that
 become the response body of the request in the frontend.
 
 ```py
-# server-extension/handlers.py#L14-L16
+# server_extension/handlers.py#L14-L16
 
 self.finish(json.dumps({
     'data': 'This is /hello/personal endpoint!'
@@ -355,7 +355,7 @@ sent by the frontend. When using JSON as communication format, you can directly 
 `get_json_body` helper method to convert the request body into a Python dictionary.
 
 ```py
-# server-extension/handlers.py#L21-L24
+# server_extension/handlers.py#L21-L24
 
 input_data = self.get_json_body()
 data = {
