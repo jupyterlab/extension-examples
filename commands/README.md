@@ -5,10 +5,11 @@
 ![commands example](./preview.png)
 
 One major concept of the Lumino library on which JupyterLab is built is
-the notion of _Commands_. They are functions stored in a registry (under an unique
+the notion of _Commands_.
+
+They are functions stored in a registry (under an unique
 specifier) that can be executed from any piece of code having accessed to that
-registry. And in particular, they can be attached to a menu item, a launcher
-card or the command palette to be easily triggered by the user.
+registry.
 
 It is quite common for extension to define one or more such a command.
 
@@ -19,7 +20,7 @@ The registry has `CommandRegistry` type ([documentation](https://jupyterlab.gith
 To see how you can access the application command registry, open the file `src/index.ts`.
 
 ```ts
-// src/index.ts#L9-L33
+// src/index.ts#L9-L37
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'commands',
@@ -46,11 +47,17 @@ const extension: JupyterFrontEndPlugin<void> = {
     // Call the command execution
     commands.execute(command, { origin: 'from init' }).catch(reason => {
       console.error(
+        `An error occurred during the execution of jlab-examples:command.\n${reason}`
+      );
+    });
+  }
 ```
 
 The CommandRegistry is an attribute of the main JupyterLab application
 (variable `app` in the previous snippet). It has an `addCommand` method that
-adds your own function. That method takes two arguments: the unique command id
+adds your own function.
+
+That method takes two arguments: the unique command id
 and [options](https://jupyterlab.github.io/lumino/api/commands/interfaces/commandregistry.icommandoptions.html) for the command.
 
 The only mandatory option is `execute`, this takes the function to be called
@@ -62,13 +69,14 @@ parts of application. Then you will need to call the `execute` method of the reg
 with the unique command id and optionally the arguments.
 
 ```ts
-// src/index.ts#L27-L31
-
-    );
-  }
-});
+// src/index.ts#L31-L36
 
 // Call the command execution
+commands.execute(command, { origin: 'from init' }).catch(reason => {
+  console.error(
+    `An error occurred during the execution of jlab-examples:command.\n${reason}`
+  );
+});
 ```
 
 When running JupyterLab with this extension, the following message should
@@ -79,6 +87,9 @@ jlab-examples:command has been called from init.
 ```
 
 ## Where to Go Next
+
+Commands can be attached to a menu item, a launcher
+card or the command palette to be easily triggered by the user.
 
 - Add the command to the [command palette](../command-palette/README.md)
 - Add the command to a [menu](../main-menu/README.md)

@@ -2,8 +2,8 @@ import { ReactWidget } from '@jupyterlab/apputils';
 import { ISignal, Signal } from '@lumino/signaling';
 import * as React from 'react';
 
-export class StateExampleView extends ReactWidget {
-  get stateChanged(): ISignal<StateExampleView, void> {
+export class ButtonWidget extends ReactWidget {
+  get stateChanged(): ISignal<ButtonWidget, void> {
     return this._stateChanged;
   }
 
@@ -21,5 +21,5 @@ export class StateExampleView extends ReactWidget {
     );
   }
 
-  private _stateChanged = new Signal<StateExampleView, void>(this);
+  private _stateChanged = new Signal<ButtonWidget, void>(this);
 }

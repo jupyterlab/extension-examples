@@ -8,8 +8,9 @@ in a JupyterLab extension.
 ![state example](preview.gif)
 
 The core token required for handling the state database (DB) is
-`IStateDB` ([documentation](https://jupyterlab.github.io/jupyterlab/coreutils/interfaces/istatedb.html)). To use it,
-you first need to install its npm package:
+`IStateDB` ([documentation](https://jupyterlab.github.io/jupyterlab/coreutils/interfaces/istatedb.html)).
+
+To use it, you first need to install its npm package:
 
 ```bash
 jlpm add @jupyterlab/coreutils
@@ -23,8 +24,7 @@ Once this is done. You can import the interface in your code.
 import { IStateDB } from '@jupyterlab/statedb';
 ```
 
-To see how you can access the state, let's have a look at
-`src/index.ts`.
+To see how you can access the state, let's have a look at `src/index.ts`.
 
 ```ts
 // src/index.ts#L17-L57
@@ -74,7 +74,9 @@ const extension: JupyterFrontEndPlugin<void> = {
 
 The `IStateDB` is passed to the `activate` function as an
 argument (variable `state`) in addition to the JupyterLab application
-(variable `app`). You request that dependency with the property
+(variable `app`).
+
+You request that dependency with the property
 `requires: [IStateDB],`. It lists the additional arguments
 you want to inject into the `activate` function in the `JupyterFontEndPlugin`.
 
@@ -91,8 +93,10 @@ app.restored
 ```
 <!-- prettier-ignore-end -->
 
-The data is loaded as a `ReadonlyJSONValue` object. So all stored data must be
-JSON-able and its type value should be specifically set when accessing the value.
+The data is loaded as a `ReadonlyJSONValue` object.
+
+**Important**: All stored data must be JSON-able and its type value
+should be specifically set when accessing the value.
 For instance, in this example the variable `option` is of type `string`:
 
 ```ts

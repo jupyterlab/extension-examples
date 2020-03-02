@@ -23,7 +23,7 @@ import { ICommandPalette } from '@jupyterlab/apputils';
 To see how you can add the command to the palette, let's have a look at `src/index.ts`.
 
 ```ts
-// src/index.ts#L11-L35
+// src/index.ts#L11-L37
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'command-palette',
@@ -50,16 +50,21 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // Add the command to the command palette
     let category = 'Extension Examples';
+    palette.addItem({ command, category, args: { origin: 'from palette' } });
+  }
 ```
 
 The `ICommandPalette`
 ([documentation](https://JupyterLab.github.io/JupyterLab/interfaces/_apputils_src_commandpalette_.icommandpalette.html))
 is passed to the `activate` function as an argument (variable `palette`) in
-addition to the JupyterLab application (variable `app`). You should request that dependency
-with the property `requires: [ICommandPalette],`. It lists the additional arguments
-you want to inject into the `activate` function in the `JupyterFontEndPlugin`.
+addition to the JupyterLab application (variable `app`).
 
-`ICommandPalette` provides the method `addItem` that links a palette entry to a command in the command registry. It requires two arguments: the unique command id and the command
+You should request that dependency with the property `requires: [ICommandPalette],`.
+It lists the additional arguments you want to inject into the `activate` function in the `JupyterFontEndPlugin`.
+
+`ICommandPalette` provides the method `addItem` that links a palette entry to a command in the command registry.
+
+It requires two arguments: the unique command id and the command
 category (that can be either an existing category or a new one). And optionally, you can specify
 the arguments that will be passed to the command when executed from the palette.
 

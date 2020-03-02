@@ -9,7 +9,7 @@ import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { Menu } from '@lumino/widgets';
 
-const PLUGIN_ID = '@jupyterlab-examples/settings:my-settings-example';
+const PLUGIN_ID = '@jupyterlab-examples/settings:settings-example';
 
 const COMMAND_ID = '@jupyterlab-examples/settings:toggle-flag';
 

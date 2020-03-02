@@ -11,74 +11,78 @@
 ## Lumino Signaling 101
 
 In this extension, a simple button will be added to print something to the console.
-Communication between different components of JupyterLab are a key ingredient in building an
-extension. JupyterLab's Lumino engine uses the `ISignal` interface and the
+Communication between different components of JupyterLab is a key ingredient in building an
+extension.
+
+JupyterLab's Lumino engine uses the `ISignal` interface and the
 `Signal` class that implements this interface for communication
 ([documentation](https://jupyterlab.github.io/lumino/api/signaling/globals.html)).
 
-The basic concept is the following: a widget, in this case the one that contains
+The basic concept is the following.
+
+First, a widget (`button.ts`), in this case the one that contains
 some visual elements such as a button, defines a signal and exposes it to other
 widgets, as this `_stateChanged` signal:
 
 ```ts
-// src/widget.tsx#L6-L8
+// src/button.tsx#L24-L24
 
-get stateChanged(): ISignal<StateExampleView, void> {
+private _stateChanged = new Signal<ButtonWidget, void>(this);
+```
+
+```ts
+// src/button.tsx#L6-L8
+
+get stateChanged(): ISignal<ButtonWidget, void> {
   return this._stateChanged;
 }
 ```
 
-```ts
-// src/widget.tsx#L24-L24
-
-private _stateChanged = new Signal<StateExampleView, void>(this);
-```
-
-Another widget, in this case the panel that boxes several different widgets,
+Another widget, in this case the panel (`panel.ts`)that boxes several different widgets,
 subscribes to the `stateChanged` signal and links some function to it:
 
 ```ts
 // src/panel.ts#L22-L24
 
 this._widget.stateChanged.connect(() => {
-  console.log('changed');
-  window.alert('changed')
+  console.log('Button is clicked.');
+  window.alert('Button is clicked.');
 ```
 
-The function is executed when the signal is triggered with
+The function is executed when the signal is triggered from the first widget with:
 
 ```ts
-// src/widget.tsx#L16-L16
+// src/button.tsx#L16-L16
 
 this._stateChanged.emit(void 0);
 ```
 
 Let's see how you can implement this...
 
-## A Simple React Button
+## A simple React Button
 
-Start with a file called `src/widget.tsx`. The `tsx` extension allows to use
+Start with a file called `src/button.tsx`. The `tsx` extension allows to use
 HTML-like syntax with the tag notation `<>`to represent some visual elements
 (note that you have to add a line: `"jsx": "react",` to the
 `tsconfig.json` file). This is a special syntax used by [React](https://reactjs.org/tutorial/tutorial.html).
 
-`widget.tsx` contains one major class `StateExampleView` that extends the
+`button.tsx` contains one major class `ButtonWidget` that extends the
 `ReactWidget` class provided by JupyterLab. `ReactWidget` defines a
 `render()` method that defines some React elements such as a button. This
 is the recommended way to include React component inside the JupyterLab widget
 based UI.
 
-`StateExampleView` further contains a private variable `_stateChanged` of type
+`ButtonWidget` further contains a private variable `_stateChanged` of type
 `Signal`. A signal object can be triggered and then emits an actual message.
 Other Widgets can subscribe to such a signal and react when a message is
 emitted. The button `onClick` event is configured to trigger the
 `stateChanged` signal with `_stateChanged.emit(void 0)`:
 
 ```ts
-// src/widget.tsx#L5-L25
+// src/button.tsx#L5-L25
 
-export class StateExampleView extends ReactWidget {
-  get stateChanged(): ISignal<StateExampleView, void> {
+export class ButtonWidget extends ReactWidget {
+  get stateChanged(): ISignal<ButtonWidget, void> {
     return this._stateChanged;
   }
 
@@ -96,43 +100,44 @@ export class StateExampleView extends ReactWidget {
     );
   }
 
-  private _stateChanged = new Signal<StateExampleView, void>(this);
+  private _stateChanged = new Signal<ButtonWidget, void>(this);
 }
 ```
 
 ## Subscribing to a Signal
 
 The `panel.ts` class defines an extension panel that displays the
-`StateExampleView` widget and that subscribes to its `stateChanged` signal.
+`ButtonWidget` widget and that subscribes to its `stateChanged` signal.
+
 Subscription to a signal is done using the `connect` method of the
 `stateChanged` attribute. It registers a function (in this case
-`() => { console.log('changed'); }` that is triggered when the signal is
+`() => { console.log('Button is clicked.'); }` that is triggered when the signal is
 emitted:
 
 ```ts
 // src/panel.ts#L12-L29
 
-export class StateExamplePanel extends StackedPanel {
+export class SignalExamplePanel extends StackedPanel {
   constructor() {
     super();
     this.addClass(PANEL_CLASS);
-    this.id = 'StateExamplePanel';
+    this.id = 'SignalExamplePanel';
     this.title.label = 'Signal Example View';
     this.title.closable = true;
 
-    this._widget = new StateExampleView();
+    this._widget = new ButtonWidget();
     this.addWidget(this._widget);
     this._widget.stateChanged.connect(() => {
-      console.log('changed');
-      window.alert('changed');
+      console.log('Button is clicked.');
+      window.alert('Button is clicked.');
     });
   }
 
-  private _widget: StateExampleView;
+  private _widget: ButtonWidget;
 }
 ```
 
-The final extension writes a little `changed` text to the browser console and on an alter when
+The final extension writes a little `Button is clicked.` text to the browser console and on an alter when
 a big red button is clicked.
 
 It is not very spectacular but the signaling is conceptually important for building extensions.

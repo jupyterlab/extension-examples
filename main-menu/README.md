@@ -26,7 +26,7 @@ You can add the `IMainMenu` in the `requires:` property such that it is injected
 the `activate` function. The extension looks like:
 
 ```ts
-// src/index.ts#L15-L52
+// src/index.ts#L15-L57
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'main-menu',
@@ -66,6 +66,11 @@ const extension: JupyterFrontEndPlugin<void> = {
     let tutorialMenu: Menu = new Menu({ commands });
     tutorialMenu.title.label = 'Main Menu Example';
     mainMenu.addMenu(tutorialMenu, { rank: 80 });
+
+    // Add the command to the menu
+    tutorialMenu.addItem({ command, args: { origin: 'from the menu' } });
+  }
+};
 ```
 
 In this extension, you have the dependencies to _@jupyterlab/mainmenu_ and
@@ -89,7 +94,7 @@ After the execution of that command, `package.json` should list them in the
 },
 ```
 
-With this extension installed, a new menu _Tutorial_ should be present. And when
+With this extension installed, a new menu _Main Menu Example_ should be present. And when
 clicking on the menu item _jlab-examples:main-menu_, the following text should appear
 in the web browser console.
 

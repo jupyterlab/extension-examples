@@ -28,7 +28,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       label: 'Open a Tab Widget',
       caption: 'Open the Widgets Example Tab',
       execute: () => {
-        const widget = new ExampleView();
+        const widget = new ExampleWidget();
         shell.add(widget, 'main');
       }
     });
@@ -44,7 +44,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
 export default extension;
 
-class ExampleView extends Widget {
+class ExampleWidget extends Widget {
   constructor() {
     super();
     this.addClass('jp-example-view');

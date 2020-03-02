@@ -28,9 +28,9 @@ const extension: JupyterFrontEndPlugin<void> = {
     const command = 'examples:datagrid';
     commands.addCommand(command, {
       label: 'Open a Datagrid',
-      caption: 'Open a datagrid panel',
+      caption: 'Open a Datagrid Panel',
       execute: () => {
-        const widget = new ExampleView();
+        const widget = new DataGridPanel();
         shell.add(widget, 'main');
       }
     });
@@ -46,11 +46,11 @@ const extension: JupyterFrontEndPlugin<void> = {
 
 export default extension;
 
-class ExampleView extends StackedPanel {
+class DataGridPanel extends StackedPanel {
   constructor() {
     super();
     this.addClass('jp-example-view');
-    this.id = 'example';
+    this.id = 'datagrid-example';
     this.title.label = 'Datagrid Example View';
     this.title.closable = true;
 

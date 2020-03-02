@@ -7,9 +7,9 @@ dependencies to JupyterLab features.
 
 ![Launcher example](preview.gif)
 
-> Acknowledgement: This example is copied from Jeremy Tuloup [Python file extension](https://github.com/jtpio/jupyterlab-python-file).
+> Credit: This example is copied from Jeremy Tuloup [Python file extension](https://github.com/jtpio/jupyterlab-python-file).
 
-In this example, you will add the ability to create an empty Python file. To do so,
+This example allows to create an empty Python file. To do so,
 your extension will use two commands defined by the [documents manager](https://github.com/jupyterlab/jupyterlab/blob/master/packages/docmanager-extension/src/index.ts#L47-L75) of JupyterLab:
 
 - `'docmanager:new-untitled'`: Create new untitled document
@@ -82,8 +82,10 @@ const extension: JupyterFrontEndPlugin<void> = {
 In this example, the `ILauncher` interface is requested as optional dependency
 and not as a required dependency. This lets other applications without a launcher
 be able to use your extension.
+
 If the application is unable to provide an optional interface, it will take a `null`
 value.
+
 Therefore before adding the command to the launcher, you need to check if the `launcher`
 variable is not `null`:
 
@@ -94,7 +96,7 @@ variable is not `null`:
 if (launcher) {
   launcher.add({
     command,
-    category: 'Other',
+    category: 'Extension Examples',
     rank: 1
   });
 }
