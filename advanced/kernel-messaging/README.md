@@ -1,5 +1,7 @@
 # Kernel Messaging
 
+> Interact with a kernel from an extension.
+
 - [Component Overview](#component-overview)
 - [Initializing and managing a kernel session (panel.ts)](#initializing-and-managing-a-kernel-session-panelts)
 - [Executing code and retrieving messages from a kernel (model.ts)](#executing-code-and-retrieving-messages-from-a-kernel-modelts)
@@ -18,7 +20,7 @@ start a kernel and send some code to be executed by it.
 
 This example is structured in four files:
 
-- `index.ts`: the JupyterLab frontend plugin that initializes the plugin and registers commands, add a menu entry and a launcher item,
+- `index.ts`: the JupyterLab frontend plugin that initializes the plugin and registers commands, add a menu entry and a launcher item
 - `panel.ts`: a panel class that is responsible to initialize and hold the kernel session, widgets and model
 - `model.ts`: a KernelModel class that is responsible to execute code on the kernel and to store the execution result
 - `widget.tsx`: a KernelView class that is responsible to provide visual elements that trigger the kernel model and display its results
@@ -27,7 +29,7 @@ The `KernelView` displays the `KernelModel` thanks to some React HTML elements a
 gets updated when the `KernelModel` state changes, i.e. retrieves a new
 execution result.
 
-## Initializing and managing a kernel session (`panel.ts`)
+## Initializing and managing a Kernel Session (`panel.ts`)
 
 Jupyterlab provides a class `SessionContext`
 ([see the documentation](https://jupyterlab.github.io/jupyterlab/apputils/classes/sessioncontext.html))
@@ -39,7 +41,7 @@ that manages a single kernel session. Here is the code to initialize such sessio
 this._sessionContext = new SessionContext({
   sessionManager: manager.sessions,
   specsManager: manager.kernelspecs,
-  name: 'Example'
+  name: 'Extension Example'
 });
 ```
 
@@ -92,7 +94,7 @@ export class ExamplePanel extends StackedPanel {
     this._sessionContext = new SessionContext({
       sessionManager: manager.sessions,
       specsManager: manager.kernelspecs,
-      name: 'Example'
+      name: 'Extension Example'
     });
 
     this._model = new KernelModel(this._sessionContext);
@@ -133,7 +135,7 @@ export class ExamplePanel extends StackedPanel {
 }
 ```
 
-## Executing code and retrieving messages from a kernel (`model.ts`)
+## Executing code and retrieving messages from a Kernel (`model.ts`)
 
 Once a kernel is initialized and ready, code can be executed with the following snippet:
 

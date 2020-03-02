@@ -1,4 +1,6 @@
-# Widgets - Adding new Elements to the Main Window
+# Widgets
+
+> Add a new Widget element to the main window.
 
 In this example you will learn how to add a new tab to JupyterLab.
 Visible elements such as tabs and notebooks are represented by widgets in the [Lumino](http://jupyterlab.github.io/lumino/api/widgets/globals.html)

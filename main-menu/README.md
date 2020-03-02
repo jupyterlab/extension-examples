@@ -1,4 +1,6 @@
-# Menus: Extending the main app
+# Menus
+
+> Add a Menu in to the main app.
 
 ![New Menu](preview.png)
 
@@ -48,7 +50,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     });
 
     // Add the command to the command palette
-    let category = 'Tutorial';
+    let category = 'Extension Example';
     palette.addItem({
       command,
       category,
@@ -57,7 +59,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // Create a menu
     let tutorialMenu: Menu = new Menu({ commands });
-    tutorialMenu.title.label = 'Tutorial';
+    tutorialMenu.title.label = 'Extension Example';
     mainMenu.addMenu(tutorialMenu, { rank: 80 });
 
     // Add the command to the menu

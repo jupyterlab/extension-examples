@@ -1,4 +1,6 @@
-# Using Settings in an Extension
+# Settings
+
+> Create and use new Settings for your extension.
 
 This example shows how to create and use settings
 in a JupyterLab extension.
@@ -177,7 +179,7 @@ activate: (
 
       // Create a menu
       const tutorialMenu = new Menu({ commands });
-      tutorialMenu.title.label = 'Tutorial';
+      tutorialMenu.title.label = 'Extension Example';
       mainMenu.addMenu(tutorialMenu, { rank: 80 });
 
       // Add the command to the menu
@@ -276,7 +278,7 @@ That command can be executed by clicking on the item menu created at the end of 
 
 // Create a menu
 const tutorialMenu = new Menu({ commands });
-tutorialMenu.title.label = 'Tutorial';
+tutorialMenu.title.label = 'Extension Example';
 mainMenu.addMenu(tutorialMenu, { rank: 80 });
 
 // Add the command to the menu

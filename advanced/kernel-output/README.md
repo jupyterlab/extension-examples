@@ -1,4 +1,6 @@
-# Kernel Output - Simple Notebook-style Rendering
+# Kernel Output
+
+> Render kernel messages in an OuputArea.
 
 - [Code structure](#code-structure)
 - [Initializing a Kernel Session](#initializing-a-kernel-session)
@@ -53,7 +55,7 @@ the kernel) is started with these lines:
 this._sessionContext = new SessionContext({
   sessionManager: manager.sessions,
   specsManager: manager.kernelspecs,
-  name: 'Example'
+  name: 'Extension Example'
 });
 ```
 

@@ -19,8 +19,8 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // Add a command
     commands.addCommand(command, {
-      label: 'Call tutorial:command-palette',
-      caption: 'Execute tutorial:command-palette',
+      label: 'Execute tutorial:command-palette Command',
+      caption: 'Execute tutorial:command-palette Command',
       execute: (args: any) => {
         console.log(
           `tutorial:command-palette has been called ${args['origin']}.`
@@ -29,7 +29,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     });
 
     // Add the command to the command palette
-    let category = 'Tutorial';
+    let category = 'Extension Examples';
     palette.addItem({ command, category, args: { origin: 'from palette' } });
   }
 };

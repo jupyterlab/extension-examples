@@ -36,7 +36,7 @@ export class ExamplePanel extends StackedPanel {
     this._sessionContext = new SessionContext({
       sessionManager: manager.sessions,
       specsManager: manager.kernelspecs,
-      name: 'Example'
+      name: 'Kernel Output'
     });
 
     this._outputareamodel = new OutputAreaModel();

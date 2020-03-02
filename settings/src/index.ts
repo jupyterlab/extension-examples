@@ -48,7 +48,7 @@ const extension: JupyterFrontEndPlugin<void> = {
         setting.changed.connect(loadSetting);
 
         commands.addCommand(COMMAND_ID, {
-          label: 'Toggle flag setting',
+          label: 'Toggle Flag Setting',
           isToggled: () => flag,
           execute: () => {
             // Programmatically change a setting
@@ -62,7 +62,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
         // Create a menu
         const tutorialMenu = new Menu({ commands });
-        tutorialMenu.title.label = 'Tutorial';
+        tutorialMenu.title.label = 'Settings Example';
         mainMenu.addMenu(tutorialMenu, { rank: 80 });
 
         // Add the command to the menu

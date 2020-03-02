@@ -10,8 +10,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   id: 'hello-world',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
-    console.log('the JupyterLab main application:');
-    console.log(app);
+    console.log('the JupyterLab main application:', app);
   }
 };
 

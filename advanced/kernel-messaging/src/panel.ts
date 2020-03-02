@@ -33,7 +33,7 @@ export class ExamplePanel extends StackedPanel {
     this._sessionContext = new SessionContext({
       sessionManager: manager.sessions,
       specsManager: manager.kernelspecs,
-      name: 'Example'
+      name: 'Extension Examples'
     });
 
     this._model = new KernelModel(this._sessionContext);

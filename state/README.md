@@ -1,4 +1,6 @@
-# Using State Persistence in an Extension
+# Sate
+
+> Use State persistence in an extension.
 
 This example shows how to save and restore data saved in persistent state database
 in a JupyterLab extension.

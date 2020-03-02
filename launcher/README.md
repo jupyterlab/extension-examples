@@ -1,4 +1,6 @@
-# Start your extension from the launcher
+# Launcher
+
+> Start your extension from the Launcher.
 
 In this example, you will learn how to start your extension from the launcher and how to have optional
 dependencies to JupyterLab features.

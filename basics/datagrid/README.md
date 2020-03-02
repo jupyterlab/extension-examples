@@ -1,4 +1,6 @@
-# Datagrid: a Fancy Lumino Widget
+# Datagrid
+
+> Display a Datagrid as a Lumino Widget.
 
 ![Datagrid](preview.png)
 

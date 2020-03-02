@@ -1,4 +1,6 @@
-# Commands: Extending the main app
+# Commands
+
+> Extend the main app with a Command.
 
 ![commands example](./preview.png)
 

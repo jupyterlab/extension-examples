@@ -1,4 +1,6 @@
-# Command Palette: Extending the main app
+# Command Palette
+
+> Register commands in the Command Palette.
 
 ![Command Palette](preview.png)
 
@@ -44,7 +46,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     });
 
     // Add the command to the command palette
-    let category = 'Tutorial';
+    let category = 'Extension Example';
     palette.addItem({ command, category, args: { origin: 'from palette' } });
   }
 };

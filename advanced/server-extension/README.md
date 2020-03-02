@@ -1,7 +1,6 @@
-# Introduction to Server Extension
+# Server Hello World
 
-This extension describes a minimal JupyterLab extension with backend (i.e. server) and
-frontend parts.
+> Create a minimal extension with backend (i.e. server) and frontend parts.
 
 ![server extension example](./preview.png)
 

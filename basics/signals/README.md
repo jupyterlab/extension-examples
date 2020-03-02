@@ -1,4 +1,6 @@
-# Signals - Communication between Widgets
+# Signals
+
+> Use Signals to allow Widgets communicate with each others.
 
 - [Lumino Signaling 101](#lumino-signaling-101)
 - [A simple React Button](#a-simple-react-button)
@@ -51,7 +53,7 @@ The function is executed when the signal is triggered with
 this._stateChanged.emit(void 0);
 ```
 
-Let's see how you can implement this ...
+Let's see how you can implement this...
 
 ## A Simple React Button
 

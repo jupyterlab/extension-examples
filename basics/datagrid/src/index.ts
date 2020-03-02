@@ -27,18 +27,18 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     const command = 'examples:datagrid';
     commands.addCommand(command, {
-      label: 'Datagrid example',
+      label: 'Open a Datagrid',
       caption: 'Open a datagrid panel',
       execute: () => {
         const widget = new ExampleView();
         shell.add(widget, 'main');
       }
     });
-    palette.addItem({ command, category: 'Example' });
+    palette.addItem({ command, category: 'Extension Examples' });
 
     const exampleMenu = new Menu({ commands });
 
-    exampleMenu.title.label = 'Example';
+    exampleMenu.title.label = 'DataGrid Example';
     mainMenu.addMenu(exampleMenu, { rank: 80 });
     exampleMenu.addItem({ command });
   }
