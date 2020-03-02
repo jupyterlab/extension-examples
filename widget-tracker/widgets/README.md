@@ -3,11 +3,13 @@
 > Add a new Widget element to the main window.
 
 In this example you will learn how to add a new tab to JupyterLab.
-Visible elements such as tabs and notebooks are represented by widgets in the [Lumino](http://jupyterlab.github.io/lumino/api/widgets/globals.html)
-library that is the basis of the JupyterLab application. It is the fundamental brick of
-any visual component in the JupyterLab interface.
 
-![Custom Tab](preview.png)
+Visible elements such as tabs and notebooks are represented by widgets in the [Lumino](http://jupyterlab.github.io/lumino/api/widgets/globals.html)
+library that is the basis of the JupyterLab application.
+
+It is the fundamental brick of any visual component in the JupyterLab interface.
+
+![New Tab with a Custom Widget](preview.png)
 
 ## A Basic Tab
 
@@ -67,7 +69,7 @@ class ExampleWidget extends Widget {
   constructor() {
     super();
     this.addClass('jp-example-view');
-    this.id = 'widgets-example';
+    this.id = 'simple-widget-example';
     this.title.label = 'Widget Example View';
     this.title.closable = true;
   }

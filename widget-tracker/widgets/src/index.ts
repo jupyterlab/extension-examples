@@ -13,7 +13,7 @@ import { Menu, Widget } from '@lumino/widgets';
  * Activate the widgets example extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'widgets',
+  id: 'widgets-example',
   autoStart: true,
   requires: [ICommandPalette, IMainMenu],
   activate: (
@@ -48,7 +48,7 @@ class ExampleWidget extends Widget {
   constructor() {
     super();
     this.addClass('jp-example-view');
-    this.id = 'widgets-example';
+    this.id = 'simple-widget-example';
     this.title.label = 'Widget Example View';
     this.title.closable = true;
   }

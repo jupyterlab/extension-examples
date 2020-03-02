@@ -80,7 +80,7 @@ communication with the server extension is contained in another file
 ```ts
 // src/index.ts#L6-L6
 
-import { requestAPI } from './server_extension';
+import { requestAPI } from './server-extension';
 ```
 
 In the `activate` function, the server extension is first called through
@@ -251,7 +251,7 @@ Note:
   side to return a response with a JSON body. It should at least define a
   `message` key providing nice error message for the user.
 
-## Backend (server) Part
+## Backend (Server) Part
 
 The server part of the extension is going to be presented in this section.
 

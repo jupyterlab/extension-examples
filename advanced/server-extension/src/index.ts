@@ -3,7 +3,7 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { requestAPI } from './server_extension';
+import { requestAPI } from './server-extension';
 
 /**
  * Initialization data for the server-extension extension.
