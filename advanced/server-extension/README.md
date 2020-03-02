@@ -18,6 +18,7 @@ example before diving into this one.
 Writing a JupyterLab extension usually starts from a configurable template. It
 can be downloaded with the [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/) tool and the following command for an extension with a server part:
 
+<!-- prettier-ignore-start -->
 ```bash
 cookiecutter https://github.com/fcollonval/cookiecutter-jupyterlab-extension-with-serverextension
 ```
@@ -316,8 +317,8 @@ by a _GET_ or a _POST_ request. They will call the `get` or `post` method respec
 # server_extension/handlers.py#L8-L25
 
 class RouteHandler(APIHandler):
-    # The following decorator should be present on all verb methods (head, get, post,
-    # patch, put, delete, options) to ensure only authorized user can request the
+    # The following decorator should be present on all verb methods (head, get, post, 
+    # patch, put, delete, options) to ensure only authorized user can request the 
     # Jupyter server
     @tornado.web.authenticated
     def get(self):
@@ -473,7 +474,6 @@ JupyterLab is looking for frontend extensions:
 The last piece of configuration needed is the enabling of the server extension. This is
 done by copying the following JSON file:
 
-<!-- prettier-ignore-start -->
 ```json5
 // jupyter-config/server_extension.json
 
@@ -486,7 +486,6 @@ done by copying the following JSON file:
 }
 
 ```
-<!-- prettier-ignore-end -->
 
 in the appropriate jupyter folder (`etc/jupyter/jupyter_notebook_config.d`):
 
@@ -576,3 +575,4 @@ jlpm build
 # Rebuild JupyterLab after making any changes
 jupyter lab build
 ```
+<!-- prettier-ignore-end -->
