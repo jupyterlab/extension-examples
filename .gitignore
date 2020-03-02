@@ -6,3 +6,4 @@ node_modules/
 .ipynb_checkpoints
 *.tsbuildinfo
 *.lock
+**/node_modules/**/README.md
