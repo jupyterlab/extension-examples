@@ -235,7 +235,7 @@ jupyter lab --watch
 From there, you can change your extension source code, it will be recompiled,
 and you can refresh your browser to see your changes.
 
-We are using [embedme](https://github.com/zakhenry/embedme) to embed code snippets into the markdown READMEs. If you make changes to the source code, ensure you update the README and run `yarn embedme` from the root of the repository to regenerate the READMEs.
+We are using [embedme](https://github.com/zakhenry/embedme) to embed code snippets into the markdown READMEs. If you make changes to the source code, ensure you update the README and run `jlpm embedme` from the root of the repository to regenerate the READMEs.
 
 ## Install a Published Extension
 
