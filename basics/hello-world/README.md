@@ -144,7 +144,7 @@ The first command installs the dependencies that are specified in
 `package.json`. Among the dependencies are also all of the `JupyterLab`
 components that you want to use in your project.
 
-The second step runs the build script. In this step, the typescript code gets
+The second step runs the build script. In this step, the TypeScript code gets
 converted to javascript using the compiler `tsc` and stored in a `lib`
 directory. Finally, the module is linked to JupyterLab.
 
