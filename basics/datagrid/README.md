@@ -4,7 +4,7 @@
 
 ![Datagrid](preview.png)
 
-Jupyterlab is built on top of [Lumino](https://github.com/jupyterlab/lumino).
+JupyterLab is built on top of [Lumino](https://github.com/jupyterlab/lumino).
 That library defines `Widget` as the primary interface brick.
 
 In this example [the datagrid lumino example](https://jupyterlab.github.io/lumino/datagrid/index.html)
