@@ -18,7 +18,7 @@ JupyterLab's Lumino engine uses the `ISignal` interface and the
 `Signal` class that implements this interface for communication
 ([documentation](https://jupyterlab.github.io/lumino/api/signaling/globals.html)).
 
-The basic concept is the following.
+The basic concept is as follows:
 
 First, a widget (`button.ts`), in this case the one that contains
 some visual elements such as a button, defines a signal and exposes it to other
