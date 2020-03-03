@@ -48,14 +48,14 @@ you want to inject into the `activate` function in the `JupyterFontEndPlugin`.
 
 But before going further, you need to define the settings of your
 extension. This is done through a [JSON Schema](https://json-schema.org/understanding-json-schema/).
-In the example it is called `schema/my-settings-example.json`.
+In the example it is called `schema/settings-example.json`.
 
 <!-- prettier-ignore-start -->
 ```json5
-// schema/my-settings-example.json
+// schema/settings-example.json
 
 {
-  "title": "My settings",
+  "title": "Settings Example",
   "description": "Settings of the settings example.",
   "type": "object",
   "properties": {
@@ -102,7 +102,7 @@ and the extension id is:
 const PLUGIN_ID = '@jupyterlab-examples/settings:settings-example';
 ```
 
-Therefore the settings file must be named `my-settings-example.json`.
+Therefore the settings file must be named `settings-example.json`.
 
 The folder containing the settings definition needs to be specified in
 the `package.json` file in the `jupyterlab` section (here `schema`):
@@ -206,9 +206,28 @@ your plugin settings to be loaded :
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L42-L42
+// src/index.ts#L47-L66
 
-);
+ise.all([app.restored, settings.load(PLUGIN_ID)])
+hen(([, setting]) => {
+// Read the settings
+loadSetting(setting);
+
+// Listen for your plugin setting changes using Signal
+setting.changed.connect(loadSetting);
+
+commands.addCommand(COMMAND_ID, {
+  label: 'Toggle Flag Setting',
+  isToggled: () => flag,
+  execute: () => {
+    // Programmatically change a setting
+    setting.set('flag', !flag).catch(reason => {
+      console.error(
+        `Something went wrong when setting flag.\n${reason}`
+      );
+    });
+  }
+});
 ```
 <!-- prettier-ignore-end -->
 
@@ -218,16 +237,20 @@ JSON file). After getting the setting, you need to require the
 `composite` attribute to get its value and specify the type explicitly.
 
 ```ts
-// src/index.ts#L32-L39
+// src/index.ts#L32-L43
 
-nction loadSetting(setting: ISettingRegistry.ISettings) {
-// Read the settings and convert to the correct type
-limit = setting.get('limit').composite as number;
-flag = setting.get('flag').composite as boolean;
+function loadSetting(setting: ISettingRegistry.ISettings) {
+  // Read the settings and convert to the correct type
+  limit = setting.get('limit').composite as number;
+  flag = setting.get('flag').composite as boolean;
 
-console.log(
-  `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
-);
+  console.log(
+    `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+  );
+  window.alert(
+    `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+  );
+}
 ```
 
 > `composite` means the setting value is the composition of the default
