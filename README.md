@@ -103,7 +103,7 @@ Start your extension from the Launcher.
 
 ### [Main Menu](main-menu)
 
-Add a Menu in to the main app.
+Add a Menu to the main app.
 
 [![Main Menu](main-menu/preview.png)](main-menu)
 
