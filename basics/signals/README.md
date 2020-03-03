@@ -137,7 +137,7 @@ export class SignalExamplePanel extends StackedPanel {
 }
 ```
 
-The final extension writes a little `Button is clicked.` text to the browser console and on an alter when
+The final extension writes a little `Button is clicked.` text to the browser console and an alert when
 a big red button is clicked.
 
 It is not very spectacular but the signaling is conceptually important for building extensions.
