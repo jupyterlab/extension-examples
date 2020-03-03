@@ -210,7 +210,7 @@ jlpm run build
 jupyter lab build
 ```
 
-You can now start JupyterLab and check if your extension is work fine:
+You can now start JupyterLab and check if your extension is working fine:
 
 ```bash
 jupyter lab
