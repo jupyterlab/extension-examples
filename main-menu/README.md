@@ -1,6 +1,6 @@
 # Menus
 
-> Add a Menu in to the main app.
+> Add a Menu to the main app.
 
 ![New Menu](preview.png)
 
