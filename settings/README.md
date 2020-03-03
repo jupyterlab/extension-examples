@@ -246,18 +246,20 @@ the `flag` setting is created.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L56-L65
+// src/index.ts#L55-L66
 
-label: 'Toggle Flag Setting',
-isToggled: () => flag,
-execute: () => {
-  // Programmatically change a setting
-  setting.set('flag', !flag).catch(reason => {
-    console.error(
-      `Something went wrong when setting flag.\n${reason}`
-    );
-  });
-}
+commands.addCommand(COMMAND_ID, {
+  label: 'Toggle Flag Setting',
+  isToggled: () => flag,
+  execute: () => {
+    // Programmatically change a setting
+    setting.set('flag', !flag).catch(reason => {
+      console.error(
+        `Something went wrong when setting flag.\n${reason}`
+      );
+    });
+  }
+});
 ```
 <!-- prettier-ignore-end -->
 

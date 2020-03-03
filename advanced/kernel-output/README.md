@@ -229,7 +229,7 @@ and display:
 // src/index.ts#L69-L89
 
 commands.addCommand(CommandIDs.execute, {
-  label: 'Connect to the Kernel and Execute Code',
+  label: 'Contact Kernel and Execute Code',
   caption: 'Contact Kernel and Execute Code',
   execute: async () => {
     // Create the panel if it does not exist
