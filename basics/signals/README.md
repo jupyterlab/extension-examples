@@ -38,7 +38,7 @@ get stateChanged(): ISignal<ButtonWidget, void> {
 }
 ```
 
-Another widget, in this case the panel (`panel.ts`)that boxes several different widgets,
+Another widget, in this case the panel (`panel.ts`) that boxes several different widgets,
 subscribes to the `stateChanged` signal and links some function to it:
 
 ```ts
