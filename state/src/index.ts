@@ -9,7 +9,7 @@ import { IStateDB } from '@jupyterlab/statedb';
 
 import { ReadonlyJSONObject } from '@lumino/coreutils';
 
-const PLUGIN_ID = '@jupyterlab-examples/state:sate-example';
+const PLUGIN_ID = '@jupyterlab-examples/state:state-example';
 
 /**
  * Initialization data for the state extension.
