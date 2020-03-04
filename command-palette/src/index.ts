@@ -25,9 +25,9 @@ const extension: JupyterFrontEndPlugin<void> = {
         console.log(
           `jlab-examples:command-palette has been called ${args['origin']}.`
         );
-        window.alert(
-          `jlab-examples:command-palette has been called ${args['origin']}.`
-        );
+        //        window.alert(
+        //          `jlab-examples:command-palette has been called ${args['origin']}.`
+        //        );
       }
     });
 
