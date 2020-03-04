@@ -82,8 +82,8 @@ jobs:
     - name: Check config files
       run: |
         diff basics/hello-world/tsconfig.json advanced/server-extension/tsconfig.json
-        diff basics/hello-world/.eslintignore ${EXAMPLE_FOLDER}/.eslintignore
-        diff basics/hello-world/.eslintrc.js ${EXAMPLE_FOLDER}/.eslintrc.js
+        diff basics/hello-world/.eslintignore advanced/server-extension/.eslintignore
+        diff basics/hello-world/.eslintrc.js advanced/server-extension/.eslintrc.js
     - name: Install Python
       uses: actions/setup-python@v1
       with:
