@@ -44,7 +44,7 @@ function activate(
 ) {
   const manager = app.serviceManager;
   const { commands, shell } = app;
-  const category = 'Example';
+  const category = 'Extension Examples';
 
   let panel: ExamplePanel;
 
@@ -56,19 +56,19 @@ function activate(
 
   // add menu tab
   const exampleMenu = new Menu({ commands });
-  exampleMenu.title.label = 'Example';
+  exampleMenu.title.label = 'Kernel Output';
   mainMenu.addMenu(exampleMenu);
 
   // add commands to registry
   commands.addCommand(CommandIDs.create, {
-    label: 'kernel-output: Open Panel',
+    label: 'Open the Kernel Output Panel',
     caption: 'Open the Kernel Output Panel',
     execute: createPanel
   });
 
   commands.addCommand(CommandIDs.execute, {
-    label: 'kernel-output: Execute Code',
-    caption: 'Execute Code',
+    label: 'Contact Kernel and Execute Code',
+    caption: 'Contact Kernel and Execute Code',
     execute: async () => {
       // Create the panel if it does not exist
       if (!panel) {

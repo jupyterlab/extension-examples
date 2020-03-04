@@ -1,11 +1,15 @@
-# Widgets - Adding new Elements to the Main Window
+# Widgets
+
+> Add a new Widget element to the main window.
 
 In this example you will learn how to add a new tab to JupyterLab.
-Visible elements such as tabs and notebooks are represented by widgets in the [Lumino](http://jupyterlab.github.io/lumino/api/widgets/globals.html)
-library that is the basis of the JupyterLab application. It is the fundamental brick of
-any visual component in the JupyterLab interface.
 
-![Custom Tab](preview.png)
+Visible elements such as tabs and notebooks are represented by widgets in the [Lumino](http://jupyterlab.github.io/lumino/api/widgets/globals.html)
+library that is the basis of the JupyterLab application.
+
+It is the fundamental brick of any visual component in the JupyterLab interface.
+
+![New Tab with a Custom Widget](preview.png)
 
 ## A Basic Tab
 
@@ -23,8 +27,9 @@ It requires to add the library as package dependency:
 jlpm add @lumino/widgets
 ```
 
-A Widget can be added to the main area through the [JupyterLab
-shell](http://jupyterlab.github.io/jupyterlab/application/classes/labshell.html).
+A Widget can be added to the main area through the
+[JupyterLab Shell](http://jupyterlab.github.io/jupyterlab/application/classes/labshell.html).
+
 Inside of the `activate` function, you can obtain it through the `shell` attribute
 of the `app` object:
 
@@ -42,14 +47,15 @@ in this example:
 // src/index.ts#L30-L33
 
 execute: () => {
-  const widget = new ExampleView();
+  const widget = new ExampleWidget();
   shell.add(widget, 'main');
 }
 ```
 <!-- prettier-ignore-end -->
 
-The custom widget `ExampleView` is inherited from the base class `Widget`. In this
-case, no specific behavior is defined for the widget. Only some properties are set:
+The custom widget `ExampleWidget` is inherited from the base class `Widget`.
+
+In this case, no specific behavior is defined for the widget. Only some properties are set:
 
 - `addClass`: Add a CSS class to allow widget styling
 - `id`: id of the widget's DOM node - it is mandatory to be set to be included in JupyterLab
@@ -59,12 +65,12 @@ case, no specific behavior is defined for the widget. Only some properties are s
 ```ts
 // src/index.ts#L47-L55
 
-class ExampleView extends Widget {
+class ExampleWidget extends Widget {
   constructor() {
     super();
     this.addClass('jp-example-view');
-    this.id = 'widgets-example';
-    this.title.label = 'Example View';
+    this.id = 'simple-widget-example';
+    this.title.label = 'Widget Example View';
     this.title.closable = true;
   }
 }
@@ -89,6 +95,6 @@ This example uses a command to display the widget. Have a look a the
 The widget created in this example is simple. You will find more advanced
 widgets in the following examples:
 
-- Widget showing a [data table](../../basics/datagrid/README.md)
+- Widget showing a [Datagrid](../../basics/datagrid/README.md)
 - Widget integrating [React components](../../react/react-widget/README.md)
 - Widget interacting with a [Kernel](../../advanced/kernel-messaging/README.md)

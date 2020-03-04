@@ -11,7 +11,7 @@ import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { Menu } from '@lumino/widgets';
 
-import { ExamplePanel } from './panel';
+import { SignalExamplePanel } from './panel';
 
 /**
  * The command IDs used by the console plugin.
@@ -39,7 +39,7 @@ function activate(
 ) {
   const manager = app.serviceManager;
   const { commands, shell } = app;
-  const category = 'Examples';
+  const category = 'Extension Examples';
 
   // Add launcher
   if (launcher) {
@@ -50,9 +50,9 @@ function activate(
   }
 
   function createPanel() {
-    let panel: ExamplePanel;
+    let panel: SignalExamplePanel;
     return manager.ready.then(() => {
-      panel = new ExamplePanel();
+      panel = new SignalExamplePanel();
       shell.add(panel, 'main');
       return panel;
     });
@@ -60,13 +60,13 @@ function activate(
 
   // Add menu tab
   const exampleMenu = new Menu({ commands });
-  exampleMenu.title.label = 'Examples';
+  exampleMenu.title.label = 'Signal Example';
   mainMenu.addMenu(exampleMenu);
 
   // Add commands to registry
   commands.addCommand(CommandIDs.create, {
-    label: 'Signal example: open Panel',
-    caption: 'Open the Signal example panel',
+    label: 'Open the Signal Example Panel',
+    caption: 'Open the Signal Example Panel',
     execute: createPanel
   });
 

@@ -1,6 +1,6 @@
-# Hello World - Print to the console
+# Hello World
 
-This minimal JupyterLab extension explains how to set up the development environment and prints to the console.
+> Set up the development environment and print to the console.
 
 ![hello-world example](./preview.png)
 
@@ -92,17 +92,19 @@ const extension: JupyterFrontEndPlugin<void> = {
 ```
 
 ```ts
-console.log('JupyterLab extension hello-world is activated!');
+// src/index.ts#L13-L13
+
+console.log('the JupyterLab main application:', app);
 ```
 
 ```ts
-// src/index.ts#L18-L18
+// src/index.ts#L17-L17
 
 export default extension;
 ```
 <!-- prettier-ignore-end -->
 
-a `JupyterFrontEndPlugin` contains a few attributes:
+A `JupyterFrontEndPlugin` contains a few attributes:
 
 - `id`: the unique id of the extension
 - `autoStart`: a flag to start the extension automatically or not
@@ -110,9 +112,8 @@ a `JupyterFrontEndPlugin` contains a few attributes:
   function (`() => {}` notation) that takes one argument `app` of type
   `JupyterFrontEnd` and will be called by the main application to activate the extension.
 
-`app` is simply the main
-JupyterLab application. The `activate` function acts as an entry point into the
-extension. In this example, it calls the `console.log` function to output
+`app` is simply the main JupyterLab application. The `activate` function acts as an entry
+point into the extension. In this example, it calls the `console.log` function to output
 something into the browser developer tools console.
 
 Your new `JupyterFrontEndPlugin` instance has to be finally exported to be visible to
@@ -141,8 +142,9 @@ jupyter labextension link .
 
 The first command installs the dependencies that are specified in
 `package.json`. Among the dependencies are also all of the `JupyterLab`
-components that you want to use in your project. The
-second step runs the build script. In this step, the typescript code gets
+components that you want to use in your project.
+
+The second step runs the build script. In this step, the TypeScript code gets
 converted to javascript using the compiler `tsc` and stored in a `lib`
 directory. Finally, the module is linked to JupyterLab.
 
@@ -172,16 +174,15 @@ a bit. Simply replace the `activate` function with the following lines:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L12-L15
+// src/index.ts#L12-L14
 
 activate: (app: JupyterFrontEnd) => {
-  console.log('the JupyterLab main application:');
-  console.log(app);
+  console.log('the JupyterLab main application:', app);
 }
 ```
 <!-- prettier-ignore-end -->
 
-to update the module, simply go to the extension directory and run
+To update the module, simply go to the extension directory and run
 `jlpm build` again. Since you used the `--watch` option when starting
 JupyterLab, you just have to refresh the JupyterLab website in the browser
 and should see in the browser console:

@@ -24,17 +24,22 @@ const extension: JupyterFrontEndPlugin<void> = {
     const { commands } = app;
 
     // Add a command
-    let command = 'tutorial:main-menu';
+    let command = 'jlab-examples:main-menu';
     commands.addCommand(command, {
-      label: 'Call tutorial:main-menu',
-      caption: 'Execute tutorial:main-menu',
+      label: 'Execute jlab-examples:main-menu Command',
+      caption: 'Execute jlab-examples:main-menu Command',
       execute: (args: any) => {
-        console.log(`tutorial:main-menu has been called ${args['origin']}.`);
+        console.log(
+          `jlab-examples:main-menu has been called ${args['origin']}.`
+        );
+        window.alert(
+          `jlab-examples:main-menu has been called ${args['origin']}.`
+        );
       }
     });
 
     // Add the command to the command palette
-    let category = 'Tutorial';
+    let category = 'Extension Examples';
     palette.addItem({
       command,
       category,
@@ -43,7 +48,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // Create a menu
     let tutorialMenu: Menu = new Menu({ commands });
-    tutorialMenu.title.label = 'Tutorial';
+    tutorialMenu.title.label = 'Main Menu Example';
     mainMenu.addMenu(tutorialMenu, { rank: 80 });
 
     // Add the command to the menu

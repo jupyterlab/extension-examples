@@ -39,7 +39,7 @@ function activate(
 ) {
   const manager = app.serviceManager;
   const { commands, shell } = app;
-  const category = 'Example';
+  const category = 'Extension Examples';
 
   // Add launcher
   if (launcher) {
@@ -57,12 +57,12 @@ function activate(
 
   // add menu tab
   const exampleMenu = new Menu({ commands });
-  exampleMenu.title.label = 'Example';
+  exampleMenu.title.label = 'Kernel Messaging';
   mainMenu.addMenu(exampleMenu);
 
   // add commands to registry
   commands.addCommand(CommandIDs.create, {
-    label: 'kernel-messaging: open Panel',
+    label: 'Open the Kernel Messaging Panel',
     caption: 'Open the Kernel Messaging Panel',
     execute: createPanel
   });

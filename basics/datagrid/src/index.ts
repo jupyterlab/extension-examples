@@ -27,18 +27,18 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     const command = 'examples:datagrid';
     commands.addCommand(command, {
-      label: 'Datagrid example',
-      caption: 'Open a datagrid panel',
+      label: 'Open a Datagrid',
+      caption: 'Open a Datagrid Panel',
       execute: () => {
-        const widget = new ExampleView();
+        const widget = new DataGridPanel();
         shell.add(widget, 'main');
       }
     });
-    palette.addItem({ command, category: 'Example' });
+    palette.addItem({ command, category: 'Extension Examples' });
 
     const exampleMenu = new Menu({ commands });
 
-    exampleMenu.title.label = 'Example';
+    exampleMenu.title.label = 'DataGrid Example';
     mainMenu.addMenu(exampleMenu, { rank: 80 });
     exampleMenu.addItem({ command });
   }
@@ -46,12 +46,12 @@ const extension: JupyterFrontEndPlugin<void> = {
 
 export default extension;
 
-class ExampleView extends StackedPanel {
+class DataGridPanel extends StackedPanel {
   constructor() {
     super();
     this.addClass('jp-example-view');
-    this.id = 'example';
-    this.title.label = 'Example View';
+    this.id = 'datagrid-example';
+    this.title.label = 'Datagrid Example View';
     this.title.closable = true;
 
     const model = new LargeDataModel();

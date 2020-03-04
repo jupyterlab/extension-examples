@@ -1,4 +1,6 @@
-# Menus: Extending the main app
+# Menus
+
+> Add a Menu to the main app.
 
 ![New Menu](preview.png)
 
@@ -24,7 +26,7 @@ You can add the `IMainMenu` in the `requires:` property such that it is injected
 the `activate` function. The extension looks like:
 
 ```ts
-// src/index.ts#L15-L52
+// src/index.ts#L15-L57
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'main-menu',
@@ -38,17 +40,22 @@ const extension: JupyterFrontEndPlugin<void> = {
     const { commands } = app;
 
     // Add a command
-    let command = 'tutorial:main-menu';
+    let command = 'jlab-examples:main-menu';
     commands.addCommand(command, {
-      label: 'Call tutorial:main-menu',
-      caption: 'Execute tutorial:main-menu',
+      label: 'Execute jlab-examples:main-menu Command',
+      caption: 'Execute jlab-examples:main-menu Command',
       execute: (args: any) => {
-        console.log(`tutorial:main-menu has been called ${args['origin']}.`);
+        console.log(
+          `jlab-examples:main-menu has been called ${args['origin']}.`
+        );
+        window.alert(
+          `jlab-examples:main-menu has been called ${args['origin']}.`
+        );
       }
     });
 
     // Add the command to the command palette
-    let category = 'Tutorial';
+    let category = 'Extension Examples';
     palette.addItem({
       command,
       category,
@@ -57,7 +64,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // Create a menu
     let tutorialMenu: Menu = new Menu({ commands });
-    tutorialMenu.title.label = 'Tutorial';
+    tutorialMenu.title.label = 'Main Menu Example';
     mainMenu.addMenu(tutorialMenu, { rank: 80 });
 
     // Add the command to the menu
@@ -87,10 +94,10 @@ After the execution of that command, `package.json` should list them in the
 },
 ```
 
-With this extension installed, a new menu _Tutorial_ should be present. And when
-clicking on the menu item _tutorial:main-menu_, the following text should appear
+With this extension installed, a new menu _Main Menu Example_ should be present. And when
+clicking on the menu item _jlab-examples:main-menu_, the following text should appear
 in the web browser console.
 
 ```
-tutorial:main-menu has been called from the menu.
+jlab-examples:main-menu has been called from the menu.
 ```

@@ -1,4 +1,6 @@
-# Using Settings in an Extension
+# Settings
+
+> Create and use new Settings for your extension.
 
 This example shows how to create and use settings
 in a JupyterLab extension.
@@ -46,14 +48,14 @@ you want to inject into the `activate` function in the `JupyterFontEndPlugin`.
 
 But before going further, you need to define the settings of your
 extension. This is done through a [JSON Schema](https://json-schema.org/understanding-json-schema/).
-In the example it is called `schema/my-settings-example.json`.
+In the example it is called `schema/settings-example.json`.
 
 <!-- prettier-ignore-start -->
 ```json5
-// schema/my-settings-example.json
+// schema/settings-example.json
 
 {
-  "title": "My settings",
+  "title": "Settings Example",
   "description": "Settings of the settings example.",
   "type": "object",
   "properties": {
@@ -97,10 +99,10 @@ and the extension id is:
 ```ts
 // src/index.ts#L12-L12
 
-const PLUGIN_ID = '@jupyterlab-examples/settings:my-settings-example';
+const PLUGIN_ID = '@jupyterlab-examples/settings:settings-example';
 ```
 
-Therefore the settings file must be named `my-settings-example.json`.
+Therefore the settings file must be named `settings-example.json`.
 
 The folder containing the settings definition needs to be specified in
 the `package.json` file in the `jupyterlab` section (here `schema`):
@@ -133,7 +135,7 @@ use them inside your extension. Let's look at this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L23-L78
+// src/index.ts#L23-L83
 
 activate: (
   app: JupyterFrontEnd,
@@ -149,7 +151,12 @@ activate: (
     limit = setting.get('limit').composite as number;
     flag = setting.get('flag').composite as boolean;
 
-    console.log(`Limit is set to ${limit} and flag to ${flag}`);
+    console.log(
+      `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+    );
+    //      window.alert(
+    //        `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+    //      );
   }
 
   // Wait for the application to be restored and
@@ -163,7 +170,7 @@ activate: (
       setting.changed.connect(loadSetting);
 
       commands.addCommand(COMMAND_ID, {
-        label: 'Toggle flag setting',
+        label: 'Toggle Flag Setting',
         isToggled: () => flag,
         execute: () => {
           // Programmatically change a setting
@@ -177,7 +184,7 @@ activate: (
 
       // Create a menu
       const tutorialMenu = new Menu({ commands });
-      tutorialMenu.title.label = 'Tutorial';
+      tutorialMenu.title.label = 'Settings Example';
       mainMenu.addMenu(tutorialMenu, { rank: 80 });
 
       // Add the command to the menu
@@ -199,9 +206,28 @@ your plugin settings to be loaded :
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L42-L42
+// src/index.ts#L47-L66
 
-Promise.all([app.restored, settings.load(PLUGIN_ID)])
+ise.all([app.restored, settings.load(PLUGIN_ID)])
+hen(([, setting]) => {
+// Read the settings
+loadSetting(setting);
+
+// Listen for your plugin setting changes using Signal
+setting.changed.connect(loadSetting);
+
+commands.addCommand(COMMAND_ID, {
+  label: 'Toggle Flag Setting',
+  isToggled: () => flag,
+  execute: () => {
+    // Programmatically change a setting
+    setting.set('flag', !flag).catch(reason => {
+      console.error(
+        `Something went wrong when setting flag.\n${reason}`
+      );
+    });
+  }
+});
 ```
 <!-- prettier-ignore-end -->
 
@@ -211,14 +237,19 @@ JSON file). After getting the setting, you need to require the
 `composite` attribute to get its value and specify the type explicitly.
 
 ```ts
-// src/index.ts#L32-L38
+// src/index.ts#L32-L43
 
 function loadSetting(setting: ISettingRegistry.ISettings) {
   // Read the settings and convert to the correct type
   limit = setting.get('limit').composite as number;
   flag = setting.get('flag').composite as boolean;
 
-  console.log(`Limit is set to ${limit} and flag to ${flag}`);
+  console.log(
+    `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+  );
+  //      window.alert(
+  //        `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+  //      );
 }
 ```
 
@@ -230,21 +261,18 @@ To react at a setting change by the user, you should use the signal
 `loadSetting` is called with the new settings.
 
 ```ts
-// src/index.ts#L47-L48
-
-// Listen for your plugin setting changes using Signal
-setting.changed.connect(loadSetting);
+// src/index.ts#L48-L51
 ```
 
-Finally, to demonstrate the programmatical change of a setting. A command to toggle
+Finally, to demonstrate the programmatical change of a setting, a command to toggle
 the `flag` setting is created.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L50-L61
+// src/index.ts#L55-L66
 
 commands.addCommand(COMMAND_ID, {
-  label: 'Toggle flag setting',
+  label: 'Toggle Flag Setting',
   isToggled: () => flag,
   execute: () => {
     // Programmatically change a setting
@@ -261,22 +289,27 @@ commands.addCommand(COMMAND_ID, {
 The `set` method of `setting` is the one storing the
 new value.
 
+<!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L54-L55
+// src/index.ts#L60-L64
 
-// Programmatically change a setting
 setting.set('flag', !flag).catch(reason => {
+  console.error(
+    `Something went wrong when setting flag.\n${reason}`
+  );
+});
 ```
+<!-- prettier-ignore-end -->
 
 That command can be executed by clicking on the item menu created at the end of the
 `activate` function.
 
+<!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L63-L71
+// src/index.ts#L69-L76
 
-// Create a menu
 const tutorialMenu = new Menu({ commands });
-tutorialMenu.title.label = 'Tutorial';
+tutorialMenu.title.label = 'Settings Example';
 mainMenu.addMenu(tutorialMenu, { rank: 80 });
 
 // Add the command to the menu
@@ -284,6 +317,7 @@ tutorialMenu.addItem({
   command: COMMAND_ID
 });
 ```
+<!-- prettier-ignore-end -->
 
 Note
 

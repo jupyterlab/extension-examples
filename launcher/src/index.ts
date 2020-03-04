@@ -16,10 +16,10 @@ import { LabIcon } from '@jupyterlab/ui-components';
 import pythonIconStr from '../style/Python-logo-notext.svg';
 
 const FACTORY = 'Editor';
-const PALETTE_CATEGORY = 'Text Editor';
+const PALETTE_CATEGORY = 'Extension Examples';
 
 namespace CommandIDs {
-  export const createNew = 'launcher:create-new-python-file';
+  export const createNew = 'jlab-examples:create-new-python-file';
 }
 
 const extension: JupyterFrontEndPlugin<void> = {
@@ -69,7 +69,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     if (launcher) {
       launcher.add({
         command,
-        category: 'Other',
+        category: 'Extension Examples',
         rank: 1
       });
     }

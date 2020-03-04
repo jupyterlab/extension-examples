@@ -1,4 +1,6 @@
-# Using State Persistence in an Extension
+# Sate
+
+> Use State persistence in an extension.
 
 This example shows how to save and restore data saved in persistent state database
 in a JupyterLab extension.
@@ -6,8 +8,9 @@ in a JupyterLab extension.
 ![state example](preview.gif)
 
 The core token required for handling the state database (DB) is
-`IStateDB` ([documentation](https://jupyterlab.github.io/jupyterlab/coreutils/interfaces/istatedb.html)). To use it,
-you first need to install its npm package:
+`IStateDB` ([documentation](https://jupyterlab.github.io/jupyterlab/coreutils/interfaces/istatedb.html)).
+
+To use it, you first need to install its npm package:
 
 ```bash
 jlpm add @jupyterlab/coreutils
@@ -21,8 +24,7 @@ Once this is done. You can import the interface in your code.
 import { IStateDB } from '@jupyterlab/statedb';
 ```
 
-To see how you can access the state, let's have a look at
-`src/index.ts`.
+To see how you can access the state, let's have a look at `src/index.ts`.
 
 ```ts
 // src/index.ts#L17-L57
@@ -47,7 +49,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
         // Ask the user to pick a option with `option` as default
         return InputDialog.getItem({
-          title: 'Pick an option',
+          title: 'Pick an option to persist by the State Example extension',
           items: options,
           current: Math.max(0, options.indexOf(option))
         });
@@ -72,7 +74,9 @@ const extension: JupyterFrontEndPlugin<void> = {
 
 The `IStateDB` is passed to the `activate` function as an
 argument (variable `state`) in addition to the JupyterLab application
-(variable `app`). You request that dependency with the property
+(variable `app`).
+
+You request that dependency with the property
 `requires: [IStateDB],`. It lists the additional arguments
 you want to inject into the `activate` function in the `JupyterFontEndPlugin`.
 
@@ -89,8 +93,10 @@ app.restored
 ```
 <!-- prettier-ignore-end -->
 
-The data is loaded as a `ReadonlyJSONValue` object. So all stored data must be
-JSON-able and its type value should be specifically set when accessing the value.
+The data is loaded as a `ReadonlyJSONValue` object.
+
+**Important**: All stored data must be JSON-able and its type value
+should be specifically set when accessing the value.
 For instance, in this example the variable `option` is of type `string`:
 
 ```ts
@@ -113,7 +119,7 @@ an item list with the default option being stored as a state variable.
 // src/index.ts#L36-L40
 
 return InputDialog.getItem({
-  title: 'Pick an option',
+  title: 'Pick an option to persist by the State Example extension',
   items: options,
   current: Math.max(0, options.indexOf(option))
 });

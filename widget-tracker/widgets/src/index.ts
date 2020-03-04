@@ -13,7 +13,7 @@ import { Menu, Widget } from '@lumino/widgets';
  * Activate the widgets example extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'widgets',
+  id: 'widgets-example',
   autoStart: true,
   requires: [ICommandPalette, IMainMenu],
   activate: (
@@ -25,18 +25,18 @@ const extension: JupyterFrontEndPlugin<void> = {
     const command = 'widgets:open-tab';
 
     commands.addCommand(command, {
-      label: 'widgets: Open Tab',
+      label: 'Open a Tab Widget',
       caption: 'Open the Widgets Example Tab',
       execute: () => {
-        const widget = new ExampleView();
+        const widget = new ExampleWidget();
         shell.add(widget, 'main');
       }
     });
-    palette.addItem({ command, category: 'Example' });
+    palette.addItem({ command, category: 'Extension Examples' });
 
     const exampleMenu = new Menu({ commands });
 
-    exampleMenu.title.label = 'Example';
+    exampleMenu.title.label = 'Widget Example';
     mainMenu.addMenu(exampleMenu, { rank: 80 });
     exampleMenu.addItem({ command });
   }
@@ -44,12 +44,12 @@ const extension: JupyterFrontEndPlugin<void> = {
 
 export default extension;
 
-class ExampleView extends Widget {
+class ExampleWidget extends Widget {
   constructor() {
     super();
     this.addClass('jp-example-view');
-    this.id = 'widgets-example';
-    this.title.label = 'Example View';
+    this.id = 'simple-widget-example';
+    this.title.label = 'Widget Example View';
     this.title.closable = true;
   }
 }

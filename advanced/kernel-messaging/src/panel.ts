@@ -27,13 +27,13 @@ export class ExamplePanel extends StackedPanel {
     super();
     this.addClass(PANEL_CLASS);
     this.id = 'kernel-messaging-panel';
-    this.title.label = 'Example View';
+    this.title.label = 'Kernel Messaging Example View';
     this.title.closable = true;
 
     this._sessionContext = new SessionContext({
       sessionManager: manager.sessions,
       specsManager: manager.kernelspecs,
-      name: 'Example'
+      name: 'Extension Examples'
     });
 
     this._model = new KernelModel(this._sessionContext);

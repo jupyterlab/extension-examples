@@ -10,22 +10,18 @@ The goal of this repository is to show how to develop extensions for [JupyterLab
 To get started:
 
 ```bash
-git clone https://github.com/jtpio/jupyterlab-extension-examples.git &&
+git clone https://github.com/jtpio/jupyterlab-extension-examples.git && \
   cd jupyterlab-extension-examples && \
   conda env create && \
   conda activate jupyterlab-extension-examples && \
   cd basics/hello-world && \
   jlpm && \
   jlpm run build && \
-  jupyter labextension link .
-
-# In another terminal
-jupyter lab --watch
+  jupyter labextension link . && \
+  jupyter lab
 ```
 
-The examples currently target **JupyterLab 2.x**.
-
-If you would like to use the examples with JupyterLab 1.x, check out the [1.x branch](https://github.com/jtpio/jupyterlab-extension-examples/tree/1.x). Note that the `1.x` branch is not updated anymore.
+The examples currently target **JupyterLab 2.x**. If you would like to use the examples with JupyterLab 1.x, check out the [1.x branch](https://github.com/jtpio/jupyterlab-extension-examples/tree/1.x). Note that the `1.x` branch is not updated anymore.
 
 ## Develop by Examples
 
@@ -57,23 +53,33 @@ You can expect from each example:
 
 We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html). Browse the previews below or skip them and [jump directly to the sections for developers](#prerequisites).
 
+You are welcome to open any [issue](https://github.com/jtpio/jupyterlab-extension-examples/issues) or [pull request](https://github.com/jtpio/jupyterlab-extension-examples/pulls).
+
 ## Basic
 
 ### [Hello World](basics/hello-world)
+
+Set up the development environment and print to the console.
 
 [![Hello World](basics/hello-world/preview.png)](basics/hello-world)
 
 ### [Signals](basics/signals)
 
+Use Signals to allow Widgets communicate with each others.
+
 [![Button with Signal](basics/signals/preview.png)](basics/signals)
 
 ### [Datagrid](basics/datagrid)
 
-[![Datagrid](basics/datagrid/preview.png)](basics/datagrid) |
+Display a Datagrid as a Lumino Widget.
+
+[![Datagrid](basics/datagrid/preview.png)](basics/datagrid)
 
 ## Command Palette
 
 ### [Command Palette](command-palette)
+
+Register commands in the Command Palette.
 
 [![Commmand Palette](command-palette/preview.png)](command-palette)
 
@@ -81,11 +87,15 @@ We have structured the examples based on the [extension points](https://jupyterl
 
 ### [Commands](commands)
 
+Extend the main app with a Command.
+
 [![Commmand example](commands/preview.png)](commands)
 
 ## Launcher
 
 ### [Launcher](launcher)
+
+Start your extension from the Launcher.
 
 [![Launcher](launcher/preview.gif)](launcher)
 
@@ -93,11 +103,15 @@ We have structured the examples based on the [extension points](https://jupyterl
 
 ### [Main Menu](main-menu)
 
+Add a Menu to the main app.
+
 [![Main Menu](main-menu/preview.png)](main-menu)
 
 ## Settings
 
 ### [Settings](settings)
+
+Create and use new Settings for your extension.
 
 [![Settings](settings/preview.gif)](settings)
 
@@ -105,11 +119,15 @@ We have structured the examples based on the [extension points](https://jupyterl
 
 ### [State](state)
 
+Use State persistence in an extension.
+
 [![State](state/preview.gif)](state)
 
 ## React
 
 ### [React Widget](react/react-widget)
+
+Create a React.js Widget in JupyterLab.
 
 [![react-widget](react/react-widget/preview.gif)](react/react-widget)
 
@@ -117,19 +135,27 @@ We have structured the examples based on the [extension points](https://jupyterl
 
 ### [Widgets](widget-tracker/widgets)
 
+Add a new Widget element to the main window.
+
 [![Custom Tab](widget-tracker/widgets/preview.png)](widget-tracker/widgets)
 
 ## Advanced
 
 ### [Kernel Output](advanced/kernel-output)
 
+Render kernel messages in an OuputArea.
+
 [![OutputArea class](advanced/kernel-output/preview.gif)](advanced/kernel-output)
 
 ### [Kernel Messaging](advanced/kernel-messaging)
 
+Interact with a kernel from an extension.
+
 [![Kernel Messages](advanced/kernel-messaging/preview.gif)](advanced/kernel-messaging)
 
 ### [Server Hello World](advanced/server-extension)
+
+Create a minimal extension with backend (i.e. server) and frontend parts.
 
 [![Server Hello World](advanced/server-extension/preview.png)](advanced/server-extension)
 
@@ -151,7 +177,7 @@ conda env create && \
 
 ## Develop and Use the Examples
 
-### Build and link all examples at once
+### Build and Link all Examples at once
 
 ```bash
 jlpm
@@ -167,7 +193,7 @@ To clean the lib folders:
 jlpm clean-ext
 ```
 
-### Build and link one example
+### Build and Link one Example
 
 Go to the example directory you want to install, e.g. `cd ./basics/hello-world`, and run the following commands:
 
@@ -184,15 +210,37 @@ jlpm run build
 jupyter lab build
 ```
 
-Start JupyterLab in watch mode:
+You can now start JupyterLab and check if your extension is working fine:
+
+```bash
+jupyter lab
+```
+
+### Change the Sources
+
+If you want to develop and iterate on the code, you will need to open 2 terminals.
+
+In terminal 1, go to the extension folder and run the following:
+
+```bash
+jlpm watch
+```
+
+Then in terminal 2, start JupyterLab with the watch flag:
 
 ```bash
 jupyter lab --watch
 ```
 
+From there, you can change your extension source code, it will be recompiled,
+and you can refresh your browser to see your changes.
+
+We are using [embedme](https://github.com/zakhenry/embedme) to embed code snippets into the markdown READMEs. If you make changes to the source code, ensure you update the README and run `jlpm embedme` from the root of the repository to regenerate the READMEs.
+
 ## Install a Published Extension
 
-Once your extension is published (outside of this scope), you can install it with the following command:
+Once your extension is published (outside of this scope), you can install it
+with the following command:
 
 ```bash
 jupyter labextension install <published_extension>
@@ -205,8 +253,6 @@ new powerful application that can be deployed remotely to many users. Some of th
 level components that can be used are text editors, terminals, notebooks, interactive widgets,
 filebrowser, renderers for different file formats that provide access to an enormous ecosystem
 of libraries from different languages.
-
-## JupyterLab Documentation
 
 Complementary to these examples, you can rely on the official JupyterLab documentation.
 

@@ -7,12 +7,12 @@
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/my_name/myextension",
+  "homepage": "https://github.com/jtpio/jupyterlab-extension-examples",
   "bugs": {
-    "url": "https://github.com/my_name/myextension/issues"
+    "url": "https://github.com/jtpio/jupyterlab-extension-examples/issues"
   },
   "license": "BSD-3-Clause",
-  "author": "my_name",
+  "author": "JupyterLab",
   "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
     "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}"
@@ -22,7 +22,7 @@
   "style": "style/index.css",
   "repository": {
     "type": "git",
-    "url": "https://github.com/my_name/myextension.git"
+    "url": "https://github.com/jtpio/jupyterlab-extension-examples.git"
   },
   "scripts": {
     "build": "jlpm run build:lib",

@@ -1,4 +1,6 @@
-# React Widget - Using React in JupyterLab
+# React Widget
+
+> Create a React.js Widget in JupyterLab.
 
 This extension shows how to use the `ReactWidget` wrapper from `@jupyterlab/apputils` to use React in a JupyterLab extension.
 

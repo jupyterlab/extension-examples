@@ -1,6 +1,6 @@
 import { StackedPanel } from '@lumino/widgets';
 
-import { ExampleView } from './widget';
+import { ButtonWidget } from './button';
 /**
  * The class name added to console panels.
  */
@@ -9,20 +9,21 @@ const PANEL_CLASS = 'jp-RovaPanel';
 /**
  * A panel which contains a console and the ability to add other children.
  */
-export class ExamplePanel extends StackedPanel {
+export class SignalExamplePanel extends StackedPanel {
   constructor() {
     super();
     this.addClass(PANEL_CLASS);
-    this.id = 'ExamplePanel';
-    this.title.label = 'Example View';
+    this.id = 'SignalExamplePanel';
+    this.title.label = 'Signal Example View';
     this.title.closable = true;
 
-    this._widget = new ExampleView();
+    this._widget = new ButtonWidget();
     this.addWidget(this._widget);
     this._widget.stateChanged.connect(() => {
-      console.log('changed');
+      console.log('Button is clicked.');
+      window.alert('Button is clicked.');
     });
   }
 
-  private _widget: ExampleView;
+  private _widget: ButtonWidget;
 }

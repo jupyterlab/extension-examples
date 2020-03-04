@@ -1,7 +1,6 @@
-# Introduction to Server Extension
+# Server Hello World
 
-This extension describes a minimal JupyterLab extension with backend (i.e. server) and
-frontend parts.
+> Create a minimal extension with backend (i.e. server) and frontend parts.
 
 ![server extension example](./preview.png)
 
@@ -19,6 +18,7 @@ example before diving into this one.
 Writing a JupyterLab extension usually starts from a configurable template. It
 can be downloaded with the [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/) tool and the following command for an extension with a server part:
 
+<!-- prettier-ignore-start -->
 ```bash
 cookiecutter https://github.com/fcollonval/cookiecutter-jupyterlab-extension-with-serverextension
 ```
@@ -81,7 +81,7 @@ communication with the server extension is contained in another file
 ```ts
 // src/index.ts#L6-L6
 
-import { requestAPI } from './server_extension';
+import { requestAPI } from './server-extension';
 ```
 
 In the `activate` function, the server extension is first called through
@@ -252,7 +252,7 @@ Note:
   side to return a response with a JSON body. It should at least define a
   `message` key providing nice error message for the user.
 
-## Backend (server) Part
+## Backend (Server) Part
 
 The server part of the extension is going to be presented in this section.
 
@@ -260,7 +260,7 @@ JupyterLab server is built on top of the [Tornado](https://tornadoweb.org/en/sta
 your extension needs to be defined as a proper Python package with some hook functions:
 
 ```py
-# server-extension/__init__.py
+# server_extension/__init__.py
 
 from ._version import __version__
 from .handlers import setup_handlers
@@ -268,7 +268,7 @@ from .handlers import setup_handlers
 
 def _jupyter_server_extension_paths():
     return [{
-        'module': 'server-extension'
+        'module': 'server_extension'
     }]
 
 
@@ -289,7 +289,7 @@ to the server. But the most important one is `load_jupyter_server_extension`
 that register new handlers.
 
 ```py
-# server-extension/__init__.py#L18-L18
+# server_extension/__init__.py#L18-L18
 
 setup_handlers(nb_app.web_app)
 ```
@@ -298,7 +298,7 @@ A handler is registered in the web application by linking an url to a class. In 
 example the url is _base_server_url_`/hello/personal` and the class handler is `RouteHandler`:
 
 ```py
-# server-extension/handlers.py#L28-L34
+# server_extension/handlers.py#L28-L34
 
 def setup_handlers(web_app):
     host_pattern = '.*$'
@@ -314,14 +314,19 @@ implement the wanted HTTP verbs. For example, here, `/hello/personal` can be req
 by a _GET_ or a _POST_ request. They will call the `get` or `post` method respectively.
 
 ```py
-# server-extension/handlers.py#L8-L25
+# server_extension/handlers.py#L8-L25
 
 class RouteHandler(APIHandler):
+    # The following decorator should be present on all verb methods (head, get, post, 
+    # patch, put, delete, options) to ensure only authorized user can request the 
+    # Jupyter server
+    @tornado.web.authenticated
     def get(self):
         self.finish(json.dumps({
             'data': 'This is /hello/personal endpoint!'
         }))
 
+    @tornado.web.authenticated
     def post(self):
         # input_data is a dictionnary with a key 'name'
         input_data = self.get_json_body()
@@ -340,7 +345,7 @@ by calling the `finish` method. That method can optionally take an argument that
 become the response body of the request in the frontend.
 
 ```py
-# server-extension/handlers.py#L14-L16
+# server_extension/handlers.py#L14-L16
 
 self.finish(json.dumps({
     'data': 'This is /hello/personal endpoint!'
@@ -356,7 +361,7 @@ sent by the frontend. When using JSON as communication format, you can directly 
 `get_json_body` helper method to convert the request body into a Python dictionary.
 
 ```py
-# server-extension/handlers.py#L21-L24
+# server_extension/handlers.py#L21-L24
 
 input_data = self.get_json_body()
 data = {
@@ -389,8 +394,8 @@ The `setup.py` file is the entry point to describe package metadata:
 setup_args = dict(
     name=name,
     version=version,
-    url="https://github.com/my_name/myextension",
-    author="my_name",
+    url="https://github.com/jtpio/jupyterlab-extension-examples/",
+    author="JupyterLab",
     description="A minimal JupyterLab extension with backend and frontend parts.",
     long_description= long_description,
     long_description_content_type="text/markdown",
@@ -469,20 +474,18 @@ JupyterLab is looking for frontend extensions:
 The last piece of configuration needed is the enabling of the server extension. This is
 done by copying the following JSON file:
 
-<!-- prettier-ignore-start -->
 ```json5
-// jupyter-config/server-extension.json
+// jupyter-config/server_extension.json
 
 {
   "NotebookApp": {
     "nbserver_extensions": {
-      "server-extension": true
+      "server_extension": true
     }
   }
 }
 
 ```
-<!-- prettier-ignore-end -->
 
 in the appropriate jupyter folder (`etc/jupyter/jupyter_notebook_config.d`):
 
@@ -572,3 +575,4 @@ jlpm build
 # Rebuild JupyterLab after making any changes
 jupyter lab build
 ```
+<!-- prettier-ignore-end -->

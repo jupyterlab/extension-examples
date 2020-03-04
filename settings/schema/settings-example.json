@@ -1,5 +1,5 @@
 {
-  "title": "My settings",
+  "title": "Settings Example",
   "description": "Settings of the settings example.",
   "type": "object",
   "properties": {
