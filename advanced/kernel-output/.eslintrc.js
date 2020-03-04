@@ -23,18 +23,6 @@ module.exports = {
         accessibility: 'explicit'
       }
     ],
-    '@typescript-eslint/indent': [
-      'error',
-      2,
-      {
-        FunctionDeclaration: {
-          parameters: 'first'
-        },
-        FunctionExpression: {
-          parameters: 'first'
-        }
-      }
-    ],
     '@typescript-eslint/interface-name-prefix': 'error',
     '@typescript-eslint/member-delimiter-style': [
       'error',
@@ -54,6 +42,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-floating-promises': 'error',
     '@typescript-eslint/no-inferrable-types': 'off',
+    '@typescript-eslint/no-namespace': 'off',
     '@typescript-eslint/no-require-imports': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-var-requires': 'error',
@@ -128,7 +117,6 @@ module.exports = {
     'no-empty': 'error',
     'no-eval': 'error',
     'no-fallthrough': 'error',
-    'no-invalid-this': 'error',
     'no-multiple-empty-lines': 'off',
     'no-new-wrappers': 'error',
     'no-null/no-null': 'off',
@@ -140,7 +128,6 @@ module.exports = {
       }
     ],
     'no-trailing-spaces': 'error',
-    'no-underscore-dangle': 'error',
     'no-unused-labels': 'error',
     'no-var': 'error',
     'one-var': ['error', 'never'],

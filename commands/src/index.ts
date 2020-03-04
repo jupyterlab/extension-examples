@@ -12,7 +12,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd) => {
     const { commands } = app;
 
-    let command = 'jlab-examples:command';
+    const command = 'jlab-examples:command';
 
     // Add a command
     commands.addCommand(command, {

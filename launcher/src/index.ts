@@ -44,7 +44,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     commands.addCommand(command, {
       label: args => (args['isPalette'] ? 'New Python File' : 'Python File'),
       caption: 'Create a new Python file',
-      icon: args => (args['isPalette'] ? undefined : icon),
+      icon: args => (args['isPalette'] ? null : icon),
       execute: async args => {
         // Get the directory in which the Python file must be created;
         // otherwise take the current filebrowser directory
