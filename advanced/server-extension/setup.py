@@ -13,7 +13,7 @@ import setuptools
 HERE = os.path.abspath(os.path.dirname(__file__))
 
 # The name of the project
-name="server_extension"
+name="jlab_ext_example"
 
 # Ensure a valid python version
 ensure_python(">=3.6")
@@ -25,7 +25,7 @@ lab_path = pjoin(HERE, name, "labextension")
 
 # Representative files that should exist after a successful build
 jstargets = [
-    pjoin(HERE, "lib", "server_extension.js"),
+    pjoin(HERE, "lib", "jlab_ext_example.js"),
 ]
 
 package_data_spec = {
@@ -37,7 +37,7 @@ package_data_spec = {
 data_files_spec = [
     ("share/jupyter/lab/extensions", lab_path, "*.tgz"),
     ("etc/jupyter/jupyter_notebook_config.d",
-     "jupyter-config", "server_extension.json"),
+     "etc", "jupyter", "jupyter_notebook_config.d", "jlab_ext_example.json"),
 ]
 
 cmdclass = create_cmdclass("jsdeps",
@@ -56,7 +56,7 @@ with open("README.md", "r") as fh:
 setup_args = dict(
     name=name,
     version=version,
-    url="https://github.com/jtpio/jupyterlab-extension-examples/",
+    url="https://github.com/jtpio/jupyterlab-extension-examples",
     author="JupyterLab",
     description="A minimal JupyterLab extension with backend and frontend parts.",
     long_description= long_description,
