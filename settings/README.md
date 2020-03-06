@@ -109,7 +109,7 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 
 <!-- prettier-ignore-start -->
 ```json5
-// package.json#L54-L57
+// package.json#L57-L60
 
 "jupyterlab": {
   "extension": true,
@@ -146,7 +146,7 @@ activate: (
   let limit = 25;
   let flag = false;
 
-  function loadSetting(setting: ISettingRegistry.ISettings) {
+  function loadSetting(setting: ISettingRegistry.ISettings): void {
     // Read the settings and convert to the correct type
     limit = setting.get('limit').composite as number;
     flag = setting.get('flag').composite as boolean;
@@ -239,7 +239,7 @@ JSON file). After getting the setting, you need to require the
 ```ts
 // src/index.ts#L32-L43
 
-function loadSetting(setting: ISettingRegistry.ISettings) {
+function loadSetting(setting: ISettingRegistry.ISettings): void {
   // Read the settings and convert to the correct type
   limit = setting.get('limit').composite as number;
   flag = setting.get('flag').composite as boolean;

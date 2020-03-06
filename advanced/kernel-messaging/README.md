@@ -205,7 +205,7 @@ export class KernelModel {
   }
 
   private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
-    let msgType = msg.header.msg_type;
+    const msgType = msg.header.msg_type;
     switch (msgType) {
       case 'execute_result':
       case 'display_data':
