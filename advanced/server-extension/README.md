@@ -89,12 +89,7 @@ a GET request on the endpoint _/jlab-ext-example/hello_. The response from the s
 is printed in the web browser console:
 
 ```ts
-// src/index.ts#L33-L44
-
-palette: ICommandPalette,
-launcher: ILauncher | null
-=> {
-console.log('JupyterLab extension server-extension-example is activated!');
+// src/index.ts#L38-L44
 
 // GET request
 try {
@@ -118,9 +113,13 @@ To use that `await` keyword, the function must be declared as asynchronous
 using the `async` keyword:
 
 ```ts
-// src/index.ts#L31-L31
+// src/index.ts#L31-L35
 
 activate: async (
+  app: JupyterFrontEnd,
+  palette: ICommandPalette,
+  launcher: ILauncher | null
+) => {
 ```
 
 A GET request cannot carry data from the frontend to the server. To achieve that,
@@ -437,7 +436,7 @@ is the following:
 ```py
 # jlab_ext_example/handlers.py#L39-L46
 
-# Prepend the base_url so that it works in a JupyterHub setting
+# Prepend the base_url so that it works in a jupyterhub setting
 doc_url = url_path_join(base_url, url_path, 'static')
 doc_dir = os.getenv('JLAB_SERVER_EXAMPLE_STATIC_DIR', os.path.join(os.path.dirname(__file__), '..', 'static'))
 handlers = [(f'{doc_url}/(.*)',
