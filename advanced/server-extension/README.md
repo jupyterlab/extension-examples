@@ -431,7 +431,7 @@ data = {
 }
 ```
 
-The part responsible to server static content with a `StaticFileHandler` handler 
+The part responsible to serve static content with a `StaticFileHandler` handler 
 is the following:
 
 ```py
