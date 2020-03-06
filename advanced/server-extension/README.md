@@ -307,7 +307,7 @@ the `jlab_ext_example` package in dev mode:
 pip install -e .
 ```
 
-The you need to enable on Jupyter level the package you have just installed 
+Then you need to enable the package at the Jupyter level 
 so that it becomes a server extension.
 
 ```bash
