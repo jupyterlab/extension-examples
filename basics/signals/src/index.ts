@@ -36,7 +36,7 @@ function activate(
   palette: ICommandPalette,
   mainMenu: IMainMenu,
   launcher: ILauncher | null
-) {
+): void {
   const manager = app.serviceManager;
   const { commands, shell } = app;
   const category = 'Extension Examples';
@@ -49,7 +49,7 @@ function activate(
     });
   }
 
-  function createPanel() {
+  function createPanel(): Promise<SignalExamplePanel> {
     let panel: SignalExamplePanel;
     return manager.ready.then(() => {
       panel = new SignalExamplePanel();

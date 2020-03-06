@@ -5,14 +5,14 @@ import React, { useState } from 'react';
 /**
  * React component for a counter.
  */
-const CounterComponent = () => {
+const CounterComponent = (): JSX.Element => {
   const [counter, setCounter] = useState(0);
 
   return (
     <div>
       <p>You clicked {counter} times!</p>
       <button
-        onClick={() => {
+        onClick={(): void => {
           setCounter(counter + 1);
         }}
       >
@@ -34,7 +34,7 @@ export class CounterWidget extends ReactWidget {
     this.addClass('jp-ReactWidget');
   }
 
-  render() {
+  render(): JSX.Element {
     return <CounterComponent />;
   }
 }

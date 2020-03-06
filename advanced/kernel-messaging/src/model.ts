@@ -39,7 +39,7 @@ export class KernelModel {
     return this._stateChanged;
   }
 
-  execute(code: string) {
+  execute(code: string): void {
     if (!this._sessionContext || !this._sessionContext.session?.kernel) {
       return;
     }
@@ -48,7 +48,7 @@ export class KernelModel {
     });
   }
 
-  private _onIOPub = (msg: KernelMessage.IIOPubMessage) => {
+  private _onIOPub = (msg: KernelMessage.IIOPubMessage): void => {
     const msgType = msg.header.msg_type;
     switch (msgType) {
       case 'execute_result':

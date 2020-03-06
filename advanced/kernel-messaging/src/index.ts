@@ -36,7 +36,7 @@ function activate(
   palette: ICommandPalette,
   mainMenu: IMainMenu,
   launcher: ILauncher | null
-) {
+): void {
   const manager = app.serviceManager;
   const { commands, shell } = app;
   const category = 'Extension Examples';
