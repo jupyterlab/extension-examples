@@ -87,7 +87,7 @@ export default extension;
 class IFrameWidget extends IFrame {
   constructor() {
     super();
-    let baseUrl = PageConfig.getBaseUrl();
+    const baseUrl = PageConfig.getBaseUrl();
     this.url = baseUrl + 'jlab-ext-example/static/index.html';
     this.id = 'doc-example';
     this.title.label = 'Server Doc';
