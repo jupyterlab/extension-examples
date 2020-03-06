@@ -152,7 +152,7 @@ Its definition is :
 // src/server-extension.ts#L12-L34
 
 export async function requestAPI<T>(
-  endPoint: string = '',
+  endPoint = '',
   init: RequestInit = {}
 ): Promise<T> {
   // Make request to Jupyter API
