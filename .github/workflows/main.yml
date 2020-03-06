@@ -33,7 +33,8 @@ jobs:
     - name: Check config files
       run: |
         diff basics/hello-world/tsconfig.json ${EXAMPLE_FOLDER}/tsconfig.json
-        diff basics/hello-world/tslint.json ${EXAMPLE_FOLDER}/tslint.json
+        diff basics/hello-world/.eslintignore ${EXAMPLE_FOLDER}/.eslintignore
+        diff basics/hello-world/.eslintrc.js ${EXAMPLE_FOLDER}/.eslintrc.js
         diff basics/hello-world/.gitignore ${EXAMPLE_FOLDER}/.gitignore
       env:
         EXAMPLE_FOLDER: ${{ matrix.example }}
@@ -57,7 +58,7 @@ jobs:
     - name: Lint the files
       run: |
         cd ${EXAMPLE_FOLDER}
-        jlpm run tslint:check
+        jlpm run eslint:check
       env:
         EXAMPLE_FOLDER: ${{ matrix.example }}
     - name: Build and check by extension
@@ -81,7 +82,8 @@ jobs:
     - name: Check config files
       run: |
         diff basics/hello-world/tsconfig.json advanced/server-extension/tsconfig.json
-        diff basics/hello-world/tslint.json advanced/server-extension/tslint.json
+        diff basics/hello-world/.eslintignore advanced/server-extension/.eslintignore
+        diff basics/hello-world/.eslintrc.js advanced/server-extension/.eslintrc.js
     - name: Install Python
       uses: actions/setup-python@v1
       with:
@@ -96,7 +98,7 @@ jobs:
     - name: Lint the files
       run: |
         cd advanced/server-extension
-        jlpm run tslint:check
+        jlpm run eslint:check
     - name: Build and check extension as user
       run: |
         cd advanced/server-extension

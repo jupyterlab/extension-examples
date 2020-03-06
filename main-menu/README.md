@@ -40,7 +40,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     const { commands } = app;
 
     // Add a command
-    let command = 'jlab-examples:main-menu';
+    const command = 'jlab-examples:main-menu';
     commands.addCommand(command, {
       label: 'Execute jlab-examples:main-menu Command',
       caption: 'Execute jlab-examples:main-menu Command',
@@ -55,7 +55,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     });
 
     // Add the command to the command palette
-    let category = 'Extension Examples';
+    const category = 'Extension Examples';
     palette.addItem({
       command,
       category,
@@ -63,7 +63,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     });
 
     // Create a menu
-    let tutorialMenu: Menu = new Menu({ commands });
+    const tutorialMenu: Menu = new Menu({ commands });
     tutorialMenu.title.label = 'Main Menu Example';
     mainMenu.addMenu(tutorialMenu, { rank: 80 });
 
