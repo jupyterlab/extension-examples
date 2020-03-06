@@ -437,7 +437,7 @@ is the following:
 ```py
 # jlab_ext_example/handlers.py#L39-L46
 
-# Prepend the base_url so that it works in a jupyterhub setting
+# Prepend the base_url so that it works in a JupyterHub setting
 doc_url = url_path_join(base_url, url_path, 'static')
 doc_dir = os.getenv('JLAB_SERVER_EXAMPLE_STATIC_DIR', os.path.join(os.path.dirname(__file__), '..', 'static'))
 handlers = [(f'{doc_url}/(.*)',
