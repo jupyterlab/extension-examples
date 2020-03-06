@@ -32,7 +32,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {
     const { commands } = app;
 
-    let command = 'jlab-examples:command-palette';
+    const command = 'jlab-examples:command-palette';
 
     // Add a command
     commands.addCommand(command, {
@@ -49,7 +49,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     });
 
     // Add the command to the command palette
-    let category = 'Extension Examples';
+    const category = 'Extension Examples';
     palette.addItem({ command, category, args: { origin: 'from palette' } });
   }
 ```

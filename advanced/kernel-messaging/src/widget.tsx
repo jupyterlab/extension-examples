@@ -16,14 +16,14 @@ export class KernelView extends ReactWidget {
         <button
           key="header-thread"
           className="jp-example-button"
-          onClick={() => {
+          onClick={(): void => {
             this._model.execute('3+5');
           }}
         >
           Compute 3+5
         </button>
         <UseSignal signal={this._model.stateChanged}>
-          {() => (
+          {(): JSX.Element => (
             <span key="output field">{JSON.stringify(this._model.output)}</span>
           )}
         </UseSignal>

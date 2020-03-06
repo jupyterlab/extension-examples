@@ -157,7 +157,7 @@ Its definition is :
 // src/server-extension.ts#L12-L37
 
 export async function requestAPI<T>(
-  endPoint: string = '',
+  endPoint = '',
   init: RequestInit = {}
 ): Promise<T> {
   // Make request to Jupyter API
@@ -645,7 +645,7 @@ user about that dependency by adding the `discovery` metadata to your `package.j
 file:
 
 ```json5
-// package.json#L59-L69
+// package.json#L62-L72
 
 "jupyterlab": {
   "discovery": {
@@ -663,7 +663,7 @@ file:
 In this example, the extension requires a `server` extension:
 
 ```json5
-// package.json#L61-L61
+// package.json#L64-L64
 
 "server": {
 ```
@@ -671,7 +671,7 @@ In this example, the extension requires a `server` extension:
 And that server extension is available through `pip`:
 
 ```json5
-// package.json#L62-L64
+// package.json#L65-L67
 
 "managers": [
   "pip"

@@ -91,7 +91,7 @@ export class ButtonWidget extends ReactWidget {
       <button
         key="header-thread"
         className="jp-example-button"
-        onClick={() => {
+        onClick={(): void => {
           this._stateChanged.emit(void 0);
         }}
       >

@@ -41,7 +41,7 @@ function activate(
   mainMenu: IMainMenu,
   rendermime: IRenderMimeRegistry,
   launcher: ILauncher | null
-) {
+): void {
   const manager = app.serviceManager;
   const { commands, shell } = app;
   const category = 'Extension Examples';
