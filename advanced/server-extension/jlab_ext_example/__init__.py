@@ -4,7 +4,7 @@ from .handlers import setup_handlers
 
 def _jupyter_server_extension_paths():
     return [{
-        'module': 'server_extension'
+        'module': 'jlab_ext_example'
     }]
 
 
@@ -15,5 +15,6 @@ def load_jupyter_server_extension(nb_app):
     nb_app: notebook.notebookapp.NotebookApp
         Notebook application instance
     """
-    setup_handlers(nb_app.web_app)
-    nb_app.log.info(f'Registered HelloWorld extension at URL path /hello')
+    url_path = 'jlab-ext-example'
+    setup_handlers(nb_app.web_app, url_path)
+    nb_app.log.info('Registered jlab_ext_example extension at URL path /{}'.format(url_path))

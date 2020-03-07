@@ -1,7 +1,7 @@
 {
   "NotebookApp": {
     "nbserver_extensions": {
-      "server_extension": true
+      "jlab_ext_example": true
     }
   }
 }

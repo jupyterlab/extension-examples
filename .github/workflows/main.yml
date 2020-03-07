@@ -109,7 +109,7 @@ jobs:
         python -m jupyterlab.browser_check
     - name: Clean extension installation
       run: |
-        pip uninstall -y server_extension
+        pip uninstall -y jlab_ext_example
         jupyter lab clean
         jupyter serverextension list
         jupyter labextension list
@@ -117,7 +117,7 @@ jobs:
       run: |
         cd advanced/server-extension
         pip install -e .
-        jupyter serverextension enable --py server_extension
+        jupyter serverextension enable --py jlab_ext_example
         jupyter labextension link .
         jupyter serverextension list
         jupyter labextension list

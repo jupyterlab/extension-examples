@@ -26,12 +26,12 @@
   },
   "scripts": {
     "build": "jlpm run build:lib",
-    "build:labextension": "cd server_extension && rimraf labextension && mkdirp labextension && cd labextension && npm pack ../..",
+    "build:labextension": "cd jlab_ext_example && rimraf labextension && mkdirp labextension && cd labextension && npm pack ../..",
     "build:lib": "tsc",
     "build:all": "jlpm run build:labextension",
     "clean": "jlpm run clean:lib",
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
-    "clean:labextension": "rimraf server_extension/labextension",
+    "clean:labextension": "rimraf jlab_ext_example/labextension",
     "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
     "link": "jupyter labextension link . --no-build",
     "prepare": "jlpm run clean && jlpm run build",
@@ -66,7 +66,7 @@
           "pip"
         ],
         "base": {
-          "name": "server_extension"
+          "name": "jlab_ext_example"
         }
       }
     },
