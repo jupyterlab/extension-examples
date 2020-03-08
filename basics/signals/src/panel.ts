@@ -1,10 +1,10 @@
 import { StackedPanel } from '@lumino/widgets';
 
-import { ButtonWidget } from './button';
+import { ButtonWidget, ICount } from './button';
 /**
  * The class name added to console panels.
  */
-const PANEL_CLASS = 'jp-RovaPanel';
+const PANEL_CLASS = 'jp-tutorial-view';
 
 /**
  * A panel which contains a console and the ability to add other children.
@@ -19,10 +19,17 @@ export class SignalExamplePanel extends StackedPanel {
 
     this._widget = new ButtonWidget();
     this.addWidget(this._widget);
-    this._widget.stateChanged.connect(() => {
-      console.log('Button is clicked.');
-      window.alert('Button is clicked.');
-    });
+    this._widget.stateChanged.connect(this._logMessage, this);
+  }
+
+  private _logMessage(emitter: ButtonWidget, count: ICount) {
+    console.log('Hey, a Signal has been received from', emitter);
+    console.log(
+      `The big red button has been clicked ${count.clickCount} times.`
+    );
+    window.alert(
+      `The big red button has been clicked ${count.clickCount} times.`
+    );
   }
 
   private _widget: ButtonWidget;
