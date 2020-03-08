@@ -135,69 +135,84 @@ use them inside your extension. Let's look at this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L23-L83
+// src/index.ts#L19-L94
 
-activate: (
-  app: JupyterFrontEnd,
-  mainMenu: IMainMenu,
-  settings: ISettingRegistry
-) => {
-  const { commands } = app;
-  let limit = 25;
-  let flag = false;
+const extension: JupyterFrontEndPlugin<void> = {
+  id: PLUGIN_ID,
+  autoStart: true,
+  requires: [IMainMenu, ISettingRegistry],
+  activate: (
+    app: JupyterFrontEnd,
+    mainMenu: IMainMenu,
+    settings: ISettingRegistry
+  ) => {
+    const { commands } = app;
+    let limit = 25;
+    let flag = false;
 
-  function loadSetting(setting: ISettingRegistry.ISettings): void {
-    // Read the settings and convert to the correct type
-    limit = setting.get('limit').composite as number;
-    flag = setting.get('flag').composite as boolean;
+    function loadSetting(setting: ISettingRegistry.ISettings): void {
+      // Read the settings and convert to the correct type
+      limit = setting.get('limit').composite as number;
+      flag = setting.get('flag').composite as boolean;
 
-    console.log(
-      `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
-    );
-    //      window.alert(
-    //        `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
-    //      );
-  }
-
-  // Wait for the application to be restored and
-  // for the settings for this plugin to be loaded
-  Promise.all([app.restored, settings.load(PLUGIN_ID)])
-    .then(([, setting]) => {
-      // Read the settings
-      loadSetting(setting);
-
-      // Listen for your plugin setting changes using Signal
-      setting.changed.connect(loadSetting);
-
-      commands.addCommand(COMMAND_ID, {
-        label: 'Toggle Flag Setting',
-        isToggled: () => flag,
-        execute: () => {
-          // Programmatically change a setting
-          setting.set('flag', !flag).catch(reason => {
-            console.error(
-              `Something went wrong when setting flag.\n${reason}`
-            );
-          });
-        }
-      });
-
-      // Create a menu
-      const tutorialMenu = new Menu({ commands });
-      tutorialMenu.title.label = 'Settings Example';
-      mainMenu.addMenu(tutorialMenu, { rank: 80 });
-
-      // Add the command to the menu
-      tutorialMenu.addItem({
-        command: COMMAND_ID
-      });
-    })
-    .catch(reason => {
-      console.error(
-        `Something went wrong when reading the settings.\n${reason}`
+      console.log(
+        `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
       );
-    });
-}
+    }
+
+    // Wait for the application to be restored and
+    // for the settings for this plugin to be loaded
+    Promise.all([app.restored, settings.load(PLUGIN_ID)])
+      .then(([, setting]) => {
+        // Read the settings
+        loadSetting(setting);
+
+        // Listen for your plugin setting changes using Signal
+        setting.changed.connect(loadSetting);
+
+        commands.addCommand(COMMAND_ID, {
+          label: 'Toggle Flag and Increment Limit',
+          isToggled: () => flag,
+          execute: () => {
+            // Programmatically change a setting
+            setting.set('flag', !flag).catch(reason => {
+              console.error(
+                `Something went wrong when setting flag.\n${reason}`
+              );
+            });
+            setting.set('limit', limit + 1).catch(reason => {
+              console.error(
+                `Something went wrong when setting limit.\n${reason}`
+              );
+            });
+            limit = setting.get('limit').composite as number;
+            flag = setting.get('flag').composite as boolean;
+            console.log(
+              `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+            );
+            window.alert(
+              `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+            );
+          }
+        });
+
+        // Create a menu
+        const settingsMenu = new Menu({ commands });
+        settingsMenu.title.label = 'Settings Example';
+        mainMenu.addMenu(settingsMenu, { rank: 80 });
+
+        // Add the command to the menu
+        settingsMenu.addItem({
+          command: COMMAND_ID
+        });
+      })
+      .catch(reason => {
+        console.error(
+          `Something went wrong when reading the settings.\n${reason}`
+        );
+      });
+  }
+};
 ```
 <!-- prettier-ignore-end -->
 
@@ -206,38 +221,21 @@ your plugin settings to be loaded :
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L47-L66
+// src/index.ts#L44-L44
 
-ise.all([app.restored, settings.load(PLUGIN_ID)])
-hen(([, setting]) => {
-// Read the settings
-loadSetting(setting);
-
-// Listen for your plugin setting changes using Signal
-setting.changed.connect(loadSetting);
-
-commands.addCommand(COMMAND_ID, {
-  label: 'Toggle Flag Setting',
-  isToggled: () => flag,
-  execute: () => {
-    // Programmatically change a setting
-    setting.set('flag', !flag).catch(reason => {
-      console.error(
-        `Something went wrong when setting flag.\n${reason}`
-      );
-    });
-  }
-});
+Promise.all([app.restored, settings.load(PLUGIN_ID)])
 ```
 <!-- prettier-ignore-end -->
 
 Then once the settings are loaded, each setting can be read using
 the `get` method and the _setting id_ (the key defined in the settings
-JSON file). After getting the setting, you need to require the
-`composite` attribute to get its value and specify the type explicitly.
+JSON file).
+
+After getting the setting, you need to require the `composite` attribute
+to get its value and specify the type explicitly.
 
 ```ts
-// src/index.ts#L32-L43
+// src/index.ts#L32-L40
 
 function loadSetting(setting: ISettingRegistry.ISettings): void {
   // Read the settings and convert to the correct type
@@ -247,9 +245,6 @@ function loadSetting(setting: ISettingRegistry.ISettings): void {
   console.log(
     `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
   );
-  //      window.alert(
-  //        `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
-  //      );
 }
 ```
 
@@ -265,24 +260,33 @@ To react at a setting change by the user, you should use the signal
 ```
 
 Finally, to demonstrate the programmatical change of a setting, a command to toggle
-the `flag` setting is created.
+the `flag` and `limit` settings are updated.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L55-L66
+// src/index.ts#L55-L75
 
-commands.addCommand(COMMAND_ID, {
-  label: 'Toggle Flag Setting',
-  isToggled: () => flag,
-  execute: () => {
-    // Programmatically change a setting
-    setting.set('flag', !flag).catch(reason => {
-      console.error(
-        `Something went wrong when setting flag.\n${reason}`
-      );
-    });
-  }
-});
+execute: () => {
+  // Programmatically change a setting
+  setting.set('flag', !flag).catch(reason => {
+    console.error(
+      `Something went wrong when setting flag.\n${reason}`
+    );
+  });
+  setting.set('limit', limit + 1).catch(reason => {
+    console.error(
+      `Something went wrong when setting limit.\n${reason}`
+    );
+  });
+  limit = setting.get('limit').composite as number;
+  flag = setting.get('flag').composite as boolean;
+  console.log(
+    `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+  );
+  window.alert(
+    `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+  );
+}
 ```
 <!-- prettier-ignore-end -->
 
@@ -291,11 +295,16 @@ new value.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L60-L64
+// src/index.ts#L57-L66
 
 setting.set('flag', !flag).catch(reason => {
   console.error(
     `Something went wrong when setting flag.\n${reason}`
+  );
+});
+setting.set('limit', limit + 1).catch(reason => {
+  console.error(
+    `Something went wrong when setting limit.\n${reason}`
   );
 });
 ```
@@ -306,14 +315,14 @@ That command can be executed by clicking on the item menu created at the end of 
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L69-L76
+// src/index.ts#L79-L86
 
-const tutorialMenu = new Menu({ commands });
-tutorialMenu.title.label = 'Settings Example';
-mainMenu.addMenu(tutorialMenu, { rank: 80 });
+const settingsMenu = new Menu({ commands });
+settingsMenu.title.label = 'Settings Example';
+mainMenu.addMenu(settingsMenu, { rank: 80 });
 
 // Add the command to the menu
-tutorialMenu.addItem({
+settingsMenu.addItem({
   command: COMMAND_ID
 });
 ```
