@@ -57,7 +57,7 @@ The `_logMessage` is executed when the signal is triggered from the first widget
 this._stateChanged.emit(this._count);
 ```
 
-Let's see how the implementations details.
+Let's look at the implementations details.
 
 ## A simple React Button
 
