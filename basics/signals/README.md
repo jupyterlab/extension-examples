@@ -30,7 +30,7 @@ some visual elements such as a button, defines a `_stateChanged` signal:
 private _stateChanged = new Signal<this, ICount>(this);
 ```
 
-That private signal is exposed to other widgeets via a public accessor method.
+That private signal is exposed to other widgets via a public accessor method.
 
 ```ts
 // src/button.tsx#L15-L17
