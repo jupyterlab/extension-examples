@@ -231,7 +231,7 @@ Then once the settings are loaded, each setting can be read using
 the `get` method and the _setting id_ (the key defined in the settings
 JSON file).
 
-After getting the setting, you need to require the `composite` attribute
+After getting the setting, you need to access the `composite` attribute
 to get its value and specify the type explicitly.
 
 ```ts
