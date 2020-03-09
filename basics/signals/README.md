@@ -114,7 +114,7 @@ protected _count: ICount = {
 private _stateChanged = new Signal<this, ICount>(this);
 ```
 
-A signal object can be triggered and then emits an actual message.
+A signal object can be triggered and then emits an actual signal.
 
 Other Widgets can subscribe to such a signal and react when a message is
 emitted.
