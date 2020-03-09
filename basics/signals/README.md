@@ -174,7 +174,7 @@ It registers the `_logMessage` function which is triggered when the signal is em
 > Providing the `this` context enables the connection to be properly cleared by `clearSignalData(this)`.
 > Using a private method avoids allocating a closure for each connection.
 
-The `_logMessage` function receives as parameters the emitter (of type `ButtonWidgeet`)
+The `_logMessage` function receives as parameters the emitter (of type `ButtonWidget`)
 and the count (of type `ICount`) sent by the signal emitter.
 
 ```ts
