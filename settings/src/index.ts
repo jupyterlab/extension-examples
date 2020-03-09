@@ -37,9 +37,6 @@ const extension: JupyterFrontEndPlugin<void> = {
       console.log(
         `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
       );
-      //      window.alert(
-      //        `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
-      //      );
     }
 
     // Wait for the application to be restored and
@@ -53,7 +50,7 @@ const extension: JupyterFrontEndPlugin<void> = {
         setting.changed.connect(loadSetting);
 
         commands.addCommand(COMMAND_ID, {
-          label: 'Toggle Flag Setting',
+          label: 'Toggle Flag and Increment Limit',
           isToggled: () => flag,
           execute: () => {
             // Programmatically change a setting
@@ -62,16 +59,29 @@ const extension: JupyterFrontEndPlugin<void> = {
                 `Something went wrong when setting flag.\n${reason}`
               );
             });
+            setting.set('limit', limit + 1).catch(reason => {
+              console.error(
+                `Something went wrong when setting limit.\n${reason}`
+              );
+            });
+            limit = setting.get('limit').composite as number;
+            flag = setting.get('flag').composite as boolean;
+            console.log(
+              `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+            );
+            window.alert(
+              `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
+            );
           }
         });
 
         // Create a menu
-        const tutorialMenu = new Menu({ commands });
-        tutorialMenu.title.label = 'Settings Example';
-        mainMenu.addMenu(tutorialMenu, { rank: 80 });
+        const settingsMenu = new Menu({ commands });
+        settingsMenu.title.label = 'Settings Example';
+        mainMenu.addMenu(settingsMenu, { rank: 80 });
 
         // Add the command to the menu
-        tutorialMenu.addItem({
+        settingsMenu.addItem({
           command: COMMAND_ID
         });
       })
