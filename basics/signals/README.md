@@ -171,7 +171,7 @@ It registers the `_logMessage` function which is triggered when the signal is em
 
 > From the official [JupyterLab Documentation](https://jupyterlab.readthedocs.io/en/stable/developer/patterns.html#signals):
 > Wherever possible as signal connection should be made with the pattern `.connect(this._onFoo, this)`.
-> Providing the this context enables the connection to be properly cleared by clearSignalData(this).
+> Providing the `this` context enables the connection to be properly cleared by `clearSignalData(this)`.
 > Using a private method avoids allocating a closure for each connection.
 
 The `_logMessage` function receives as parameters the emitter (of type `ButtonWidgeet`)
