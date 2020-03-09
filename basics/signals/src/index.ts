@@ -59,9 +59,9 @@ function activate(
   }
 
   // Add menu tab
-  const exampleMenu = new Menu({ commands });
-  exampleMenu.title.label = 'Signal Example';
-  mainMenu.addMenu(exampleMenu);
+  const signalMenu = new Menu({ commands });
+  signalMenu.title.label = 'Signal Example';
+  mainMenu.addMenu(signalMenu);
 
   // Add commands to registry
   commands.addCommand(CommandIDs.create, {
@@ -72,7 +72,7 @@ function activate(
 
   // Add items in command palette and menu
   palette.addItem({ command: CommandIDs.create, category });
-  exampleMenu.addItem({ command: CommandIDs.create });
+  signalMenu.addItem({ command: CommandIDs.create });
 }
 
 export default extension;
