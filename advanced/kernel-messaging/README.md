@@ -68,7 +68,7 @@ The session manager object is
 provided directly by the JupyterLab application:
 
 ```ts
-// src/index.ts#L40-L40
+// src/index.ts#L48-L48
 
 const manager = app.serviceManager;
 ```

@@ -31,6 +31,14 @@ const extension: JupyterFrontEndPlugin<void> = {
   activate: activate
 };
 
+/**
+ * Activate the JupyterLab extension.
+ *
+ * @param app Jupyter Font End
+ * @param palette Jupyter Commands Palette
+ * @param mainMenu Jupyter Menu
+ * @param launcher [optional] Jupyter Launcher
+ */
 function activate(
   app: JupyterFrontEnd,
   palette: ICommandPalette,
@@ -49,6 +57,11 @@ function activate(
     });
   }
 
+  /**
+   * Creates a example panel.
+   *
+   * @returns The panel
+   */
   async function createPanel(): Promise<ExamplePanel> {
     const panel = new ExamplePanel(manager);
     shell.add(panel, 'main');

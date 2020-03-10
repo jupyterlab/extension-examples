@@ -135,7 +135,7 @@ use them inside your extension. Let's look at this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L19-L94
+// src/index.ts#L19-L99
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
@@ -150,6 +150,11 @@ const extension: JupyterFrontEndPlugin<void> = {
     let limit = 25;
     let flag = false;
 
+    /**
+     * Load the settings for this extension
+     *
+     * @param setting Extension settings
+     */
     function loadSetting(setting: ISettingRegistry.ISettings): void {
       // Read the settings and convert to the correct type
       limit = setting.get('limit').composite as number;
@@ -221,7 +226,7 @@ your plugin settings to be loaded :
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L44-L44
+// src/index.ts#L49-L49
 
 Promise.all([app.restored, settings.load(PLUGIN_ID)])
 ```
@@ -235,7 +240,7 @@ After getting the setting, you need to access the `composite` attribute
 to get its value and specify the type explicitly.
 
 ```ts
-// src/index.ts#L32-L40
+// src/index.ts#L37-L45
 
 function loadSetting(setting: ISettingRegistry.ISettings): void {
   // Read the settings and convert to the correct type
@@ -256,7 +261,9 @@ To react at a setting change by the user, you should use the signal
 `loadSetting` is called with the new settings.
 
 ```ts
-// src/index.ts#L48-L51
+// src/index.ts#L55-L55
+
+setting.changed.connect(loadSetting);
 ```
 
 Finally, to demonstrate the programmatical change of a setting, a command to toggle
@@ -264,7 +271,7 @@ the `flag` and `limit` settings are updated.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L55-L75
+// src/index.ts#L60-L80
 
 execute: () => {
   // Programmatically change a setting
@@ -295,7 +302,7 @@ new value.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L57-L66
+// src/index.ts#L62-L71
 
 setting.set('flag', !flag).catch(reason => {
   console.error(
@@ -315,7 +322,7 @@ That command can be executed by clicking on the item menu created at the end of 
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L79-L86
+// src/index.ts#L84-L91
 
 const settingsMenu = new Menu({ commands });
 settingsMenu.title.label = 'Settings Example';

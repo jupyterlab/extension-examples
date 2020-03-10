@@ -180,7 +180,7 @@ and the count (of type `ICount`) sent by the signal emitter.
 ```ts
 // src/panel.ts#L25-L25
 
-private _logMessage(emitter: ButtonWidget, count: ICount) {
+private _logMessage(emitter: ButtonWidget, count: ICount): void {
 ```
 
 In our case, that function writes `Button has been clicked ... times.` text
@@ -189,7 +189,7 @@ to the browser console and in an alert when the big red button is clicked.
 ```ts
 // src/panel.ts#L25-L29
 
-private _logMessage(emitter: ButtonWidget, count: ICount) {
+private _logMessage(emitter: ButtonWidget, count: ICount): void {
   console.log('Hey, a Signal has been received from', emitter);
   console.log(
     `The big red button has been clicked ${count.clickCount} times.`

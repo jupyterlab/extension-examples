@@ -22,7 +22,7 @@ export class SignalExamplePanel extends StackedPanel {
     this._widget.stateChanged.connect(this._logMessage, this);
   }
 
-  private _logMessage(emitter: ButtonWidget, count: ICount) {
+  private _logMessage(emitter: ButtonWidget, count: ICount): void {
     console.log('Hey, a Signal has been received from', emitter);
     console.log(
       `The big red button has been clicked ${count.clickCount} times.`

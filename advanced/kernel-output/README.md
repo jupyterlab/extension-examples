@@ -185,7 +185,7 @@ You can then add the commands to the palette and the menu by iterating
 on a list:
 
 ```ts
-// src/index.ts#L91-L95
+// src/index.ts#L105-L109
 
 // add items in command palette and menu
 [CommandIDs.create, CommandIDs.execute].forEach(command => {
@@ -198,7 +198,7 @@ To create a new client session, the service manager must be obtained from
 the JupyterLab application:
 
 ```ts
-// src/index.ts#L45-L45
+// src/index.ts#L54-L54
 
 const manager = app.serviceManager;
 ```
@@ -208,10 +208,15 @@ ready. Then once the panel is created and its session is ready, it
 can be added to the JupyterLab main area:
 
 ```ts
-// src/index.ts#L49-L55
+// src/index.ts#L58-L69
 
 let panel: ExamplePanel;
 
+/**
+ * Creates a example panel.
+ *
+ * @returns The panel
+ */
 async function createPanel(): Promise<ExamplePanel> {
   panel = new ExamplePanel(manager, rendermime);
   shell.add(panel, 'main');
@@ -226,7 +231,7 @@ to be executed by the kernel. Then you will send it to your panel for execution
 and display:
 
 ```ts
-// src/index.ts#L69-L89
+// src/index.ts#L83-L103
 
 commands.addCommand(CommandIDs.execute, {
   label: 'Contact Kernel and Execute Code',
