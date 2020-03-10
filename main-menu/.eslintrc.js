@@ -21,9 +21,16 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['warn', { args: 'none' }],
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-namespace': 'off',
-    '@typescript-eslint/no-use-before-define': 'off'
+    '@typescript-eslint/no-use-before-define': 'off',
+    'jsdoc/require-param-type': 'off',
+    'jsdoc/require-property-type': 'off',
+    'jsdoc/require-returns-type': 'off',
+    'jsdoc/no-types': 'warn'
   },
   settings: {
+    jsdoc: {
+      mode: 'typescript'
+    },
     react: {
       version: 'detect'
     }

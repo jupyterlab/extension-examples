@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 
 /**
  * React component for a counter.
+ *
+ * @returns The React component
  */
 const CounterComponent = (): JSX.Element => {
   const [counter, setCounter] = useState(0);

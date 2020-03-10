@@ -29,6 +29,11 @@ const extension: JupyterFrontEndPlugin<void> = {
     let limit = 25;
     let flag = false;
 
+    /**
+     * Load the settings for this extension
+     *
+     * @param setting Extension settings
+     */
     function loadSetting(setting: ISettingRegistry.ISettings): void {
       // Read the settings and convert to the correct type
       limit = setting.get('limit').composite as number;
