@@ -267,5 +267,5 @@ We would like to thank [MMesch](https://github.com/MMesch) for [initiating this 
 
 ## Community Guidelines and Code of Conduct
 
-This examples repository is Jupyter project and follows the Jupyter
+This examples repository is a Jupyter project and follows the Jupyter
 [Community Guides and Code of Conduct](https://jupyter.readthedocs.io/en/latest/community/content-community.html).
