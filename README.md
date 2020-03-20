@@ -264,7 +264,6 @@ Complementary to these examples, you can rely on the official JupyterLab documen
 
 We would like to thank [MMesch](https://github.com/MMesch) for [initiating this work](https://github.com/MMesch/labextension_tutorial), as well as everyone else who contributed!
 
-
 ## Community Guidelines and Code of Conduct
 
 This examples repository is a Jupyter project and follows the Jupyter
