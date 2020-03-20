@@ -29,7 +29,7 @@ jobs:
           - widget-tracker/widgets
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
     - name: Check config files
       run: |
         diff basics/hello-world/tsconfig.json ${EXAMPLE_FOLDER}/tsconfig.json
@@ -74,7 +74,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
     - name: Install node
       uses: actions/setup-node@v1
       with:
@@ -127,7 +127,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
     - name: Install node
       uses: actions/setup-node@v1
       with:
