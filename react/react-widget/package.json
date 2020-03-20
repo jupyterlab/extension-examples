@@ -7,9 +7,9 @@
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/jtpio/jupyterlab-extension-examples",
+  "homepage": "https://github.com/jupyterlab/extension-examples",
   "bugs": {
-    "url": "https://github.com/jtpio/jupyterlab-extension-examples/issues"
+    "url": "https://github.com/jupyterlab/extension-examples/issues"
   },
   "license": "BSD-3-Clause",
   "author": "",
@@ -22,7 +22,7 @@
   "style": "style/index.css",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jtpio/jupyterlab-extension-examples.git"
+    "url": "https://github.com/jupyterlab/extension-examples.git"
   },
   "scripts": {
     "build": "tsc",

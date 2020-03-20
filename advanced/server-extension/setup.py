@@ -56,7 +56,7 @@ with open("README.md", "r") as fh:
 setup_args = dict(
     name=name,
     version=version,
-    url="https://github.com/jtpio/jupyterlab-extension-examples",
+    url="https://github.com/jupyterlab/extension-examples",
     author="JupyterLab",
     description="A minimal JupyterLab extension with backend and frontend parts.",
     long_description= long_description,

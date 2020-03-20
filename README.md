@@ -1,7 +1,7 @@
 # JupyterLab Extensions by Examples
 
-![Github Actions Status](https://github.com/jtpio/jupyterlab-extension-examples/workflows/CI/badge.svg)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jtpio/jupyterlab-extension-examples/master?urlpath=lab)
+![Github Actions Status](https://github.com/jupyterlab/extension-examples/workflows/CI/badge.svg)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/extension-examples/master?urlpath=lab)
 
 ## TL;DR
 
@@ -10,7 +10,7 @@ The goal of this repository is to show how to develop extensions for [JupyterLab
 To get started:
 
 ```bash
-git clone https://github.com/jtpio/jupyterlab-extension-examples.git && \
+git clone https://github.com/jupyterlab/extension-examples.git && \
   cd jupyterlab-extension-examples && \
   conda env create && \
   conda activate jupyterlab-extension-examples && \
@@ -21,7 +21,7 @@ git clone https://github.com/jtpio/jupyterlab-extension-examples.git && \
   jupyter lab
 ```
 
-The examples currently target **JupyterLab 2.x**. If you would like to use the examples with JupyterLab 1.x, check out the [1.x branch](https://github.com/jtpio/jupyterlab-extension-examples/tree/1.x). Note that the `1.x` branch is not updated anymore.
+The examples currently target **JupyterLab 2.x**. If you would like to use the examples with JupyterLab 1.x, check out the [1.x branch](https://github.com/jupyterlab/extension-examples/tree/1.x). Note that the `1.x` branch is not updated anymore.
 
 ## Develop by Examples
 
@@ -53,7 +53,7 @@ You can expect from each example:
 
 We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html). Browse the previews below or skip them and [jump directly to the sections for developers](#prerequisites).
 
-You are welcome to open any [issue](https://github.com/jtpio/jupyterlab-extension-examples/issues) or [pull request](https://github.com/jtpio/jupyterlab-extension-examples/pulls).
+You are welcome to open any [issue](https://github.com/jupyterlab/extension-examples/issues) or [pull request](https://github.com/jupyterlab/extension-examples/pulls).
 
 ## Basic
 
