@@ -32,23 +32,43 @@ that looks like this:
 
 ```bash
 hello-world/
-
-├── README.md
-├── package.json
-├── tsconfig.json
-├── src
-│   └── index.ts
-└── style
-    └── index.css
+│   .eslintignore
+│   .eslintrc.js
+│   .gitignore
+│   .prettierignore
+│   .prettierrc
+│   LICENSE
+│   package.json
+│   README.md
+│   tsconfig.json
+│
+├───.github
+│   └───workflows
+│           build.yml
+│
+├───src
+│       index.ts
+│
+└───style
+        index.css
 ```
 
-- `README.md` contains some instructions
-- `package.json` contains information about the extension such as dependencies
-- `tsconfig.json` contains information for the typescript compilation
-- `src/index.ts` _this contains the actual code of your extension_
-- `style/index.css` contains style elements that you can use
+Those files can be separated in 3 groups:
 
-The following sections will walk you through those files.
+- Information about the extension:
+  - `README.md` contains some instructions
+  - `LICENSE` contains your extension code license; BSD-3 Clause by default (but you can change it).
+- Extension code (those files are mandatory):
+  - `package.json` contains information about the extension such as dependencies
+  - `tsconfig.json` contains information for the typescript compilation
+  - `src/index.ts` _this contains the actual code of your extension_
+  - `style/index.css` contains style elements that you can use
+- Validation:
+  - `.prettierrc` and `.prettierignore` specify the code formatter [`prettier`](https://prettier.io) configuration
+  - `.eslintrc.js` and `.eslintignore` specify the code linter [`eslint`](https://eslint.org) configuration
+  - `.github/workflows/build.yml` sets the continuous integration tests of the code using [GitHub Actions](https://help.github.com/en/actions)
+
+The following sections will walk you through the extension code files.
 
 ## A minimal extension that prints to the browser console
 
