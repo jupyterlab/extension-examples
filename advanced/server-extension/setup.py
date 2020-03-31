@@ -1,5 +1,5 @@
 """
-Setup Module to setup Python Handlers for the server-extension extension.
+Setup Module to setup Python Handlers for the jlab_ext_example extension.
 """
 import os
 from os.path import join as pjoin
@@ -25,7 +25,7 @@ lab_path = pjoin(HERE, name, "labextension")
 
 # Representative files that should exist after a successful build
 jstargets = [
-    pjoin(HERE, "lib", "server-extension.js"),
+    pjoin(HERE, "lib", "jlabextexample.js"),
 ]
 
 package_data_spec = {
