@@ -20,51 +20,64 @@ can be downloaded with the [`cookiecutter`](https://cookiecutter.readthedocs.io/
 
 <!-- prettier-ignore-start -->
 ```bash
-cookiecutter https://github.com/fcollonval/cookiecutter-jupyterlab-extension-with-serverextension
+cookiecutter https://github.com/jupyterlab/extension-cookiecutter-ts
 ```
 
 `cookiecutter` asks for some basic information that could for example be setup
-like this:
+like this (be careful to set _has\_server\_extension_ to _y_):
 
 ```bash
 author_name []: my_name
 extension_name [myextension]: jlab_ext_example
 project_short_description [A JupyterLab extension.]: A minimal JupyterLab extension with backend and frontend parts.
-api_namespace [hello]:
+has_server_extension [n]: y
 repository [https://github.com/my_name/myextension]:
 ```
 
-The cookiecutter creates the directory `jlab-ext-example` [or your extension name]
+The cookiecutter creates the directory `jlab_ext_example` [or your extension name]
 that looks like this:
 
 ```bash
-server-extension/
+jlab_ext_example/
 │  # Generic Files
-├── LICENSE                     # License of your code
-├── README.md                   # Instructions to install and build
+│   .gitignore
+│   LICENSE                     # License of your code
+│   README.md                   # Instructions to install and build
+│
+├───.github
+│   └───workflows
+│           build.yml
 │  
 │  # Backend (server) Files
-├── MANIFEST.in                 # Help Python to list your source files
-├── setup.py                    # Information about the server package
-├── setupbase.py                # Helpers to package the code
-├── jupyter-config
-│   └── jlab_ext_example.json  # Server extension enabler
-├── jlab_ext_example
-│   ├── __init__.py             # Hook the extension in the server
-│   ├── _version.py             # Server extension version
-│   └── handlers.py             # API handler (where things happen)
+│   MANIFEST.in                 # Help Python to list your source files
+│   pyproject.toml              # Define dependencies for building the server package
+│   setup.py                    # Information about the server package
+│
+├───jlab_ext_example
+│       handlers.py             # API handler (where things happen)
+│       _version.py             # Server extension version
+│       __init__.py             # Hook the extension in the server
+│
+├───jupyter-config
+│       jlab_ext_example.json   # Server extension enabler
 │  
 │  # Frontend Files
-├── package.json                # Information about the frontend package
-├── tsconfig.json               # Typescript compilation configuration
-├── src
-│   ├── index.ts                # Actual code of the extension
-│   └── jlab_ext_example.ts    # More code used by the extension
-└── style
-    └── index.css               # CSS styling
+│   .eslintignore               # Code linter configuration
+│   .eslintrc.js
+│   .prettierignore             # Code formatter configuration
+│   .prettierrc
+│   package.json                # Information about the frontend package
+│   tsconfig.json               # Typescript compilation configuration
+│  
+├───src
+│       index.ts                # Actual code of the extension
+│       jlabextexample.ts       # More code used by the extension
+│
+└───style
+        index.css               # CSS styling
 ```
 
-There are two major parts in the full extension:
+There are two major parts in the extension:
 
 - A Python package for the server extension
 - A NPM package for the frontend extension
@@ -76,12 +89,12 @@ to demonstrate the use of GET and POST HTTP requests.
 
 The entry point for the frontend extension is `src/index.ts`. The
 communication with the server extension is contained in another file
-`src/server-extension.ts`. So you need to import it:
+`src/jlabextexample.ts`. So you need to import it:
 
 ```ts
-// src/index.ts#L6-L6
+// src/index.ts#L12-L12
 
-import { IFrame } from '@jupyterlab/apputils';
+import { requestAPI } from './jlabextexample';
 ```
 
 In the `activate` function, the server extension is first called through
@@ -89,7 +102,7 @@ a GET request on the endpoint _/jlab-ext-example/hello_. The response from the s
 is printed in the web browser console:
 
 ```ts
-// src/index.ts#L38-L44
+// src/index.ts#L36-L42
 
 // GET request
 try {
@@ -100,11 +113,11 @@ try {
 }
 ```
 
-As the server response is not instantanious, the request is done asynchronously
+As the server response is not instantaneous, the request is done asynchronously
 using the `await` keyword:
 
 ```ts
-// src/index.ts#L40-L40
+// src/index.ts#L38-L38
 
 const data = await requestAPI<any>('hello');
 ```
@@ -113,7 +126,7 @@ To use that `await` keyword, the function must be declared as asynchronous
 using the `async` keyword:
 
 ```ts
-// src/index.ts#L31-L35
+// src/index.ts#L29-L33
 
 activate: async (
   app: JupyterFrontEnd,
@@ -127,7 +140,7 @@ you will need to execute a POST request. In this example, a POST request
 is sent to the _/jlab-ext-example/hello_ endpoint with the data `{name: 'George'}`:
 
 ```ts
-// src/index.ts#L47-L58
+// src/index.ts#L45-L56
 
 const dataToSend = { name: 'George' };
 try {
@@ -154,7 +167,7 @@ The communication logic with the server is hidden in the `requestAPI` function.
 Its definition is :
 
 ```ts
-// src/server-extension.ts#L12-L37
+// src/jlabextexample.ts#L12-L37
 
 export async function requestAPI<T>(
   endPoint = '',
@@ -187,7 +200,7 @@ export async function requestAPI<T>(
 First the server settings are obtained from:
 
 ```ts
-// src/server-extension.ts#L17-L17
+// src/jlabextexample.ts#L17-L17
 
 const settings = ServerConnection.makeSettings();
 ```
@@ -201,7 +214,7 @@ jlpm add @jupyterlab/services
 Then the class `ServerConnection` can be imported:
 
 ```ts
-// src/server-extension.ts#L3-L3
+// src/jlabextexample.ts#L3-L3
 
 import { ServerConnection } from '@jupyterlab/services';
 ```
@@ -209,7 +222,7 @@ import { ServerConnection } from '@jupyterlab/services';
 The next step is to build the full request URL:
 
 ```ts
-// src/server-extension.ts#L18-L21
+// src/jlabextexample.ts#L18-L21
 
 const requestUrl = URLExt.join(
   settings.baseUrl,
@@ -220,7 +233,7 @@ const requestUrl = URLExt.join(
 To concatenate the various parts, the `URLExt` utility is imported:
 
 ```ts
-// src/server-extension.ts#L1-L1
+// src/jlabextexample.ts#L1-L1
 
 import { URLExt } from '@jupyterlab/coreutils';
 ```
@@ -234,7 +247,7 @@ jlpm add @jupyterlab/coreutils
 You now have all the elements to make the request:
 
 ```ts
-// src/server-extension.ts#L26-L26
+// src/jlabextexample.ts#L26-L26
 
 response = await ServerConnection.makeRequest(requestUrl, init, settings);
 ```
@@ -243,7 +256,7 @@ Finally, once the server response is obtained, its body is interpreted as
 JSON. And the resulting data is returned.
 
 ```ts
-// src/server-extension.ts#L31-L37
+// src/jlabextexample.ts#L31-L37
 
 const data = await response.json();
 
@@ -257,7 +270,7 @@ return data;
 This example also showcases how you can serve static files from the server extension.
 
 ```ts
-// src/index.ts#L60-L81
+// src/index.ts#L58-L79
 
 const { commands, shell } = app;
 const command = CommandIDs.get;
@@ -324,21 +337,21 @@ from .handlers import setup_handlers
 
 
 def _jupyter_server_extension_paths():
-    return [{
-        'module': 'jlab_ext_example'
-    }]
+    return [{"module": "jlab_ext_example"}]
 
 
-def load_jupyter_server_extension(nb_app):
+def load_jupyter_server_extension(lab_app):
     """Registers the API handler to receive HTTP requests from the frontend extension.
     Parameters
     ----------
-    nb_app: notebook.notebookapp.NotebookApp
-        Notebook application instance
+    lab_app: jupyterlab.labapp.LabApp
+        JupyterLab application instance
     """
-    url_path = 'jlab-ext-example'
-    setup_handlers(nb_app.web_app, url_path)
-    nb_app.log.info('Registered jlab_ext_example extension at URL path /{}'.format(url_path))
+    url_path = "jlab-ext-example"
+    setup_handlers(lab_app.web_app, url_path)
+    lab_app.log.info(
+        "Registered jlab_ext_example extension at URL path /{}".format(url_path)
+    )
 
 ```
 
@@ -347,22 +360,22 @@ to the server. But the most important one is `load_jupyter_jlab_ext_example`
 that register new handlers.
 
 ```py
-# jlab_ext_example/__init__.py#L19-L19
+# jlab_ext_example/__init__.py#L17-L17
 
-setup_handlers(nb_app.web_app, url_path)
+setup_handlers(lab_app.web_app, url_path)
 ```
 
 A handler is registered in the web application by linking an url to a class. In this
 example the url is _base_server_url_`/jlab-ext-example/hello` and the class handler is `RouteHandler`:
 
 ```py
-# jlab_ext_example/handlers.py#L31-L37
+# jlab_ext_example/handlers.py#L28-L34
 
-host_pattern = '.*$'
-base_url = web_app.settings['base_url']
+host_pattern = ".*$"
+base_url = web_app.settings["base_url"]
 
 # Prepend the base_url so that it works in a jupyterhub setting
-route_pattern = url_path_join(base_url, url_path, 'hello')
+route_pattern = url_path_join(base_url, url_path, "hello")
 handlers = [(route_pattern, RouteHandler)]
 web_app.add_handlers(host_pattern, handlers)
 ```
@@ -372,25 +385,21 @@ implement the wanted HTTP verbs. For example, here, `/jlab-ext-example/hello` ca
 by a _GET_ or a _POST_ request. They will call the `get` or `post` method respectively.
 
 ```py
-# jlab_ext_example/handlers.py#L10-L27
+# jlab_ext_example/handlers.py#L11-L24
 
 class RouteHandler(APIHandler):
-    # The following decorator should be present on all verb methods (head, get, post, 
-    # patch, put, delete, options) to ensure only authorized user can request the 
+    # The following decorator should be present on all verb methods (head, get, post,
+    # patch, put, delete, options) to ensure only authorized user can request the
     # Jupyter server
     @tornado.web.authenticated
     def get(self):
-        self.finish(json.dumps({
-            'data': 'This is /jlab-ext-example/hello endpoint!'
-        }))
+        self.finish(json.dumps({"data": "This is /jlab-ext-example/hello endpoint!"}))
 
     @tornado.web.authenticated
     def post(self):
-        # input_data is a dictionnary with a key 'name'
+        # input_data is a dictionnary with a key "name"
         input_data = self.get_json_body()
-        data = {
-            'greetings': 'Hello {}, enjoy JupyterLab!'.format(input_data['name'])
-        }
+        data = {"greetings": "Hello {}, enjoy JupyterLab!".format(input_data["name"])}
         self.finish(json.dumps(data))
 ```
 
@@ -405,12 +414,10 @@ by calling the `finish` method. That method can optionally take an argument that
 become the response body of the request in the frontend.
 
 ```py
-# jlab_ext_example/handlers.py#L23-L26
+# jlab_ext_example/handlers.py#L16-L17
 
-input_data = self.get_json_body()
-data = {
-    'greetings': 'Hello {}, enjoy JupyterLab!'.format(input_data['name'])
-}
+def get(self):
+    self.finish(json.dumps({"data": "This is /jlab-ext-example/hello endpoint!"}))
 ```
 
 In Jupyter, it is common to use JSON as format between the frontend and the backend.
@@ -422,28 +429,25 @@ sent by the frontend. When using JSON as communication format, you can directly 
 `get_json_body` helper method to convert the request body into a Python dictionary.
 
 ```py
-# jlab_ext_example/handlers.py#L23-L26
+# jlab_ext_example/handlers.py#L22-L23
 
 input_data = self.get_json_body()
-data = {
-    'greetings': 'Hello {}, enjoy JupyterLab!'.format(input_data['name'])
-}
+data = {"greetings": "Hello {}, enjoy JupyterLab!".format(input_data["name"])}
 ```
 
 The part responsible to serve static content with a `StaticFileHandler` handler 
 is the following:
 
 ```py
-# jlab_ext_example/handlers.py#L39-L46
+# jlab_ext_example/handlers.py#L37-L43
 
-# Prepend the base_url so that it works in a jupyterhub setting
-doc_url = url_path_join(base_url, url_path, 'static')
-doc_dir = os.getenv('JLAB_SERVER_EXAMPLE_STATIC_DIR', os.path.join(os.path.dirname(__file__), '..', 'static'))
-handlers = [(f'{doc_url}/(.*)',
-    StaticFileHandler,
-    {'path': doc_dir})
-]
-web_app.add_handlers('.*$', handlers)
+doc_url = url_path_join(base_url, url_path, "static")
+doc_dir = os.getenv(
+    "JLAB_SERVER_EXAMPLE_STATIC_DIR",
+    os.path.join(os.path.dirname(__file__), "static"),
+)
+handlers = [("{}/(.*)".format(doc_url), StaticFileHandler, {"path": doc_dir})]
+web_app.add_handlers(".*$", handlers)
 ```
 
 **Security Note**
@@ -465,10 +469,10 @@ In the previous sections, the acting code has been described. But there are othe
 with the sole purpose of packaging the full extension nicely to help its distribution
 through package managers like `pip`.
 
-> Note: In particular, `setupbase.py` provides helpers to package and install JS files
+> Note: In particular, [`jupyter-packaging`](https://github.com/jupyter/jupyter-packaging) provides helpers to package and install JS files
 > with a Python package for Jupyter frontends (classical notebook,
 > JupyterLab,...).  
-> Those helpers are maintained in [`jupyter-packaging`](https://github.com/jupyter/jupyter-packaging). As this provides setup helpers, it is easier to copy them along side the `setup.py` file as recommended in the `jupyter-packaging` README.
+> As this package is a setup requirement, it needs to be specified in the `pyproject.toml` to be installed by `pip`.
 
 The `setup.py` file is the entry point to describe package metadata:
 
@@ -476,12 +480,12 @@ The `setup.py` file is the entry point to describe package metadata:
 # setup.py
 
 """
-Setup Module to setup Python Handlers for the server-extension extension.
+Setup Module to setup Python Handlers for the jlab_ext_example extension.
 """
 import os
 from os.path import join as pjoin
 
-from setupbase import (
+from jupyter_packaging import (
     create_cmdclass, install_npm, ensure_targets,
     combine_commands, ensure_python, get_version    
 )
@@ -493,7 +497,7 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 name="jlab_ext_example"
 
 # Ensure a valid python version
-ensure_python(">=3.6")
+ensure_python(">=3.5")
 
 # Get the version
 version = get_version(pjoin(name, "_version.py"))
@@ -502,7 +506,7 @@ lab_path = pjoin(HERE, name, "labextension")
 
 # Representative files that should exist after a successful build
 jstargets = [
-    pjoin(HERE, "lib", "jlab_ext_example.js"),
+    pjoin(HERE, "lib", "jlabextexample.js"),
 ]
 
 package_data_spec = {
@@ -514,7 +518,7 @@ package_data_spec = {
 data_files_spec = [
     ("share/jupyter/lab/extensions", lab_path, "*.tgz"),
     ("etc/jupyter/jupyter_notebook_config.d",
-     "etc", "jupyter", "jupyter_notebook_config.d", "jlab_ext_example.json"),
+     "jupyter-config", "jlab_ext_example.json"),
 ]
 
 cmdclass = create_cmdclass("jsdeps",
@@ -541,7 +545,7 @@ setup_args = dict(
     cmdclass= cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
-        "jupyterlab",
+        "jupyterlab~=2.0",
     ],
     zip_safe=False,
     include_package_data=True,
@@ -552,6 +556,7 @@ setup_args = dict(
         "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
@@ -592,18 +597,18 @@ Basically it will build the frontend NPM package:
 install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
 ```
 
-It will ensure one of the generated JS files is `lib/server-extension.js`:
+It will ensure one of the generated JS files is `lib/jlabextexample.js`:
 
 ```py
 # setup.py#L27-L29
 
 jstargets = [
-    pjoin(HERE, "lib", "jlab_ext_example.js"),
+    pjoin(HERE, "lib", "jlabextexample.js"),
 ]
 ```
 
 It will copy the NPM package in the Python package and force it to be copied in a place
-JupyterLab is looking for frontend extensions:
+JupyterLab is looking for frontend extensions when the Python package is installed:
 
 ```py
 # setup.py#L38-L38
@@ -615,7 +620,7 @@ The last piece of configuration needed is the enabling of the server extension. 
 done by copying the following JSON file:
 
 ```json5
-// etc/jupyter/jupyter_notebook_config.d/jlab_ext_example.json
+// jupyter-config/jlab_ext_example.json
 
 {
   "NotebookApp": {
@@ -633,7 +638,7 @@ in the appropriate jupyter folder (`etc/jupyter/jupyter_notebook_config.d`):
 # setup.py#L39-L40
 
 ("etc/jupyter/jupyter_notebook_config.d",
- "etc", "jupyter", "jupyter_notebook_config.d", "jlab_ext_example.json"),
+ "jupyter-config", "jlab_ext_example.json"),
 ```
 
 ### JupyterLab Extension Manager
@@ -645,7 +650,7 @@ user about that dependency by adding the `discovery` metadata to your `package.j
 file:
 
 ```json5
-// package.json#L62-L72
+// package.json#L63-L73
 
 "jupyterlab": {
   "discovery": {
@@ -663,7 +668,7 @@ file:
 In this example, the extension requires a `server` extension:
 
 ```json5
-// package.json#L64-L64
+// package.json#L65-L65
 
 "server": {
 ```
@@ -671,7 +676,7 @@ In this example, the extension requires a `server` extension:
 And that server extension is available through `pip`:
 
 ```json5
-// package.json#L65-L67
+// package.json#L66-L68
 
 "managers": [
   "pip"
@@ -682,12 +687,12 @@ For more information on the `discovery` metadata, please refer to the [documenta
 
 ## Installing the Package
 
-With the packaging described above, installing the extension is done in two commands:
+With the packaging described above, installing the extension is done in two commands once the package is published on pypi.org:
 
 ```bash
 # Install the server extension and
 # copy the frontend extension where JupyterLab can find it
-pip install server-extension
+pip install jlab_ext_example
 # Build JupyterLab to integrate the frontend extension
 jupyter lab build
 ```

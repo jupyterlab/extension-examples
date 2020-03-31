@@ -28,6 +28,7 @@ module.exports = {
       { avoidEscape: true, allowTemplateLiterals: false }
     ],
     curly: ['error', 'all'],
+    eqeqeq: 'error',
     'jsdoc/require-param-type': 'off',
     'jsdoc/require-property-type': 'off',
     'jsdoc/require-returns-type': 'off',
