@@ -514,7 +514,7 @@ package_data_spec = {
 data_files_spec = [
     ("share/jupyter/lab/extensions", lab_path, "*.tgz"),
     ("etc/jupyter/jupyter_notebook_config.d",
-     "etc", "jupyter", "jupyter_notebook_config.d", "jlab_ext_example.json"),
+     "jupyter-config", "jlab_ext_example.json"),
 ]
 
 cmdclass = create_cmdclass("jsdeps",
@@ -615,7 +615,7 @@ The last piece of configuration needed is the enabling of the server extension. 
 done by copying the following JSON file:
 
 ```json5
-// etc/jupyter/jupyter_notebook_config.d/jlab_ext_example.json
+// jupyter-config/jlab_ext_example.json
 
 {
   "NotebookApp": {

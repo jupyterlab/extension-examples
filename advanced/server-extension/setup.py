@@ -4,7 +4,7 @@ Setup Module to setup Python Handlers for the server-extension extension.
 import os
 from os.path import join as pjoin
 
-from setupbase import (
+from jupyter_packaging import (
     create_cmdclass, install_npm, ensure_targets,
     combine_commands, ensure_python, get_version    
 )
@@ -16,7 +16,7 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 name="jlab_ext_example"
 
 # Ensure a valid python version
-ensure_python(">=3.6")
+ensure_python(">=3.5")
 
 # Get the version
 version = get_version(pjoin(name, "_version.py"))
@@ -25,7 +25,7 @@ lab_path = pjoin(HERE, name, "labextension")
 
 # Representative files that should exist after a successful build
 jstargets = [
-    pjoin(HERE, "lib", "jlab_ext_example.js"),
+    pjoin(HERE, "lib", "server-extension.js"),
 ]
 
 package_data_spec = {
@@ -37,7 +37,7 @@ package_data_spec = {
 data_files_spec = [
     ("share/jupyter/lab/extensions", lab_path, "*.tgz"),
     ("etc/jupyter/jupyter_notebook_config.d",
-     "etc", "jupyter", "jupyter_notebook_config.d", "jlab_ext_example.json"),
+     "jupyter-config", "jlab_ext_example.json"),
 ]
 
 cmdclass = create_cmdclass("jsdeps",
@@ -64,7 +64,7 @@ setup_args = dict(
     cmdclass= cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
-        "jupyterlab",
+        "jupyterlab~=2.0",
     ],
     zip_safe=False,
     include_package_data=True,
@@ -75,6 +75,7 @@ setup_args = dict(
         "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",

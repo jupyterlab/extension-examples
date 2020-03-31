@@ -3,13 +3,11 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { IFrame } from '@jupyterlab/apputils';
-
-import { ICommandPalette } from '@jupyterlab/apputils';
-
-import { ILauncher } from '@jupyterlab/launcher';
+import { ICommandPalette, IFrame } from '@jupyterlab/apputils';
 
 import { PageConfig } from '@jupyterlab/coreutils';
+
+import { ILauncher } from '@jupyterlab/launcher';
 
 import { requestAPI } from './server-extension';
 

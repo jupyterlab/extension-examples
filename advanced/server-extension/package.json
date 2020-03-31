@@ -33,19 +33,19 @@
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
     "clean:labextension": "rimraf jlab_ext_example/labextension",
     "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
-    "link": "jupyter labextension link . --no-build",
-    "prepare": "jlpm run clean && jlpm run build",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
+    "link": "jupyter labextension link . --no-build",
+    "prepare": "jlpm run clean && jlpm run build",
     "watch": "tsc -w"
   },
   "dependencies": {
     "@jupyterlab/application": "^2.0.0",
     "@jupyterlab/coreutils": "^4.0.0",
+    "@jupyterlab/launcher": "^2.0.0",
     "@jupyterlab/services": "^5.0.0"
   },
   "devDependencies": {
-    "mkdirp": "^0.5.1",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",
     "eslint": "^6.8.0",
@@ -53,6 +53,7 @@
     "eslint-plugin-jsdoc": "^22.0.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
+    "mkdirp": "^1.0.3",
     "rimraf": "^3.0.0",
     "typescript": "~3.7.5"
   },
