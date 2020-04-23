@@ -59,24 +59,21 @@ const extension: JupyterFrontEndPlugin<void> = {
           isToggled: () => flag,
           execute: () => {
             // Programmatically change a setting
-            setting.set('flag', !flag).catch(reason => {
+            Promise.all([
+              setting.set('flag', !flag),
+              setting.set('limit', limit + 1)
+            ]).then(() => {
+              const new_limit = setting.get('limit').composite as number;
+              const new_flag = setting.get('flag').composite as boolean;
+              window.alert(
+                `Settings Example extension: Limit is set to '${new_limit}' and flag to '${new_flag}'`
+              );
+            })
+            .catch(reason => {
               console.error(
-                `Something went wrong when setting flag.\n${reason}`
+                `Something went wrong when changing the settings.\n${reason}`
               );
             });
-            setting.set('limit', limit + 1).catch(reason => {
-              console.error(
-                `Something went wrong when setting limit.\n${reason}`
-              );
-            });
-            limit = setting.get('limit').composite as number;
-            flag = setting.get('flag').composite as boolean;
-            console.log(
-              `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
-            );
-            window.alert(
-              `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
-            );
           }
         });
 
