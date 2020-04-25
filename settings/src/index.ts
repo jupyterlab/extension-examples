@@ -62,18 +62,19 @@ const extension: JupyterFrontEndPlugin<void> = {
             Promise.all([
               setting.set('flag', !flag),
               setting.set('limit', limit + 1)
-            ]).then(() => {
-              const new_limit = setting.get('limit').composite as number;
-              const new_flag = setting.get('flag').composite as boolean;
-              window.alert(
-                `Settings Example extension: Limit is set to '${new_limit}' and flag to '${new_flag}'`
-              );
-            })
-            .catch(reason => {
-              console.error(
-                `Something went wrong when changing the settings.\n${reason}`
-              );
-            });
+            ])
+              .then(() => {
+                const newLimit = setting.get('limit').composite as number;
+                const newFlag = setting.get('flag').composite as boolean;
+                window.alert(
+                  `Settings Example extension: Limit is set to '${newLimit}' and flag to '${newFlag}'`
+                );
+              })
+              .catch(reason => {
+                console.error(
+                  `Something went wrong when changing the settings.\n${reason}`
+                );
+              });
           }
         });
 
