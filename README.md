@@ -10,7 +10,7 @@ The goal of this repository is to show how to develop extensions for [JupyterLab
 To get started:
 
 ```bash
-git clone https://github.com/jupyterlab/extension-examples.git && \
+git clone https://github.com/jupyterlab/extension-examples.git jupyterlab-extension-examples && \
   cd jupyterlab-extension-examples && \
   conda env create && \
   conda activate jupyterlab-extension-examples && \
