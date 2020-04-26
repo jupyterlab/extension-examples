@@ -167,13 +167,16 @@ _Don't be scared of Typescript, even if you never coded in TypeScript before you
 JupyterLab you may find it easier to understand than pure JavaScript if you have a
 basic understanding of object oriented programming and types._
 
-These examples are developed and tested on top of JupyterLab version 1.2.
-You can create a [conda](https://docs.conda.io/en/latest/miniconda.html) environment to get started.
+These examples are developed and tested on top of JupyterLab.
+You can create a [conda](https://docs.conda.io/en/latest/miniconda.html) environment to get started
+after cloning this repository.
 
 ```bash
 conda env create && \
   conda activate jupyterlab-extension-examples
 ```
+
+> The previous command will use the [environment.yaml](https://github.com/jupyterlab/extension-examples/blob/master/environment.yml) file as requirements for the environment.
 
 ## Develop and Use the Examples
 
