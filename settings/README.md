@@ -12,7 +12,7 @@ The core token required for handling the settings is
 you first need to install its npm package:
 
 ```bash
-jlpm add @jupyterlab/coreutils
+jlpm add @jupyterlab/settingregistry
 ```
 
 Once this is done, you can import the interface in your code.
@@ -135,7 +135,7 @@ use them inside your extension. Let's look at this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L19-L99
+// src/index.ts#L19-L97
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
@@ -180,24 +180,22 @@ const extension: JupyterFrontEndPlugin<void> = {
           isToggled: () => flag,
           execute: () => {
             // Programmatically change a setting
-            setting.set('flag', !flag).catch(reason => {
-              console.error(
-                `Something went wrong when setting flag.\n${reason}`
-              );
-            });
-            setting.set('limit', limit + 1).catch(reason => {
-              console.error(
-                `Something went wrong when setting limit.\n${reason}`
-              );
-            });
-            limit = setting.get('limit').composite as number;
-            flag = setting.get('flag').composite as boolean;
-            console.log(
-              `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
-            );
-            window.alert(
-              `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
-            );
+            Promise.all([
+              setting.set('flag', !flag),
+              setting.set('limit', limit + 1)
+            ])
+              .then(() => {
+                const newLimit = setting.get('limit').composite as number;
+                const newFlag = setting.get('flag').composite as boolean;
+                window.alert(
+                  `Settings Example extension: Limit is set to '${newLimit}' and flag to '${newFlag}'`
+                );
+              })
+              .catch(reason => {
+                console.error(
+                  `Something went wrong when changing the settings.\n${reason}`
+                );
+              });
           }
         });
 
@@ -266,33 +264,31 @@ To react at a setting change by the user, you should use the signal
 setting.changed.connect(loadSetting);
 ```
 
-Finally, to demonstrate the programmatical change of a setting, a command to toggle
+Finally, to demonstrate the programmatic change of a setting, a command to toggle
 the `flag` and `limit` settings are updated.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L60-L80
+// src/index.ts#L60-L78
 
 execute: () => {
   // Programmatically change a setting
-  setting.set('flag', !flag).catch(reason => {
-    console.error(
-      `Something went wrong when setting flag.\n${reason}`
-    );
-  });
-  setting.set('limit', limit + 1).catch(reason => {
-    console.error(
-      `Something went wrong when setting limit.\n${reason}`
-    );
-  });
-  limit = setting.get('limit').composite as number;
-  flag = setting.get('flag').composite as boolean;
-  console.log(
-    `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
-  );
-  window.alert(
-    `Settings Example extension: Limit is set to '${limit}' and flag to '${flag}'`
-  );
+  Promise.all([
+    setting.set('flag', !flag),
+    setting.set('limit', limit + 1)
+  ])
+    .then(() => {
+      const newLimit = setting.get('limit').composite as number;
+      const newFlag = setting.get('flag').composite as boolean;
+      window.alert(
+        `Settings Example extension: Limit is set to '${newLimit}' and flag to '${newFlag}'`
+      );
+    })
+    .catch(reason => {
+      console.error(
+        `Something went wrong when changing the settings.\n${reason}`
+      );
+    });
 }
 ```
 <!-- prettier-ignore-end -->
@@ -302,18 +298,10 @@ new value.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L62-L71
+// src/index.ts#L63-L64
 
-setting.set('flag', !flag).catch(reason => {
-  console.error(
-    `Something went wrong when setting flag.\n${reason}`
-  );
-});
-setting.set('limit', limit + 1).catch(reason => {
-  console.error(
-    `Something went wrong when setting limit.\n${reason}`
-  );
-});
+setting.set('flag', !flag),
+setting.set('limit', limit + 1)
 ```
 <!-- prettier-ignore-end -->
 
@@ -322,7 +310,7 @@ That command can be executed by clicking on the item menu created at the end of 
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L84-L91
+// src/index.ts#L82-L89
 
 const settingsMenu = new Menu({ commands });
 settingsMenu.title.label = 'Settings Example';
