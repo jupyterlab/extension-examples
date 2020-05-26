@@ -4,7 +4,7 @@
 
 This extension shows how to use the `ReactWidget` wrapper from `@jupyterlab/apputils` to use React in a JupyterLab extension.
 
-![react-widget](preview.gif)
+![react-widget](preview2.gif)
 
 ## Install
 
@@ -32,4 +32,4 @@ jupyter lab --watch
 
 It is possible to use the [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=de) Chrome extension to inspect React components.
 
-![react-dev-tools](preview2.gif)
+![react-dev-tools](preview.gif)
