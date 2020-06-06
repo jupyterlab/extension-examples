@@ -9,7 +9,7 @@ on:
 jobs:
 
   build_extensions:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -27,6 +27,7 @@ jobs:
           - settings
           - state
           - widget-tracker/widgets
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -38,10 +39,11 @@ jobs:
         diff basics/hello-world/.gitignore ${EXAMPLE_FOLDER}/.gitignore
       env:
         EXAMPLE_FOLDER: ${{ matrix.example }}
+      shell: bash
     - name: Install node
       uses: actions/setup-node@v1
       with:
-       node-version: '10.x'
+       node-version: '12.x'
     - name: Install Python
       uses: actions/setup-python@v1
       with:
@@ -55,12 +57,14 @@ jobs:
         jlpm
       env:
         EXAMPLE_FOLDER: ${{ matrix.example }}
+      shell: bash
     - name: Lint the files
       run: |
         cd ${EXAMPLE_FOLDER}
         jlpm run eslint:check
       env:
         EXAMPLE_FOLDER: ${{ matrix.example }}
+      shell: bash
     - name: Build and check by extension
       run: |
         cd ${EXAMPLE_FOLDER}
@@ -69,21 +73,27 @@ jobs:
         python -m jupyterlab.browser_check
       env:
         EXAMPLE_FOLDER: ${{ matrix.example }}
+      shell: bash
 
   build_serverextension:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Install node
       uses: actions/setup-node@v1
       with:
-       node-version: '10.x'
+       node-version: '12.x'
     - name: Check config files
       run: |
         diff basics/hello-world/tsconfig.json advanced/server-extension/tsconfig.json
         diff basics/hello-world/.eslintignore advanced/server-extension/.eslintignore
         diff basics/hello-world/.eslintrc.js advanced/server-extension/.eslintrc.js
+      shell: bash
     - name: Install Python
       uses: actions/setup-python@v1
       with:
@@ -101,45 +111,55 @@ jobs:
       run: |
         cd advanced/server-extension
         jlpm run eslint:check
-    - name: Build and check extension as user
+    - name: Build extension as user
+      # Force the usage of the source distribution (good practice)
       run: |
         cd advanced/server-extension
-        # Force the usage of the source distribution (good practice)
         python setup.py sdist
         pip install jlab_ext_example --pre --find-links=dist --no-cache-dir
         jupyter lab build
-        jupyter serverextension list list 1>serverextensions 2>&1
+        python -m jupyterlab.browser_check
+    - name: Check extension as dev
+      if: startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS')
+      run: |
+        jupyter serverextension list 1>serverextensions 2>&1
         cat serverextensions | grep "jlab_ext_example.*OK"
         jupyter labextension list 1>labextensions 2>&1
         cat labextensions | grep "@jupyterlab-examples/server-extension.*OK"
-        python -m jupyterlab.browser_check
     - name: Clean extension installation
       run: |
         pip uninstall -y jlab_ext_example
         jupyter lab clean
         jupyter serverextension list
         jupyter labextension list
-    - name: Build and check extension as dev
+    - name: Build extension as dev
       run: |
         cd advanced/server-extension
         pip install -e .
         jupyter serverextension enable --py jlab_ext_example
         jupyter labextension link .
-        jupyter serverextension list list 1>serverextensions 2>&1
+    - name: Check extension as dev
+      if: startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS')
+      run: |
+        jupyter serverextension list 1>serverextensions 2>&1
         cat serverextensions | grep "jlab_ext_example.*OK"
         jupyter labextension list 1>labextensions 2>&1
         cat labextensions | grep "@jupyterlab-examples/server-extension.*OK"
         python -m jupyterlab.browser_check
 
   build_all:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Install node
       uses: actions/setup-node@v1
       with:
-       node-version: '10.x'
+       node-version: '12.x'
     - name: Install Python
       uses: actions/setup-python@v1
       with:
