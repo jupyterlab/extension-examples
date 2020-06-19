@@ -112,4 +112,3 @@ know more about those other possible, you could look at the following examples:
 
 - Add the command to the [command palette](../command-palette/README.md)
 - Add the command to a [menu](../main-menu/README.md)
-- Add the command to a [context menu](../context-menu/README.md)

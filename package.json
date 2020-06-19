@@ -25,7 +25,6 @@
       "basics/*",
       "commands",
       "command-palette",
-      "context-menu/*",
       "keyboard-shortcuts/*",
       "launcher",
       "left-right-areas/*",
