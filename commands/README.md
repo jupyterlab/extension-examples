@@ -93,5 +93,4 @@ card or the command palette to be easily triggered by the user.
 
 - Add the command to the [command palette](../command-palette/README.md)
 - Add the command to a [menu](../main-menu/README.md)
-- Add the command to a [context menu](../context-menu/README.md)
 - Add the command to the [launcher](../launcher/README.md)
