@@ -23,20 +23,15 @@
     "packages": [
       "advanced/*",
       "basics/*",
-      "commands",
       "command-palette",
+      "commands",
       "context-menu",
-      "custom-log-console",
-      "keyboard-shortcuts/*",
       "launcher",
-      "left-right-areas/*",
-      "log-messages",
+      "log-console/*",
       "main-menu",
       "react/*",
-      "state",
-      "status-bar/*",
       "settings",
-      "copy-shareable-link/*",
+      "state",
       "widget-tracker/*"
     ]
   },
