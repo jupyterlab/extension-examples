@@ -65,7 +65,9 @@ const extension: JupyterFrontEndPlugin<void> = {
     });
     commands.addCommand('jlab-examples/custom-log-console:level', {
       execute: (args: any) => {
-        if (logConsolePanel?.logger) logConsolePanel.logger.level = args.level;
+        if (logConsolePanel?.logger) {
+          logConsolePanel.logger.level = args.level;
+        }
       },
       isEnabled: () => !!logConsolePanel && logConsolePanel.source !== null,
       label: args => `Set Log Level to ${args.level as string}`
@@ -145,7 +147,7 @@ const extension: JupyterFrontEndPlugin<void> = {
         const msg: IHtmlLog = {
           type: 'html',
           level: 'debug',
-          data: `<div>Hello world HTML!!</div>`
+          data: '<div>Hello world HTML!!</div>'
         };
 
         logConsolePanel?.logger?.log(msg);

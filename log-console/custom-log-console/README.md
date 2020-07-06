@@ -62,7 +62,7 @@ The next step you will need to do is to create a new widget once you click on th
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L74-L74
+// src/index.ts#L76-L76
 
 const createLogConsoleWidget = () => {
 ```
@@ -72,7 +72,7 @@ To initialize a new `LogConsoleWidget` you have to create a `LogConsolePanel` wh
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L75-L80
+// src/index.ts#L77-L82
 
 logConsolePanel = new LogConsolePanel(
   new LoggerRegistry({
@@ -87,7 +87,7 @@ The `source` property identifies where the message comes from and is necessary t
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L82-L82
+// src/index.ts#L84-L84
 
 logConsolePanel.source = 'custom-log-console';
 ```
@@ -97,7 +97,7 @@ Now you are ready to initialize a new `MainAreaWidget` passing the `logConsolePa
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L84-L86
+// src/index.ts#L86-L88
 
 logConsoleWidget = new MainAreaWidget<LogConsolePanel>({
   content: logConsolePanel
@@ -109,7 +109,7 @@ The last step of the function `createLogConsoleWidget` is to establish how to pr
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L110-L114
+// src/index.ts#L112-L116
 
 logConsoleWidget.disposed.connect(() => {
   logConsoleWidget = null;
@@ -124,7 +124,7 @@ To launch a new log console, you can add a new command. In this case, you can us
 <!-- prettier-ignore-start -->
 
 ```ts
-// src/index.ts#L123-L134
+// src/index.ts#L125-L136
 
 commands.addCommand('jlab-examples/custom-log-console:open', {
   label: 'Custom Log Console',
@@ -145,12 +145,12 @@ Finally, you can send log messages calling `log` method present on the `logger` 
 <!-- prettier-ignore-start -->
 
 ```ts
-// src/index.ts#L145-L151
+// src/index.ts#L147-L153
 
 const msg: IHtmlLog = {
   type: 'html',
   level: 'debug',
-  data: `<div>Hello world HTML!!</div>`
+  data: '<div>Hello world HTML!!</div>'
 };
 
 logConsolePanel?.logger?.log(msg);
@@ -159,7 +159,7 @@ logConsolePanel?.logger?.log(msg);
 <!-- prettier-ignore-start -->
 
 ```ts
-// src/index.ts#L159-L165
+// src/index.ts#L161-L167
 
 const msg: ITextLog = {
   type: 'text',
@@ -173,7 +173,7 @@ logConsolePanel?.logger?.log(msg);
 <!-- prettier-ignore-start -->
 
 ```ts
-// src/index.ts#L173-L186
+// src/index.ts#L175-L188
 
 const data: nbformat.IOutput = {
   output_type: 'display_data',
