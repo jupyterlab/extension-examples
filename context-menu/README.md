@@ -19,7 +19,7 @@ First of all, you will start looking into the declaration of the extension:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L6-L11
+// src/index.ts#L9-L14
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'context-menu',
@@ -44,7 +44,7 @@ To register a new file type, you need to call the `addFileType()` method of `doc
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L13-L21
+// src/index.ts#L15-L23
 
 app.docRegistry.addFileType({
   name: 'example',
@@ -62,7 +62,7 @@ The next step consists of defining the command that will be executed when clicki
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L23-L36
+// src/index.ts#L25-L38
 
 app.commands.addCommand('jlab-examples/context-menu:open', {
   label: 'Example',
@@ -73,9 +73,9 @@ app.commands.addCommand('jlab-examples/context-menu:open', {
 
     showDialog({
       title: file.name,
-      body: "Path: " + file.path,
-      buttons: [ Dialog.okButton() ]
-    }).catch( e => console.log(e) );
+      body: 'Path: ' + file.path,
+      buttons: [Dialog.okButton()]
+    }).catch(e => console.log(e));
   }
 });
 ```
@@ -89,7 +89,7 @@ Finally, you can add the command to a context menu using the `addItem()` method 
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L38-L42
+// src/index.ts#L40-L44
 
 app.contextMenu.addItem({
   command: 'jlab-examples/context-menu:open',
