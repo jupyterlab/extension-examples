@@ -139,6 +139,28 @@ Add a new Widget element to the main window.
 
 [![Custom Tab](widget-tracker/widgets/preview.png)](widget-tracker/widgets)
 
+## Log Console
+
+### [Log Messages](log-messages)
+
+Send a log message to the log console.
+
+[![Log Messages](log-console/log-messages/preview.gif)](log-console/log-messages)
+
+### [Custom Log Console](custom-log-console)
+
+Create a new log console.
+
+[![Custom Log Console](log-console/custom-log-console/preview.gif)](log-console/custom-log-console)
+
+## Context Menu
+
+### [Context Menu](context-menu)
+
+Add a new button to an existent context menu.
+
+[![Context Menu](context-menu/preview.gif)](context-menu)
+
 ## Advanced
 
 ### [Kernel Output](advanced/kernel-output)

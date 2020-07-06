@@ -12,16 +12,17 @@ The default log console extension present in JupyterLab obtains log outputs from
 2. Create your custom log console ([explained here](https://github.com/jupyterlab/extension-examples/tree/master/custom-log-console)).
 
 > Note:
-It is strongly recommended to read [main-menu](https://github.com/jupyterlab/extension-examples/tree/master/main-menu) example before diving into this one.
+> It is strongly recommended to read [main-menu](https://github.com/jupyterlab/extension-examples/tree/master/main-menu) example before diving into this one.
 
 To implement this example you need to install the following packages:
-* `@jupyterlab/logconsole`: Where you can find some classes necessaries to work with the log console.
-* `@jupyterlab/notebook`: Where you can find the different classes to work with notebooks.
-* `@jupyterlab/nbformat`: Only necessary if you want to use the notebook output format as the type of message.
 
-To make this example a functional exercise we use some other packages that you can find in the code, but the strict necessaries for sending a message to the log console are those described above.
+- `@jupyterlab/logconsole`: Where you can find some classes necessaries to work with the log console.
+- `@jupyterlab/notebook`: Where you can find the different classes to work with notebooks.
+- `@jupyterlab/nbformat`: Only necessary if you want to use the notebook output format as the type of message.
 
-First of all, we will start looking into the declaration of the extension:
+To make this example a functional exercise you need to use some other packages that you can find in the code, but the strict necessaries for sending a message to the log console are those described above.
+
+First of all, you will start looking into the declaration of the extension:
 
 <!-- prettier-ignore-start -->
 ```ts
@@ -40,7 +41,6 @@ const extension: JupyterFrontEndPlugin<void> = {
   ) => {
 ```
 <!-- prettier-ignore-end -->
-
 
 For this extension, you need to require `ILoggerRegister` to search for the logger of the active notebook and `INotebookTracker` to obtain the active notebook.
 
@@ -73,6 +73,7 @@ logger?.log(msg);
 It is worth noting that with this approximation you only will be able to send messages to the log console if you have a notebook opened. In addition, if you have more than one notebook opened, the messages will be sent to the active notebook or the most recently focused, that means if you are changing from one to another, every message will be sent to a different source and will be shown when you are focused in this notebook.
 
 <!-- prettier-ignore-start -->
+
 ```ts
 // Example IHtmlLog message
 
@@ -84,24 +85,26 @@ const msg: IHtmlLog = {
 ```
 
 <!-- prettier-ignore-start -->
+
 ```ts
 // Example ITextLog message
 
 const msg: ITextLog = {
   type: 'text',
   level: 'info',
-  data: "Hello world text!!"
+  data: 'Hello world text!!'
 };
 ```
 
 <!-- prettier-ignore-start -->
+
 ```ts
 // Example IOutputLog message
 
 const data: nbformat.IOutput = {
   output_type: 'display_data',
   data: {
-    'text/plain': "Hello world nbformat!!"
+    'text/plain': 'Hello world nbformat!!'
   }
 };
 

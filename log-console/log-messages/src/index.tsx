@@ -1,4 +1,7 @@
-import { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application';
+import {
+  JupyterFrontEnd,
+  JupyterFrontEndPlugin
+} from '@jupyterlab/application';
 import { ILoggerRegistry, ITextLog } from '@jupyterlab/logconsole';
 import { INotebookTracker } from '@jupyterlab/notebook';
 import { IMainMenu } from '@jupyterlab/mainmenu';
@@ -15,19 +18,21 @@ const extension: JupyterFrontEndPlugin<void> = {
     loggerRegistry: ILoggerRegistry,
     nbtracker: INotebookTracker
   ) => {
-
     const { commands } = app;
 
     commands.addCommand('jlab-examples/log-messages:logTextMessage', {
       label: 'Text log message',
-      caption: 'Custom text log message.',
+      caption: 'Custom text log message example.',
       execute: () => {
-        const logger = loggerRegistry.getLogger(nbtracker.currentWidget?.context.path);
-        
+        const logger = loggerRegistry.getLogger(
+          nbtracker.currentWidget?.context.path
+        );
+        console.log(logger);
+
         const msg: ITextLog = {
           type: 'text',
           level: 'info',
-          data: "Hello world text!!"
+          data: 'Hello world text!!'
         };
 
         logger?.log(msg);
@@ -36,7 +41,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // Create a new menu
     const menu: Menu = new Menu({ commands });
-    menu.title.label = 'Log messages';
+    menu.title.label = 'Log Messages Example';
     console.log(mainMenu);
     mainMenu.addMenu(menu, { rank: 80 });
 
