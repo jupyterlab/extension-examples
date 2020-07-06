@@ -13,7 +13,7 @@ export default class LogLevelSwitcher extends ReactWidget {
   /**
    * Construct a new cell type switcher.
    *
-   * @param widget
+   * @param widget The log console panel
    */
   constructor(widget: LogConsolePanel) {
     super();
@@ -29,7 +29,7 @@ export default class LogLevelSwitcher extends ReactWidget {
   private _updateSource(
     sender: LogConsolePanel,
     { oldValue, newValue }: IChangedArgs<string | null>
-  ) {
+  ): void {
     // Transfer stateChanged handler to new source logger
     if (oldValue !== null) {
       const logger = sender.loggerRegistry.getLogger(oldValue);
@@ -45,7 +45,7 @@ export default class LogLevelSwitcher extends ReactWidget {
   /**
    * Handle `change` events for the HTMLSelect component.
    *
-   * @param event
+   * @param event The HTML select event.
    */
   handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     if (this._logConsole.logger) {
@@ -57,7 +57,7 @@ export default class LogLevelSwitcher extends ReactWidget {
   /**
    * Handle `keydown` events for the HTMLSelect component.
    *
-   * @param event
+   * @param event The keyboard event.
    */
   handleKeyDown = (event: React.KeyboardEvent): void => {
     if (event.keyCode === 13) {
@@ -65,7 +65,7 @@ export default class LogLevelSwitcher extends ReactWidget {
     }
   };
 
-  render() {
+  render(): JSX.Element {
     const logger = this._logConsole.logger;
     return (
       <>

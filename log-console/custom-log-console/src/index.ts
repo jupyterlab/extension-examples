@@ -73,7 +73,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       label: args => `Set Log Level to ${args.level as string}`
     });
 
-    const createLogConsoleWidget = () => {
+    const createLogConsoleWidget = (): void => {
       logConsolePanel = new LogConsolePanel(
         new LoggerRegistry({
           defaultRendermime: rendermime,

@@ -64,7 +64,7 @@ The next step you will need to do is to create a new widget once you click on th
 ```ts
 // src/index.ts#L76-L76
 
-const createLogConsoleWidget = () => {
+const createLogConsoleWidget = (): void => {
 ```
 <!-- prettier-ignore-end -->
 
