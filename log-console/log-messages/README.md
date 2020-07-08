@@ -6,18 +6,18 @@ This is a basic example to show how to send different types of log message to th
 
 ![log message example](preview.gif)
 
-The default log console extension present in JupyterLab obtains log outputs from the kernel context of the current active notebook, that let log console to change the source input once we open a new notebook to show the log messages originated in this new one. There are different options to approach the problem, two of them are:
+The default log console extension in JupyterLab obtains log outputs from the kernel context of the current active notebook, that let the log console change the source input once a new notebook is open. There are different ways to approach the problem, two of them are:
 
-1. Obtain the current active notebook and send message to his `Logger` instance (we will explain in this example).
-2. Create your custom log console ([explained here](https://github.com/jupyterlab/extension-examples/tree/master/custom-log-console)).
+1. Obtain the current active notebook and send message to his `Logger` instance (covered in this example).
+2. Create your custom log console ([explained here](https://github.com/jupyterlab/extension-examples/tree/master/log-console/custom-log-console)).
 
 > Note:
 > It is strongly recommended to read [main-menu](https://github.com/jupyterlab/extension-examples/tree/master/main-menu) example before diving into this one.
 
 To implement this example you need to install the following packages:
 
-- `@jupyterlab/logconsole`: Where you can find some classes necessaries to work with the log console.
-- `@jupyterlab/notebook`: Where you can find the different classes to work with notebooks.
+- `@jupyterlab/logconsole`: Where you will find the classes and interfaces to work with the log console.
+- `@jupyterlab/notebook`: Where you will find the different classes and interfaces to work with notebooks.
 - `@jupyterlab/nbformat`: Only necessary if you want to use the notebook output format as the type of message.
 
 To make this example a functional exercise you need to use some other packages that you can find in the code, but the strict necessaries for sending a message to the log console are those described above.
@@ -44,7 +44,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
 For this extension, you need to require `ILoggerRegister` to search for the logger of the active notebook and `INotebookTracker` to obtain the active notebook.
 
-The first step is to obtain the active notebook's logger, for that purpose, you can use `loggerRegistry.getLogger()` which expects `source` as a parameter. The `source` parameter refers to the context's path of the active notebook and you can obtain it using `nbtracker`.
+The first step is to obtain the logger of the active notebook. You can use `loggerRegistry.getLogger()` which expects `source` as a parameter. The `source` parameter refers to the context's path of the active notebook and you can obtain it using the notebook tracker referenced as `nbtracker`.
 
 <!-- prettier-ignore-start -->
 ```ts
@@ -56,7 +56,7 @@ const logger = loggerRegistry.getLogger(
 ```
 <!-- prettier-ignore-end -->
 
-Finally, you can send log messages calling `log` method present on the `logger` object. This method let you send different types of logs like `IHtmlLog`, `ITextLog` and `IOutputLog`.
+Finally, you can send log messages by calling the `log` method available on the `logger` object. This method lets you send different types of logs like `IHtmlLog`, `ITextLog` and `IOutputLog`.
 
 <!-- prettier-ignore-start -->
 ```ts
@@ -72,7 +72,7 @@ logger?.log(msg);
 ```
 <!-- prettier-ignore-end -->
 
-It is worth noting that with this approximation you only will be able to send messages to the log console if you have a notebook opened. In addition, if you have more than one notebook opened, the messages will be sent to the active notebook or the most recently focused, that means if you are changing from one to another, every message will be sent to a different source and will be shown when you are focused in this notebook.
+It is worth noting that with this approximation you will only be able to send messages to the log console if you have a notebook opened. If you have more than one notebook opened, the messages will be sent to the active notebook or the most recently focused notebook. It means that if you are changing from one notebook to another, every message will be sent to a different source and will be shown when the notebook gets the focus.
 
 <!-- prettier-ignore-start -->
 
