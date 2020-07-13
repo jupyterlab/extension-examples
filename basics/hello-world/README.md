@@ -169,7 +169,7 @@ converted to javascript using the compiler `tsc` and stored in a `lib`
 directory. Finally, the module is installed into JupyterLab.
 
 > There is also a `jupyter labextension link <path>` command. It can be used to
-> install packages but not considered them as extensions (more information in [that discussion](https://discourse.jupyter.org/t/about-jupyter-labextension-link-v-s-install))
+> install packages but not consider them as extensions (more information in [that discussion](https://discourse.jupyter.org/t/about-jupyter-labextension-link-v-s-install))
 
 After all of these steps are done, running `jupyter labextension list` should
 show something like:
