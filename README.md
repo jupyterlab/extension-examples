@@ -17,7 +17,7 @@ git clone https://github.com/jupyterlab/extension-examples.git jupyterlab-extens
   cd basics/hello-world && \
   jlpm && \
   jlpm run build && \
-  jupyter labextension link . && \
+  jupyter labextension install . && \
   jupyter lab
 ```
 
@@ -205,12 +205,12 @@ conda env create && \
 
 ## Develop and Use the Examples
 
-### Build and Link all Examples at once
+### Build and Install all Examples at once
 
 ```bash
 jlpm
 jlpm build-ext
-jlpm link-ext
+jlpm install-ext
 jlpm build-jlab
 jupyter lab
 ```
@@ -221,14 +221,14 @@ To clean the lib folders:
 jlpm clean-ext
 ```
 
-### Build and Link one Example
+### Build and Install one Example
 
 Go to the example directory you want to install, e.g. `cd ./basics/hello-world`, and run the following commands:
 
 ```bash
 jlpm install
 jlpm run build
-jupyter labextension link .
+jupyter labextension install .
 ```
 
 Rebuild the JupyterLab application:

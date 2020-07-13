@@ -27,8 +27,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
-    "install": "jupyter labextension install . --no-build",
-    "link": "jupyter labextension link . --no-build",
+    "install-ext": "jupyter labextension install . --no-build",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
     "watch": "tsc -w"

@@ -72,7 +72,7 @@ jobs:
       run: |
         cd ${EXAMPLE_FOLDER}
         jlpm run build
-        jupyter labextension link .
+        jupyter labextension install .
         python -m jupyterlab.browser_check
       env:
         EXAMPLE_FOLDER: ${{ matrix.example }}
@@ -140,7 +140,7 @@ jobs:
         cd advanced/server-extension
         pip install -e .
         jupyter serverextension enable --py jlab_ext_example
-        jupyter labextension link .
+        jupyter labextension install .
     - name: Check extension as dev
       if: startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS')
       run: |
@@ -176,5 +176,5 @@ jobs:
       run: |
         jlpm build-ext
         jlpm lint:check
-        jlpm link-ext
+        jlpm install-ext
         jlpm build-jlab
