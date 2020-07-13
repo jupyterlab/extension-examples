@@ -21,7 +21,10 @@ jobs:
           - basics/signals
           - command-palette
           - commands
+          - context-menu
           - launcher
+          - log-console/custom-log-console
+          - log-console/log-messages
           - main-menu
           - react/react-widget
           - settings

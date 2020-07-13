@@ -40,6 +40,9 @@ Start with the [Hello World](basics/hello-world) and then jump to the topic you 
 - [State](state)
 - [React Widget](react/react-widget)
 - [Widgets](widget-tracker/widgets)
+- [Log Messages](log-console/log-messages)
+- [Custom Log Console](log-console/custom-log-console)
+- [Context Menu](context-menu)
 - [Kernel Output](advanced/kernel-output)
 - [Kernel Messaging](advanced/kernel-messaging)
 - [Server Hello World](advanced/server-extension)
@@ -138,6 +141,28 @@ Create a React.js Widget in JupyterLab.
 Add a new Widget element to the main window.
 
 [![Custom Tab](widget-tracker/widgets/preview.png)](widget-tracker/widgets)
+
+## Log Console
+
+### [Log Messages](log-messages)
+
+Send a log message to the log console.
+
+[![Log Messages](log-console/log-messages/preview.gif)](log-console/log-messages)
+
+### [Custom Log Console](custom-log-console)
+
+Create a new log console.
+
+[![Custom Log Console](log-console/custom-log-console/preview.gif)](log-console/custom-log-console)
+
+## Context Menu
+
+### [Context Menu](context-menu)
+
+Add a new button to an existent context menu.
+
+[![Context Menu](context-menu/preview.gif)](context-menu)
 
 ## Advanced
 
