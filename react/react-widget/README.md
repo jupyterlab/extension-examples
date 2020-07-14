@@ -11,7 +11,7 @@ This extension shows how to use the `ReactWidget` wrapper from `@jupyterlab/appu
 ```bash
 jlpm
 jlpm build
-jupyter labextension link .
+jupyter labextension install .
 
 # Rebuild Typescript source after making changes
 jlpm build

@@ -35,7 +35,7 @@
     "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
-    "link": "jupyter labextension link . --no-build",
+    "install-ext": "jupyter labextension install . --no-build",
     "prepare": "jlpm run clean && jlpm run build",
     "watch": "tsc -w"
   },

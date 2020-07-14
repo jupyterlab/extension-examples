@@ -712,8 +712,8 @@ jupyter serverextension enable --py jlab_ext_example
 jlpm
 # Build Typescript source
 jlpm build
-# Link your development version of the extension with JupyterLab
-jupyter labextension link .
+# Install your development version of the extension with JupyterLab
+jupyter labextension install .
 
 # Rebuild Typescript source after making changes
 jlpm build

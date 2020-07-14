@@ -8,7 +8,7 @@
     "build-ext": "lerna run build",
     "clean-ext": "lerna run clean",
     "embedme": "embedme \"[!n]*/**/README.md\"",
-    "link-ext": "lerna run link",
+    "install-ext": "lerna run install-ext",
     "lint": "jlpm && jlpm run prettier",
     "lint:check": "jlpm run embedme --verify && jlpm run prettier:check",
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",

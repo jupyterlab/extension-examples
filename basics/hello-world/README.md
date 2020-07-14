@@ -156,8 +156,8 @@ These are the instructions on how your extension can be installed for developmen
 jlpm
 # Build Typescript source
 jlpm build
-# Link your development version of the extension with JupyterLab
-jupyter labextension link .
+# Install your development version of the extension with JupyterLab
+jupyter labextension install .
 ```
 
 The first command installs the dependencies that are specified in
@@ -166,7 +166,10 @@ components that you want to use in your project.
 
 The second step runs the build script. In this step, the TypeScript code gets
 converted to javascript using the compiler `tsc` and stored in a `lib`
-directory. Finally, the module is linked to JupyterLab.
+directory. Finally, the module is installed into JupyterLab.
+
+> There is also a `jupyter labextension link <path>` command. It can be used to
+> install packages but not consider them as extensions (more information in [that discussion](https://discourse.jupyter.org/t/about-jupyter-labextension-link-v-s-install))
 
 After all of these steps are done, running `jupyter labextension list` should
 show something like:
