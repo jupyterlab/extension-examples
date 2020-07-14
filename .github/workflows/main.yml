@@ -42,18 +42,6 @@ jobs:
           key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-lerna-
-      - name: Get pip cache dir
-        id: pip-cache
-        run: |
-          echo "::set-output name=dir::$(pip cache dir)"
-        shell: bash
-      - name: Cache pip
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
       - name: Check config files
         run: |
           diff basics/hello-world/tsconfig.json ${EXAMPLE_FOLDER}/tsconfig.json
@@ -72,6 +60,18 @@ jobs:
         with:
           python-version: "3.7"
           architecture: "x64"
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          echo "::set-output name=dir::$(pip cache dir)"
+        shell: bash
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
       - name: Install the Python dependencies
         run: python -m pip install jupyterlab
       - name: Install the NPM dependencies
@@ -116,18 +116,6 @@ jobs:
           key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-lerna-
-      - name: Get pip cache dir
-        id: pip-cache
-        run: |
-          echo "::set-output name=dir::$(pip cache dir)"
-        shell: bash
-      - name: Cache pip
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
       - name: Install node
         uses: actions/setup-node@v1
         with:
@@ -143,6 +131,18 @@ jobs:
         with:
           python-version: "3.7"
           architecture: "x64"
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          echo "::set-output name=dir::$(pip cache dir)"
+        shell: bash
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
       - name: Install the Python dependencies
         run: |
           python -m pip install jupyter_packaging
@@ -209,6 +209,15 @@ jobs:
           key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-lerna-
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Install Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.7"
+          architecture: "x64"
       - name: Get pip cache dir
         id: pip-cache
         run: |
@@ -221,15 +230,6 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-      - name: Install node
-        uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-      - name: Install Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: "3.7"
-          architecture: "x64"
       - name: Install the Python dependencies
         run: python -m pip install jupyterlab
       - name: Bootstrap the jlpm deps
