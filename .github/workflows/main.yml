@@ -4,10 +4,9 @@ on:
   push:
     branches: master
   pull_request:
-    branches: '*'
+    branches: "*"
 
 jobs:
-
   build_extensions:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -32,60 +31,72 @@ jobs:
           - widget-tracker/widgets
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: restore lerna
-      uses: actions/cache@v2
-      with:
-        path: |
-          node_modules
-          */*/node_modules
-        key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
-        restore-keys: |
-          ${{ runner.os }}-lerna-
-    - name: Check config files
-      run: |
-        diff basics/hello-world/tsconfig.json ${EXAMPLE_FOLDER}/tsconfig.json
-        diff basics/hello-world/.eslintignore ${EXAMPLE_FOLDER}/.eslintignore
-        diff basics/hello-world/.eslintrc.js ${EXAMPLE_FOLDER}/.eslintrc.js
-        diff basics/hello-world/.gitignore ${EXAMPLE_FOLDER}/.gitignore
-      env:
-        EXAMPLE_FOLDER: ${{ matrix.example }}
-      shell: bash
-    - name: Install node
-      uses: actions/setup-node@v1
-      with:
-       node-version: '12.x'
-    - name: Install Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: '3.7'
-        architecture: 'x64'
-    - name: Install the Python dependencies
-      run: python -m pip install jupyterlab
-    - name: Install the NPM dependencies
-      run: |
-        cd ${EXAMPLE_FOLDER}
-        jlpm
-      env:
-        EXAMPLE_FOLDER: ${{ matrix.example }}
-      shell: bash
-    - name: Lint the files
-      run: |
-        cd ${EXAMPLE_FOLDER}
-        jlpm run eslint:check
-      env:
-        EXAMPLE_FOLDER: ${{ matrix.example }}
-      shell: bash
-    - name: Build and check by extension
-      run: |
-        cd ${EXAMPLE_FOLDER}
-        jlpm run build
-        jupyter labextension install .
-        python -m jupyterlab.browser_check
-      env:
-        EXAMPLE_FOLDER: ${{ matrix.example }}
-      shell: bash
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache lerna
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-lerna-
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          echo "::set-output name=dir::$(pip cache dir)"
+        shell: bash
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Check config files
+        run: |
+          diff basics/hello-world/tsconfig.json ${EXAMPLE_FOLDER}/tsconfig.json
+          diff basics/hello-world/.eslintignore ${EXAMPLE_FOLDER}/.eslintignore
+          diff basics/hello-world/.eslintrc.js ${EXAMPLE_FOLDER}/.eslintrc.js
+          diff basics/hello-world/.gitignore ${EXAMPLE_FOLDER}/.gitignore
+        env:
+          EXAMPLE_FOLDER: ${{ matrix.example }}
+        shell: bash
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Install Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.7"
+          architecture: "x64"
+      - name: Install the Python dependencies
+        run: python -m pip install jupyterlab
+      - name: Install the NPM dependencies
+        run: |
+          cd ${EXAMPLE_FOLDER}
+          jlpm
+        env:
+          EXAMPLE_FOLDER: ${{ matrix.example }}
+        shell: bash
+      - name: Lint the files
+        run: |
+          cd ${EXAMPLE_FOLDER}
+          jlpm run eslint:check
+        env:
+          EXAMPLE_FOLDER: ${{ matrix.example }}
+        shell: bash
+      - name: Build and check by extension
+        run: |
+          cd ${EXAMPLE_FOLDER}
+          jlpm run build
+          jupyter labextension install .
+          python -m jupyterlab.browser_check
+        env:
+          EXAMPLE_FOLDER: ${{ matrix.example }}
+        shell: bash
 
   build_serverextension:
     runs-on: ${{ matrix.os }}
@@ -94,79 +105,91 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: restore lerna
-      uses: actions/cache@v2
-      with:
-        path: |
-          node_modules
-          */*/node_modules
-        key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
-        restore-keys: |
-          ${{ runner.os }}-lerna-
-    - name: Install node
-      uses: actions/setup-node@v1
-      with:
-       node-version: '12.x'
-    - name: Check config files
-      run: |
-        diff basics/hello-world/tsconfig.json advanced/server-extension/tsconfig.json
-        diff basics/hello-world/.eslintignore advanced/server-extension/.eslintignore
-        diff basics/hello-world/.eslintrc.js advanced/server-extension/.eslintrc.js
-      shell: bash
-    - name: Install Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: '3.7'
-        architecture: 'x64'
-    - name: Install the Python dependencies
-      run: |
-        python -m pip install jupyter_packaging
-        python -m pip install jupyterlab
-    - name: Install the NPM dependencies
-      run: |
-        cd advanced/server-extension
-        jlpm
-    - name: Lint the files
-      run: |
-        cd advanced/server-extension
-        jlpm run eslint:check
-    - name: Build extension as user
-      # Force the usage of the source distribution (good practice)
-      run: |
-        cd advanced/server-extension
-        python setup.py sdist
-        pip install jlab_ext_example --pre --find-links=dist --no-cache-dir
-        jupyter lab build
-        python -m jupyterlab.browser_check
-    - name: Check extension as dev
-      if: startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS')
-      run: |
-        jupyter serverextension list 1>serverextensions 2>&1
-        cat serverextensions | grep "jlab_ext_example.*OK"
-        jupyter labextension list 1>labextensions 2>&1
-        cat labextensions | grep "@jupyterlab-examples/server-extension.*OK"
-    - name: Clean extension installation
-      run: |
-        pip uninstall -y jlab_ext_example
-        jupyter lab clean
-        jupyter serverextension list
-        jupyter labextension list
-    - name: Build extension as dev
-      run: |
-        cd advanced/server-extension
-        pip install -e .
-        jupyter serverextension enable --py jlab_ext_example
-        jupyter labextension install .
-    - name: Check extension as dev
-      if: startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS')
-      run: |
-        jupyter serverextension list 1>serverextensions 2>&1
-        cat serverextensions | grep "jlab_ext_example.*OK"
-        jupyter labextension list 1>labextensions 2>&1
-        cat labextensions | grep "@jupyterlab-examples/server-extension.*OK"
-        python -m jupyterlab.browser_check
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache lerna
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-lerna-
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          echo "::set-output name=dir::$(pip cache dir)"
+        shell: bash
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Check config files
+        run: |
+          diff basics/hello-world/tsconfig.json advanced/server-extension/tsconfig.json
+          diff basics/hello-world/.eslintignore advanced/server-extension/.eslintignore
+          diff basics/hello-world/.eslintrc.js advanced/server-extension/.eslintrc.js
+        shell: bash
+      - name: Install Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.7"
+          architecture: "x64"
+      - name: Install the Python dependencies
+        run: |
+          python -m pip install jupyter_packaging
+          python -m pip install jupyterlab
+      - name: Install the NPM dependencies
+        run: |
+          cd advanced/server-extension
+          jlpm
+      - name: Lint the files
+        run: |
+          cd advanced/server-extension
+          jlpm run eslint:check
+      - name: Build extension as user
+        # Force the usage of the source distribution (good practice)
+        run: |
+          cd advanced/server-extension
+          python setup.py sdist
+          pip install jlab_ext_example --pre --find-links=dist --no-cache-dir
+          jupyter lab build
+          python -m jupyterlab.browser_check
+      - name: Check extension as dev
+        if: startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS')
+        run: |
+          jupyter serverextension list 1>serverextensions 2>&1
+          cat serverextensions | grep "jlab_ext_example.*OK"
+          jupyter labextension list 1>labextensions 2>&1
+          cat labextensions | grep "@jupyterlab-examples/server-extension.*OK"
+      - name: Clean extension installation
+        run: |
+          pip uninstall -y jlab_ext_example
+          jupyter lab clean
+          jupyter serverextension list
+          jupyter labextension list
+      - name: Build extension as dev
+        run: |
+          cd advanced/server-extension
+          pip install -e .
+          jupyter serverextension enable --py jlab_ext_example
+          jupyter labextension install .
+      - name: Check extension as dev
+        if: startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS')
+        run: |
+          jupyter serverextension list 1>serverextensions 2>&1
+          cat serverextensions | grep "jlab_ext_example.*OK"
+          jupyter labextension list 1>labextensions 2>&1
+          cat labextensions | grep "@jupyterlab-examples/server-extension.*OK"
+          python -m jupyterlab.browser_check
 
   build_all:
     runs-on: ${{ matrix.os }}
@@ -175,33 +198,45 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: restore lerna
-      uses: actions/cache@v2
-      with:
-        path: |
-          node_modules
-          */*/node_modules
-        key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
-        restore-keys: |
-          ${{ runner.os }}-lerna-
-    - name: Install node
-      uses: actions/setup-node@v1
-      with:
-       node-version: '12.x'
-    - name: Install Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: '3.7'
-        architecture: 'x64'
-    - name: Install the Python dependencies
-      run: python -m pip install jupyterlab
-    - name: Bootstrap the jlpm deps
-      run: jlpm
-    - name: Build all the extensions
-      run: |
-        jlpm build-ext
-        jlpm lint:check
-        jlpm install-ext
-        jlpm build-jlab
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cache lerna
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-lerna-
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          echo "::set-output name=dir::$(pip cache dir)"
+        shell: bash
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Install Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.7"
+          architecture: "x64"
+      - name: Install the Python dependencies
+        run: python -m pip install jupyterlab
+      - name: Bootstrap the jlpm deps
+        run: jlpm
+      - name: Build all the extensions
+        run: |
+          jlpm build-ext
+          jlpm lint:check
+          jlpm install-ext
+          jlpm build-jlab
