@@ -144,13 +144,13 @@ Add a new Widget element to the main window.
 
 ## Log Console
 
-### [Log Messages](log-messages)
+### [Log Messages](log-console/log-messages)
 
 Send a log message to the log console.
 
 [![Log Messages](log-console/log-messages/preview.gif)](log-console/log-messages)
 
-### [Custom Log Console](custom-log-console)
+### [Custom Log Console](log-console/custom-log-console)
 
 Create a new log console.
 
