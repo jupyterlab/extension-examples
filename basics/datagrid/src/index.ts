@@ -7,6 +7,12 @@ import { ICommandPalette } from '@jupyterlab/apputils';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import {
+  ITranslator,
+  nullTranslator,
+  TranslationBundle
+} from '@jupyterlab/translation';
+
 import { DataGrid, DataModel } from '@lumino/datagrid';
 
 import { Menu, StackedPanel } from '@lumino/widgets';
@@ -17,18 +23,20 @@ import { Menu, StackedPanel } from '@lumino/widgets';
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'datagrid',
   autoStart: true,
-  requires: [ICommandPalette, IMainMenu],
+  requires: [ICommandPalette, IMainMenu, ITranslator],
   activate: (
     app: JupyterFrontEnd,
     palette: ICommandPalette,
-    mainMenu: IMainMenu
+    mainMenu: IMainMenu,
+    translator: ITranslator
   ) => {
     const { commands, shell } = app;
+    const trans = translator.load('jupyterlab');
 
     const command = 'examples:datagrid';
     commands.addCommand(command, {
-      label: 'Open a Datagrid',
-      caption: 'Open a Datagrid Panel',
+      label: trans.__('Open a Datagrid'),
+      caption: trans.__('Open a Datagrid Panel'),
       execute: () => {
         const widget = new DataGridPanel();
         shell.add(widget, 'main');
@@ -38,7 +46,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     const exampleMenu = new Menu({ commands });
 
-    exampleMenu.title.label = 'DataGrid Example';
+    exampleMenu.title.label = trans.__('DataGrid Example');
     mainMenu.addMenu(exampleMenu, { rank: 80 });
     exampleMenu.addItem({ command });
   }
@@ -47,11 +55,14 @@ const extension: JupyterFrontEndPlugin<void> = {
 export default extension;
 
 class DataGridPanel extends StackedPanel {
-  constructor() {
+  constructor(translator?: ITranslator) {
     super();
+    this._translator = translator || nullTranslator;
+    this._trans = this._translator.load('jupyterlab');
+
     this.addClass('jp-example-view');
     this.id = 'datagrid-example';
-    this.title.label = 'Datagrid Example View';
+    this.title.label = this._trans.__('Datagrid Example View');
     this.title.closable = true;
 
     const model = new LargeDataModel();
@@ -60,6 +71,9 @@ class DataGridPanel extends StackedPanel {
 
     this.addWidget(grid);
   }
+
+  private _translator: ITranslator;
+  private _trans: TranslationBundle;
 }
 
 class LargeDataModel extends DataModel {
