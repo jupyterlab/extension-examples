@@ -9,6 +9,8 @@ import { ILauncher } from '@jupyterlab/launcher';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import { ITranslator } from '@jupyterlab/translation';
+
 import { Menu } from '@lumino/widgets';
 
 import { ExamplePanel } from './panel';
@@ -27,27 +29,30 @@ const extension: JupyterFrontEndPlugin<void> = {
   id: 'kernel-messaging',
   autoStart: true,
   optional: [ILauncher],
-  requires: [ICommandPalette, IMainMenu],
+  requires: [ICommandPalette, IMainMenu, ITranslator],
   activate: activate
 };
 
 /**
  * Activate the JupyterLab extension.
  *
- * @param app Jupyter Font End
+ * @param app Jupyter Front End
  * @param palette Jupyter Commands Palette
  * @param mainMenu Jupyter Menu
  * @param launcher [optional] Jupyter Launcher
+ * @param translator Jupyter Translator
  */
 function activate(
   app: JupyterFrontEnd,
   palette: ICommandPalette,
   mainMenu: IMainMenu,
-  launcher: ILauncher | null
+  launcher: ILauncher | null,
+  translator: ITranslator
 ): void {
   const manager = app.serviceManager;
   const { commands, shell } = app;
   const category = 'Extension Examples';
+  const trans = translator.load('jupyterlab');
 
   // Add launcher
   if (launcher) {
@@ -63,20 +68,20 @@ function activate(
    * @returns The panel
    */
   async function createPanel(): Promise<ExamplePanel> {
-    const panel = new ExamplePanel(manager);
+    const panel = new ExamplePanel(manager, translator);
     shell.add(panel, 'main');
     return panel;
   }
 
   // add menu tab
   const exampleMenu = new Menu({ commands });
-  exampleMenu.title.label = 'Kernel Messaging';
+  exampleMenu.title.label = trans.__('Kernel Messaging');
   mainMenu.addMenu(exampleMenu);
 
   // add commands to registry
   commands.addCommand(CommandIDs.create, {
-    label: 'Open the Kernel Messaging Panel',
-    caption: 'Open the Kernel Messaging Panel',
+    label: trans.__('Open the Kernel Messaging Panel'),
+    caption: trans.__('Open the Kernel Messaging Panel'),
     execute: createPanel
   });
 
