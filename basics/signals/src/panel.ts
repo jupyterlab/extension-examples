@@ -1,3 +1,8 @@
+import {
+  ITranslator,
+  nullTranslator,
+  TranslationBundle
+} from '@jupyterlab/translation';
 import { StackedPanel } from '@lumino/widgets';
 
 import { ButtonWidget, ICount } from './button';
@@ -10,11 +15,13 @@ const PANEL_CLASS = 'jp-tutorial-view';
  * A panel which contains a console and the ability to add other children.
  */
 export class SignalExamplePanel extends StackedPanel {
-  constructor() {
+  constructor(translator?: ITranslator) {
     super();
+    this._translator = translator || nullTranslator;
+    this._trans = this._translator.load('jupyterlab');
     this.addClass(PANEL_CLASS);
     this.id = 'SignalExamplePanel';
-    this.title.label = 'Signal Example View';
+    this.title.label = this._trans.__('Signal Example View');
     this.title.closable = true;
 
     this._widget = new ButtonWidget();
@@ -33,4 +40,7 @@ export class SignalExamplePanel extends StackedPanel {
   }
 
   private _widget: ButtonWidget;
+
+  private _translator: ITranslator;
+  private _trans: TranslationBundle;
 }
