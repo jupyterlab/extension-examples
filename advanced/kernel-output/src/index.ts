@@ -9,6 +9,8 @@ import { ILauncher } from '@jupyterlab/launcher';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import { ITranslator } from '@jupyterlab/translation';
+
 import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 
 import { Menu } from '@lumino/widgets';
@@ -31,17 +33,18 @@ const extension: JupyterFrontEndPlugin<void> = {
   id: 'kernel-output',
   autoStart: true,
   optional: [ILauncher],
-  requires: [ICommandPalette, IMainMenu, IRenderMimeRegistry],
+  requires: [ICommandPalette, IMainMenu, IRenderMimeRegistry, ITranslator],
   activate: activate
 };
 
 /**
  * Activate the JupyterLab extension.
  *
- * @param app Jupyter Font End
+ * @param app Jupyter Front End
  * @param palette Jupyter Commands Palette
  * @param mainMenu Jupyter Menu
  * @param rendermime Jupyter Render Mime Registry
+ * @param translator Jupyter Translator
  * @param launcher [optional] Jupyter Launcher
  */
 function activate(
@@ -49,11 +52,13 @@ function activate(
   palette: ICommandPalette,
   mainMenu: IMainMenu,
   rendermime: IRenderMimeRegistry,
+  translator: ITranslator,
   launcher: ILauncher | null
 ): void {
   const manager = app.serviceManager;
   const { commands, shell } = app;
   const category = 'Extension Examples';
+  const trans = translator.load('jupyterlab');
 
   let panel: ExamplePanel;
 
@@ -63,26 +68,26 @@ function activate(
    * @returns The panel
    */
   async function createPanel(): Promise<ExamplePanel> {
-    panel = new ExamplePanel(manager, rendermime);
+    panel = new ExamplePanel(manager, rendermime, translator);
     shell.add(panel, 'main');
     return panel;
   }
 
   // add menu tab
   const exampleMenu = new Menu({ commands });
-  exampleMenu.title.label = 'Kernel Output';
+  exampleMenu.title.label = trans.__('Kernel Output');
   mainMenu.addMenu(exampleMenu);
 
   // add commands to registry
   commands.addCommand(CommandIDs.create, {
-    label: 'Open the Kernel Output Panel',
-    caption: 'Open the Kernel Output Panel',
+    label: trans.__('Open the Kernel Output Panel'),
+    caption: trans.__('Open the Kernel Output Panel'),
     execute: createPanel
   });
 
   commands.addCommand(CommandIDs.execute, {
-    label: 'Contact Kernel and Execute Code',
-    caption: 'Contact Kernel and Execute Code',
+    label: trans.__('Contact Kernel and Execute Code'),
+    caption: trans.__('Contact Kernel and Execute Code'),
     execute: async () => {
       // Create the panel if it does not exist
       if (!panel) {
@@ -90,9 +95,9 @@ function activate(
       }
       // Prompt the user about the statement to be executed
       const input = await InputDialog.getText({
-        title: 'Code to execute',
-        okLabel: 'Execute',
-        placeholder: 'Statement to execute'
+        title: trans.__('Code to execute'),
+        okLabel: trans.__('Execute'),
+        placeholder: trans.__('Statement to execute')
       });
       // Execute the statement
       if (input.button.accept) {
