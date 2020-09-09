@@ -25,6 +25,7 @@ class RouteHandler(APIHandler):
 
 
 def setup_handlers(web_app, url_path):
+    import pdb; pdb.set_trace()
     host_pattern = ".*$"
     base_url = web_app.settings["base_url"]
 
@@ -34,10 +35,10 @@ def setup_handlers(web_app, url_path):
     web_app.add_handlers(host_pattern, handlers)
 
     # Prepend the base_url so that it works in a jupyterhub setting
-    doc_url = url_path_join(base_url, url_path, "static")
+    doc_url = url_path_join(base_url, url_path, "public")
     doc_dir = os.getenv(
         "JLAB_SERVER_EXAMPLE_STATIC_DIR",
-        os.path.join(os.path.dirname(__file__), "static"),
+        os.path.join(os.path.dirname(__file__), "public"),
     )
     handlers = [("{}/(.*)".format(doc_url), StaticFileHandler, {"path": doc_dir})]
     web_app.add_handlers(".*$", handlers)

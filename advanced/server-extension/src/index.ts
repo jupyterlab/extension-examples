@@ -86,7 +86,7 @@ class IFrameWidget extends IFrame {
   constructor() {
     super();
     const baseUrl = PageConfig.getBaseUrl();
-    this.url = baseUrl + 'jlab-ext-example/static/index.html';
+    this.url = baseUrl + 'jlab-ext-example/public/index.html';
     this.id = 'doc-example';
     this.title.label = 'Server Doc';
     this.title.closable = true;

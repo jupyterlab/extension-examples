@@ -16,16 +16,17 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 name="jlab_ext_example"
 
 # Ensure a valid python version
-ensure_python(">=3.5")
+ensure_python(">=3.6")
 
 # Get the version
 version = get_version(pjoin(name, "_version.py"))
 
-lab_path = pjoin(HERE, name, "labextension")
+lab_path = os.path.join(HERE, name, "static")
 
 # Representative files that should exist after a successful build
 jstargets = [
-    pjoin(HERE, "lib", "jlabextexample.js"),
+    os.path.join(HERE, "lib", "index.js"),
+    os.path.join(HERE, name, "static", "package.json"),
 ]
 
 package_data_spec = {
@@ -34,10 +35,12 @@ package_data_spec = {
     ]
 }
 
+labext_name = "@jupyterlab-examples/server-extension"
+
 data_files_spec = [
-    ("share/jupyter/lab/extensions", lab_path, "*.tgz"),
-    ("etc/jupyter/jupyter_notebook_config.d",
-     "jupyter-config", "jlab_ext_example.json"),
+    ("share/jupyter/labextensions/%s" % labext_name, lab_path, "*.*"),
+    ("etc/jupyter/jupyter_server_config.d",
+     "jupyter-config", "jlab_ext_example.json"), 
 ]
 
 cmdclass = create_cmdclass("jsdeps",
@@ -64,7 +67,7 @@ setup_args = dict(
     cmdclass= cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
-        "jupyterlab~=2.0",
+        "jupyterlab~=3.0.0b3",
     ],
     zip_safe=False,
     include_package_data=True,
