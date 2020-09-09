@@ -1,12 +1,11 @@
 """
-Setup Module to setup Python Handlers for the jlab_ext_example extension.
+jlab_ext_example setup
 """
 import os
-from os.path import join as pjoin
 
 from jupyter_packaging import (
     create_cmdclass, install_npm, ensure_targets,
-    combine_commands, ensure_python, get_version    
+    combine_commands, ensure_python, get_version,
 )
 import setuptools
 
@@ -18,8 +17,8 @@ name="jlab_ext_example"
 # Ensure a valid python version
 ensure_python(">=3.6")
 
-# Get the version
-version = get_version(pjoin(name, "_version.py"))
+# Get our version
+version = get_version(os.path.join(name, "_version.py"))
 
 lab_path = os.path.join(HERE, name, "static")
 
@@ -38,12 +37,12 @@ package_data_spec = {
 labext_name = "@jupyterlab-examples/server-extension"
 
 data_files_spec = [
-    ("share/jupyter/labextensions/%s" % labext_name, lab_path, "*.*"),
-    ("etc/jupyter/jupyter_server_config.d",
-     "jupyter-config", "jlab_ext_example.json"), 
+    ("share/jupyter/labextensions/%s" % labext_name, lab_path, "*.*"),("etc/jupyter/jupyter_server_config.d",
+     "jupyter-config", "jlab_ext_example.json"),
+     
 ]
 
-cmdclass = create_cmdclass("jsdeps",
+cmdclass = create_cmdclass("jsdeps", 
     package_data_spec=package_data_spec,
     data_files_spec=data_files_spec
 )
@@ -59,8 +58,8 @@ with open("README.md", "r") as fh:
 setup_args = dict(
     name=name,
     version=version,
-    url="https://github.com/jupyterlab/extension-examples",
-    author="JupyterLab",
+    url="https://github.com/jupyterlab/extension-examples.git",
+    author="Project Jupyter Contributors",
     description="A minimal JupyterLab extension with backend and frontend parts.",
     long_description= long_description,
     long_description_content_type="text/markdown",
@@ -78,7 +77,6 @@ setup_args = dict(
         "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
@@ -87,5 +85,5 @@ setup_args = dict(
 )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     setuptools.setup(**setup_args)

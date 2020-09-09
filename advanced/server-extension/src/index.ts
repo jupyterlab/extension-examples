@@ -9,7 +9,7 @@ import { PageConfig } from '@jupyterlab/coreutils';
 
 import { ILauncher } from '@jupyterlab/launcher';
 
-import { requestAPI } from './jlabextexample';
+import { requestAPI } from './handler';
 
 /**
  * The command IDs used by the server extension plugin.

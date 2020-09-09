@@ -25,7 +25,6 @@ class RouteHandler(APIHandler):
 
 
 def setup_handlers(web_app, url_path):
-    import pdb; pdb.set_trace()
     host_pattern = ".*$"
     base_url = web_app.settings["base_url"]
 
