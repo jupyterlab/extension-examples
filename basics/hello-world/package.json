@@ -42,10 +42,10 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "~3.0.0-beta.3"
+    "@jupyterlab/application": "~3.0.0-beta.4"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^3.0.0-beta.3",
+    "@jupyterlab/builder": "^3.0.0-beta.4",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
     "eslint": "^7.5.0",

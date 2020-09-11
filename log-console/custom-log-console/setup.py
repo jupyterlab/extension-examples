@@ -5,7 +5,7 @@ import os
 
 from jupyter_packaging import (
     create_cmdclass, install_npm, ensure_targets,
-    combine_commands, ensure_python, get_version,
+    combine_commands, get_version,
 )
 import setuptools
 
@@ -13,9 +13,6 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 
 # The name of the project
 name="jupyterlab_examples_custom_log_console"
-
-# Ensure a valid python version
-ensure_python(">=3.6")
 
 # Get our version
 version = get_version(os.path.join(name, "_version.py"))
@@ -64,10 +61,11 @@ setup_args = dict(
     cmdclass= cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
-        "jupyterlab~=3.0.0b3",
+        "jupyterlab~=3.0.0b4",
     ],
     zip_safe=False,
     include_package_data=True,
+    python_requires=">=3.6",
     license="BSD-3-Clause",
     platforms="Linux, Mac OS X, Windows",
     keywords=["Jupyter", "JupyterLab"],
