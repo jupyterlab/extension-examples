@@ -94,7 +94,7 @@ package is declared in the file `package.json`:
 // package.json#L44-L46
 
 "dependencies": {
-  "@jupyterlab/application": "~3.0.0-beta.3"
+  "@jupyterlab/application": "~3.0.0-beta.4"
 },
 ```
 

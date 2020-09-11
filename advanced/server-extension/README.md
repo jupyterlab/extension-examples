@@ -501,7 +501,7 @@ import os
 
 from jupyter_packaging import (
     create_cmdclass, install_npm, ensure_targets,
-    combine_commands, ensure_python, get_version,
+    combine_commands, get_version,
 )
 import setuptools
 
@@ -509,9 +509,6 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 
 # The name of the project
 name="jlab_ext_example"
-
-# Ensure a valid python version
-ensure_python(">=3.6")
 
 # Get our version
 version = get_version(os.path.join(name, "_version.py"))
@@ -562,10 +559,11 @@ setup_args = dict(
     cmdclass= cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
-        "jupyterlab~=3.0.0b3",
+        "jupyterlab~=3.0.0b4",
     ],
     zip_safe=False,
     include_package_data=True,
+    python_requires=">=3.6",
     license="BSD-3-Clause",
     platforms="Linux, Mac OS X, Windows",
     keywords=["Jupyter", "JupyterLab"],
@@ -584,7 +582,6 @@ setup_args = dict(
 if __name__ == "__main__":
     setuptools.setup(**setup_args)
 
-
 ```
 
 But in this case, it is a bit more complicated to build the frontend extension and ship it
@@ -593,7 +590,7 @@ the frontend NPM package needs to be built and inserted in the Python package. T
 done using a special `cmdclass`:
 
 ```py
-# setup.py#L45-L53
+# setup.py#L42-L50
 
 cmdclass = create_cmdclass("jsdeps", 
     package_data_spec=package_data_spec,
@@ -609,7 +606,7 @@ cmdclass["jsdeps"] = combine_commands(
 Basically it will build the frontend NPM package:
 
 ```py
-# setup.py#L51-L51
+# setup.py#L48-L48
 
 install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
 ```
@@ -617,7 +614,7 @@ install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
 It will ensure one of the generated JS files is `lib/jlabextexample.js`:
 
 ```py
-# setup.py#L26-L29
+# setup.py#L23-L26
 
 jstargets = [
     os.path.join(HERE, "lib", "index.js"),
