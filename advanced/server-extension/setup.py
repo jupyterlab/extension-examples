@@ -1,12 +1,11 @@
 """
-Setup Module to setup Python Handlers for the jlab_ext_example extension.
+jlab_ext_example setup
 """
 import os
-from os.path import join as pjoin
 
 from jupyter_packaging import (
     create_cmdclass, install_npm, ensure_targets,
-    combine_commands, ensure_python, get_version    
+    combine_commands, get_version,
 )
 import setuptools
 
@@ -15,17 +14,15 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 # The name of the project
 name="jlab_ext_example"
 
-# Ensure a valid python version
-ensure_python(">=3.5")
+# Get our version
+version = get_version(os.path.join(name, "_version.py"))
 
-# Get the version
-version = get_version(pjoin(name, "_version.py"))
-
-lab_path = pjoin(HERE, name, "labextension")
+lab_path = os.path.join(HERE, name, "static")
 
 # Representative files that should exist after a successful build
 jstargets = [
-    pjoin(HERE, "lib", "jlabextexample.js"),
+    os.path.join(HERE, "lib", "index.js"),
+    os.path.join(HERE, name, "static", "package.json"),
 ]
 
 package_data_spec = {
@@ -34,13 +31,15 @@ package_data_spec = {
     ]
 }
 
+labext_name = "@jupyterlab-examples/server-extension"
+
 data_files_spec = [
-    ("share/jupyter/lab/extensions", lab_path, "*.tgz"),
-    ("etc/jupyter/jupyter_notebook_config.d",
+    ("share/jupyter/labextensions/%s" % labext_name, lab_path, "*.*"),("etc/jupyter/jupyter_server_config.d",
      "jupyter-config", "jlab_ext_example.json"),
+     
 ]
 
-cmdclass = create_cmdclass("jsdeps",
+cmdclass = create_cmdclass("jsdeps", 
     package_data_spec=package_data_spec,
     data_files_spec=data_files_spec
 )
@@ -56,18 +55,19 @@ with open("README.md", "r") as fh:
 setup_args = dict(
     name=name,
     version=version,
-    url="https://github.com/jupyterlab/extension-examples",
-    author="JupyterLab",
+    url="https://github.com/jupyterlab/extension-examples.git",
+    author="Project Jupyter Contributors",
     description="A minimal JupyterLab extension with backend and frontend parts.",
     long_description= long_description,
     long_description_content_type="text/markdown",
     cmdclass= cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
-        "jupyterlab~=2.0",
+        "jupyterlab~=3.0.0b4",
     ],
     zip_safe=False,
     include_package_data=True,
+    python_requires=">=3.6",
     license="BSD-3-Clause",
     platforms="Linux, Mac OS X, Windows",
     keywords=["Jupyter", "JupyterLab"],
@@ -75,7 +75,6 @@ setup_args = dict(
         "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
@@ -84,5 +83,5 @@ setup_args = dict(
 )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     setuptools.setup(**setup_args)
