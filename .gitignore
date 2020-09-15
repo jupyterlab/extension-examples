@@ -8,3 +8,5 @@ node_modules/
 *.lock
 # Ensure embedme does not run ont node_modules README.md files.
 **/node_modules/**/README.md
+
+static

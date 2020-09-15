@@ -1,5 +1,19 @@
-from ._version import __version__
+import json
+import os.path as osp
+
 from .handlers import setup_handlers
+from ._version import __version__
+
+HERE = osp.abspath(osp.dirname(__file__))
+
+with open(osp.join(HERE, 'static', 'package.json')) as fid:
+    data = json.load(fid)
+
+def _jupyter_labextension_paths():
+    return [{
+        'src': 'static',
+        'dest': data['name']
+    }]
 
 
 def _jupyter_server_extension_paths():
