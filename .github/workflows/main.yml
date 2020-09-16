@@ -33,7 +33,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Path filter
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            extension:
+              - '${{ matrix.example }}/**'
       - name: Cache lerna
+        if: steps.filter.outputs.extension == 'true'
         uses: actions/cache@v2
         with:
           path: |
@@ -43,6 +51,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-lerna-
       - name: Check config files
+        if: steps.filter.outputs.extension == 'true'
         run: |
           diff basics/hello-world/tsconfig.json ${EXAMPLE_FOLDER}/tsconfig.json
           diff basics/hello-world/.eslintignore ${EXAMPLE_FOLDER}/.eslintignore
@@ -52,20 +61,24 @@ jobs:
           EXAMPLE_FOLDER: ${{ matrix.example }}
         shell: bash
       - name: Install node
+        if: steps.filter.outputs.extension == 'true'
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
       - name: Install Python
+        if: steps.filter.outputs.extension == 'true'
         uses: actions/setup-python@v1
         with:
           python-version: "3.7"
           architecture: "x64"
       - name: Get pip cache dir
+        if: steps.filter.outputs.extension == 'true'
         id: pip-cache
         run: |
           echo "::set-output name=dir::$(pip cache dir)"
         shell: bash
       - name: Cache pip
+        if: steps.filter.outputs.extension == 'true'
         uses: actions/cache@v2
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
@@ -73,8 +86,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install the Python dependencies
+        if: steps.filter.outputs.extension == 'true'
         run: python -m pip install jupyterlab
       - name: Install the NPM dependencies
+        if: steps.filter.outputs.extension == 'true'
         run: |
           cd ${EXAMPLE_FOLDER}
           jlpm
@@ -82,6 +97,7 @@ jobs:
           EXAMPLE_FOLDER: ${{ matrix.example }}
         shell: bash
       - name: Lint the files
+        if: steps.filter.outputs.extension == 'true'
         run: |
           cd ${EXAMPLE_FOLDER}
           jlpm run eslint:check
@@ -89,6 +105,7 @@ jobs:
           EXAMPLE_FOLDER: ${{ matrix.example }}
         shell: bash
       - name: Build and check by extension
+        if: steps.filter.outputs.extension == 'true'
         run: |
           cd ${EXAMPLE_FOLDER}
           jlpm run build
