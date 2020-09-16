@@ -14,7 +14,7 @@ First you need to import `StackedPanel`, `DataGrid`
 and `DataModel` classes from lumino:
 
 ```ts
-// src/index.ts#L10-L12
+// src/index.ts#L16-L18
 
 import { DataGrid, DataModel } from '@lumino/datagrid';
 
@@ -35,14 +35,17 @@ the main area of JupyterLab as seen in the above screenshot.
 With these three classes, you can create your own widget, called `DataGridPanel` :
 
 ```ts
-// src/index.ts#L49-L63
+// src/index.ts#L57-L77
 
 class DataGridPanel extends StackedPanel {
-  constructor() {
+  constructor(translator?: ITranslator) {
     super();
+    this._translator = translator || nullTranslator;
+    this._trans = this._translator.load('jupyterlab');
+
     this.addClass('jp-example-view');
     this.id = 'datagrid-example';
-    this.title.label = 'Datagrid Example View';
+    this.title.label = this._trans.__('Datagrid Example View');
     this.title.closable = true;
 
     const model = new LargeDataModel();
@@ -51,6 +54,9 @@ class DataGridPanel extends StackedPanel {
 
     this.addWidget(grid);
   }
+
+  private _translator: ITranslator;
+  private _trans: TranslationBundle;
 }
 ```
 
@@ -58,12 +64,14 @@ Your widget is derived from `StackedPanel` to inherit its behavior. Then
 some properties for the panel. Then the `DataGrid` widget and its associated model are created.
 Finally the grid is inserted inside the panel.
 
+Note that the private variables `_translator` and `_trans` are used for translating labels and other pieces of text that are displayed to the user.
+
 The `DataModel` class is not used directly as it is an abstract class.
 Therefore in this example a class `LargeDataModel` is derived from it
 to implement its abstract methods:
 
 ```ts
-// src/index.ts#L65-L74
+// src/index.ts#L79-L88
 
 class LargeDataModel extends DataModel {
   rowCount(region: DataModel.RowRegion): number {
@@ -108,7 +116,7 @@ values of the datagrid. In this case it simply displays the row and
 column index in each cell, and adds a letter prefix in the header regions:
 
 ```ts
-// src/index.ts#L74-L85
+// src/index.ts#L88-L99
 
 data(region: DataModel.CellRegion, row: number, column: number): any {
   if (region === 'row-header') {
