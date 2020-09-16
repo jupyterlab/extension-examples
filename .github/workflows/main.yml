@@ -47,7 +47,7 @@ jobs:
           path: |
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
+          key: ${{ runner.os }}-lerna-${{ hashFiles('${{ matrix.example }}/package.json') }}
           restore-keys: |
             ${{ runner.os }}-lerna-
       - name: Check config files
@@ -138,7 +138,7 @@ jobs:
           path: |
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
+          key: ${{ runner.os }}-lerna-${{ hashFiles('advanced/server-extension/package.json') }}
           restore-keys: |
             ${{ runner.os }}-lerna-
       - name: Install node
