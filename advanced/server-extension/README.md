@@ -296,7 +296,7 @@ if (launcher) {
 }
 ```
 
-Invoking the command (via the command palette or the launcher) will open a new tab with 
+Invoking the command (via the command palette or the launcher) will open a new tab with
 an `IFrame` that will display static content fetched from the server extension.
 
 **Note**
@@ -312,14 +312,14 @@ an `IFrame` that will display static content fetched from the server extension.
 
 The server part of the extension is going to be presented in this section.
 
-You first need to install the python source code. The following will install 
+You first need to install the python source code. The following will install
 the `jlab_ext_example` package in dev mode:
 
 ```bash
 pip install -e .
 ```
 
-Then you need to enable the package at the Jupyter level 
+Then you need to enable the package at the Jupyter level
 so that it becomes a server extension.
 
 ```bash
@@ -450,7 +450,7 @@ input_data = self.get_json_body()
 data = {"greetings": "Hello {}, enjoy JupyterLab!".format(input_data["name"])}
 ```
 
-The part responsible to serve static content with a `StaticFileHandler` handler 
+The part responsible to serve static content with a `StaticFileHandler` handler
 is the following:
 
 ```py
@@ -486,7 +486,7 @@ through package managers like `pip`.
 
 > Note: In particular, [`jupyter-packaging`](https://github.com/jupyter/jupyter-packaging) provides helpers to package and install JS files
 > with a Python package for Jupyter frontends (classical notebook,
-> JupyterLab,...).  
+> JupyterLab,...).
 > As this package is a setup requirement, it needs to be specified in the `pyproject.toml` to be installed by `pip`.
 
 The `setup.py` file is the entry point to describe package metadata:
@@ -541,7 +541,7 @@ cmdclass = create_cmdclass("jsdeps",
 )
 
 cmdclass["jsdeps"] = combine_commands(
-    install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
+    install_npm(HERE, build_cmd="build", npm=["jlpm"]),
     ensure_targets(jstargets),
 )
 
@@ -559,7 +559,7 @@ setup_args = dict(
     cmdclass= cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
-        "jupyterlab~=3.0.0b4",
+        "jupyterlab~=3.0.0b6",
     ],
     zip_safe=False,
     include_package_data=True,
@@ -598,7 +598,7 @@ cmdclass = create_cmdclass("jsdeps",
 )
 
 cmdclass["jsdeps"] = combine_commands(
-    install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
+    install_npm(HERE, build_cmd="build", npm=["jlpm"]),
     ensure_targets(jstargets),
 )
 ```
@@ -608,7 +608,7 @@ Basically it will build the frontend NPM package:
 ```py
 # setup.py#L48-L48
 
-install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
+install_npm(HERE, build_cmd="build", npm=["jlpm"]),
 ```
 
 It will ensure one of the generated JS files is `lib/jlabextexample.js`:
@@ -663,7 +663,7 @@ user about that dependency by adding the `discovery` metadata to your `package.j
 file:
 
 ```json5
-// package.json#L68-L78
+// package.json#L69-L79
 
 "jupyterlab": {
   "discovery": {
@@ -681,7 +681,7 @@ file:
 In this example, the extension requires a `server` extension:
 
 ```json5
-// package.json#L70-L70
+// package.json#L71-L71
 
 "server": {
 ```
@@ -689,7 +689,7 @@ In this example, the extension requires a `server` extension:
 And that server extension is available through `pip`:
 
 ```json5
-// package.json#L71-L73
+// package.json#L72-L74
 
 "managers": [
   "pip"

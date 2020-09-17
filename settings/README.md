@@ -109,7 +109,7 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 
 <!-- prettier-ignore-start -->
 ```json5
-// package.json#L68-L70
+// package.json#L69-L71
 
 "jupyterlab": {
   "extension": true,
