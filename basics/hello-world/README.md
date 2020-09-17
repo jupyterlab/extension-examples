@@ -2,7 +2,7 @@
 
 > Set up the development environment and print to the console.
 
-![hello-world example](./preview.png)
+![hello world example](./preview.png)
 
 - [The template folder structure](#the-template-folder-structure)
 - [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
