@@ -41,7 +41,7 @@ object ([see the documentation](https://jupyterlab.github.io/jupyterlab/apputils
 Here it is stored in the private `_sessionContext` variable:
 
 ```ts
-// src/panel.ts#L86-L86
+// src/panel.ts#L94-L94
 
 private _sessionContext: SessionContext;
 ```
@@ -50,12 +50,12 @@ A `SessionContext` handles a single kernel session. The session itself (not yet
 the kernel) is started with these lines:
 
 ```ts
-// src/panel.ts#L36-L40
+// src/panel.ts#L44-L48
 
 this._sessionContext = new SessionContext({
   sessionManager: manager.sessions,
   specsManager: manager.kernelspecs,
-  name: 'Kernel Output'
+  name: 'Kernel Output',
 });
 ```
 
@@ -63,7 +63,7 @@ The private session variable is exposed as read-only for other users
 through a getter method:
 
 ```ts
-// src/panel.ts#L64-L66
+// src/panel.ts#L72-L74
 
 get session(): ISessionContext {
   return this._sessionContext;
@@ -75,7 +75,7 @@ with this line:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/panel.ts#L50-L61
+// src/panel.ts#L58-L69
 
 void this._sessionContext
   .initialize()
@@ -99,7 +99,7 @@ The following two methods ensure the clean disposal of the session
 when you close the panel.
 
 ```ts
-// src/panel.ts#L68-L71
+// src/panel.ts#L76-L79
 
 dispose(): void {
   this._sessionContext.dispose();
@@ -108,7 +108,7 @@ dispose(): void {
 ```
 
 ```ts
-// src/panel.ts#L81-L84
+// src/panel.ts#L89-L92
 
 protected onCloseRequest(msg: Message): void {
   super.onCloseRequest(msg);
@@ -124,12 +124,12 @@ You can instantiate it with a new `OutputAreaModel`; this is class containing
 the data to show:
 
 ```ts
-// src/panel.ts#L42-L46
+// src/panel.ts#L50-L54
 
 this._outputareamodel = new OutputAreaModel();
 this._outputarea = new SimplifiedOutputArea({
   model: this._outputareamodel,
-  rendermime: rendermime
+  rendermime: rendermime,
 });
 ```
 
@@ -138,7 +138,7 @@ some code to a kernel through a `ISessionContext` ([see documentation](https://j
 in the specific `SimplifiedOutputArea` object you created:
 
 ```ts
-// src/panel.ts#L73-L79
+// src/panel.ts#L81-L87
 
 execute(code: string): void {
   SimplifiedOutputArea.execute(code, this._outputarea, this._sessionContext)
@@ -158,7 +158,7 @@ To display the `SimplifiedOutputArea` Widget you need to add it to your
 panel with:
 
 ```ts
-// src/panel.ts#L48-L48
+// src/panel.ts#L56-L56
 
 this.addWidget(this._outputarea);
 ```
@@ -172,7 +172,7 @@ The last step is to add the panel to the JupyterLab main area.
 First, it is a good practice to unify the extension commands into one namespace at the top of the file:
 
 ```ts
-// src/index.ts#L21-L25
+// src/index.ts#L23-L27
 
 namespace CommandIDs {
   export const create = 'kernel-output:create';
@@ -185,10 +185,10 @@ You can then add the commands to the palette and the menu by iterating
 on a list:
 
 ```ts
-// src/index.ts#L105-L109
+// src/index.ts#L110-L114
 
 // add items in command palette and menu
-[CommandIDs.create, CommandIDs.execute].forEach(command => {
+[CommandIDs.create, CommandIDs.execute].forEach((command) => {
   palette.addItem({ command, category });
   exampleMenu.addItem({ command });
 });
@@ -198,7 +198,7 @@ To create a new client session, the service manager must be obtained from
 the JupyterLab application:
 
 ```ts
-// src/index.ts#L54-L54
+// src/index.ts#L58-L58
 
 const manager = app.serviceManager;
 ```
@@ -208,7 +208,7 @@ ready. Then once the panel is created and its session is ready, it
 can be added to the JupyterLab main area:
 
 ```ts
-// src/index.ts#L58-L69
+// src/index.ts#L63-L74
 
 let panel: ExamplePanel;
 
@@ -218,7 +218,7 @@ let panel: ExamplePanel;
  * @returns The panel
  */
 async function createPanel(): Promise<ExamplePanel> {
-  panel = new ExamplePanel(manager, rendermime);
+  panel = new ExamplePanel(manager, rendermime, translator);
   shell.add(panel, 'main');
   return panel;
 }
@@ -231,11 +231,11 @@ to be executed by the kernel. Then you will send it to your panel for execution
 and display:
 
 ```ts
-// src/index.ts#L83-L103
+// src/index.ts#L88-L108
 
 commands.addCommand(CommandIDs.execute, {
-  label: 'Contact Kernel and Execute Code',
-  caption: 'Contact Kernel and Execute Code',
+  label: trans.__('Contact Kernel and Execute Code'),
+  caption: trans.__('Contact Kernel and Execute Code'),
   execute: async () => {
     // Create the panel if it does not exist
     if (!panel) {
@@ -243,16 +243,16 @@ commands.addCommand(CommandIDs.execute, {
     }
     // Prompt the user about the statement to be executed
     const input = await InputDialog.getText({
-      title: 'Code to execute',
-      okLabel: 'Execute',
-      placeholder: 'Statement to execute'
+      title: trans.__('Code to execute'),
+      okLabel: trans.__('Execute'),
+      placeholder: trans.__('Statement to execute'),
     });
     // Execute the statement
     if (input.button.accept) {
       const code = input.value;
       panel.execute(code);
     }
-  }
+  },
 });
 ```
 
