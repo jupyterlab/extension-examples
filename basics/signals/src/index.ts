@@ -39,6 +39,7 @@ const extension: JupyterFrontEndPlugin<void> = {
  * @param app Jupyter Font End
  * @param palette Jupyter Commands Palette
  * @param mainMenu Jupyter Menu
+ * @param translator Jupyter Translator
  * @param launcher [optional] Jupyter Launcher
  */
 function activate(
