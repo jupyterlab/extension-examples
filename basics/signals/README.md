@@ -21,7 +21,7 @@ JupyterLab's Lumino engine uses the `ISignal` interface and the
 
 The basic concept is as follows:
 
-First, a widget (`button.ts`), in this case the one that contains
+First, a widget (`button.tsx`), in this case the one that contains
 some visual elements such as a button, defines a `_stateChanged` signal:
 
 ```ts
@@ -44,7 +44,7 @@ Another widget, in this case the panel (`panel.ts`) that boxes several different
 subscribes to the `stateChanged` signal and links some function to it:
 
 ```ts
-// src/panel.ts#L22-L22
+// src/panel.ts#L29-L29
 
 this._widget.stateChanged.connect(this._logMessage, this);
 ```
@@ -141,13 +141,14 @@ The `panel.ts` class defines an extension panel that displays the
 This is done in the constructor.
 
 ```ts
-// src/panel.ts#L13-L23
+// src/panel.ts#L19-L30
 
-constructor() {
   super();
+  this._translator = translator || nullTranslator;
+  this._trans = this._translator.load('jupyterlab');
   this.addClass(PANEL_CLASS);
   this.id = 'SignalExamplePanel';
-  this.title.label = 'Signal Example View';
+  this.title.label = this._trans.__('Signal Example View');
   this.title.closable = true;
 
   this._widget = new ButtonWidget();
@@ -160,7 +161,7 @@ Subscription to a signal is done using the `connect` method of the
 `stateChanged` attribute.
 
 ```ts
-// src/panel.ts#L22-L22
+// src/panel.ts#L29-L29
 
 this._widget.stateChanged.connect(this._logMessage, this);
 ```
@@ -178,7 +179,7 @@ The `_logMessage` function receives as parameters the emitter (of type `ButtonWi
 and the count (of type `ICount`) sent by the signal emitter.
 
 ```ts
-// src/panel.ts#L25-L25
+// src/panel.ts#L32-L32
 
 private _logMessage(emitter: ButtonWidget, count: ICount): void {
 ```
@@ -187,7 +188,7 @@ In our case, that function writes `Button has been clicked ... times.` text
 to the browser console and in an alert when the big red button is clicked.
 
 ```ts
-// src/panel.ts#L25-L29
+// src/panel.ts#L32-L36
 
 private _logMessage(emitter: ButtonWidget, count: ICount): void {
   console.log('Hey, a Signal has been received from', emitter);
