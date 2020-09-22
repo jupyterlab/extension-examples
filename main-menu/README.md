@@ -87,11 +87,11 @@ After the execution of that command, `package.json` should list them in the
 ```json5
 // package.json#L44-L48
 
-"dependencies": {
-  "@jupyterlab/application": "~3.0.0-beta.4",
-  "@jupyterlab/mainmenu": "~3.0.0-beta.4",
-  "@lumino/widgets": "^1.14.0"
 },
+"dependencies": {
+  "@jupyterlab/application": "~3.0.0-beta.6",
+  "@jupyterlab/mainmenu": "~3.0.0-beta.6",
+  "@lumino/widgets": "^1.14.0"
 ```
 
 With this extension installed, a new menu _Main Menu Example_ should be present. And when

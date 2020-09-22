@@ -111,9 +111,9 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 ```json5
 // package.json#L68-L70
 
+],
 "jupyterlab": {
   "extension": true,
-  "schemaDir": "schema",
 ```
 <!-- prettier-ignore-end -->
 
