@@ -201,7 +201,7 @@ jobs:
         run: |
           cd advanced/server-extension
           python setup.py sdist
-          pip install jlab_ext_example --pre --find-links=dist --no-cache-dir
+          pip install ./dist/jlab_ext_example* --pre --find-links=dist --no-cache-dir
           python -m jupyterlab.browser_check
       - name: Check extension as dev
         if: steps.filter.outputs.extension == 'true' && ( startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS') )
