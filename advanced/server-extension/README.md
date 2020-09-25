@@ -535,13 +535,13 @@ data_files_spec = [
      
 ]
 
-cmdclass = create_cmdclass("jsdeps", 
+cmdclass = create_cmdclass("jsdeps",
     package_data_spec=package_data_spec,
     data_files_spec=data_files_spec
 )
 
 cmdclass["jsdeps"] = combine_commands(
-    install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
+    install_npm(HERE, build_cmd="build", npm=["jlpm"]),
     ensure_targets(jstargets),
 )
 
@@ -559,7 +559,7 @@ setup_args = dict(
     cmdclass= cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
-        "jupyterlab~=3.0.0b4",
+        "jupyterlab>=3.0.0rc0,==3.*",
     ],
     zip_safe=False,
     include_package_data=True,
@@ -592,13 +592,13 @@ done using a special `cmdclass`:
 ```py
 # setup.py#L42-L50
 
-cmdclass = create_cmdclass("jsdeps", 
+cmdclass = create_cmdclass("jsdeps",
     package_data_spec=package_data_spec,
     data_files_spec=data_files_spec
 )
 
 cmdclass["jsdeps"] = combine_commands(
-    install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
+    install_npm(HERE, build_cmd="build", npm=["jlpm"]),
     ensure_targets(jstargets),
 )
 ```
@@ -608,7 +608,7 @@ Basically it will build the frontend NPM package:
 ```py
 # setup.py#L48-L48
 
-install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
+install_npm(HERE, build_cmd="build", npm=["jlpm"]),
 ```
 
 It will ensure one of the generated JS files is `lib/jlabextexample.js`:
@@ -665,6 +665,7 @@ file:
 ```json5
 // package.json#L68-L78
 
+],
 "jupyterlab": {
   "discovery": {
     "server": {
@@ -675,7 +676,6 @@ file:
         "name": "jlab_ext_example"
       }
     }
-  },
 ```
 
 In this example, the extension requires a `server` extension:
@@ -683,7 +683,7 @@ In this example, the extension requires a `server` extension:
 ```json5
 // package.json#L70-L70
 
-"server": {
+"discovery": {
 ```
 
 And that server extension is available through `pip`:
@@ -691,9 +691,9 @@ And that server extension is available through `pip`:
 ```json5
 // package.json#L71-L73
 
-"managers": [
-  "pip"
-],
+"server": {
+  "managers": [
+    "pip"
 ```
 
 For more information on the `discovery` metadata, please refer to the [documentation](https://jupyterlab.readthedocs.io/en/stable/developer/extension_dev.html#ext-author-companion-packages).

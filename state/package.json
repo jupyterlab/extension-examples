@@ -25,9 +25,10 @@
     "url": "https://github.com/jupyterlab/extension-examples.git"
   },
   "scripts": {
-    "build": "jlpm run build:lib",
+    "build": "jlpm run build:lib && jlpm run build:labextension",
     "build:all": "jlpm run build:lib && jlpm run build:labextension",
     "build:labextension": "jupyter labextension build .",
+    "build:labextension:dev": "jupyter labextension build --development True .",
     "build:lib": "tsc",
     "clean": "jlpm run clean:lib",
     "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
@@ -42,13 +43,13 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "~3.0.0-beta.4",
-    "@jupyterlab/apputils": "~3.0.0-beta.4",
-    "@jupyterlab/statedb": "~3.0.0-beta.4",
+    "@jupyterlab/application": "~3.0.0-beta.6",
+    "@jupyterlab/apputils": "~3.0.0-beta.6",
+    "@jupyterlab/statedb": "~3.0.0-beta.6",
     "@lumino/coreutils": "^1.5.3"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^3.0.0-beta.4",
+    "@jupyterlab/builder": "^3.0.0-rc.0",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
     "eslint": "^7.5.0",

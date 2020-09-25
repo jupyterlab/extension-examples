@@ -37,13 +37,13 @@ data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, lab_path, "*.*"),
 ]
 
-cmdclass = create_cmdclass("jsdeps", 
+cmdclass = create_cmdclass("jsdeps",
     package_data_spec=package_data_spec,
     data_files_spec=data_files_spec
 )
 
 cmdclass["jsdeps"] = combine_commands(
-    install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
+    install_npm(HERE, build_cmd="build", npm=["jlpm"]),
     ensure_targets(jstargets),
 )
 
@@ -61,7 +61,7 @@ setup_args = dict(
     cmdclass= cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
-        "jupyterlab~=3.0.0b4",
+        "jupyterlab>=3.0.0rc0,==3.*",
     ],
     zip_safe=False,
     include_package_data=True,
