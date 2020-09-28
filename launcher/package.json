@@ -43,10 +43,10 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "~3.0.0-rc.0",
-    "@jupyterlab/filebrowser": "~3.0.0-rc.0",
-    "@jupyterlab/launcher": "~3.0.0-rc.0",
-    "@jupyterlab/mainmenu": "~3.0.0-rc.0"
+    "@jupyterlab/application": "^3.0.0-rc.0",
+    "@jupyterlab/filebrowser": "^3.0.0-rc.0",
+    "@jupyterlab/launcher": "^3.0.0-rc.0",
+    "@jupyterlab/mainmenu": "^3.0.0-rc.0"
   },
   "devDependencies": {
     "@jupyterlab/builder": "^3.0.0-rc.0",
