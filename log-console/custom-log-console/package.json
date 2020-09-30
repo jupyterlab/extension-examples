@@ -43,19 +43,19 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "~3.0.0-beta.6",
-    "@jupyterlab/apputils": "~3.0.0-beta.6",
-    "@jupyterlab/coreutils": "~5.0.0-beta.6",
-    "@jupyterlab/logconsole": "~3.0.0-beta.6",
-    "@jupyterlab/mainmenu": "~3.0.0-beta.6",
-    "@jupyterlab/nbformat": "~3.0.0-beta.6",
-    "@jupyterlab/rendermime": "~3.0.0-beta.6",
-    "@jupyterlab/ui-components": "~3.0.0-beta.6",
+    "@jupyterlab/application": "^3.0.0-rc.2",
+    "@jupyterlab/apputils": "^3.0.0-rc.2",
+    "@jupyterlab/coreutils": "^5.0.0-rc.2",
+    "@jupyterlab/logconsole": "^3.0.0-rc.2",
+    "@jupyterlab/mainmenu": "^3.0.0-rc.2",
+    "@jupyterlab/nbformat": "^3.0.0-rc.2",
+    "@jupyterlab/rendermime": "^3.0.0-rc.2",
+    "@jupyterlab/ui-components": "^3.0.0-rc.2",
     "@lumino/coreutils": "^1.5.3",
     "@lumino/widgets": "^1.14.0"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^3.0.0-rc.0",
+    "@jupyterlab/builder": "^3.0.0-rc.2",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
     "eslint": "^7.5.0",
@@ -66,7 +66,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^1.19.0",
     "rimraf": "^3.0.2",
-    "typescript": "~3.9.0"
+    "typescript": "~4.0.3"
   },
   "sideEffects": [
     "style/*.css"
