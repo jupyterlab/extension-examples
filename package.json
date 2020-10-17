@@ -25,6 +25,7 @@
       "command-palette",
       "commands",
       "context-menu",
+      "editor/*",
       "launcher",
       "log-console/*",
       "main-menu",

@@ -94,6 +94,14 @@ Extend the main app with a Command.
 
 [![Commmand example](commands/preview.png)](commands)
 
+## Editor
+
+### [CodeMirror Simple Mode](editor/codemirror-simple-mode)
+
+Create new syntax highlighting for Editors.
+
+[![CodeMirror Simple Mode](editor/codemirror-simple-mode/preview.png)](editor/codemirror-simple-mode)
+
 ## Launcher
 
 ### [Launcher](launcher)
