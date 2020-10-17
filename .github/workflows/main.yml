@@ -21,6 +21,7 @@ jobs:
           - command-palette
           - commands
           - context-menu
+          - editor/codemirror-simple-mode
           - launcher
           - log-console/custom-log-console
           - log-console/log-messages
