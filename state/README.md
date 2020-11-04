@@ -1,4 +1,4 @@
-# Sate
+# State
 
 > Use State persistence in an extension.
 
