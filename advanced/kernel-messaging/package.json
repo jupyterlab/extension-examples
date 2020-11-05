@@ -74,6 +74,6 @@
   ],
   "jupyterlab": {
     "extension": true,
-    "outputDir": "jupyterlab_examples_kernel_messaging/static"
+    "outputDir": "jupyterlab_examples_kernel_messaging/labextension"
   }
 }

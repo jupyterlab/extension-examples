@@ -67,6 +67,6 @@
   ],
   "jupyterlab": {
     "extension": true,
-    "outputDir": "jupyterlab_examples_react_widget/static"
+    "outputDir": "jupyterlab_examples_react_widget/labextension"
   }
 }

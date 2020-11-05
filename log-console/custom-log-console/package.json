@@ -74,6 +74,6 @@
   ],
   "jupyterlab": {
     "extension": true,
-    "outputDir": "jupyterlab_examples_custom_log_console/static"
+    "outputDir": "jupyterlab_examples_custom_log_console/labextension"
   }
 }

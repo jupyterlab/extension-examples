@@ -70,6 +70,6 @@
   "jupyterlab": {
     "extension": true,
     "schemaDir": "schema",
-    "outputDir": "jupyterlab_examples_settings/static"
+    "outputDir": "jupyterlab_examples_settings/labextension"
   }
 }

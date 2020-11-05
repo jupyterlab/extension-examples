@@ -72,6 +72,6 @@
   ],
   "jupyterlab": {
     "extension": true,
-    "outputDir": "jupyterlab_examples_signals/static"
+    "outputDir": "jupyterlab_examples_signals/labextension"
   }
 }

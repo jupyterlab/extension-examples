@@ -71,6 +71,6 @@
   ],
   "jupyterlab": {
     "extension": true,
-    "outputDir": "jupyterlab_examples_datagrid/static"
+    "outputDir": "jupyterlab_examples_datagrid/labextension"
   }
 }
