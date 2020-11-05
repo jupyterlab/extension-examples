@@ -1,6 +1,7 @@
 """
 jupyterlab_examples_widgets setup
 """
+import json
 import os
 
 from jupyter_packaging import (
@@ -15,14 +16,15 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 name="jupyterlab_examples_widgets"
 
 # Get our version
-version = get_version(os.path.join(name, "_version.py"))
+with open(os.path.join(HERE, 'package.json')) as f:
+    version = json.load(f)['version']
 
-lab_path = os.path.join(HERE, name, "static")
+lab_path = os.path.join(HERE, name, "labextension")
 
 # Representative files that should exist after a successful build
 jstargets = [
     os.path.join(HERE, "lib", "index.js"),
-    os.path.join(HERE, name, "static", "package.json"),
+    os.path.join(lab_path, "package.json"),
 ]
 
 package_data_spec = {
@@ -34,7 +36,8 @@ package_data_spec = {
 labext_name = "@jupyterlab-examples/widgets"
 
 data_files_spec = [
-    ("share/jupyter/labextensions/%s" % labext_name, lab_path, "*.*"),
+    ("share/jupyter/labextensions/%s" % labext_name, lab_path, "**"),
+    ("share/jupyter/labextensions/%s" % labext_name, HERE, "install.json"),
 ]
 
 cmdclass = create_cmdclass("jsdeps",
@@ -43,7 +46,7 @@ cmdclass = create_cmdclass("jsdeps",
 )
 
 cmdclass["jsdeps"] = combine_commands(
-    install_npm(HERE, build_cmd="build", npm=["jlpm"]),
+    install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
     ensure_targets(jstargets),
 )
 

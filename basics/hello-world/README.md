@@ -95,7 +95,7 @@ package is declared in the file `package.json`:
 
 },
 "dependencies": {
-  "@jupyterlab/application": "^3.0.0-rc.2"
+  "@jupyterlab/application": "^3.0.0-rc.7"
 ```
 
 With this basic import setup, you can move on to construct a new instance
