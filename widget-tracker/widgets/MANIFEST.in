@@ -6,7 +6,7 @@ include jupyter-config/jupyterlab_examples_widgets.json
 include package.json
 include ts*.json
 
-graft jupyterlab_examples_widgets/static
+graft jupyterlab_examples_widgets/labextension
 
 # Javascript files
 graft src

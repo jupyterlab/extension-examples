@@ -6,7 +6,7 @@ include jupyter-config/jupyterlab_examples_log_messages.json
 include package.json
 include ts*.json
 
-graft jupyterlab_examples_log_messages/static
+graft jupyterlab_examples_log_messages/labextension
 
 # Javascript files
 graft src
