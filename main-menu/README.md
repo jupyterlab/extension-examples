@@ -90,8 +90,8 @@ After the execution of that command, `package.json` should list them in the
   "watch:src": "tsc -w"
 },
 "dependencies": {
-  "@jupyterlab/application": "^3.0.0-rc.7",
-  "@jupyterlab/mainmenu": "^3.0.0-rc.7",
+  "@jupyterlab/application": "^3.0.0-rc.15",
+  "@jupyterlab/mainmenu": "^3.0.0-rc.15",
 ```
 
 With this extension installed, a new menu _Main Menu Example_ should be present. And when

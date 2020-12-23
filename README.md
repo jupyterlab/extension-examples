@@ -10,18 +10,41 @@ The goal of this repository is to show how to develop extensions for [JupyterLab
 To get started:
 
 ```bash
-git clone https://github.com/jupyterlab/extension-examples.git jupyterlab-extension-examples && \
-  cd jupyterlab-extension-examples && \
-  conda env create && \
-  conda activate jupyterlab-extension-examples && \
-  cd basics/hello-world && \
-  jlpm && \
-  jlpm run build && \
-  jupyter labextension install . && \
-  jupyter lab
+# clone the repository
+git clone https://github.com/jupyterlab/extension-examples.git jupyterlab-extension-examples
+
+# go to the extension examples folder
+cd jupyterlab-extension-examples
+
+# create a new environment
+conda env create
+
+# activate the environment
+conda activate jupyterlab-extension-examples
+
+# go to the hello world example
+cd basics/hello-world
+
+# install the extension in editable mode
+python -m pip install -e .
+
+# install your development version of the extension with JupyterLab
+jupyter labextension develop . --overwrite
+
+# build the TypeScript source after making changes
+jlpm run build
+
+# start JupyterLab
+jupyter lab
 ```
 
-The examples currently target **JupyterLab 2.x**. If you would like to use the examples with JupyterLab 1.x, check out the [1.x branch](https://github.com/jupyterlab/extension-examples/tree/1.x). Note that the `1.x` branch is not updated anymore.
+The examples currently target **JupyterLab 3.x**.
+
+If you would like to use the examples with JupyterLab 2.x, check out the [2.x branch](https://github.com/jupyterlab/extension-examples/tree/2.x).
+
+If you would like to use the examples with JupyterLab 1.x, check out the [1.x branch](https://github.com/jupyterlab/extension-examples/tree/1.x).
+
+Note that the `1.x` and `2.x` branches are not updated anymore.
 
 ## Develop by Examples
 
@@ -210,9 +233,15 @@ conda env create && \
 ```bash
 jlpm
 jlpm build-ext
+jlpm install-py
 jlpm install-ext
-jlpm build-jlab
 jupyter lab
+```
+
+To rebuild all the extensions:
+
+```bash
+jlpm build-ext
 ```
 
 To clean the lib folders:
