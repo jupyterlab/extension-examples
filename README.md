@@ -232,10 +232,15 @@ conda env create && \
 
 ```bash
 jlpm
-jlpm build-ext
+jlpm install-py
 jlpm install-ext
-jlpm build-jlab
 jupyter lab
+```
+
+To rebuild all the extensions:
+
+```bash
+jlpm build-ext
 ```
 
 To clean the lib folders:
