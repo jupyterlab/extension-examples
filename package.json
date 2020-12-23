@@ -7,7 +7,7 @@
     "build-ext": "lerna run build:all",
     "clean-ext": "lerna run clean",
     "embedme": "embedme \"[!n]*/**/README.md\"",
-    "install-py": "lerna exec -- python -m pip install -e .",
+    "install-py": "lerna exec --concurrency 4 -- python -m pip install -e .",
     "install-ext": "lerna run install:extension",
     "lint": "jlpm && jlpm run prettier",
     "lint:check": "jlpm run embedme --verify && jlpm run prettier:check",
