@@ -232,6 +232,7 @@ conda env create && \
 
 ```bash
 jlpm
+jlpm build-ext
 jlpm install-py
 jlpm install-ext
 jupyter lab
