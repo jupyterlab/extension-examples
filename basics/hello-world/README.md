@@ -93,9 +93,9 @@ package is declared in the file `package.json`:
 ```json5
 // package.json#L46-L48
 
-  "watch:src": "tsc -w"
-},
 "dependencies": {
+  "@jupyterlab/application": "^3.0.0-rc.15"
+},
 ```
 
 With this basic import setup, you can move on to construct a new instance

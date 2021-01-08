@@ -111,9 +111,11 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 ```json5
 // package.json#L70-L74
 
-  "style/*.css"
-],
 "jupyterlab": {
+  "extension": true,
+  "schemaDir": "schema",
+  "outputDir": "jupyterlab_examples_settings/labextension"
+}
 ```
 <!-- prettier-ignore-end -->
 
