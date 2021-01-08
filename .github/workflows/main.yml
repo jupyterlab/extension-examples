@@ -272,7 +272,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install the Python dependencies
-        run: python -m pip install --pre jupyterlab
+        run: python -m pip install jupyterlab
       - name: Bootstrap the jlpm deps
         run: jlpm
       - name: Build all the extensions

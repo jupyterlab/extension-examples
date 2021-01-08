@@ -91,7 +91,7 @@ called `@jupyterlab/application`. The dependency of your extension on this
 package is declared in the file `package.json`:
 
 ```json5
-// package.json#L44-L46
+// package.json#L46-L48
 
   "watch:src": "tsc -w"
 },
