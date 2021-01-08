@@ -85,7 +85,7 @@ After the execution of that command, `package.json` should list them in the
 `dependencies`:
 
 ```json5
-// package.json#L44-L48
+// package.json#L46-L50
 
   "watch:src": "tsc -w"
 },
