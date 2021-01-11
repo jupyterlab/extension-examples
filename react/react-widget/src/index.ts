@@ -37,6 +37,7 @@ const extension: JupyterFrontEndPlugin<void> = {
         const content = new CounterWidget();
         const widget = new MainAreaWidget<CounterWidget>({ content });
         widget.title.label = 'React Widget';
+        widget.title.icon = reactIcon;
         app.shell.add(widget, 'main');
       }
     });

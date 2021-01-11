@@ -9,6 +9,8 @@ import { ILauncher } from '@jupyterlab/launcher';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import { ITranslator } from '@jupyterlab/translation';
+
 import { Menu } from '@lumino/widgets';
 
 import { SignalExamplePanel } from './panel';
@@ -27,8 +29,8 @@ const extension: JupyterFrontEndPlugin<void> = {
   id: 'signals',
   autoStart: true,
   optional: [ILauncher],
-  requires: [ICommandPalette, IMainMenu],
-  activate: activate
+  requires: [ICommandPalette, IMainMenu, ITranslator],
+  activate
 };
 
 /**
@@ -37,17 +39,20 @@ const extension: JupyterFrontEndPlugin<void> = {
  * @param app Jupyter Font End
  * @param palette Jupyter Commands Palette
  * @param mainMenu Jupyter Menu
+ * @param translator Jupyter Translator
  * @param launcher [optional] Jupyter Launcher
  */
 function activate(
   app: JupyterFrontEnd,
   palette: ICommandPalette,
   mainMenu: IMainMenu,
+  translator: ITranslator,
   launcher: ILauncher | null
 ): void {
   const manager = app.serviceManager;
   const { commands, shell } = app;
   const category = 'Extension Examples';
+  const trans = translator.load('jupyterlab');
 
   // Add launcher
   if (launcher) {
@@ -65,7 +70,7 @@ function activate(
   function createPanel(): Promise<SignalExamplePanel> {
     let panel: SignalExamplePanel;
     return manager.ready.then(() => {
-      panel = new SignalExamplePanel();
+      panel = new SignalExamplePanel(translator);
       shell.add(panel, 'main');
       return panel;
     });
@@ -73,13 +78,13 @@ function activate(
 
   // Add menu tab
   const signalMenu = new Menu({ commands });
-  signalMenu.title.label = 'Signal Example';
+  signalMenu.title.label = trans.__('Signal Example');
   mainMenu.addMenu(signalMenu);
 
   // Add commands to registry
   commands.addCommand(CommandIDs.create, {
-    label: 'Open the Signal Example Panel',
-    caption: 'Open the Signal Example Panel',
+    label: trans.__('Open the Signal Example Panel'),
+    caption: trans.__('Open the Signal Example Panel'),
     execute: createPanel
   });
 

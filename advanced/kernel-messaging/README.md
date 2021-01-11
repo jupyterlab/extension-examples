@@ -36,7 +36,7 @@ Jupyterlab provides a class `SessionContext`
 that manages a single kernel session. Here is the code to initialize such session:
 
 ```ts
-// src/panel.ts#L33-L37
+// src/panel.ts#L41-L45
 
 this._sessionContext = new SessionContext({
   sessionManager: manager.sessions,
@@ -46,7 +46,7 @@ this._sessionContext = new SessionContext({
 ```
 
 <!-- prettier-ignore-start -->
-<!-- embedme src/panel.ts#L43-L54 -->
+<!-- embedme src/panel.ts#L51-L62 -->
 
 ```ts
 void this._sessionContext
@@ -68,7 +68,7 @@ The session manager object is
 provided directly by the JupyterLab application:
 
 ```ts
-// src/index.ts#L48-L48
+// src/index.ts#L52-L52
 
 const manager = app.serviceManager;
 ```
@@ -81,14 +81,16 @@ to free the kernel session resources if the panel is closed. The whole adapted
 panel class looks like this:
 
 ```ts
-// src/panel.ts#L25-L74
+// src/panel.ts#L31-L85
 
 export class ExamplePanel extends StackedPanel {
-  constructor(manager: ServiceManager.IManager) {
+  constructor(manager: ServiceManager.IManager, translator?: ITranslator) {
     super();
+    this._translator = translator || nullTranslator;
+    this._trans = this._translator.load('jupyterlab');
     this.addClass(PANEL_CLASS);
     this.id = 'kernel-messaging-panel';
-    this.title.label = 'Kernel Messaging Example View';
+    this.title.label = this._trans.__('Kernel Messaging Example View');
     this.title.closable = true;
 
     this._sessionContext = new SessionContext({
@@ -132,6 +134,9 @@ export class ExamplePanel extends StackedPanel {
   private _model: KernelModel;
   private _sessionContext: SessionContext;
   private _example: KernelView;
+
+  private _translator: ITranslator;
+  private _trans: TranslationBundle;
 }
 ```
 

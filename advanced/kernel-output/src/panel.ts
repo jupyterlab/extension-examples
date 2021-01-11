@@ -9,6 +9,11 @@ import { OutputAreaModel, SimplifiedOutputArea } from '@jupyterlab/outputarea';
 import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 
 import { KernelMessage, ServiceManager } from '@jupyterlab/services';
+import {
+  ITranslator,
+  nullTranslator,
+  TranslationBundle
+} from '@jupyterlab/translation';
 
 import { Message } from '@lumino/messaging';
 
@@ -25,12 +30,15 @@ const PANEL_CLASS = 'jp-RovaPanel';
 export class ExamplePanel extends StackedPanel {
   constructor(
     manager: ServiceManager.IManager,
-    rendermime: IRenderMimeRegistry
+    rendermime: IRenderMimeRegistry,
+    translator?: ITranslator
   ) {
     super();
+    this._translator = translator || nullTranslator;
+    this._trans = this._translator.load('jupyterlab');
     this.addClass(PANEL_CLASS);
     this.id = 'kernel-output-panel';
-    this.title.label = 'Kernel Output Example View';
+    this.title.label = this._trans.__('Kernel Output Example View');
     this.title.closable = true;
 
     this._sessionContext = new SessionContext({
@@ -86,4 +94,7 @@ export class ExamplePanel extends StackedPanel {
   private _sessionContext: SessionContext;
   private _outputarea: SimplifiedOutputArea;
   private _outputareamodel: OutputAreaModel;
+
+  private _translator: ITranslator;
+  private _trans: TranslationBundle;
 }

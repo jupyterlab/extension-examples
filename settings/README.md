@@ -109,11 +109,12 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 
 <!-- prettier-ignore-start -->
 ```json5
-// package.json#L57-L60
+// package.json#L70-L74
 
 "jupyterlab": {
   "extension": true,
-  "schemaDir": "schema"
+  "schemaDir": "schema",
+  "outputDir": "jupyterlab_examples_settings/labextension"
 }
 ```
 <!-- prettier-ignore-end -->

@@ -1,12 +1,12 @@
 """
-Setup Module to setup Python Handlers for the jlab_ext_example extension.
+jlab_ext_example setup
 """
+import json
 import os
-from os.path import join as pjoin
 
 from jupyter_packaging import (
     create_cmdclass, install_npm, ensure_targets,
-    combine_commands, ensure_python, get_version    
+    combine_commands, skip_if_exists
 )
 import setuptools
 
@@ -15,17 +15,15 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 # The name of the project
 name="jlab_ext_example"
 
-# Ensure a valid python version
-ensure_python(">=3.5")
+# Get our version
+with open(os.path.join(HERE, 'package.json')) as f:
+    version = json.load(f)['version']
 
-# Get the version
-version = get_version(pjoin(name, "_version.py"))
-
-lab_path = pjoin(HERE, name, "labextension")
+lab_path = os.path.join(HERE, name, "labextension")
 
 # Representative files that should exist after a successful build
 jstargets = [
-    pjoin(HERE, "lib", "jlabextexample.js"),
+    os.path.join(lab_path, "package.json"),
 ]
 
 package_data_spec = {
@@ -34,10 +32,13 @@ package_data_spec = {
     ]
 }
 
+labext_name = "@jupyterlab-examples/server-extension"
+
 data_files_spec = [
-    ("share/jupyter/lab/extensions", lab_path, "*.tgz"),
-    ("etc/jupyter/jupyter_notebook_config.d",
+    ("share/jupyter/labextensions/%s" % labext_name, lab_path, "**"),
+    ("share/jupyter/labextensions/%s" % labext_name, HERE, "install.json"),("etc/jupyter/jupyter_server_config.d",
      "jupyter-config", "jlab_ext_example.json"),
+
 ]
 
 cmdclass = create_cmdclass("jsdeps",
@@ -45,10 +46,16 @@ cmdclass = create_cmdclass("jsdeps",
     data_files_spec=data_files_spec
 )
 
-cmdclass["jsdeps"] = combine_commands(
-    install_npm(HERE, build_cmd="build:all", npm=["jlpm"]),
+js_command = combine_commands(
+    install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
     ensure_targets(jstargets),
 )
+
+is_repo = os.path.exists(os.path.join(HERE, ".git"))
+if is_repo:
+    cmdclass["jsdeps"] = js_command
+else:
+    cmdclass["jsdeps"] = skip_if_exists(jstargets, js_command)
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -56,26 +63,26 @@ with open("README.md", "r") as fh:
 setup_args = dict(
     name=name,
     version=version,
-    url="https://github.com/jupyterlab/extension-examples",
-    author="JupyterLab",
+    url="https://github.com/jupyterlab/extension-examples.git",
+    author="Project Jupyter Contributors",
     description="A minimal JupyterLab extension with backend and frontend parts.",
     long_description= long_description,
     long_description_content_type="text/markdown",
     cmdclass= cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
-        "jupyterlab~=2.0",
+        "jupyterlab>=3.0.0rc15,==3.*",
     ],
     zip_safe=False,
     include_package_data=True,
+    python_requires=">=3.6",
     license="BSD-3-Clause",
     platforms="Linux, Mac OS X, Windows",
-    keywords=["Jupyter", "JupyterLab"],
+    keywords=["Jupyter", "JupyterLab", "JupyterLab3"],
     classifiers=[
         "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
@@ -84,5 +91,5 @@ setup_args = dict(
 )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     setuptools.setup(**setup_args)

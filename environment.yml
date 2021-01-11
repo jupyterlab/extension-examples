@@ -2,7 +2,7 @@ name: jupyterlab-extension-examples
 channels:
 - conda-forge
 dependencies:
+- jupyterlab=3
 - nodejs
 - python=3
 - yarn
-- jupyterlab=2

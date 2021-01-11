@@ -7,7 +7,7 @@ include jupyter-config/jlab_ext_example.json
 include package.json
 include ts*.json
 include jlab_ext_example/labextension/*.tgz
-graft jlab_ext_example/static
+graft jlab_ext_example/labextension
 
 # Javascript files
 graft src

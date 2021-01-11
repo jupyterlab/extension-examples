@@ -6,5 +6,10 @@ node_modules/
 .ipynb_checkpoints
 *.tsbuildinfo
 *.lock
+__pycache__
+
 # Ensure embedme does not run ont node_modules README.md files.
 **/node_modules/**/README.md
+
+static
+labextension

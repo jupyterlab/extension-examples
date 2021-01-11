@@ -4,6 +4,12 @@ import {
   sessionContextDialogs
 } from '@jupyterlab/apputils';
 
+import {
+  ITranslator,
+  nullTranslator,
+  TranslationBundle
+} from '@jupyterlab/translation';
+
 import { ServiceManager } from '@jupyterlab/services';
 
 import { Message } from '@lumino/messaging';
@@ -23,11 +29,13 @@ const PANEL_CLASS = 'jp-RovaPanel';
  * A panel which has the ability to add other children.
  */
 export class ExamplePanel extends StackedPanel {
-  constructor(manager: ServiceManager.IManager) {
+  constructor(manager: ServiceManager.IManager, translator?: ITranslator) {
     super();
+    this._translator = translator || nullTranslator;
+    this._trans = this._translator.load('jupyterlab');
     this.addClass(PANEL_CLASS);
     this.id = 'kernel-messaging-panel';
-    this.title.label = 'Kernel Messaging Example View';
+    this.title.label = this._trans.__('Kernel Messaging Example View');
     this.title.closable = true;
 
     this._sessionContext = new SessionContext({
@@ -71,4 +79,7 @@ export class ExamplePanel extends StackedPanel {
   private _model: KernelModel;
   private _sessionContext: SessionContext;
   private _example: KernelView;
+
+  private _translator: ITranslator;
+  private _trans: TranslationBundle;
 }
