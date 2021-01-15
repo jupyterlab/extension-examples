@@ -22,38 +22,57 @@ like this:
 
 ```bash
 author_name []: tuto
-extension_name [myextension]: hello-world
-project_short_description [A JupyterLab extension.]: minimal lab example
-repository [https://github.com/my_name/myextension]:
+python_name [myextension]: hello_world
+extension_name [hello_world]: hello-world
+project_short_description [A JupyterLab extension.]: Minimal JupyterLab example
+has_server_extension [n]: 
+has_binder [n]: y
+repository [https://github.com/github_username/hello_world]:
 ```
 
-The cookiecutter creates the directory `hello-world` [or your extension name]
+> The python name should not contain `-`. It is nice for user to test your extension online, so the `has_binder` was set to _yes_.
+
+The cookiecutter creates the directory `hello_world` [or your extension name]
 that looks like this:
 
 ```bash
-hello-world/
+hello_world/
 │   .eslintignore
 │   .eslintrc.js
 │   .gitignore
 │   .prettierignore
 │   .prettierrc
+│   install.json
 │   LICENSE
+│   MANIFEST.in
 │   package.json
+│   pyproject.toml
 │   README.md
+│   setup.py
 │   tsconfig.json
 │
 ├───.github
 │   └───workflows
 │           build.yml
 │
+├───hello_world
+│       __init__.py
+│       _version.py
+│
+├───binder
+│       environment.yml
+│       postBuild
+│
 ├───src
 │       index.ts
 │
 └───style
+        base.css
         index.css
+        index.js
 ```
 
-Those files can be separated in 3 groups:
+Those files can be separated in 4 groups:
 
 - Information about the extension:
   - `README.md` contains some instructions
@@ -62,11 +81,17 @@ Those files can be separated in 3 groups:
   - `package.json` contains information about the extension such as dependencies
   - `tsconfig.json` contains information for the typescript compilation
   - `src/index.ts` _this contains the actual code of your extension_
-  - `style/index.css` contains style elements that you can use
+  - `style/` folder contains style elements that you can use
 - Validation:
   - `.prettierrc` and `.prettierignore` specify the code formatter [`prettier`](https://prettier.io) configuration
   - `.eslintrc.js` and `.eslintignore` specify the code linter [`eslint`](https://eslint.org) configuration
   - `.github/workflows/build.yml` sets the continuous integration tests of the code using [GitHub Actions](https://help.github.com/en/actions)
+- Packaging as a Python package:
+  - `setup.py` contains information about the Python package such as what to package
+  - `pyproject.toml` contains the dependencies to create the Python package
+  - `MANIFEST.in` contains list of non-Python files to include in the Python package
+  - `install.json` contains information retrieved by JupyterLab to help user install the package
+  - `hello_world/` folder contains the final code to be distributed
 
 The following sections will walk you through the extension code files.
 
@@ -94,7 +119,7 @@ package is declared in the file `package.json`:
 // package.json#L46-L48
 
 "dependencies": {
-  "@jupyterlab/application": "^3.0.0-rc.15"
+  "@jupyterlab/application": "^3.0.0"
 },
 ```
 
@@ -103,7 +128,7 @@ of the `JupyterFrontEndPlugin` class:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L9-L12
+// src/index.ts#L9-L18
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'hello-world',
@@ -112,13 +137,14 @@ const extension: JupyterFrontEndPlugin<void> = {
 ```
 
 ```ts
-// src/index.ts#L13-L13
-
-console.log('the JupyterLab main application:', app);
+    console.log('JupyterLab extension hello-world is activated!');
 ```
 
 ```ts
-// src/index.ts#L17-L17
+// src/index.ts#L14-L17
+
+  }
+};
 
 export default extension;
 ```
@@ -132,7 +158,7 @@ A `JupyterFrontEndPlugin` contains a few attributes:
   function (`() => {}` notation) that takes one argument `app` of type
   `JupyterFrontEnd` and will be called by the main application to activate the extension.
 
-`app` is simply the main JupyterLab application. The `activate` function acts as an entry
+`app` is the main JupyterLab application. The `activate` function acts as an entry
 point into the extension. In this example, it calls the `console.log` function to output
 something into the browser developer tools console.
 
@@ -145,31 +171,35 @@ Now that the extension code is ready, you need to install it within JupyterLab.
 
 These are the instructions on how your extension can be installed for development:
 
+> You will need NodeJS to build the extension package.
+
+```bash
+# Install package in development mode
+pip install -e .
+# Link your development version of the extension with JupyterLab
+jupyter labextension develop . --overwrite
+# Rebuild extension Typescript source after making changes
+jlpm run build
+```
+
 > The `jlpm` command is JupyterLab's pinned version of
 > [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
 > `yarn` or `npm` in lieu of `jlpm` below.
 
-```bash
-# Clone the repo to your local environment
-# Move to hello-world directory
-# Install dependencies
-jlpm
-# Build Typescript source
-jlpm build
-# Install your development version of the extension with JupyterLab
-jupyter labextension install .
-```
+The first command installs the dependencies that are specified in the
+`setup.py` file and in `package.json`. Among the dependencies are also all of the `JupyterLab` components that you want to use in your project.
 
-The first command installs the dependencies that are specified in
-`package.json`. Among the dependencies are also all of the `JupyterLab`
-components that you want to use in your project.
-
-The second step runs the build script. In this step, the TypeScript code gets
+It then runs the build script. In that step, the TypeScript code gets
 converted to javascript using the compiler `tsc` and stored in a `lib`
-directory. Finally, the module is installed into JupyterLab.
+directory. And a condensed form of the Javascript is copied in the Python
+package (in the folder `hello_world/labextension`). This is the code that
+would be installed by the user in JupyterLab.
 
-> There is also a `jupyter labextension link <path>` command. It can be used to
-> install packages but not consider them as extensions (more information in [that discussion](https://discourse.jupyter.org/t/about-jupyter-labextension-link-v-s-install))
+The second command create a symbolic link to the folder `hello_world/labextension` so that extension is installed in development mode in JupyterLab.
+
+The third command allows you to update the Javascript code each time you modify your
+extension code.
+
 
 After all of these steps are done, running `jupyter labextension list` should
 show something like:
@@ -225,8 +255,8 @@ structure makes JupyterLab very adaptable.
 
 An overview of the classes and their attributes and methods can be found in the
 JupyterLab documentation. The `@jupyterlab/application` module documentation is
-[here](https://jupyterlab.github.io/jupyterlab/application/index.html)
-and here is the [JupyterFrontEnd class documentation](https://jupyterlab.github.io/jupyterlab/application/classes/jupyterfrontend.html).
+[here](https://jupyterlab.github.io/jupyterlab/modules/_application_src_index_.html)
+and here is the [JupyterFrontEnd class documentation](https://jupyterlab.github.io/jupyterlab/classes/_application_src_index_.jupyterfrontend.html).
 
 ## Where to Go Next
 
