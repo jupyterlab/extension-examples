@@ -8,7 +8,7 @@ in a JupyterLab extension.
 ![state example](preview.gif)
 
 The core token required for handling the state database (DB) is
-`IStateDB` ([documentation](https://jupyterlab.github.io/jupyterlab/statedb/interfaces/istatedb.html)).
+`IStateDB` ([documentation](https://jupyterlab.github.io/jupyterlab/interfaces/_statedb_src_index_.istatedb.html)).
 
 To use it, you first need to install its npm package:
 

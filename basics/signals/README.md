@@ -17,7 +17,7 @@ In this extension, a simple button will be added to print something to the conso
 
 JupyterLab's Lumino engine uses the `ISignal` interface and the
 `Signal` class that implements this interface for communication
-(read more on the [documentation](https://jupyterlab.github.io/lumino/api/signaling/globals.html) page).
+(read more on the [documentation](https://jupyterlab.github.io/lumino/signaling/index.html) page).
 
 The basic concept is as follows:
 
