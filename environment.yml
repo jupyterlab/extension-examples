@@ -5,5 +5,7 @@ dependencies:
   - jupyter-packaging>=0.7.9,<0.8.0
   - jupyterlab=3
   - nodejs
+  - pytest
+  - pytest-check-links
   - python=3
   - yarn

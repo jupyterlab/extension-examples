@@ -4,7 +4,7 @@
 
 In this example you will learn how to add a new tab to JupyterLab.
 
-Visible elements such as tabs and notebooks are represented by widgets in the [Lumino](http://jupyterlab.github.io/lumino/api/widgets/globals.html)
+Visible elements such as tabs and notebooks are represented by widgets in the [Lumino](https://jupyterlab.github.io/lumino/widgets/index.html)
 library that is the basis of the JupyterLab application.
 
 It is the fundamental brick of any visual component in the JupyterLab interface.
@@ -28,7 +28,7 @@ jlpm add @lumino/widgets
 ```
 
 A Widget can be added to the main area through the
-[JupyterLab Shell](http://jupyterlab.github.io/jupyterlab/application/classes/labshell.html).
+[JupyterLab Shell](https://jupyterlab.github.io/jupyterlab/classes/_application_src_index_.labshell.html).
 
 Inside of the `activate` function, you can obtain it through the `shell` attribute
 of the `app` object:

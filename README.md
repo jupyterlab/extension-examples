@@ -77,7 +77,7 @@ You can expect from each example:
 - The list of used JupyterLab API and Extension Points.
 - Explanations of the internal working, illustrated with code snippets.
 
-We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html). Browse the previews below or skip them and [jump directly to the sections for developers](#prerequisites).
+We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/extension/extension_points.html). Browse the previews below or skip them and [jump directly to the sections for developers](#prerequisites).
 
 You are welcome to open any [issue](https://github.com/jupyterlab/extension-examples/issues) or [pull request](https://github.com/jupyterlab/extension-examples/pulls).
 
@@ -255,16 +255,14 @@ jlpm clean-ext
 Go to the example directory you want to install, e.g. `cd ./basics/hello-world`, and run the following commands:
 
 ```bash
-jlpm install
-jlpm run build
-jupyter labextension install .
+pip install -e .
+jupyter labextension develop . --overwrite
 ```
 
-Rebuild the JupyterLab application:
+Rebuild the extension:
 
 ```bash
 jlpm run build
-jupyter lab build
 ```
 
 You can now start JupyterLab and check if your extension is working fine:
@@ -296,11 +294,11 @@ We are using [embedme](https://github.com/zakhenry/embedme) to embed code snippe
 
 ## Install a Published Extension
 
-Once your extension is published (outside of this scope), you can install it
+Once your extension is published on [pypi.org](https://pypi.org/) (outside of this scope), you can install it
 with the following command:
 
 ```bash
-jupyter labextension install <published_extension>
+pip install <published_extension>
 ```
 
 ## About JupyterLab
@@ -313,9 +311,9 @@ of libraries from different languages.
 
 Complementary to these examples, you can rely on the official JupyterLab documentation.
 
-- [Extension Developer Guide](https://jupyterlab.readthedocs.io/en/stable/developer/extension_dev.html)
-- [Common Extension Points](https://jupyterlab.readthedocs.io/en/stable/developer/extension_points.html)
-- [Astronomy Picture of the Day JupyterLab Extension](https://jupyterLab.readthedocs.io/en/stable/developer/extension_tutorial.html)
+- [Extension Developer Guide](https://jupyterlab.readthedocs.io/en/stable/extension/extension_dev.html)
+- [Common Extension Points](https://jupyterlab.readthedocs.io/en/stable/extension/extension_points.html)
+- [Astronomy Picture of the Day JupyterLab Extension](https://jupyterLab.readthedocs.io/en/stable/extension/extension_tutorial.html)
 
 ## Credits
 

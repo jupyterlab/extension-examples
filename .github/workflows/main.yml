@@ -67,7 +67,7 @@ jobs:
           node-version: "12.x"
       - name: Install Python
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: "3.7"
           architecture: "x64"
@@ -88,9 +88,7 @@ jobs:
       - name: Install the Python dependencies
         if: steps.filter.outputs.extension == 'true'
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install jupyter_packaging
-          python -m pip install jupyterlab
+          python -m pip install --upgrade pip jupyter_packaging~=0.7.9 jupyterlab~=3.0
       - name: Install the NPM dependencies
         if: steps.filter.outputs.extension == 'true'
         run: |
@@ -112,9 +110,7 @@ jobs:
         run: |
           cd ${EXAMPLE_FOLDER}
           pip install -e .
-          jupyter labextension list 1>labextensions 2>&1
-          cat labextensions
-          cat labextensions | grep -i "@jupyterlab-examples/*.*OK"
+          jupyter labextension list 2>&1 | grep -ie "@jupyterlab-examples/*.*OK"
           python -m jupyterlab.browser_check
           pip uninstall -y $(python setup.py --name)
         env:
@@ -161,7 +157,7 @@ jobs:
         shell: bash
       - name: Install Python
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: "3.7"
           architecture: "x64"
@@ -182,9 +178,7 @@ jobs:
       - name: Install the Python dependencies
         if: steps.filter.outputs.extension == 'true'
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install jupyter_packaging
-          python -m pip install jupyterlab
+          python -m pip install --upgrade pip jupyter_packaging~=0.7.9 jupyterlab~=3.0
       - name: Install the NPM dependencies
         if: steps.filter.outputs.extension == 'true'
         run: |
@@ -206,10 +200,8 @@ jobs:
       - name: Check extension as dev
         if: steps.filter.outputs.extension == 'true' && ( startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS') )
         run: |
-          jupyter server extension list 1>serverextensions 2>&1
-          cat serverextensions | grep "jlab_ext_example.*OK"
-          jupyter labextension list 1>labextensions 2>&1
-          cat labextensions | grep "@jupyterlab-examples/server-extension.*OK"
+          jupyter server extension list 2>&1 | grep -ie "jlab_ext_example.*OK"
+          jupyter labextension list 2>&1 | grep -ie "@jupyterlab-examples/server-extension.*OK"
       - name: Clean extension installation
         if: steps.filter.outputs.extension == 'true'
         run: |
@@ -222,14 +214,11 @@ jobs:
         run: |
           cd advanced/server-extension
           pip install -e .
-          jupyter server extension enable --py jlab_ext_example
       - name: Check extension as dev
         if: steps.filter.outputs.extension == 'true' && ( startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS') )
         run: |
-          jupyter server extension list 1>serverextensions 2>&1
-          cat serverextensions | grep "jlab_ext_example.*OK"
-          jupyter labextension list 1>labextensions 2>&1
-          cat labextensions | grep "@jupyterlab-examples/server-extension.*OK"
+          jupyter server extension list 2>&1 | grep -ie "jlab_ext_example.*OK"
+          jupyter labextension list 2>&1 | grep -ie "@jupyterlab-examples/server-extension.*OK"
           python -m jupyterlab.browser_check
 
   build_all:
@@ -255,7 +244,7 @@ jobs:
         with:
           node-version: "12.x"
       - name: Install Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: "3.7"
           architecture: "x64"
@@ -272,11 +261,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install the Python dependencies
-        run: python -m pip install jupyterlab
+        run: python -m pip install jupyterlab~=3.0 pytest pytest-check-links
       - name: Bootstrap the jlpm deps
         run: jlpm
       - name: Build all the extensions
         run: |
+          pytest --check-links
           jlpm build-ext
           jlpm lint:check
           jlpm install-ext

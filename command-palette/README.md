@@ -72,5 +72,5 @@ appear in the web browser console after clicking on the command in the palette.
 
 A command can be triggered by other UI elements:
 
-- Add the command to a [menu](../../main-menu/README.md)
-- Add the command to the [launcher](../../launcher/README.md)
+- Add the command to a [menu](../main-menu/README.md)
+- Add the command to the [launcher](../launcher/README.md)
