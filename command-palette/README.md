@@ -23,7 +23,7 @@ import { ICommandPalette } from '@jupyterlab/apputils';
 To see how you can add the command to the palette, let's have a look at `src/index.ts`.
 
 ```ts
-// src/index.ts#L11-L37
+// src/index.ts#L11-L34
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'command-palette',
@@ -42,9 +42,6 @@ const extension: JupyterFrontEndPlugin<void> = {
         console.log(
           `jlab-examples:command-palette has been called ${args['origin']}.`
         );
-        //        window.alert(
-        //          `jlab-examples:command-palette has been called ${args['origin']}.`
-        //        );
       }
     });
 

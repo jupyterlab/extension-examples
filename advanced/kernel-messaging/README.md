@@ -9,7 +9,7 @@
 
 ![Kernel Messages](preview.gif)
 
-## Custom Kernel Interactions: Kernel Managment and Messaging
+## Custom Kernel Interactions: Kernel Management and Messaging
 
 One of the main features of JupyterLab is the possibility to manage and
 interact with [kernels](https://jupyter-client.readthedocs.io/en/latest/kernels.html).

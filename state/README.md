@@ -156,4 +156,4 @@ will need another core token `ISettingRegistry` (see [that example](../settings/
 for more information).
 
 This example makes use of a dialog to quickly request information from the user. JupyterLab
-comes with a couple of helpful dialogs; see the [documentation](https://jupyterlab.readthedocs.io/en/stable/developer/ui_helpers.html#dialogs).
+comes with a couple of helpful dialogs; see the [documentation](https://jupyterlab.readthedocs.io/en/stable/extension/ui_helpers.html#dialogs).

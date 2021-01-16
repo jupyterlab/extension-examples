@@ -25,7 +25,7 @@ author_name []: tuto
 python_name [myextension]: hello_world
 extension_name [hello_world]: hello-world
 project_short_description [A JupyterLab extension.]: Minimal JupyterLab example
-has_server_extension [n]: 
+has_server_extension [n]:
 has_binder [n]: y
 repository [https://github.com/github_username/hello_world]:
 ```
@@ -55,13 +55,13 @@ hello_world/
 │   └───workflows
 │           build.yml
 │
-├───hello_world
-│       __init__.py
-│       _version.py
-│
 ├───binder
 │       environment.yml
 │       postBuild
+│
+├───hello_world
+│       __init__.py
+│       _version.py
 │
 ├───src
 │       index.ts
@@ -134,6 +134,12 @@ const extension: JupyterFrontEndPlugin<void> = {
   id: 'hello-world',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
+    console.log('the JupyterLab main application:', app);
+  }
+};
+
+export default extension;
+
 ```
 
 ```ts
@@ -199,7 +205,6 @@ The second command create a symbolic link to the folder `hello_world/labextensio
 
 The third command allows you to update the Javascript code each time you modify your
 extension code.
-
 
 After all of these steps are done, running `jupyter labextension list` should
 show something like:

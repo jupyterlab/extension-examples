@@ -266,7 +266,7 @@ setting.changed.connect(loadSetting);
 ```
 
 Finally, to demonstrate the programmatic change of a setting, a command to toggle
-the `flag` and `limit` settings are updated.
+the `flag` and increment the `limit` settings is implemented.
 
 <!-- prettier-ignore-start -->
 ```ts

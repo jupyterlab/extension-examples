@@ -28,11 +28,15 @@ like this (be careful to set _has\_server\_extension_ to _y_):
 
 ```bash
 author_name []: my_name
-extension_name [myextension]: jlab_ext_example
+python_name [myextension]: jlab_ext_example
+extension_name [jlab_ext_example]: jlab-ext-example
 project_short_description [A JupyterLab extension.]: A minimal JupyterLab extension with backend and frontend parts.
 has_server_extension [n]: y
-repository [https://github.com/my_name/myextension]:
+has_binder [n]: y
+repository [https://github.com/github_username/jlab_ext_example]:
 ```
+
+> The python name should not contain `-`. It is nice for user to test your extension online, so the `has_binder` was set to _yes_.
 
 The cookiecutter creates the directory `jlab_ext_example` [or your extension name]
 that looks like this:
@@ -41,25 +45,31 @@ that looks like this:
 jlab_ext_example/
 │  # Generic Files
 │   .gitignore
+│   install.json                # Information retrieved by JupyterLab to help users
 │   LICENSE                     # License of your code
 │   README.md                   # Instructions to install and build
 │
 ├───.github
 │   └───workflows
 │           build.yml
+│
+├───binder
+│       environment.yml
+│       postBuild
 │  
-│  # Backend (server) Files
+│  # Python Package Files
 │   MANIFEST.in                 # Help Python to list your source files
-│   pyproject.toml              # Define dependencies for building the server package
-│   setup.py                    # Information about the server package
+│   pyproject.toml              # Define dependencies for building the package
+│   setup.py                    # Information about the package
+│
+│  # Backend (server) Files
+├───jupyter-config
+│       jlab_ext_example.json   # Server extension enabler
 │
 ├───jlab_ext_example
 │       handlers.py             # API handler (where things happen)
 │       _version.py             # Server extension version
 │       __init__.py             # Hook the extension in the server
-│
-├───jupyter-config
-│       jlab_ext_example.json   # Server extension enabler
 │  
 │  # Frontend Files
 │   .eslintignore               # Code linter configuration
@@ -71,15 +81,17 @@ jlab_ext_example/
 │  
 ├───src
 │       index.ts                # Actual code of the extension
-│       jlabextexample.ts       # More code used by the extension
+│       handler.ts       # More code used by the extension
 │
 └───style
-        index.css               # CSS styling
+        base.css               # CSS styling
+        index.css
+        index.js
 ```
 
 There are two major parts in the extension:
 
-- A Python package for the server extension
+- A Python package for the server extension and the packaging
 - A NPM package for the frontend extension
 
 In this example, you will see that the template code have been extended
@@ -312,20 +324,6 @@ an `IFrame` that will display static content fetched from the server extension.
 
 The server part of the extension is going to be presented in this section.
 
-You first need to install the python source code. The following will install
-the `jlab_ext_example` package in dev mode:
-
-```bash
-pip install -e .
-```
-
-Then you need to enable the package at the Jupyter level
-so that it becomes a server extension.
-
-```bash
-jupyter serverextension enable --py jlab_ext_example
-```
-
 JupyterLab server is built on top of the [Tornado](https://tornadoweb.org/en/stable/guide.html) Python package. To extend the server,
 your extension needs to be defined as a proper Python package with some hook functions:
 
@@ -370,8 +368,8 @@ def load_jupyter_server_extension(lab_app):
 
 ```
 
-The `_jupyter_jlab_ext_example_paths` provides the Python package name
-to the server. But the most important one is `load_jupyter_jlab_ext_example`
+The `_jupyter_server_extension_paths` provides the Python package name
+to the server. But the most important one is `load_jupyter_server_extension`
 that register new handlers.
 
 ```py
@@ -389,7 +387,7 @@ example the url is _base_server_url_`/jlab-ext-example/hello` and the class hand
 host_pattern = ".*$"
 base_url = web_app.settings["base_url"]
 
-# Prepend the base_url so that it works in a jupyterhub setting
+# Prepend the base_url so that it works in a JupyterHub setting
 route_pattern = url_path_join(base_url, url_path, "hello")
 handlers = [(route_pattern, RouteHandler)]
 web_app.add_handlers(host_pattern, handlers)
@@ -412,7 +410,7 @@ class RouteHandler(APIHandler):
 
     @tornado.web.authenticated
     def post(self):
-        # input_data is a dictionnary with a key "name"
+        # input_data is a dictionary with a key "name"
         input_data = self.get_json_body()
         data = {"greetings": "Hello {}, enjoy JupyterLab!".format(input_data["name"])}
         self.finish(json.dumps(data))
@@ -619,7 +617,7 @@ Basically it will build the frontend NPM package:
 install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
 ```
 
-It will ensure one of the generated JS files is `lib/jlabextexample.js`:
+It will ensure one of the generated files is `jlab_ext_example/labextension/package.json`:
 
 ```py
 # setup.py#L24-L27
@@ -704,11 +702,11 @@ And that server extension is available through `pip`:
     "pip"
 ```
 
-For more information on the `discovery` metadata, please refer to the [documentation](https://jupyterlab.readthedocs.io/en/stable/developer/extension_dev.html#ext-author-companion-packages).
+For more information on the `discovery` metadata, please refer to the [documentation](https://jupyterlab.readthedocs.io/en/stable/extension/extension_dev.html#ext-author-companion-packages).
 
 ## Installing the Package
 
-With the packaging described above, installing the extension is done in two commands once the package is published on pypi.org:
+With the packaging described above, installing the extension is done in one command once the package is published on pypi.org:
 
 ```bash
 # Install the server extension and
@@ -721,14 +719,11 @@ This will shunt the installation machinery described above. Therefore the comman
 to get you set are:
 
 ```bash
-# Install server extension in editable mode
+# Install package in development mode
 pip install -e .
-# Build Typescript source
-jlpm build
-# Install your development version of the extension with JupyterLab
-jupyter labextension develop .
-
-# Rebuild Typescript source after making changes
-jlpm build
+# Link your development version of the extension with JupyterLab
+jupyter labextension develop . --overwrite
+# Rebuild extension Typescript source after making changes
+jlpm run build
 ```
 <!-- prettier-ignore-end -->

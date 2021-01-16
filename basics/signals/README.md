@@ -62,7 +62,7 @@ Let's look at the implementations details.
 ## A simple React Button
 
 Start with a file called `src/button.tsx`. The `tsx` extension allows to use
-HTML-like syntax with the tag notation `<>`to represent some visual elements
+HTML-like syntax with the tag notation `<>` to represent some visual elements
 (note that you have to add a line: `"jsx": "react",` to the
 `tsconfig.json` file). This is a special syntax used by [React](https://reactjs.org/tutorial/tutorial.html).
 
@@ -141,8 +141,9 @@ The `panel.ts` class defines an extension panel that displays the
 This is done in the constructor.
 
 ```ts
-// src/panel.ts#L19-L30
+// src/panel.ts#L18-L30
 
+constructor(translator?: ITranslator) {
   super();
   this._translator = translator || nullTranslator;
   this._trans = this._translator.load('jupyterlab');
@@ -188,11 +189,14 @@ In our case, that function writes `Button has been clicked ... times.` text
 to the browser console and in an alert when the big red button is clicked.
 
 ```ts
-// src/panel.ts#L32-L36
+// src/panel.ts#L32-L39
 
 private _logMessage(emitter: ButtonWidget, count: ICount): void {
   console.log('Hey, a Signal has been received from', emitter);
   console.log(
+    `The big red button has been clicked ${count.clickCount} times.`
+  );
+  window.alert(
     `The big red button has been clicked ${count.clickCount} times.`
   );
 ```
