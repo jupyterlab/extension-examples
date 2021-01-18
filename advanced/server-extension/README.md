@@ -45,7 +45,7 @@ that looks like this:
 jlab_ext_example/
 │  # Generic Files
 │   .gitignore
-│   install.json                # Information retrieved by JupyterLab to help users
+│   install.json                # Information retrieved by JupyterLab to help users know how to manage the extension
 │   LICENSE                     # License of your code
 │   README.md                   # Instructions to install and build
 │

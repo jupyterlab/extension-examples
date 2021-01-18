@@ -90,7 +90,7 @@ Those files can be separated in 4 groups:
   - `setup.py` contains information about the Python package such as what to package
   - `pyproject.toml` contains the dependencies to create the Python package
   - `MANIFEST.in` contains list of non-Python files to include in the Python package
-  - `install.json` contains information retrieved by JupyterLab to help user install the package
+  - `install.json` contains information retrieved by JupyterLab to help users know how to manage the package
   - `hello_world/` folder contains the final code to be distributed
 
 The following sections will walk you through the extension code files.
