@@ -8,7 +8,7 @@ in a JupyterLab extension.
 ![settings example](preview.gif)
 
 The core token required for handling the settings is
-`ISettingRegistry` ([documentation](https://jupyterlab.github.io/jupyterlab/settingregistry/modules/isettingregistry.html)). To use it,
+`ISettingRegistry` ([documentation](https://jupyterlab.github.io/jupyterlab/modules/_settingregistry_src_index_.isettingregistry.html)). To use it,
 you first need to install its npm package:
 
 ```bash
@@ -266,7 +266,7 @@ setting.changed.connect(loadSetting);
 ```
 
 Finally, to demonstrate the programmatic change of a setting, a command to toggle
-the `flag` and `limit` settings are updated.
+the `flag` and increment the `limit` settings is implemented.
 
 <!-- prettier-ignore-start -->
 ```ts

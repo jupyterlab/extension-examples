@@ -7,7 +7,7 @@
 JupyterLab is built on top of [Lumino](https://github.com/jupyterlab/lumino).
 That library defines `Widget` as the primary interface brick.
 
-In this example [the datagrid lumino example](https://jupyterlab.github.io/lumino/datagrid/index.html)
+In this example [the datagrid lumino example](https://jupyterlab.github.io/lumino/datagrid/classes/datagrid.html)
 is integrated into JupyterLab.
 
 First you need to import `StackedPanel`, `DataGrid`
@@ -88,21 +88,27 @@ class LargeDataModel extends DataModel {
 The three abstract methods are `rowCount`, `columnCount` and `data`. The
 first two must return a number from a region argument. To know the possible
 values of `RowRegion` and the `ColumnRegion`, you can look at the
-[Lumino code](https://github.com/jupyterlab/lumino/blob/9f5e11025b62d2c4a6fb59e2681ae1ed323dcde4/packages/datagrid/src/datamodel.ts#L112-L129):
+[Lumino code](https://github.com/jupyterlab/lumino/blob/9c5f31cca3b02441850e086c1b19642a6e298493/packages/datagrid/src/datamodel.ts#L134-L155):
 
 ```ts
 /**
  * A type alias for the data model row regions.
  */
-type RowRegion = 'body' | 'column-header';
+export type RowRegion = 'body' | 'column-header';
+
 /**
  * A type alias for the data model column regions.
  */
-type ColumnRegion = 'body' | 'row-header';
+export type ColumnRegion = 'body' | 'row-header';
+
 /**
  * A type alias for the data model cell regions.
  */
-type CellRegion = 'body' | 'row-header' | 'column-header' | 'corner-header';
+export type CellRegion =
+  | 'body'
+  | 'row-header'
+  | 'column-header'
+  | 'corner-header';
 ```
 
 The `|` can be read as `or`. This means that the `RowRegion` type is

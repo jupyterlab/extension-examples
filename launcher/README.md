@@ -10,7 +10,7 @@ dependencies to JupyterLab features.
 > Credit: This example is copied from Jeremy Tuloup [Python file extension](https://github.com/jtpio/jupyterlab-python-file).
 
 This example allows to create an empty Python file. To do so,
-your extension will use two commands defined by the [documents manager](https://github.com/jupyterlab/jupyterlab/blob/master/packages/docmanager-extension/src/index.ts#L47-L75) of JupyterLab:
+your extension will use two commands defined by the [documents manager](https://github.com/jupyterlab/jupyterlab/blob/master/packages/docmanager-extension/src/index.ts#L53-L86) of JupyterLab:
 
 - `'docmanager:new-untitled'`: Create new untitled document
 - `'docmanager:open'`: Open a document
@@ -107,8 +107,8 @@ if (launcher) {
 This example uses a _command_. This is an essential concept of JupyterLab. To know more about it
 have a look at the [command example](../commands/README.md).
 
-As seen in this example too, an user can execute a command from other UI elements than the launcher. To
-know more about those other possible, you could look at the following examples:
+An user can execute a command from other UI elements than the launcher. To
+know more about those other possibilities, you could look at the following examples:
 
 - Add the command to the [command palette](../command-palette/README.md)
 - Add the command to a [menu](../main-menu/README.md)

@@ -9,7 +9,7 @@
 
 ![Kernel Messages](preview.gif)
 
-## Custom Kernel Interactions: Kernel Managment and Messaging
+## Custom Kernel Interactions: Kernel Management and Messaging
 
 One of the main features of JupyterLab is the possibility to manage and
 interact with [kernels](https://jupyter-client.readthedocs.io/en/latest/kernels.html).
@@ -32,7 +32,7 @@ execution result.
 ## Initializing and managing a Kernel Session (`panel.ts`)
 
 Jupyterlab provides a class `SessionContext`
-([see the documentation](https://jupyterlab.github.io/jupyterlab/apputils/classes/sessioncontext.html))
+([see the documentation](https://jupyterlab.github.io/jupyterlab/classes/_apputils_src_index_.sessioncontext.html))
 that manages a single kernel session. Here is the code to initialize such session:
 
 ```ts
@@ -76,7 +76,7 @@ const manager = app.serviceManager;
 With these lines, you can extend the panel widget from the [signal example](../../basics/signals) to initialize a
 kernel. In addition, you will create a `KernelModel` class in it and
 overwrite the `dispose` and `onCloseRequest` methods of the `StackedPanel`
-([see the documentation](https://jupyterlab.github.io/lumino/api/widgets/classes/stackedpanel.html))
+([see the documentation](https://jupyterlab.github.io/lumino/widgets/classes/stackedpanel.html))
 to free the kernel session resources if the panel is closed. The whole adapted
 panel class looks like this:
 

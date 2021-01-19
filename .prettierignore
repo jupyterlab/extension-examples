@@ -3,3 +3,4 @@ node_modules
 **/lib
 **/package.json
 **/labextension
+**/.pytest_cache

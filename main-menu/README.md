@@ -9,7 +9,7 @@ the notion of _Commands_ as explained in the [commands example](../commands/READ
 One of the possibilities offered to the user to trigger that command is to call it from
 a menu item.
 
-Adding new menu item works in a similar way to the [command palette](../../command-palette/README.md).
+Adding new menu item works in a similar way to the [command palette](../command-palette/README.md).
 The `IMainMenu` interface can be requested as a new argument to the `activate`
 function, but first it has to be imported. And the class `Menu` to create new
 menu needs also to be imported but from the Lumino library:

@@ -23,7 +23,7 @@ import { ICommandPalette } from '@jupyterlab/apputils';
 To see how you can add the command to the palette, let's have a look at `src/index.ts`.
 
 ```ts
-// src/index.ts#L11-L37
+// src/index.ts#L11-L34
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'command-palette',
@@ -42,9 +42,6 @@ const extension: JupyterFrontEndPlugin<void> = {
         console.log(
           `jlab-examples:command-palette has been called ${args['origin']}.`
         );
-        //        window.alert(
-        //          `jlab-examples:command-palette has been called ${args['origin']}.`
-        //        );
       }
     });
 
@@ -55,7 +52,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 ```
 
 The `ICommandPalette`
-([documentation](https://JupyterLab.github.io/JupyterLab/interfaces/_apputils_src_commandpalette_.icommandpalette.html))
+([documentation](https://jupyterlab.github.io/jupyterlab/interfaces/_apputils_src_index_.icommandpalette.html))
 is passed to the `activate` function as an argument (variable `palette`) in
 addition to the JupyterLab application (variable `app`).
 
@@ -75,5 +72,5 @@ appear in the web browser console after clicking on the command in the palette.
 
 A command can be triggered by other UI elements:
 
-- Add the command to a [menu](../../main-menu/README.md)
-- Add the command to the [launcher](../../launcher/README.md)
+- Add the command to a [menu](../main-menu/README.md)
+- Add the command to the [launcher](../launcher/README.md)

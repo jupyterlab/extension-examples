@@ -37,11 +37,11 @@ followed by the creation of the visual element.
 ## Initializing a Kernel Session
 
 To interact with a kernel, you can create a `SessionContext`
-object ([see the documentation](https://jupyterlab.github.io/jupyterlab/apputils/classes/sessioncontext.html)).
+object ([see the documentation](https://jupyterlab.github.io/jupyterlab/classes/_apputils_src_index_.sessioncontext.html)).
 Here it is stored in the private `_sessionContext` variable:
 
 ```ts
-// src/panel.ts#L94-L94
+// src/panel.ts#L95-L95
 
 private _sessionContext: SessionContext;
 ```
@@ -50,7 +50,7 @@ A `SessionContext` handles a single kernel session. The session itself (not yet
 the kernel) is started with these lines:
 
 ```ts
-// src/panel.ts#L44-L48
+// src/panel.ts#L45-L49
 
 this._sessionContext = new SessionContext({
   sessionManager: manager.sessions,
@@ -63,7 +63,7 @@ The private session variable is exposed as read-only for other users
 through a getter method:
 
 ```ts
-// src/panel.ts#L72-L74
+// src/panel.ts#L73-L75
 
 get session(): ISessionContext {
   return this._sessionContext;
@@ -75,7 +75,7 @@ with this line:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/panel.ts#L58-L69
+// src/panel.ts#L59-L70
 
 void this._sessionContext
   .initialize()
@@ -93,13 +93,13 @@ void this._sessionContext
 <!-- prettier-ignore-end -->
 
 When a session has no predefined preferred kernel, a dialog will request the user to choose a kernel to start. Conveniently, this can
-also be an already existing kernel, as you will see later.
+also be an already existing kernel.
 
 The following two methods ensure the clean disposal of the session
 when you close the panel.
 
 ```ts
-// src/panel.ts#L76-L79
+// src/panel.ts#L77-L80
 
 dispose(): void {
   this._sessionContext.dispose();
@@ -108,7 +108,7 @@ dispose(): void {
 ```
 
 ```ts
-// src/panel.ts#L89-L92
+// src/panel.ts#L90-L93
 
 protected onCloseRequest(msg: Message): void {
   super.onCloseRequest(msg);
@@ -120,11 +120,11 @@ protected onCloseRequest(msg: Message): void {
 
 The `SimplifiedOutputArea` class is a `Widget`, as described in the [widget example](../../widget-tracker/widgets/README.md).
 It has the ability to display the results of a notebook cell execution.
-You can instantiate it with a new `OutputAreaModel`; this is class containing
+You can instantiate it with a new `OutputAreaModel`; this class is containing
 the data to show:
 
 ```ts
-// src/panel.ts#L50-L54
+// src/panel.ts#L51-L55
 
 this._outputareamodel = new OutputAreaModel();
 this._outputarea = new SimplifiedOutputArea({
@@ -134,11 +134,11 @@ this._outputarea = new SimplifiedOutputArea({
 ```
 
 `SimplifiedOutputArea` provides a static method `execute` that sends
-some code to a kernel through a `ISessionContext` ([see documentation](https://jupyterlab.github.io/jupyterlab/outputarea/classes/simplifiedoutputarea.html#execute)). And then it displays the result
+some code to a kernel through a `ISessionContext` ([see documentation](https://jupyterlab.github.io/jupyterlab/classes/_outputarea_src_index_.simplifiedoutputarea.html#execute)). And then it displays the result
 in the specific `SimplifiedOutputArea` object you created:
 
 ```ts
-// src/panel.ts#L81-L87
+// src/panel.ts#L82-L88
 
 execute(code: string): void {
   SimplifiedOutputArea.execute(code, this._outputarea, this._sessionContext)
@@ -158,7 +158,7 @@ To display the `SimplifiedOutputArea` Widget you need to add it to your
 panel with:
 
 ```ts
-// src/panel.ts#L56-L56
+// src/panel.ts#L57-L57
 
 this.addWidget(this._outputarea);
 ```
@@ -266,4 +266,4 @@ the variable name in the input dialog, it will be displayed in the example panel
 ## Where to Go Next
 
 This example makes use of input dialogs. To know which input dialogs are available
-have a look at the [documentation](https://jupyterlab.readthedocs.io/en/stable/developer/ui_helpers.html).
+have a look at the [documentation](https://jupyterlab.readthedocs.io/en/stable/extension/ui_helpers.html#dialogs).

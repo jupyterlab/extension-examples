@@ -9,6 +9,7 @@ import { OutputAreaModel, SimplifiedOutputArea } from '@jupyterlab/outputarea';
 import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 
 import { KernelMessage, ServiceManager } from '@jupyterlab/services';
+
 import {
   ITranslator,
   nullTranslator,
