@@ -128,18 +128,12 @@ of the `JupyterFrontEndPlugin` class:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L9-L18
+// src/index.ts#L9-L12
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'hello-world',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
-    console.log('the JupyterLab main application:', app);
-  }
-};
-
-export default extension;
-
 ```
 
 ```ts
