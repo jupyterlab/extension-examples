@@ -595,7 +595,7 @@ the frontend NPM package needs to be built and inserted in the Python package. T
 done using a special `cmdclass`:
 
 ```py
-# setup.py#L44-L52
+# setup.py#L43-L51
 
 cmdclass = create_cmdclass("jsdeps",
     package_data_spec=package_data_spec,
@@ -611,7 +611,7 @@ js_command = combine_commands(
 Basically it will build the frontend NPM package:
 
 ```py
-# setup.py#L50-L50
+# setup.py#L49-L49
 
 install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
 ```
@@ -633,7 +633,7 @@ JupyterLab is looking for frontend extensions when the Python package is install
 ```py
 # setup.py#L38-L38
 
-    ("share/jupyter/labextensions/%s" % labext_name, lab_path, "**"),
+("share/jupyter/labextensions/%s" % labext_name, lab_path, "**"),
 ```
 
 The last piece of configuration needed is the enabling of the server extension. This is
@@ -657,7 +657,7 @@ in the appropriate jupyter folder (`etc/jupyter/jupyter_server_config.d`):
 ```py
 # setup.py#L40-L40
 
-    ("etc/jupyter/jupyter_server_config.d", "jupyter-config", "jlab_ext_example.json"),
+("etc/jupyter/jupyter_server_config.d", "jupyter-config", "jlab_ext_example.json"),
 ```
 
 ### JupyterLab Extension Manager
