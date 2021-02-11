@@ -530,9 +530,8 @@ labext_name = "@jupyterlab-examples/server-extension"
 
 data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, lab_path, "**"),
-    ("share/jupyter/labextensions/%s" % labext_name, HERE, "install.json"),("etc/jupyter/jupyter_server_config.d",
-     "jupyter-config", "jlab_ext_example.json"),
-
+    ("share/jupyter/labextensions/%s" % labext_name, HERE, "install.json"),
+    ("etc/jupyter/jupyter_server_config.d", "jupyter-config", "jlab_ext_example.json"),
 ]
 
 cmdclass = create_cmdclass("jsdeps",
