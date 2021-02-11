@@ -85,11 +85,11 @@ After the execution of that command, `package.json` should list them in the
 `dependencies`:
 
 ```json5
-// package.json#L46-L50
+// package.json#L47-L51
 
 "dependencies": {
-  "@jupyterlab/application": "^3.0.0-rc.15",
-  "@jupyterlab/mainmenu": "^3.0.0-rc.15",
+  "@jupyterlab/application": "^3.0.2",
+  "@jupyterlab/mainmenu": "^3.0.2",
   "@lumino/widgets": "^1.16.1"
 },
 ```

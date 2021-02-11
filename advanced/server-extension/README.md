@@ -496,43 +496,40 @@ The `setup.py` file is the entry point to describe package metadata:
 jlab_ext_example setup
 """
 import json
-import os
+from pathlib import Path
 
 from jupyter_packaging import (
-    create_cmdclass, install_npm, ensure_targets,
-    combine_commands, skip_if_exists
+    create_cmdclass,
+    install_npm,
+    ensure_targets,
+    combine_commands,
+    skip_if_exists
 )
 import setuptools
 
-HERE = os.path.abspath(os.path.dirname(__file__))
+HERE = Path(__file__).parent.resolve()
 
 # The name of the project
-name="jlab_ext_example"
+name = "jlab_ext_example"
 
-# Get our version
-with open(os.path.join(HERE, 'package.json')) as f:
-    version = json.load(f)['version']
-
-lab_path = os.path.join(HERE, name, "labextension")
+lab_path = (HERE / name / "labextension")
 
 # Representative files that should exist after a successful build
 jstargets = [
-    os.path.join(lab_path, "package.json"),
+    str(lab_path / "package.json"),
 ]
 
 package_data_spec = {
-    name: [
-        "*"
-    ]
+    name: ["*"],
 }
 
 labext_name = "@jupyterlab-examples/server-extension"
 
 data_files_spec = [
-    ("share/jupyter/labextensions/%s" % labext_name, lab_path, "**"),
-    ("share/jupyter/labextensions/%s" % labext_name, HERE, "install.json"),("etc/jupyter/jupyter_server_config.d",
+    ("share/jupyter/labextensions/%s" % labext_name, str(lab_path), "**"),
+    ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),("etc/jupyter/jupyter_server_config.d",
      "jupyter-config", "jlab_ext_example.json"),
-
+    
 ]
 
 cmdclass = create_cmdclass("jsdeps",
@@ -545,32 +542,34 @@ js_command = combine_commands(
     ensure_targets(jstargets),
 )
 
-is_repo = os.path.exists(os.path.join(HERE, ".git"))
+is_repo = (HERE / ".git").exists()
 if is_repo:
     cmdclass["jsdeps"] = js_command
 else:
     cmdclass["jsdeps"] = skip_if_exists(jstargets, js_command)
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+long_description = (HERE / "README.md").read_text()
+
+# Get the package info from package.json
+pkg_json = json.loads((HERE / "package.json").read_bytes())
 
 setup_args = dict(
     name=name,
-    version=version,
-    url="https://github.com/jupyterlab/extension-examples.git",
-    author="Project Jupyter Contributors",
-    description="A minimal JupyterLab extension with backend and frontend parts.",
-    long_description= long_description,
+    version=pkg_json["version"],
+    url=pkg_json["homepage"],
+    author=pkg_json["author"],
+    description=pkg_json["description"],
+    license=pkg_json["license"],
+    long_description=long_description,
     long_description_content_type="text/markdown",
-    cmdclass= cmdclass,
+    cmdclass=cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
-        "jupyterlab>=3.0.0rc15,==3.*",
+        "jupyterlab~=3.0",
     ],
     zip_safe=False,
     include_package_data=True,
     python_requires=">=3.6",
-    license="BSD-3-Clause",
     platforms="Linux, Mac OS X, Windows",
     keywords=["Jupyter", "JupyterLab", "JupyterLab3"],
     classifiers=[
@@ -580,6 +579,7 @@ setup_args = dict(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Framework :: Jupyter",
     ],
 )
@@ -596,7 +596,7 @@ the frontend NPM package needs to be built and inserted in the Python package. T
 done using a special `cmdclass`:
 
 ```py
-# setup.py#L44-L52
+# setup.py#L41-L49
 
 cmdclass = create_cmdclass("jsdeps",
     package_data_spec=package_data_spec,
@@ -612,7 +612,7 @@ js_command = combine_commands(
 Basically it will build the frontend NPM package:
 
 ```py
-# setup.py#L50-L50
+# setup.py#L47-L47
 
 install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
 ```
@@ -620,11 +620,11 @@ install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
 It will ensure one of the generated files is `jlab_ext_example/labextension/package.json`:
 
 ```py
-# setup.py#L24-L27
+# setup.py#L23-L26
 
 # Representative files that should exist after a successful build
 jstargets = [
-    os.path.join(lab_path, "package.json"),
+    str(lab_path / "package.json"),
 ]
 ```
 
@@ -669,7 +669,7 @@ user about that dependency by adding the `discovery` metadata to your `package.j
 file:
 
 ```json5
-// package.json#L70-L80
+// package.json#L72-L82
 
 "jupyterlab": {
   "discovery": {
@@ -687,7 +687,7 @@ file:
 In this example, the extension requires a `server` extension:
 
 ```json5
-// package.json#L71-L71
+// package.json#L73-L73
 
 "discovery": {
 ```
@@ -695,7 +695,7 @@ In this example, the extension requires a `server` extension:
 And that server extension is available through `pip`:
 
 ```json5
-// package.json#L72-L74
+// package.json#L74-L76
 
 "server": {
   "managers": [
