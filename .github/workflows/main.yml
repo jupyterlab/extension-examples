@@ -261,7 +261,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install the Python dependencies
-        run: python -m pip install jupyterlab~=3.0 pytest pytest-check-links
+        run: python -m pip install cookiecutter jupyterlab~=3.0 pytest pytest-check-links
+      - name: Check compliance with template
+        run: |
+          python scripts/upgrade_extensions.py
+      - run: if [[ $(git status --porcelain=v1 2>/dev/null | wc -l) > 0 ]]; then exit 1; fi
+        shell: bash
       - name: Bootstrap the jlpm deps
         run: jlpm
       - name: Build all the extensions
