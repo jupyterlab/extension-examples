@@ -348,11 +348,11 @@ def _jupyter_labextension_paths():
     }]
 
 
-def _jupyter_server_extension_paths():
+def _jupyter_server_extension_points():
     return [{"module": "jlab_ext_example"}]
 
 
-def load_jupyter_server_extension(lab_app):
+def _load_jupyter_server_extension(lab_app):
     """Registers the API handler to receive HTTP requests from the frontend extension.
     Parameters
     ----------
@@ -368,8 +368,8 @@ def load_jupyter_server_extension(lab_app):
 
 ```
 
-The `_jupyter_server_extension_paths` provides the Python package name
-to the server. But the most important one is `load_jupyter_server_extension`
+The `_jupyter_server_extension_points` provides the Python package name
+to the server. But the most important one is `_load_jupyter_server_extension`
 that register new handlers.
 
 ```py
@@ -632,8 +632,9 @@ It will copy the NPM package in the Python package and force it to be copied in 
 JupyterLab is looking for frontend extensions when the Python package is installed:
 
 ```py
+# setup.py#L38-L38
 
-("share/jupyter/labextensions/%s" % labext_name, lab_path, "*.*")
+    ("share/jupyter/labextensions/%s" % labext_name, lab_path, "**"),
 ```
 
 The last piece of configuration needed is the enabling of the server extension. This is
@@ -655,9 +656,9 @@ done by copying the following JSON file:
 in the appropriate jupyter folder (`etc/jupyter/jupyter_server_config.d`):
 
 ```py
+# setup.py#L40-L40
 
-    ("etc/jupyter/jupyter_server_config.d",
-     "jupyter-config", "jlab_ext_example.json"),
+    ("etc/jupyter/jupyter_server_config.d", "jupyter-config", "jlab_ext_example.json"),
 ```
 
 ### JupyterLab Extension Manager
