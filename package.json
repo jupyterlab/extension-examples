@@ -21,18 +21,23 @@
   },
   "workspaces": {
     "packages": [
-      "advanced/*",
-      "basics/*",
       "command-palette",
       "commands",
       "context-menu",
+      "custom-log-console",
+      "datagrid",
+      "hello-world",
+      "kernel-messaging",
+      "kernel-output",
       "launcher",
-      "log-console/*",
+      "log-messages",
       "main-menu",
-      "react/*",
+      "react-widget",
+      "server-extension",
       "settings",
+      "signals",
       "state",
-      "widget-tracker/*"
+      "widgets"
     ]
   },
   "devDependencies": {

@@ -13,22 +13,22 @@ jobs:
       fail-fast: false
       matrix:
         example:
-          - advanced/kernel-messaging
-          - advanced/kernel-output
-          - basics/datagrid
-          - basics/hello-world
-          - basics/signals
+          - kernel-messaging
+          - kernel-output
+          - datagrid
+          - hello-world
+          - signals
           - command-palette
           - commands
           - context-menu
           - launcher
-          - log-console/custom-log-console
-          - log-console/log-messages
+          - custom-log-console
+          - log-messages
           - main-menu
-          - react/react-widget
+          - react-widget
           - settings
           - state
-          - widget-tracker/widgets
+          - widgets
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - name: Checkout
@@ -53,10 +53,10 @@ jobs:
       - name: Check config files
         if: steps.filter.outputs.extension == 'true'
         run: |
-          diff basics/hello-world/tsconfig.json ${EXAMPLE_FOLDER}/tsconfig.json
-          diff basics/hello-world/.eslintignore ${EXAMPLE_FOLDER}/.eslintignore
-          diff basics/hello-world/.eslintrc.js ${EXAMPLE_FOLDER}/.eslintrc.js
-          diff basics/hello-world/.gitignore ${EXAMPLE_FOLDER}/.gitignore
+          diff hello-world/tsconfig.json ${EXAMPLE_FOLDER}/tsconfig.json
+          diff hello-world/.eslintignore ${EXAMPLE_FOLDER}/.eslintignore
+          diff hello-world/.eslintrc.js ${EXAMPLE_FOLDER}/.eslintrc.js
+          diff hello-world/.gitignore ${EXAMPLE_FOLDER}/.gitignore
         env:
           EXAMPLE_FOLDER: ${{ matrix.example }}
         shell: bash
@@ -132,7 +132,7 @@ jobs:
         with:
           filters: |
             extension:
-              - 'advanced/server-extension/**'
+              - 'server-extension/**'
       - name: Cache lerna
         if: steps.filter.outputs.extension == 'true'
         uses: actions/cache@v2
@@ -140,7 +140,7 @@ jobs:
           path: |
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-lerna-${{ hashFiles('advanced/server-extension/package.json') }}
+          key: ${{ runner.os }}-lerna-${{ hashFiles('server-extension/package.json') }}
           restore-keys: |
             ${{ runner.os }}-lerna-
       - name: Install node
@@ -151,9 +151,9 @@ jobs:
       - name: Check config files
         if: steps.filter.outputs.extension == 'true'
         run: |
-          diff basics/hello-world/tsconfig.json advanced/server-extension/tsconfig.json
-          diff basics/hello-world/.eslintignore advanced/server-extension/.eslintignore
-          diff basics/hello-world/.eslintrc.js advanced/server-extension/.eslintrc.js
+          diff hello-world/tsconfig.json server-extension/tsconfig.json
+          diff hello-world/.eslintignore server-extension/.eslintignore
+          diff hello-world/.eslintrc.js server-extension/.eslintrc.js
         shell: bash
       - name: Install Python
         if: steps.filter.outputs.extension == 'true'
@@ -182,18 +182,18 @@ jobs:
       - name: Install the NPM dependencies
         if: steps.filter.outputs.extension == 'true'
         run: |
-          cd advanced/server-extension
+          cd server-extension
           jlpm
       - name: Lint the files
         if: steps.filter.outputs.extension == 'true'
         run: |
-          cd advanced/server-extension
+          cd server-extension
           jlpm run eslint:check
       - name: Build extension as user
         if: steps.filter.outputs.extension == 'true'
         # Force the usage of the source distribution (good practice)
         run: |
-          cd advanced/server-extension
+          cd server-extension
           python setup.py sdist
           pip install ./dist/jlab_ext_example* --pre --find-links=dist --no-cache-dir
           python -m jupyterlab.browser_check
@@ -212,7 +212,7 @@ jobs:
       - name: Build extension as dev
         if: steps.filter.outputs.extension == 'true'
         run: |
-          cd advanced/server-extension
+          cd server-extension
           pip install -e .
       - name: Check extension as dev
         if: steps.filter.outputs.extension == 'true' && ( startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS') )
@@ -266,7 +266,8 @@ jobs:
         run: jlpm
       - name: Build all the extensions
         run: |
-          pytest --check-links
           jlpm build-ext
           jlpm lint:check
           jlpm install-ext
+          # Check links as last step as new tutorial may set links not yet valid (like file not yet in master)
+          pytest --check-links

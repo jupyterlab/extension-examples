@@ -118,7 +118,7 @@ protected onCloseRequest(msg: Message): void {
 
 ## OutputArea and Model
 
-The `SimplifiedOutputArea` class is a `Widget`, as described in the [widget example](../../widget-tracker/widgets/README.md).
+The `SimplifiedOutputArea` class is a `Widget`, as described in the [widget example](../../widgets/README.md).
 It has the ability to display the results of a notebook cell execution.
 You can instantiate it with a new `OutputAreaModel`; this class is containing
 the data to show:
