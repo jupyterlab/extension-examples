@@ -20,7 +20,7 @@ def _jupyter_server_extension_points():
     return [{"module": "jlab_ext_example"}]
 
 
-def load_jupyter_server_extension(lab_app):
+def _load_jupyter_server_extension(lab_app):
     """Registers the API handler to receive HTTP requests from the frontend extension.
     Parameters
     ----------
