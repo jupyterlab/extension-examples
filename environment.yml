@@ -2,6 +2,7 @@ name: jupyterlab-extension-examples
 channels:
   - conda-forge
 dependencies:
+  - cookiecutter
   - jupyter-packaging>=0.7.9,<0.8.0
   - jupyterlab=3
   - nodejs
