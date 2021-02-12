@@ -331,40 +331,37 @@ your extension needs to be defined as a proper Python package with some hook fun
 # jlab_ext_example/__init__.py
 
 import json
-import os.path as osp
+from pathlib import Path
 
 from .handlers import setup_handlers
 from ._version import __version__
 
-HERE = osp.abspath(osp.dirname(__file__))
+HERE = Path(__file__).parent.resolve()
 
-with open(osp.join(HERE, 'labextension', 'package.json')) as fid:
+with (HERE / "labextension" / "package.json").open() as fid:
     data = json.load(fid)
 
+
 def _jupyter_labextension_paths():
-    return [{
-        'src': 'labextension',
-        'dest': data['name']
-    }]
+    return [{"src": "labextension", "dest": data["name"]}]
 
 
 def _jupyter_server_extension_points():
     return [{"module": "jlab_ext_example"}]
 
 
-def _load_jupyter_server_extension(lab_app):
+def _load_jupyter_server_extension(server_app):
     """Registers the API handler to receive HTTP requests from the frontend extension.
     Parameters
     ----------
-    lab_app: jupyterlab.labapp.LabApp
+    server_app: jupyterlab.labapp.LabApp
         JupyterLab application instance
     """
     url_path = "jlab-ext-example"
-    setup_handlers(lab_app.web_app, url_path)
-    lab_app.log.info(
-        "Registered jlab_ext_example extension at URL path /{}".format(url_path)
+    setup_handlers(server_app.web_app, url_path)
+    server_app.log.info(
+        f"Registered jlab_ext_example extension at URL path /{url_path}"
     )
-
 
 ```
 
@@ -373,9 +370,9 @@ to the server. But the most important one is `_load_jupyter_server_extension`
 that register new handlers.
 
 ```py
-# jlab_ext_example/__init__.py#L31-L31
+# jlab_ext_example/__init__.py#L29-L29
 
-setup_handlers(lab_app.web_app, url_path)
+setup_handlers(server_app.web_app, url_path)
 ```
 
 A handler is registered in the web application by linking an url to a class. In this
@@ -496,47 +493,41 @@ The `setup.py` file is the entry point to describe package metadata:
 jlab_ext_example setup
 """
 import json
-import os
+from pathlib import Path
 
 from jupyter_packaging import (
-    create_cmdclass, install_npm, ensure_targets,
-    combine_commands, skip_if_exists
+    create_cmdclass,
+    install_npm,
+    ensure_targets,
+    combine_commands,
+    skip_if_exists,
 )
 import setuptools
 
-HERE = os.path.abspath(os.path.dirname(__file__))
+HERE = Path(__file__).parent.resolve()
 
 # The name of the project
-name="jlab_ext_example"
+name = "jlab_ext_example"
 
-# Get our version
-with open(os.path.join(HERE, 'package.json')) as f:
-    version = json.load(f)['version']
-
-lab_path = os.path.join(HERE, name, "labextension")
+lab_path = HERE / name / "labextension"
 
 # Representative files that should exist after a successful build
 jstargets = [
-    os.path.join(lab_path, "package.json"),
+    str(lab_path / "package.json"),
 ]
 
-package_data_spec = {
-    name: [
-        "*"
-    ]
-}
+package_data_spec = {name: ["*"]}
 
 labext_name = "@jupyterlab-examples/server-extension"
 
 data_files_spec = [
-    ("share/jupyter/labextensions/%s" % labext_name, lab_path, "**"),
-    ("share/jupyter/labextensions/%s" % labext_name, HERE, "install.json"),
+    ("share/jupyter/labextensions/%s" % labext_name, str(lab_path), "**"),
+    ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),
     ("etc/jupyter/jupyter_server_config.d", "jupyter-config", "jlab_ext_example.json"),
 ]
 
-cmdclass = create_cmdclass("jsdeps",
-    package_data_spec=package_data_spec,
-    data_files_spec=data_files_spec
+cmdclass = create_cmdclass(
+    "jsdeps", package_data_spec=package_data_spec, data_files_spec=data_files_spec
 )
 
 js_command = combine_commands(
@@ -544,32 +535,34 @@ js_command = combine_commands(
     ensure_targets(jstargets),
 )
 
-is_repo = os.path.exists(os.path.join(HERE, ".git"))
+is_repo = (HERE / ".git").exists()
 if is_repo:
     cmdclass["jsdeps"] = js_command
 else:
     cmdclass["jsdeps"] = skip_if_exists(jstargets, js_command)
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+long_description = (HERE / "README.md").read_text()
+
+# Get the package info from package.json
+pkg_json = json.loads((HERE / "package.json").read_bytes())
 
 setup_args = dict(
     name=name,
-    version=version,
-    url="https://github.com/jupyterlab/extension-examples.git",
-    author="Project Jupyter Contributors",
-    description="A minimal JupyterLab extension with backend and frontend parts.",
-    long_description= long_description,
+    version=pkg_json["version"],
+    url=pkg_json["homepage"],
+    author=pkg_json["author"],
+    description=pkg_json["description"],
+    license=pkg_json["license"],
+    long_description=long_description,
     long_description_content_type="text/markdown",
-    cmdclass= cmdclass,
+    cmdclass=cmdclass,
     packages=setuptools.find_packages(),
     install_requires=[
-        "jupyterlab>=3.0.0rc15,==3.*",
+        "jupyterlab~=3.0",
     ],
     zip_safe=False,
     include_package_data=True,
     python_requires=">=3.6",
-    license="BSD-3-Clause",
     platforms="Linux, Mac OS X, Windows",
     keywords=["Jupyter", "JupyterLab", "JupyterLab3"],
     classifiers=[
@@ -579,6 +572,7 @@ setup_args = dict(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Framework :: Jupyter",
     ],
 )
@@ -595,11 +589,10 @@ the frontend NPM package needs to be built and inserted in the Python package. T
 done using a special `cmdclass`:
 
 ```py
-# setup.py#L43-L51
+# setup.py#L38-L45
 
-cmdclass = create_cmdclass("jsdeps",
-    package_data_spec=package_data_spec,
-    data_files_spec=data_files_spec
+cmdclass = create_cmdclass(
+    "jsdeps", package_data_spec=package_data_spec, data_files_spec=data_files_spec
 )
 
 js_command = combine_commands(
@@ -611,7 +604,7 @@ js_command = combine_commands(
 Basically it will build the frontend NPM package:
 
 ```py
-# setup.py#L49-L49
+# setup.py#L43-L43
 
 install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
 ```
@@ -619,11 +612,11 @@ install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
 It will ensure one of the generated files is `jlab_ext_example/labextension/package.json`:
 
 ```py
-# setup.py#L24-L27
+# setup.py#L23-L26
 
 # Representative files that should exist after a successful build
 jstargets = [
-    os.path.join(lab_path, "package.json"),
+    str(lab_path / "package.json"),
 ]
 ```
 
@@ -631,9 +624,9 @@ It will copy the NPM package in the Python package and force it to be copied in 
 JupyterLab is looking for frontend extensions when the Python package is installed:
 
 ```py
-# setup.py#L38-L38
+# setup.py#L33-L33
 
-("share/jupyter/labextensions/%s" % labext_name, lab_path, "**"),
+("share/jupyter/labextensions/%s" % labext_name, str(lab_path), "**"),
 ```
 
 The last piece of configuration needed is the enabling of the server extension. This is
@@ -655,7 +648,7 @@ done by copying the following JSON file:
 in the appropriate jupyter folder (`etc/jupyter/jupyter_server_config.d`):
 
 ```py
-# setup.py#L40-L40
+# setup.py#L35-L35
 
 ("etc/jupyter/jupyter_server_config.d", "jupyter-config", "jlab_ext_example.json"),
 ```

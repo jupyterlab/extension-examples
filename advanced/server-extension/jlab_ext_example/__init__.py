@@ -1,34 +1,32 @@
 import json
-import os.path as osp
+from pathlib import Path
 
 from .handlers import setup_handlers
 from ._version import __version__
 
-HERE = osp.abspath(osp.dirname(__file__))
+HERE = Path(__file__).parent.resolve()
 
-with open(osp.join(HERE, 'labextension', 'package.json')) as fid:
+with (HERE / "labextension" / "package.json").open() as fid:
     data = json.load(fid)
 
+
 def _jupyter_labextension_paths():
-    return [{
-        'src': 'labextension',
-        'dest': data['name']
-    }]
+    return [{"src": "labextension", "dest": data["name"]}]
 
 
 def _jupyter_server_extension_points():
     return [{"module": "jlab_ext_example"}]
 
 
-def _load_jupyter_server_extension(lab_app):
+def _load_jupyter_server_extension(server_app):
     """Registers the API handler to receive HTTP requests from the frontend extension.
     Parameters
     ----------
-    lab_app: jupyterlab.labapp.LabApp
+    server_app: jupyterlab.labapp.LabApp
         JupyterLab application instance
     """
     url_path = "jlab-ext-example"
-    setup_handlers(lab_app.web_app, url_path)
-    lab_app.log.info(
-        "Registered jlab_ext_example extension at URL path /{}".format(url_path)
+    setup_handlers(server_app.web_app, url_path)
+    server_app.log.info(
+        f"Registered jlab_ext_example extension at URL path /{url_path}"
     )
