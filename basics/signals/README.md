@@ -1,19 +1,18 @@
 # Signals
 
-> Use Signals to allow Widgets communicate with each others.
+> Use Signals to allow Widgets to communicate with each others.
 
 - [Lumino Signaling 101](#lumino-signaling-101)
-- [A simple React Button](#a-simple-react-button)
+- [A simple HTML Button](#a-simple-html-button)
 - [Subscribing to a Signal](#subscribing-to-a-signal)
 
 ![Button with Signal](preview.png)
 
 ## Lumino Signaling 101
 
-Communication between different components of JupyterLab is a key ingredient in building an
-extension.
+Communication between different components of JupyterLab is a key ingredient in building an extension.
 
-In this extension, a simple button will be added to print something to the console.
+In this extension, a simple HTML button will be added to print something to the console.
 
 JupyterLab's Lumino engine uses the `ISignal` interface and the
 `Signal` class that implements this interface for communication
@@ -21,30 +20,30 @@ JupyterLab's Lumino engine uses the `ISignal` interface and the
 
 The basic concept is as follows:
 
-First, a widget (`button.tsx`), in this case the one that contains
+First, a widget (`ButtonWidget` in `button.ts`), in this case the one that contains
 some visual elements such as a button, defines a `_stateChanged` signal:
 
 ```ts
-// src/button.tsx#L36-L36
+// src/button.ts#L32-L32
 
-private _stateChanged = new Signal<this, ICount>(this);
+private _stateChanged = new Signal<ButtonWidget, ICount>(this);
 ```
 
 That private signal is exposed to other widgets via a public accessor method.
 
 ```ts
-// src/button.tsx#L15-L17
+// src/button.ts#L34-L36
 
-public get stateChanged(): ISignal<this, ICount> {
+public get stateChanged(): ISignal<ButtonWidget, ICount> {
   return this._stateChanged;
 }
 ```
 
-Another widget, in this case the panel (`panel.ts`) that boxes several different widgets,
-subscribes to the `stateChanged` signal and links some function to it:
+Another widget, in this case the panel (`SignalExamplePanel` in `panel.ts`) that can box several different widgets,
+subscribes to the `stateChanged` signal and links a function to it:
 
 ```ts
-// src/panel.ts#L29-L29
+// src/panel.ts#L33-L33
 
 this._widget.stateChanged.connect(this._logMessage, this);
 ```
@@ -52,55 +51,36 @@ this._widget.stateChanged.connect(this._logMessage, this);
 The `_logMessage` is executed when the signal is triggered from the first widget with:
 
 ```ts
-// src/button.tsx#L28-L28
+// src/button.ts#L24-L24
 
 this._stateChanged.emit(this._count);
 ```
 
 Let's look at the implementations details.
 
-## A simple React Button
+## A Simple HTML Button
 
-Start with a file called `src/button.tsx`. The `tsx` extension allows to use
-HTML-like syntax with the tag notation `<>` to represent some visual elements
-(note that you have to add a line: `"jsx": "react",` to the
-`tsconfig.json` file). This is a special syntax used by [React](https://reactjs.org/tutorial/tutorial.html).
+Start with a file called `src/button.ts`.
 
-You can also try the [React Widget example](./../../react/react-widget) for more details.
+NB: For a React widget, you can try the [React Widget example](./../../react/react-widget) for more details.
 
-`button.tsx` contains one major class `ButtonWidget` that extends the
-`ReactWidget` class provided by JupyterLab.
+`button.ts` contains one class `ButtonWidget` that extends the
+`Widget` class provided by Lumino.
 
-`ReactWidget` defines a `render()` method that defines some React elements such as a button.
-This is the recommended way to include React component inside the JupyterLab widget based UI.
+The constructor argument of the `ButtonWidget` class is assigned a default `HTMLButtonElement` node (e.g., `<button></button>`). The Widget's `node` property references its respective `HTMLElement`. For example, you can set the content of the button with `this.node.textContent = 'Clickme'`.
 
 ```ts
-// src/button.tsx#L19-L34
+// src/button.ts#L11-L11
 
-protected render(): React.ReactElement<any> {
-  return (
-    <button
-      key="header-thread"
-      className="jp-example-button"
-      onClick={(): void => {
-        this._count = {
-          clickCount: this._count.clickCount + 1
-        };
-        this._stateChanged.emit(this._count);
-      }}
-    >
-      Clickme
-    </button>
-  );
-}
+constructor(options = { node: document.createElement('button') }) {
 ```
 
-`ButtonWidget` also contain a private attribute `_count` of type `ICount`.
+`ButtonWidget` also contains a private attribute `_count` of type `ICount`.
 
 ```ts
-// src/button.tsx#L11-L13
+// src/button.ts#L28-L30
 
-protected _count: ICount = {
+private _count: ICount = {
   clickCount: 0
 };
 ```
@@ -109,9 +89,9 @@ protected _count: ICount = {
 `Signal`.
 
 ```ts
-// src/button.tsx#L36-L36
+// src/button.ts#L32-L32
 
-private _stateChanged = new Signal<this, ICount>(this);
+private _stateChanged = new Signal<ButtonWidget, ICount>(this);
 ```
 
 A signal object can be triggered and then emits an actual signal.
@@ -119,19 +99,17 @@ A signal object can be triggered and then emits an actual signal.
 Other Widgets can subscribe to such a signal and react when a message is
 emitted.
 
-The button `onClick` event will increment the `_count`
+The button `click` event will increment the `_count`
 private attribute and will trigger the `_stateChanged` signal passing
 the `_count` variable.
 
 ```ts
-// src/button.tsx#L24-L29
+// src/button.ts#L22-L25
 
-onClick={(): void => {
-  this._count = {
-    clickCount: this._count.clickCount + 1
-  };
+this.node.addEventListener('click', () => {
+  this._count.clickCount = this._count.clickCount + 1;
   this._stateChanged.emit(this._count);
-}}
+});
 ```
 
 ## Subscribing to a Signal
@@ -141,14 +119,17 @@ The `panel.ts` class defines an extension panel that displays the
 This is done in the constructor.
 
 ```ts
-// src/panel.ts#L18-L30
+// src/panel.ts#L19-L34
 
 constructor(translator?: ITranslator) {
   super();
   this._translator = translator || nullTranslator;
   this._trans = this._translator.load('jupyterlab');
   this.addClass(PANEL_CLASS);
-  this.id = 'SignalExamplePanel';
+
+  //  This ensures the id of the DOM node is unique for each Panel instance.
+  this.id = 'SignalExamplePanel_' + SignalExamplePanel._id++;
+
   this.title.label = this._trans.__('Signal Example View');
   this.title.closable = true;
 
@@ -162,7 +143,7 @@ Subscription to a signal is done using the `connect` method of the
 `stateChanged` attribute.
 
 ```ts
-// src/panel.ts#L29-L29
+// src/panel.ts#L33-L33
 
 this._widget.stateChanged.connect(this._logMessage, this);
 ```
@@ -171,7 +152,8 @@ It registers the `_logMessage` function which is triggered when the signal is em
 
 **Note**
 
-> From the official [JupyterLab Documentation](https://jupyterlab.readthedocs.io/en/stable/developer/patterns.html#signals):
+From the official [JupyterLab Documentation](https://jupyterlab.readthedocs.io/en/stable/developer/patterns.html#signals):
+
 > Wherever possible as signal connection should be made with the pattern `.connect(this._onFoo, this)`.
 > Providing the `this` context enables the connection to be properly cleared by `clearSignalData(this)`.
 > Using a private method avoids allocating a closure for each connection.
@@ -180,16 +162,16 @@ The `_logMessage` function receives as parameters the emitter (of type `ButtonWi
 and the count (of type `ICount`) sent by the signal emitter.
 
 ```ts
-// src/panel.ts#L32-L32
+// src/panel.ts#L36-L36
 
 private _logMessage(emitter: ButtonWidget, count: ICount): void {
 ```
 
-In our case, that function writes `Button has been clicked ... times.` text
+In our case, that function writes `The big red button has been clicked ... times.` text
 to the browser console and in an alert when the big red button is clicked.
 
 ```ts
-// src/panel.ts#L32-L39
+// src/panel.ts#L36-L44
 
 private _logMessage(emitter: ButtonWidget, count: ICount): void {
   console.log('Hey, a Signal has been received from', emitter);
@@ -199,6 +181,7 @@ private _logMessage(emitter: ButtonWidget, count: ICount): void {
   window.alert(
     `The big red button has been clicked ${count.clickCount} times.`
   );
+}
 ```
 
 There it is. Signaling is conceptually important for building extensions.
