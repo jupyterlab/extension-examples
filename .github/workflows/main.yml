@@ -265,7 +265,12 @@ jobs:
       - name: Check compliance with template
         run: |
           python scripts/upgrade_extensions.py
-      - run: if [[ $(git status --porcelain=v1 2>/dev/null | wc -l) > 0 ]]; then exit 1; fi
+      - run: |
+          git status --porcelain=v1 1> git_status.log
+          cat git_status.log
+          IS_DIRTY=$(wc -l git_status.log)
+          echo $IS_DIRTY
+          if [[ ${IS_DIRTY} > 0 ]]; then exit 1; fi
         shell: bash
       - name: Bootstrap the jlpm deps
         run: jlpm
