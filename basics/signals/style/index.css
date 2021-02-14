@@ -1,8 +1,8 @@
-.jp-tutorial-view {
+.jp-SignalExamplePanel {
   background-color: AliceBlue;
 }
 
-.jp-tutorial-button {
+.jp-ButtonWidget {
   background-color: red;
   border-radius: 12px;
   border: none;
