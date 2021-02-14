@@ -12,7 +12,10 @@
     "url": "https://github.com/jupyterlab/extension-examples/issues"
   },
   "license": "BSD-3-Clause",
-  "author": "Project Jupyter Contributors",
+  "author": {
+    "name": "Project Jupyter Contributors",
+    "email": ""
+  },
   "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
     "schema/**/*.json",
