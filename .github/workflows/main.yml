@@ -266,11 +266,8 @@ jobs:
         run: |
           python scripts/upgrade_extensions.py
       - run: |
-          git status --porcelain=v1 1> git_status.log
-          cat git_status.log
-          IS_DIRTY=$(wc -l git_status.log)
-          echo $IS_DIRTY
-          if [[ ${IS_DIRTY} > 0 ]]; then exit 1; fi
+          IS_DIRTY=$(git status --porcelain=v1 | wc -l git_status.log)
+          if [[ ${IS_DIRTY} > 0 ]]; then git status --porcelain=v1; exit 1; fi
         shell: bash
       - name: Bootstrap the jlpm deps
         run: jlpm

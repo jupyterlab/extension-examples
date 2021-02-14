@@ -45,9 +45,9 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^3.0.2",
-    "@jupyterlab/apputils": "^3.0.2",
-    "@jupyterlab/statedb": "^3.0.1",
+    "@jupyterlab/application": "^3.0.0",
+    "@jupyterlab/apputils": "^3.0.0",
+    "@jupyterlab/statedb": "^3.0.0",
     "@lumino/coreutils": "^1.5.3"
   },
   "devDependencies": {
