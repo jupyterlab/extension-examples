@@ -116,10 +116,10 @@ called `@jupyterlab/application`. The dependency of your extension on this
 package is declared in the file `package.json`:
 
 ```json5
-// package.json#L47-L49
+// package.json#L50-L52
 
 "dependencies": {
-  "@jupyterlab/application": "^3.0.2"
+  "@jupyterlab/application": "^3.0.4"
 },
 ```
 

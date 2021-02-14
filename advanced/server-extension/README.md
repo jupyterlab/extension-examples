@@ -557,7 +557,8 @@ setup_args = dict(
     name=name,
     version=pkg_json["version"],
     url=pkg_json["homepage"],
-    author=pkg_json["author"],
+    author=pkg_json["author"]["name"],
+    author_email=pkg_json["author"]["email"],
     description=pkg_json["description"],
     license=pkg_json["license"],
     long_description=long_description,
@@ -669,7 +670,7 @@ user about that dependency by adding the `discovery` metadata to your `package.j
 file:
 
 ```json5
-// package.json#L72-L82
+// package.json#L75-L85
 
 "jupyterlab": {
   "discovery": {
@@ -687,7 +688,7 @@ file:
 In this example, the extension requires a `server` extension:
 
 ```json5
-// package.json#L73-L73
+// package.json#L76-L76
 
 "discovery": {
 ```
@@ -695,7 +696,7 @@ In this example, the extension requires a `server` extension:
 And that server extension is available through `pip`:
 
 ```json5
-// package.json#L74-L76
+// package.json#L77-L79
 
 "server": {
   "managers": [
