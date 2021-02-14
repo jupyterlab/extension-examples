@@ -67,7 +67,7 @@ NB: For a React widget, you can try the [React Widget example](./../../react/rea
 `button.ts` contains one class `ButtonWidget` that extends the
 `Widget` class provided by Lumino.
 
-The constructor argument of the `ButtonWidget` class is assigned a default `HTMLButtonElement` node (e.g., `<button></button>`). The Widget's `node` property references its respective `HTMLElement`. For example, you can set the content of the button with `this.node.textContent = 'Clickme'`.
+The constructor argument of the `ButtonWidget` class is assigned a default `HTMLButtonElement` node (e.g., `<button></button>`). The Widget's `node` property references its respective `HTMLElement`. For example, you can set the content of the button with `this.node.textContent = 'Click me'`.
 
 ```ts
 // src/button.ts#L11-L11
