@@ -363,6 +363,9 @@ def _load_jupyter_server_extension(server_app):
         f"Registered jlab_ext_example extension at URL path /{url_path}"
     )
 
+# For backward compatibility with the classical notebook
+load_jupyter_server_extension = _load_jupyter_server_extension
+
 ```
 
 The `_jupyter_server_extension_points` provides the Python package name
@@ -523,7 +526,8 @@ labext_name = "@jupyterlab-examples/server-extension"
 data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str(lab_path), "**"),
     ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),
-    ("etc/jupyter/jupyter_server_config.d", "jupyter-config", "jlab_ext_example.json"),
+    ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/jupyter_notebook_config.d", "jlab_ext_example.json"),
+    ("etc/jupyter/jupyter_server_config.d", "jupyter-config/jupyter_server_config.d", "jlab_ext_example.json"),
 ]
 
 cmdclass = create_cmdclass(
@@ -589,7 +593,7 @@ the frontend NPM package needs to be built and inserted in the Python package. T
 done using a special `cmdclass`:
 
 ```py
-# setup.py#L38-L45
+# setup.py#L39-L46
 
 cmdclass = create_cmdclass(
     "jsdeps", package_data_spec=package_data_spec, data_files_spec=data_files_spec
@@ -604,7 +608,7 @@ js_command = combine_commands(
 Basically it will build the frontend NPM package:
 
 ```py
-# setup.py#L43-L43
+# setup.py#L44-L44
 
 install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
 ```
@@ -648,9 +652,18 @@ done by copying the following JSON file:
 in the appropriate jupyter folder (`etc/jupyter/jupyter_server_config.d`):
 
 ```py
+# setup.py#L36-L36
+
+("etc/jupyter/jupyter_server_config.d", "jupyter-config/jupyter_server_config.d", "jlab_ext_example.json"),
+```
+
+For backward compatibility with the classical notebook, the old version of that file is copied in
+ (`etc/jupyter/jupyter_notebook_config.d`):
+
+```py
 # setup.py#L35-L35
 
-("etc/jupyter/jupyter_server_config.d", "jupyter-config", "jlab_ext_example.json"),
+("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/jupyter_notebook_config.d", "jlab_ext_example.json"),
 ```
 
 ### JupyterLab Extension Manager

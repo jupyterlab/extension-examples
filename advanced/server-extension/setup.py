@@ -32,7 +32,8 @@ labext_name = "@jupyterlab-examples/server-extension"
 data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str(lab_path), "**"),
     ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),
-    ("etc/jupyter/jupyter_server_config.d", "jupyter-config", "jlab_ext_example.json"),
+    ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/jupyter_notebook_config.d", "jlab_ext_example.json"),
+    ("etc/jupyter/jupyter_server_config.d", "jupyter-config/jupyter_server_config.d", "jlab_ext_example.json"),
 ]
 
 cmdclass = create_cmdclass(

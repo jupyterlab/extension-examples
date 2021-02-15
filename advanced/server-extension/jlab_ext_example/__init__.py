@@ -30,3 +30,6 @@ def _load_jupyter_server_extension(server_app):
     server_app.log.info(
         f"Registered jlab_ext_example extension at URL path /{url_path}"
     )
+
+# For backward compatibility with the classical notebook
+load_jupyter_server_extension = _load_jupyter_server_extension
