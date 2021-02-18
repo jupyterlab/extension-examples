@@ -9,7 +9,7 @@ This is a basic example to show how to send different types of log message to th
 The default log console extension in JupyterLab obtains log outputs from the kernel context of the current active notebook. That let the log console change the source input once a new notebook is opened. There are different ways to approach the problem:
 
 1. Obtain the current active notebook and send message to his `Logger` instance (covered in this example).
-2. Create your custom log console (see the [custom log console](https://github.com/jupyterlab/extension-examples/tree/master/log-console/custom-log-console) example).
+2. Create your custom log console (see the [custom log console](https://github.com/jupyterlab/extension-examples/tree/master/custom-log-console) example).
 
 > It is strongly recommended to read [main-menu](https://github.com/jupyterlab/extension-examples/tree/master/main-menu) example before diving into this one.
 
@@ -71,4 +71,4 @@ logger?.log(msg);
 
 It is worth noting that with this approximation you will only be able to send messages to the log console if you have a notebook opened. If you have more than one notebook opened, the messages will be sent to the active notebook or the most recently focused notebook. It means that if you are changing from one notebook to another, every message will be sent to a different source and will be shown when the notebook gets the focus.
 
-Examples of other types of messages can be seen in the [custom log console](https://github.com/jupyterlab/extension-examples/tree/master/log-console/custom-log-console) example.
+Examples of other types of messages can be seen in the [custom log console](https://github.com/jupyterlab/extension-examples/tree/master/custom-log-console) example.

@@ -23,7 +23,7 @@ conda env create
 conda activate jupyterlab-extension-examples
 
 # go to the hello world example
-cd basics/hello-world
+cd hello-world
 
 # install the extension in editable mode
 python -m pip install -e .
@@ -50,25 +50,25 @@ Note that the `1.x` and `2.x` branches are not updated anymore.
 
 You may find it easier to learn how to create extensions _by examples_, instead of going through the documentation.
 
-Start with the [Hello World](basics/hello-world) and then jump to the topic you are interested in.
+Start with the [Hello World](hello-world) and then jump to the topic you are interested in.
 
-- [Hello World](basics/hello-world)
-- [Signals](basics/signals)
-- [Datagrid](basics/datagrid)
+- [Hello World](hello-world)
+- [Signals](signals)
+- [Datagrid](datagrid)
 - [Command Palette](command-palette)
 - [Commands](commands)
 - [Launcher](launcher)
 - [Main Menu](main-menu)
 - [Settings](settings)
 - [State](state)
-- [React Widget](react/react-widget)
-- [Widgets](widget-tracker/widgets)
-- [Log Messages](log-console/log-messages)
-- [Custom Log Console](log-console/custom-log-console)
+- [React Widget](react-widget)
+- [Widgets](widgets)
+- [Log Messages](log-messages)
+- [Custom Log Console](custom-log-console)
 - [Context Menu](context-menu)
-- [Kernel Output](advanced/kernel-output)
-- [Kernel Messaging](advanced/kernel-messaging)
-- [Server Hello World](advanced/server-extension)
+- [Kernel Output](kernel-output)
+- [Kernel Messaging](kernel-messaging)
+- [Server Hello World](server-extension)
 
 You can expect from each example:
 
@@ -83,23 +83,23 @@ You are welcome to open any [issue](https://github.com/jupyterlab/extension-exam
 
 ## Basic
 
-### [Hello World](basics/hello-world)
+### [Hello World](hello-world)
 
 Set up the development environment and print to the console.
 
-[![Hello World](basics/hello-world/preview.png)](basics/hello-world)
+[![Hello World](hello-world/preview.png)](hello-world)
 
-### [Signals](basics/signals)
+### [Signals](signals)
 
 Use Signals to allow Widgets communicate with each others.
 
-[![Button with Signal](basics/signals/preview.png)](basics/signals)
+[![Button with Signal](signals/preview.png)](signals)
 
-### [Datagrid](basics/datagrid)
+### [Datagrid](datagrid)
 
 Display a Datagrid as a Lumino Widget.
 
-[![Datagrid](basics/datagrid/preview.png)](basics/datagrid)
+[![Datagrid](datagrid/preview.png)](datagrid)
 
 ## Command Palette
 
@@ -151,33 +151,33 @@ Use State persistence in an extension.
 
 ## React
 
-### [React Widget](react/react-widget)
+### [React Widget](react-widget)
 
 Create a React.js Widget in JupyterLab.
 
-[![react-widget](react/react-widget/preview.gif)](react/react-widget)
+[![react-widget](react-widget/preview.gif)](react-widget)
 
 ## Widget Tracker
 
-### [Widgets](widget-tracker/widgets)
+### [Widgets](widgets)
 
 Add a new Widget element to the main window.
 
-[![Custom Tab](widget-tracker/widgets/preview.png)](widget-tracker/widgets)
+[![Custom Tab](widgets/preview.png)](widgets)
 
 ## Log Console
 
-### [Log Messages](log-console/log-messages)
+### [Log Messages](log-messages)
 
 Send a log message to the log console.
 
-[![Log Messages](log-console/log-messages/preview.gif)](log-console/log-messages)
+[![Log Messages](log-messages/preview.gif)](log-messages)
 
-### [Custom Log Console](log-console/custom-log-console)
+### [Custom Log Console](custom-log-console)
 
 Create a new log console.
 
-[![Custom Log Console](log-console/custom-log-console/preview.gif)](log-console/custom-log-console)
+[![Custom Log Console](custom-log-console/custom-preview.gif)](custom-log-console)
 
 ## Context Menu
 
@@ -189,23 +189,23 @@ Add a new button to an existent context menu.
 
 ## Advanced
 
-### [Kernel Output](advanced/kernel-output)
+### [Kernel Output](kernel-output)
 
 Render kernel messages in an OuputArea.
 
-[![OutputArea class](advanced/kernel-output/preview.gif)](advanced/kernel-output)
+[![OutputArea class](kernel-output/preview.gif)](kernel-output)
 
-### [Kernel Messaging](advanced/kernel-messaging)
+### [Kernel Messaging](kernel-messaging)
 
 Interact with a kernel from an extension.
 
-[![Kernel Messages](advanced/kernel-messaging/preview.gif)](advanced/kernel-messaging)
+[![Kernel Messages](kernel-messaging/preview.gif)](kernel-messaging)
 
-### [Server Hello World](advanced/server-extension)
+### [Server Hello World](server-extension)
 
 Create a minimal extension with backend (i.e. server) and frontend parts.
 
-[![Server Hello World](advanced/server-extension/preview.png)](advanced/server-extension)
+[![Server Hello World](server-extension/preview.png)](server-extension)
 
 ## Prerequisites
 
@@ -252,7 +252,7 @@ jlpm clean-ext
 
 ### Build and Install one Example
 
-Go to the example directory you want to install, e.g. `cd ./basics/hello-world`, and run the following commands:
+Go to the example directory you want to install, e.g. `cd ./hello-world`, and run the following commands:
 
 ```bash
 pip install -e .

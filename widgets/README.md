@@ -95,6 +95,6 @@ This example uses a command to display the widget. Have a look a the
 The widget created in this example is simple. You will find more advanced
 widgets in the following examples:
 
-- Widget showing a [Datagrid](../../basics/datagrid/README.md)
-- Widget integrating [React components](../../react/react-widget/README.md)
-- Widget interacting with a [Kernel](../../advanced/kernel-messaging/README.md)
+- Widget showing a [Datagrid](../../datagrid/README.md)
+- Widget integrating [React components](../../react-widget/README.md)
+- Widget interacting with a [Kernel](../../kernel-messaging/README.md)

@@ -338,7 +338,7 @@ get more information about them, have a look at the corresponding examples:
 
 - [Commands](../commands/README.md)
 - [Main Menu](../main-menu/README.md)
-- [Signal](../basics/signals/README.md)
+- [Signal](../signals/README.md)
 
 You may be interested to save state variables instead of settings; i.e. save variables that the
 user is not aware of (e.g. the current opened widgets). For that, you

@@ -205,7 +205,7 @@ show something like:
 
 ```bash
    local extensions:
-        @jupyterlab-examples/hello-world: [...]/basics/hello-world
+        @jupyterlab-examples/hello-world: [...]/hello-world
 ```
 
 Now let's check inside of JupyterLab if it works. Run [can take a while]:
@@ -263,5 +263,5 @@ JupyterLab is built on top of three major concepts. It is advised to look throug
 examples in the following order:
 
 - _command_: Function to be executed from UI elements. See the [commands example](../../commands)
-- _widget_: UI based brick. See the [widgets example](../../widget-tracker/widgets)
+- _widget_: UI based brick. See the [widgets example](../../widgets)
 - _signal_: Observer pattern between JupyterLab elements. See the [signals example](../signals)
