@@ -4,7 +4,7 @@
 
 ![server extension example](./preview.png)
 
-It is strongly recommended to read the [basic hello-world](../../hello-world)
+It is strongly recommended to read the [basic hello-world](../hello-world)
 example before diving into this one.
 
 - [The template folder structure](#the-template-folder-structure)

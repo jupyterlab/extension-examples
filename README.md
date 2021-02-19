@@ -52,23 +52,23 @@ You may find it easier to learn how to create extensions _by examples_, instead 
 
 Start with the [Hello World](hello-world) and then jump to the topic you are interested in.
 
-- [Hello World](hello-world)
-- [Signals](signals)
-- [Datagrid](datagrid)
-- [Command Palette](command-palette)
 - [Commands](commands)
-- [Launcher](launcher)
-- [Main Menu](main-menu)
-- [Settings](settings)
-- [State](state)
-- [React Widget](react-widget)
-- [Widgets](widgets)
-- [Log Messages](log-messages)
-- [Custom Log Console](custom-log-console)
+- [Command Palette](command-palette)
 - [Context Menu](context-menu)
-- [Kernel Output](kernel-output)
+- [Custom Log Console](custom-log-console)
+- [Datagrid](datagrid)
+- [Hello World](hello-world)
 - [Kernel Messaging](kernel-messaging)
+- [Kernel Output](kernel-output)
+- [Launcher](launcher)
+- [Log Messages](log-messages)
+- [Main Menu](main-menu)
+- [React Widget](react-widget)
 - [Server Hello World](server-extension)
+- [Settings](settings)
+- [Signals](signals)
+- [State](state)
+- [Widgets](widgets)
 
 You can expect from each example:
 
@@ -81,27 +81,11 @@ We have structured the examples based on the [extension points](https://jupyterl
 
 You are welcome to open any [issue](https://github.com/jupyterlab/extension-examples/issues) or [pull request](https://github.com/jupyterlab/extension-examples/pulls).
 
-## Basic
+### [Commands](commands)
 
-### [Hello World](hello-world)
+Extend the main app with a Command.
 
-Set up the development environment and print to the console.
-
-[![Hello World](hello-world/preview.png)](hello-world)
-
-### [Signals](signals)
-
-Use Signals to allow Widgets communicate with each others.
-
-[![Button with Signal](signals/preview.png)](signals)
-
-### [Datagrid](datagrid)
-
-Display a Datagrid as a Lumino Widget.
-
-[![Datagrid](datagrid/preview.png)](datagrid)
-
-## Command Palette
+[![Commmand example](commands/preview.png)](commands)
 
 ### [Command Palette](command-palette)
 
@@ -109,91 +93,29 @@ Register commands in the Command Palette.
 
 [![Commmand Palette](command-palette/preview.png)](command-palette)
 
-## Commands
-
-### [Commands](commands)
-
-Extend the main app with a Command.
-
-[![Commmand example](commands/preview.png)](commands)
-
-## Launcher
-
-### [Launcher](launcher)
-
-Start your extension from the Launcher.
-
-[![Launcher](launcher/preview.gif)](launcher)
-
-## Menus
-
-### [Main Menu](main-menu)
-
-Add a Menu to the main app.
-
-[![Main Menu](main-menu/preview.png)](main-menu)
-
-## Settings
-
-### [Settings](settings)
-
-Create and use new Settings for your extension.
-
-[![Settings](settings/preview.gif)](settings)
-
-## State
-
-### [State](state)
-
-Use State persistence in an extension.
-
-[![State](state/preview.gif)](state)
-
-## React
-
-### [React Widget](react-widget)
-
-Create a React.js Widget in JupyterLab.
-
-[![react-widget](react-widget/preview.gif)](react-widget)
-
-## Widget Tracker
-
-### [Widgets](widgets)
-
-Add a new Widget element to the main window.
-
-[![Custom Tab](widgets/preview.png)](widgets)
-
-## Log Console
-
-### [Log Messages](log-messages)
-
-Send a log message to the log console.
-
-[![Log Messages](log-messages/preview.gif)](log-messages)
-
-### [Custom Log Console](custom-log-console)
-
-Create a new log console.
-
-[![Custom Log Console](custom-log-console/custom-preview.gif)](custom-log-console)
-
-## Context Menu
-
 ### [Context Menu](context-menu)
 
 Add a new button to an existent context menu.
 
 [![Context Menu](context-menu/preview.gif)](context-menu)
 
-## Advanced
+### [Custom Log Console](custom-log-console)
 
-### [Kernel Output](kernel-output)
+Create a new log console.
 
-Render kernel messages in an OuputArea.
+[![Custom Log Console](custom-log-console/preview.gif)](custom-log-console)
 
-[![OutputArea class](kernel-output/preview.gif)](kernel-output)
+### [Datagrid](datagrid)
+
+Display a Datagrid as a Lumino Widget.
+
+[![Datagrid](datagrid/preview.png)](datagrid)
+
+### [Hello World](hello-world)
+
+Set up the development environment and print to the console.
+
+[![Hello World](hello-world/preview.png)](hello-world)
 
 ### [Kernel Messaging](kernel-messaging)
 
@@ -201,11 +123,65 @@ Interact with a kernel from an extension.
 
 [![Kernel Messages](kernel-messaging/preview.gif)](kernel-messaging)
 
+### [Kernel Output](kernel-output)
+
+Render kernel messages in an OuputArea.
+
+[![OutputArea class](kernel-output/preview.gif)](kernel-output)
+
+### [Launcher](launcher)
+
+Start your extension from the Launcher.
+
+[![Launcher](launcher/preview.gif)](launcher)
+
+### [Log Messages](log-messages)
+
+Send a log message to the log console.
+
+[![Log Messages](log-messages/preview.gif)](log-messages)
+
+### [Main Menu](main-menu)
+
+Add a Menu to the main app.
+
+[![Main Menu](main-menu/preview.png)](main-menu)
+
+### [React Widget](react-widget)
+
+Create a React.js Widget in JupyterLab.
+
+[![react-widget](react-widget/preview.gif)](react-widget)
+
 ### [Server Hello World](server-extension)
 
 Create a minimal extension with backend (i.e. server) and frontend parts.
 
 [![Server Hello World](server-extension/preview.png)](server-extension)
+
+### [Settings](settings)
+
+Create and use new Settings for your extension.
+
+[![Settings](settings/preview.gif)](settings)
+
+### [Signals](signals)
+
+Use Signals to allow Widgets communicate with each others.
+
+[![Button with Signal](signals/preview.png)](signals)
+
+### [State](state)
+
+Use State persistence in an extension.
+
+[![State](state/preview.gif)](state)
+
+### [Widgets](widgets)
+
+Add a new Widget element to the main window.
+
+[![Custom Tab](widgets/preview.png)](widgets)
 
 ## Prerequisites
 
