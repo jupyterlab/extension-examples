@@ -73,7 +73,7 @@ provided directly by the JupyterLab application:
 const manager = app.serviceManager;
 ```
 
-With these lines, you can extend the panel widget from the [signal example](../../signals) to initialize a
+With these lines, you can extend the panel widget from the [signal example](../signals) to initialize a
 kernel. In addition, you will create a `KernelModel` class in it and
 overwrite the `dispose` and `onCloseRequest` methods of the `StackedPanel`
 ([see the documentation](https://jupyterlab.github.io/lumino/widgets/classes/stackedpanel.html))
@@ -282,7 +282,7 @@ In the [Kernel Output](../kernel-output)
 example, you will explore how you can reuse some Jupyter components to have a nicer display for kernel messages.
 
 This example uses React to define UI elements. You can
-learn more about React in JupyterLab in [that example](../../react-widget/README.md).
+learn more about React in JupyterLab in [that example](../react-widget/README.md).
 
 The UI refresh is triggered by signal emitions. To know more about it,
-you can have a look at the [signal example](../../signals/README.md).
+you can have a look at the [signal example](../signals/README.md).

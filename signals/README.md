@@ -62,7 +62,7 @@ Let's look at the implementations details.
 
 Start with a file called `src/button.ts`.
 
-NB: For a React widget, you can try the [React Widget example](./../../react-widget) for more details.
+NB: For a React widget, you can try the [React Widget example](../react-widget) for more details.
 
 `button.ts` contains one class `ButtonWidget` that extends the
 `Widget` class provided by Lumino.

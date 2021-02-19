@@ -11,7 +11,7 @@ The default log console extension in JupyterLab obtains log outputs from the ker
 1. Obtain the current active notebook and send message to his `Logger` instance (see the [log message](https://github.com/jupyterlab/extension-examples/tree/master/log-messages) example).
 2. Create your custom log console (covered in this example).
 
-> It is strongly recommended to read [commands](https://github.com/jupyterlab/extension-examples/tree/master/commands), [command-palette](https://github.com/jupyterlab/extension-examples/tree/master/command-palette), [main-menu](https://github.com/jupyterlab/extension-examples/tree/master/main-menu), [widget-tracker](https://github.com/jupyterlab/extension-examples/tree/master/widget-tracker) and [react-widget](https://github.com/jupyterlab/extension-examples/tree/master/react-widget) examples before diving into this one.
+> It is strongly recommended to read [commands](https://github.com/jupyterlab/extension-examples/tree/master/commands), [command-palette](https://github.com/jupyterlab/extension-examples/tree/master/command-palette), [main-menu](https://github.com/jupyterlab/extension-examples/tree/master/main-menu), [widgets](https://github.com/jupyterlab/extension-examples/tree/master/widgets) and [react-widget](https://github.com/jupyterlab/extension-examples/tree/master/react-widget) examples before diving into this one.
 
 To implement this log console you need to install the following packages:
 

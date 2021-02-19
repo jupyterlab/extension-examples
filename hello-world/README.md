@@ -262,6 +262,6 @@ and here is the [JupyterFrontEnd class documentation](https://jupyterlab.github.
 JupyterLab is built on top of three major concepts. It is advised to look through the corresponding
 examples in the following order:
 
-- _command_: Function to be executed from UI elements. See the [commands example](../../commands)
-- _widget_: UI based brick. See the [widgets example](../../widgets)
+- _command_: Function to be executed from UI elements. See the [commands example](../commands)
+- _widget_: UI based brick. See the [widgets example](../widgets)
 - _signal_: Observer pattern between JupyterLab elements. See the [signals example](../signals)
