@@ -8,10 +8,10 @@ One major concept of the Lumino library on which JupyterLab is built is
 the notion of _Commands_.
 
 They are functions stored in a registry (under an unique
-specifier) that can be executed from any piece of code having accessed to that
+specifier) that can be executed from any piece of code having access to that
 registry.
 
-It is quite common for extension to define one or more such a command.
+It is quite common for an extension to define one or more such commands.
 
 In this extension, you are going to add a command to the application command registry.
 
@@ -65,7 +65,7 @@ when the command is executed. It can optionally takes arguments (arbitrarily def
 by the developer).
 
 To execute that command, you only need access to the _Commands Registry_ in any other
-parts of application. Then you will need to call the `execute` method of the registry
+part of the application. Then you will need to call the `execute` method of the registry
 with the unique command id and optionally the arguments.
 
 ```ts
@@ -80,7 +80,7 @@ with the unique command id and optionally the arguments.
 ```
 
 When running JupyterLab with this extension, the following message should
-appears in the web browser console and as an alert:
+appear in the web browser console as an alert:
 
 ```bash
 jlab-examples:command has been called from init.
