@@ -109,7 +109,7 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         run: |
           cd ${EXAMPLE_FOLDER}
-          pip install -e .
+          pip install .
           jupyter labextension list 2>&1 | grep -ie "@jupyterlab-examples/*.*OK"
           python -m jupyterlab.browser_check
           pip uninstall -y $(python setup.py --name)
@@ -213,7 +213,7 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         run: |
           cd server-extension
-          pip install -e .
+          pip install .
       - name: Check extension as dev
         if: steps.filter.outputs.extension == 'true' && ( startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS') )
         run: |
