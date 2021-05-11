@@ -1,7 +1,7 @@
 import {
   ITranslator,
   nullTranslator,
-  TranslationBundle
+  TranslationBundle,
 } from '@jupyterlab/translation';
 
 import { Panel } from '@lumino/widgets';

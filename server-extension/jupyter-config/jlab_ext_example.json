@@ -1,0 +1,7 @@
+{
+  "ServerApp": {
+    "jpserver_extensions": {
+      "jlab_ext_example": true
+    }
+  }
+}

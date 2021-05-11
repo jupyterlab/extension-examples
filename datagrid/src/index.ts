@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import { ICommandPalette } from '@jupyterlab/apputils';
@@ -10,7 +10,7 @@ import { IMainMenu } from '@jupyterlab/mainmenu';
 import {
   ITranslator,
   nullTranslator,
-  TranslationBundle
+  TranslationBundle,
 } from '@jupyterlab/translation';
 
 import { DataGrid, DataModel } from '@lumino/datagrid';
@@ -40,7 +40,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       execute: () => {
         const widget = new DataGridPanel();
         shell.add(widget, 'main');
-      }
+      },
     });
     palette.addItem({ command, category: 'Extension Examples' });
 
@@ -49,7 +49,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     exampleMenu.title.label = trans.__('DataGrid Example');
     mainMenu.addMenu(exampleMenu, { rank: 80 });
     exampleMenu.addItem({ command });
-  }
+  },
 };
 
 export default extension;

@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import { ICommandPalette } from '@jupyterlab/apputils';
@@ -38,14 +38,14 @@ const extension: JupyterFrontEndPlugin<void> = {
     const command = CommandIDs.createNew;
     const icon = new LabIcon({
       name: 'launcher:python-icon',
-      svgstr: pythonIconStr
+      svgstr: pythonIconStr,
     });
 
     commands.addCommand(command, {
-      label: args => (args['isPalette'] ? 'New Python File' : 'Python File'),
+      label: (args) => (args['isPalette'] ? 'New Python File' : 'Python File'),
       caption: 'Create a new Python file',
-      icon: args => (args['isPalette'] ? null : icon),
-      execute: async args => {
+      icon: (args) => (args['isPalette'] ? null : icon),
+      execute: async (args) => {
         // Get the directory in which the Python file must be created;
         // otherwise take the current filebrowser directory
         const cwd = args['cwd'] || browserFactory.defaultBrowser.model.path;
@@ -54,15 +54,15 @@ const extension: JupyterFrontEndPlugin<void> = {
         const model = await commands.execute('docmanager:new-untitled', {
           path: cwd,
           type: 'file',
-          ext: 'py'
+          ext: 'py',
         });
 
         // Open the newly created file with the 'Editor'
         return commands.execute('docmanager:open', {
           path: model.path,
-          factory: FACTORY
+          factory: FACTORY,
         });
-      }
+      },
     });
 
     // Add the command to the launcher
@@ -70,7 +70,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       launcher.add({
         command,
         category: 'Extension Examples',
-        rank: 1
+        rank: 1,
       });
     }
 
@@ -79,7 +79,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       palette.addItem({
         command,
         args: { isPalette: true },
-        category: PALETTE_CATEGORY
+        category: PALETTE_CATEGORY,
       });
     }
 
@@ -87,7 +87,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     if (menu) {
       menu.fileMenu.newMenu.addGroup([{ command }], 30);
     }
-  }
+  },
 };
 
 export default extension;

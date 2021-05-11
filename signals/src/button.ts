@@ -26,7 +26,7 @@ export class ButtonWidget extends Widget {
   }
 
   private _count: ICount = {
-    clickCount: 0
+    clickCount: 0,
   };
 
   private _stateChanged = new Signal<ButtonWidget, ICount>(this);

@@ -1,20 +1,20 @@
 import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
-  ILayoutRestorer
+  ILayoutRestorer,
 } from '@jupyterlab/application';
 import {
   ICommandPalette,
   MainAreaWidget,
   WidgetTracker,
-  CommandToolbarButton
+  CommandToolbarButton,
 } from '@jupyterlab/apputils';
 import {
   LoggerRegistry,
   LogConsolePanel,
   IHtmlLog,
   ITextLog,
-  IOutputLog
+  IOutputLog,
 } from '@jupyterlab/logconsole';
 import { addIcon, clearIcon, listIcon } from '@jupyterlab/ui-components';
 import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
@@ -43,25 +43,25 @@ const extension: JupyterFrontEndPlugin<void> = {
     let logConsoleWidget: MainAreaWidget<LogConsolePanel> = null;
 
     const tracker = new WidgetTracker<MainAreaWidget<LogConsolePanel>>({
-      namespace: 'example-custom-log-console'
+      namespace: 'example-custom-log-console',
     });
 
     restorer.restore(tracker, {
       command: 'jlab-examples/custom-log-console:open',
-      name: () => 'example-custom-log-console'
+      name: () => 'example-custom-log-console',
     });
 
     commands.addCommand('jlab-examples/custom-log-console:checkpoint', {
       execute: () => logConsolePanel?.logger?.checkpoint(),
       icon: addIcon,
       isEnabled: () => !!logConsolePanel && logConsolePanel.source !== null,
-      label: 'Add Checkpoint'
+      label: 'Add Checkpoint',
     });
     commands.addCommand('jlab-examples/custom-log-console:clear', {
       execute: () => logConsolePanel?.logger?.clear(),
       icon: clearIcon,
       isEnabled: () => !!logConsolePanel && logConsolePanel.source !== null,
-      label: 'Clear Log'
+      label: 'Clear Log',
     });
     commands.addCommand('jlab-examples/custom-log-console:level', {
       execute: (args: any) => {
@@ -70,21 +70,21 @@ const extension: JupyterFrontEndPlugin<void> = {
         }
       },
       isEnabled: () => !!logConsolePanel && logConsolePanel.source !== null,
-      label: args => `Set Log Level to ${args.level as string}`
+      label: (args) => `Set Log Level to ${args.level as string}`,
     });
 
     const createLogConsoleWidget = (): void => {
       logConsolePanel = new LogConsolePanel(
         new LoggerRegistry({
           defaultRendermime: rendermime,
-          maxLength: 1000
+          maxLength: 1000,
         })
       );
 
       logConsolePanel.source = 'custom-log-console';
 
       logConsoleWidget = new MainAreaWidget<LogConsolePanel>({
-        content: logConsolePanel
+        content: logConsolePanel,
       });
       logConsoleWidget.addClass('jp-LogConsole');
       logConsoleWidget.title.label = 'Custom Log console';
@@ -94,14 +94,14 @@ const extension: JupyterFrontEndPlugin<void> = {
         'checkpoint',
         new CommandToolbarButton({
           commands: app.commands,
-          id: 'jlab-examples/custom-log-console:checkpoint'
+          id: 'jlab-examples/custom-log-console:checkpoint',
         })
       );
       logConsoleWidget.toolbar.addItem(
         'clear',
         new CommandToolbarButton({
           commands: app.commands,
-          id: 'jlab-examples/custom-log-console:clear'
+          id: 'jlab-examples/custom-log-console:clear',
         })
       );
       logConsoleWidget.toolbar.addItem(
@@ -132,12 +132,12 @@ const extension: JupyterFrontEndPlugin<void> = {
         } else {
           createLogConsoleWidget();
         }
-      }
+      },
     });
 
     palette.addItem({
       command: 'jlab-examples/custom-log-console:open',
-      category: 'Examples'
+      category: 'Examples',
     });
 
     commands.addCommand('jlab-examples/custom-log-console:logHTMLMessage', {
@@ -147,11 +147,11 @@ const extension: JupyterFrontEndPlugin<void> = {
         const msg: IHtmlLog = {
           type: 'html',
           level: 'debug',
-          data: '<div>Hello world HTML!!</div>'
+          data: '<div>Hello world HTML!!</div>',
         };
 
         logConsolePanel?.logger?.log(msg);
-      }
+      },
     });
 
     commands.addCommand('jlab-examples/custom-log-console:logTextMessage', {
@@ -161,11 +161,11 @@ const extension: JupyterFrontEndPlugin<void> = {
         const msg: ITextLog = {
           type: 'text',
           level: 'info',
-          data: 'Hello world text!!'
+          data: 'Hello world text!!',
         };
 
         logConsolePanel?.logger?.log(msg);
-      }
+      },
     });
 
     commands.addCommand('jlab-examples/custom-log-console:logOutputMessage', {
@@ -175,18 +175,18 @@ const extension: JupyterFrontEndPlugin<void> = {
         const data: nbformat.IOutput = {
           output_type: 'display_data',
           data: {
-            'text/plain': 'Hello world nbformat!!'
-          }
+            'text/plain': 'Hello world nbformat!!',
+          },
         };
 
         const msg: IOutputLog = {
           type: 'output',
           level: 'warning',
-          data
+          data,
         };
 
         logConsolePanel?.logger?.log(msg);
-      }
+      },
     });
 
     // Create a new menu
@@ -200,15 +200,15 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // Buttons for the different examples
     menu.addItem({
-      command: 'jlab-examples/custom-log-console:logHTMLMessage'
+      command: 'jlab-examples/custom-log-console:logHTMLMessage',
     });
     menu.addItem({
-      command: 'jlab-examples/custom-log-console:logTextMessage'
+      command: 'jlab-examples/custom-log-console:logTextMessage',
     });
     menu.addItem({
-      command: 'jlab-examples/custom-log-console:logOutputMessage'
+      command: 'jlab-examples/custom-log-console:logOutputMessage',
     });
-  }
+  },
 };
 
 export default extension;

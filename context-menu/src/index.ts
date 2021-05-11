@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
 import { showDialog, Dialog } from '@jupyterlab/apputils';
@@ -19,7 +19,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       extensions: ['.example'],
       fileFormat: 'text',
       contentType: 'file',
-      mimeTypes: ['text/plain']
+      mimeTypes: ['text/plain'],
     });
 
     app.commands.addCommand('jlab-examples/context-menu:open', {
@@ -32,17 +32,17 @@ const extension: JupyterFrontEndPlugin<void> = {
         showDialog({
           title: file.name,
           body: 'Path: ' + file.path,
-          buttons: [Dialog.okButton()]
-        }).catch(e => console.log(e));
-      }
+          buttons: [Dialog.okButton()],
+        }).catch((e) => console.log(e));
+      },
     });
 
     app.contextMenu.addItem({
       command: 'jlab-examples/context-menu:open',
       selector: '.jp-DirListing-item[data-file-type="example"]',
-      rank: 0
+      rank: 0,
     });
-  }
+  },
 };
 
 export default extension;
