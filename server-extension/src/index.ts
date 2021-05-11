@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import { ICommandPalette, IFrame } from '@jupyterlab/apputils';
@@ -46,7 +46,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     try {
       const reply = await requestAPI<any>('hello', {
         body: JSON.stringify(dataToSend),
-        method: 'POST'
+        method: 'POST',
       });
       console.log(reply);
     } catch (reason) {
@@ -65,7 +65,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       execute: () => {
         const widget = new IFrameWidget();
         shell.add(widget, 'main');
-      }
+      },
     });
 
     palette.addItem({ command, category: category });
@@ -74,10 +74,10 @@ const extension: JupyterFrontEndPlugin<void> = {
       // Add launcher
       launcher.add({
         command: command,
-        category: category
+        category: category,
       });
     }
-  }
+  },
 };
 
 export default extension;

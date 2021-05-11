@@ -163,7 +163,7 @@ logConsolePanel?.logger?.log(msg);
 const msg: ITextLog = {
   type: 'text',
   level: 'info',
-  data: 'Hello world text!!'
+  data: 'Hello world text!!',
 };
 
 logConsolePanel?.logger?.log(msg);

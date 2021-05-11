@@ -40,7 +40,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     app.restored
       // Get the state object
       .then(() => state.fetch(PLUGIN_ID))
-      .then(value => {
+      .then((value) => {
         // Get the option attribute
         if (value) {
           option = (value as ReadonlyJSONObject)['option'] as string;
@@ -51,10 +51,10 @@ const extension: JupyterFrontEndPlugin<void> = {
         return InputDialog.getItem({
           title: 'Pick an option to persist by the State Example extension',
           items: options,
-          current: Math.max(0, options.indexOf(option))
+          current: Math.max(0, options.indexOf(option)),
         });
       })
-      .then(result => {
+      .then((result) => {
         // If the user click on the accept button of the dialog
         if (result.button.accept) {
           // Get the user option
@@ -63,12 +63,12 @@ const extension: JupyterFrontEndPlugin<void> = {
           return state.save(PLUGIN_ID, { option });
         }
       })
-      .catch(reason => {
+      .catch((reason) => {
         console.error(
           `Something went wrong when reading the state for ${PLUGIN_ID}.\n${reason}`
         );
       });
-  }
+  },
 };
 ```
 
@@ -121,7 +121,7 @@ an item list with the default option being stored as a state variable.
 return InputDialog.getItem({
   title: 'Pick an option to persist by the State Example extension',
   items: options,
-  current: Math.max(0, options.indexOf(option))
+  current: Math.max(0, options.indexOf(option)),
 });
 ```
 

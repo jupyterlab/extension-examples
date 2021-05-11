@@ -51,7 +51,7 @@ const extension: JupyterFrontEndPlugin<void> = {
         window.alert(
           `jlab-examples:main-menu has been called ${args['origin']}.`
         );
-      }
+      },
     });
 
     // Add the command to the command palette
@@ -59,7 +59,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     palette.addItem({
       command,
       category,
-      args: { origin: 'from the palette' }
+      args: { origin: 'from the palette' },
     });
 
     // Create a menu
@@ -69,7 +69,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // Add the command to the menu
     tutorialMenu.addItem({ command, args: { origin: 'from the menu' } });
-  }
+  },
 };
 ```
 

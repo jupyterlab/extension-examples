@@ -105,7 +105,7 @@ logic of the extension. It begins with the following import section:
 
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 ```
 
