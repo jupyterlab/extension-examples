@@ -6,7 +6,7 @@ import {
 /**
  * Initialization data for the hello-world extension.
  */
-const extension: JupyterFrontEndPlugin<void> = {
+const plugin: JupyterFrontEndPlugin<void> = {
   id: 'hello-world',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
@@ -14,4 +14,4 @@ const extension: JupyterFrontEndPlugin<void> = {
   }
 };
 
-export default extension;
+export default plugin;
