@@ -130,8 +130,8 @@ of the `JupyterFrontEndPlugin` class:
 ```ts
 // src/index.ts#L9-L12
 
-const extension: JupyterFrontEndPlugin<void> = {
-  id: 'hello-world',
+const plugin: JupyterFrontEndPlugin<void> = {
+  id: 'hello-world:plugin',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
 ```
@@ -146,7 +146,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   }
 };
 
-export default extension;
+export default plugin;
 ```
 <!-- prettier-ignore-end -->
 
@@ -163,7 +163,7 @@ point into the extension. In this example, it calls the `console.log` function t
 something into the browser developer tools console.
 
 Your new `JupyterFrontEndPlugin` instance has to be finally exported to be visible to
-JupyterLab, which is done with the line `export default extension`.
+JupyterLab, which is done with the line `export default plugin`.
 
 Now that the extension code is ready, you need to install it within JupyterLab.
 
