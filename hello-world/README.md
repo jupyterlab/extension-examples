@@ -22,12 +22,14 @@ like this:
 
 ```bash
 author_name []: tuto
-python_name [myextension]: hello_world
-extension_name [hello_world]: hello-world
+author_email []: tuto@help.you
+labextension_name [myextension]: hello-world
+python_name [hello_world]:
 project_short_description [A JupyterLab extension.]: Minimal JupyterLab example
+has_settings [n]:
 has_server_extension [n]:
 has_binder [n]: y
-repository [https://github.com/github_username/hello_world]:
+repository [https://github.com/github_username/hello-world]:
 ```
 
 > The python name should not contain `-`. It is nice for user to test your extension online, so the `has_binder` was set to _yes_.
