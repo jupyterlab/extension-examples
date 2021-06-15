@@ -1,6 +1,6 @@
 # clear_cell_outputs
 
-![Github Actions Status](https://github.com/yash112-lang/clear-cell-outputs/workflows/Build/badge.svg)
+![Github Actions Status](https://github.com/yash112-lang/clear-cell-outputs/preview.mkv)
 
 A JupyterLab extension for clearing all cells output at once.
 
