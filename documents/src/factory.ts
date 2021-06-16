@@ -9,14 +9,14 @@ import { ExampleDocWidget, ExamplePanel } from './widget';
 import { ExampleDocModel } from './model';
 
 /**
- * A widget factory for xml.
+ * A widget factory to create new instances of ExampleDocWidget.
  */
 export class ExampleWidgetFactory extends ABCWidgetFactory<
   ExampleDocWidget,
   ExampleDocModel
 > {
   /**
-   * Create a new widget given a context.
+   * Constructor of ExampleWidgetFactory.
    *
    * @param options
    */
@@ -24,6 +24,11 @@ export class ExampleWidgetFactory extends ABCWidgetFactory<
     super(options);
   }
 
+  /**
+   * Create a new widget given a context.
+   *
+   * @param context: Contains the information of the file
+   */
   protected createNewWidget(
     context: DocumentRegistry.IContext<ExampleDocModel>
   ): ExampleDocWidget {
@@ -34,6 +39,9 @@ export class ExampleWidgetFactory extends ABCWidgetFactory<
   }
 }
 
+/**
+ * A Model factory to create new instances of ExampleDocModel.
+ */
 export class ExampleDocModelFactory
   implements DocumentRegistry.IModelFactory<ExampleDocModel> {
   /**
@@ -64,14 +72,29 @@ export class ExampleDocModelFactory
     return this._disposed;
   }
 
+  /**
+   * Dispose the model factory.
+   */
   dispose(): void {
     this._disposed = true;
   }
 
+  /**
+   * Get the preferred language given the path on the file.
+   *
+   * @param path: path of the file represented by this document model
+   */
   preferredLanguage(path: string): string {
     return '';
   }
 
+  /**
+   * Create a new instance of ExampleDocModel.
+   *
+   * @param languagePreference
+   *
+   * @param modelDB
+   */
   createNew(languagePreference?: string, modelDB?: IModelDB): ExampleDocModel {
     return new ExampleDocModel(languagePreference, modelDB);
   }

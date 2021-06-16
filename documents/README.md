@@ -16,14 +16,16 @@
 
 ## Introduction to documents
 
-In JupyterLab, we refer as a document to those widgets backed by a file stored on disk. This files are represented in the frontend by a `Context` which is the bridge between the file and its model, `DocumentModel` that represents the data in the file and `DocumentWidget` which is the view of the model. To make the documents API extensible to enable other developers write new extensions to support different file types, JupyterLab introduces the `DocumentRegistry` where you can register new `FileType`s, `DocumentModel`s and `DocumentWidget`s. This way, when opening a new file the `DocumentManager` will look into the file metadata and create an instance of the right `DocumentModel` for this file. To register new documents, you can create factories, either a `ModelFactory` for the model or a `WidgetFactory` for the view.
+In JupyterLab, we refer to a document to those widgets backed by a file stored on disk. These files are represented in the frontend by a `Context` which is the bridge between the file and its model, `DocumentModel` representing the data in the file and `DocumentWidget`, which is the view of the model. To make the documents API extensible to enable other developers to write new extensions to support different file types, JupyterLab introduces the `DocumentRegistry` to register new `FileType`s, `DocumentModel`s and `DocumentWidget`s. This way, when opening a new file, the `DocumentManager` will look into the file metadata and create an instance of `Context` with the right `DocumentModel` for this file. To register new documents, you can create factories, either a `ModelFactory` for the model or a `WidgetFactory` for the view.
 
 ## Factories
 
-In the case of the `WidgetFactory`, you can create a new factory by extending from the `ABCWidgetFactory<T,U>` and overwrite its method `createNewWidget` to create your custom widget for the view, this method receives as an argument the context which includes the model.
+Factories are objects meant to create instances of the suitable Widget/Model given a file. For example, when the `DocumentManager` detects that the file is a notebook, it uses the notebook widget factory to create a new instance of `NotebookPanel`. On the other hand, if you want to make a new `DocumentModel` or `DocumentWidget` for a specific file type, you have to create a factory and register it to the `DocumentRegister`. When registering a factory, you tell the `DocumentManager` that you added a new Model or Widget for a specific file. Then, the `DocumentManager` will use those factories to create instances of the new `DocumentModel` or `DocumentWidget`.
+
+The easiest way of creating a new widget factory is extending from the `ABCWidgetFactory<T, U>` and overwrite its method `createNewWidget`. The `DocumentManager` calls `createNewWidget` to create a new widget for a given file. This method receives as an argument the context which includes the model. In this method, you can create and pass as an argument all the objects your `DocumentWidget` needs. Usually, the `DocumentWidget` needs context and the content. The content is the main view of the `DocumentWidget` (you can find more information on the section for the [Document Widget](#document-widget)).
 
 ```ts
-// src/factory.ts#L25-L32
+// src/factory.ts#L32-L40
 
 protected createNewWidget(context: DocumentRegistry.IContext<ExampleDocModel>): ExampleDocWidget {
   return new ExampleDocWidget({
@@ -33,10 +35,10 @@ protected createNewWidget(context: DocumentRegistry.IContext<ExampleDocModel>): 
 }
 ```
 
-In the other hand, to create a `ModelFactory` you need to implement the interface `IModelFactory<T>` specifying the name of your model, which type of files represents and its format.
+On the other hand, to create a `ModelFactory`, you need to implement the interface `IModelFactory<T>` specifying the name of your model, which type of files represents and its format.
 
 ```ts
-// src/factory.ts#L37-L56
+// src/factory.ts#L48-L67
 
 /**
  * The name of the model.
@@ -60,39 +62,22 @@ get fileFormat(): Contents.FileFormat {
 }
 ```
 
-At the same time, you need to implement the method `createNew`. The `DocumentManager` will call this method
-when opening a file with a `DocumentWidget` that uses your custom `DocumentModel`.
+At the same time, you need to implement the method `createNew`. The `DocumentManager` will call this method when opening a file that uses your custom `DocumentModel`.
 
 ```ts
-// src/factory.ts#L73-L78
+// src/factory.ts#L92-L101
 
-createNew(
-  languagePreference?: string,
-  modelDB?: IModelDB
-): ExampleDocModel {
+createNew(languagePreference?: string, modelDB?: IModelDB): ExampleDocModel {
   return new ExampleDocModel(languagePreference, modelDB);
 }
 ```
 
 ## Registering new Documents
 
-When registering new documents, the key component is the `WidgetFactory`, the `WidgetFactory` specifies for which file type you want to add a new view and which `DocumentModel` you want to use to represent the file. In case you want to handle kernels from your widget, there is some other properties you can add like `canStartKernel` and `preferKernel` to tell the widget to start a new kernel for this document.
+When registering a new document, the first step is to know which file type you want to add a new `DocumentModel`. If the file type is already registered, you won't need to register it again. You could register a new `DocumentModel` for an existing file type. If the file type you want to support is not registered, you will need to register it. To do that, you can use the API `addFileType` from the `DocumentRegistry`. The essential arguments are `extensions` to indicate the extension of the file, `fileFormat` that specifies the data format, and `contentType` to determine if it is a notebook, file or directory.
 
 ```ts
-// src/index.ts#L50-L55
-
-const widgetFactory = new ExampleWidgetFactory({
-  name: FACTORY,
-  modelName: 'example-model',
-  fileTypes: ['example'],
-  defaultFor: ['example']
-});
-```
-
-In second place, in case you want to add a new type of file, you can use the `docRegistry.addFileType` API where the important arguments are `extensions` to indicate the extension of the file, `fileFormat` that specifies the format of the data, and `contentType` to specify if it is a notebook, file or directory.
-
-```ts
-// src/index.ts#L72-L79
+// src/index.ts#L73-L81
 
 app.docRegistry.addFileType({
   name: 'example',
@@ -104,40 +89,149 @@ app.docRegistry.addFileType({
 });
 ```
 
-The last step, consist on registering the `ModelFactory` using the API `docRegistry.addModelFactory`.
+Once the file type is registered, you can register a `DocumentModel` for a specific file type. The `DocumentModel` represent the content of the file. For example, JupyterLab has two models registered for the notebook. When you open a notebook with the Notebook editor, the `DocumentManager` creates an instance of the `NotobookModel` that loads the notebook as a JSON object and offers a complex API to manage cells and metadata independently (treats the content of the notebook as a structured data), opposite when opening a notebook with the plain text editor the `DocumentManager` creates an instance of the base `DocumentModel` class which treats the content of the notebook as a string. Note that you can register multiple models for the same file type. Still, these models are not in sync when the user opens two editors for the same file that use different models (like opening a notebook with the notebook editor and the plain text editor). These editors are not in sync because they use other models. At some point, they will show different content.
+
+To register a new `DocumentModel` we can use the API `addModelFactory` from the `DocumentRegistry`. In this case, we created the model factory without arguments, but you can add the argument that you need.
 
 ```ts
-// src/index.ts#L68-L69
+// src/index.ts#L70-L71
 
 const modelFactory = new ExampleDocModelFactory();
 app.docRegistry.addModelFactory(modelFactory);
 ```
 
+The last step is to register the `DocumentWidget`, as with the `DocumentModel`, you can register a widget for an existing model or a new model if the existing ones fit your needs. In this case, different widgets using the same model will stay in sync. The `DocumentWidget` is the view for the model, and it's only the layer that allows users to interact with the content of the file.
+
+To register a new `DocumentWidget` we can use the API `addWidgetFactory` from the `DocumentRegistry`. The main arguments you need to add to the factory are the widget's name, the name of the model that this widget uses, a list of file types that the widget can open, and the list of file types that the widget is the default view.
+
+```ts
+// src/index.ts#L49-L67
+
+// Creating the widget factory to register it so the document manager knows about
+// our new DocumentWidget
+const widgetFactory = new ExampleWidgetFactory({
+  name: FACTORY,
+  modelName: 'example-model',
+  fileTypes: ['example'],
+  defaultFor: ['example']
+});
+
+// Add the widget to the tracker when it's created
+widgetFactory.widgetCreated.connect((sender, widget) => {
+  // Notify the instance tracker if restore data needs to update.
+  widget.context.pathChanged.connect(() => {
+    tracker.save(widget);
+  });
+  tracker.add(widget);
+});
+// Registering the widget factory
+app.docRegistry.addWidgetFactory(widgetFactory);
+```
+
 ## Document Widget
 
-The `DocumentWidget` is the view that will be opened when opening the file. The `DocumentWidget` contains four main attributes:
+The `DocumentWidget` is the view that will open when opening the file. The `DocumentWidget` contains four main attributes:
 
-- `context`: The context which is the bridge between the file on disk and its representation on the frontend, this context contains all the information about the file and some methods to handle the file as its content. Some other attributes you can find on the context are the `DocumentModel` and the `sessionContext` which handles the communication with the backend.
+- `context`: The context is the bridge between the file on disk and its representation on the frontend. This context includes all the information about the file and some methods to handle the file as its content. Some other attributes you can find in the context are the `DocumentModel` and the `sessionContext`, which handles the communication with the backend.
 - `title`: Which handles the content of the tab.
-- `toolbar`: The toolbar of the editor, where you can add different widgets to trigger actions on the document.
-- `contentHeader`: Which is a panel between the toolbar an the main content area. You can see this header as a second toolbar or as a notification area.
-- `content`: The content is the main area of the `DocumentWidget` when you will add the view for your document.
+- `toolbar`: The editor's toolbar, where you can add different widgets to trigger actions on the document.
+- `contentHeader`: This is a panel between the toolbar and the main content area. You can see this header as a second toolbar or as a notification area.
+- `content`: The content is the main area of the `DocumentWidget` when you add the view for your document.
 
 ## Document Model
 
-The `DocumentModel` represents the file in the frontend. Through the model, you can listen to changes on the state of the file like its metadata or some other properties like `dirty` that indicates that the content differs from disk, and you can modify and listen to changes on the content. The main methods on the `DocumentModel` are `toString` and `fromString`, every file but the notebook is loaded/saved to disk as a string using these methods.
+The `DocumentModel` represents the file in the frontend. Through the model, you can listen to changes in the state of the file like its metadata or some other properties like `dirty` that indicates that the content differs from disk, and you can modify and listen to changes on the content. The main methods on the `DocumentModel` are `toString` and `fromString`, every file but the notebook is loaded/saved to disk as a string using these methods.
 
 ## Shared Model
 
-In JupyterLab v3.1, we introduced the shared models with the intention of swapping `ModelDB` as a data storage to make the notebooks collaborative. The implementation is done using [Yjs](https://yjs.dev) which is a high-performance CRDT for building collaborative applications that sync automatically. You can find all the documentation of Yjs [here](https://docs.yjs.dev).
+In JupyterLab v3.1, we introduced the package `@jupyterlab/shared-models` to swap `ModelDB` as a data storage to make the notebooks collaborative. We implemented these shared models using [Yjs](https://yjs.dev), a high-performance CRDT for building collaborative applications that automatically sync. You can find all the documentation of Yjs [here](https://docs.yjs.dev).
 
-You can create a new shared model by extending from `YDocument<T>`. [YDocument](https://github.com/jupyterlab/jupyterlab/blob/46e2b9bc4659c0529d32678004fc59ec3e39f0e6/packages/shared-models/src/ymodels.ts#L28) is a generic implementation of a shared model that handles the initialization of the `YDoc` and already implements some functionalities like the changes history. The `YDocument` already includes an attribute; `source` which is a `YText` to handle the raw data of the document, but you will have to add the data into the source attribute.
+Yjs documents (`Y.Doc`) are the main class on Yjs. They represent a shared document between clients and hold multiple shared objects. Yjs documents enable you to share different [data types like text, Array, Map or set](https://docs.yjs.dev/getting-started/working-with-shared-types), which makes it possible to create not only collaborative text editors but diagrams, drawings and much more applications.
 
-To create new shared attribute you will have to use the `ydoc` attribute, this way, the new attribute will be linked to the `ydoc` and sync between the different clients automatically. You can also listen to changes on the shared attributes to propagate them to the `DocumentWidget`.
+To sync content between clients, Yjs uses providers. Providers abstract Yjs from the network technology your application uses. They sync Yjs documents through a communication protocol or a database. Most providers have in common that they use the concept of room names to connect Yjs documents. In JupyterLab, we created a package called `@jupyterlab/docprovider` with a WebSocket provider that syncs documents through a new end-point (`api/yjs`) in the JupyterLab server.
+
+Another critical component of Yjs is Awareness. Every Yjs document has an `awareness` attribute that enables you to share user's information like its name, cursor, mouse pointer position, etc. The `awareness` attribute doesn't persist across sessions. Instead, Yjs uses a tiny state-based Awareness CRDT that propagates JSON objects to all users. When you go offline, your awareness state is automatically deleted and notifies all users that you went offline.
+
+After a short explanation of Yjs' features, now it's time to start with the implementation. You can create a new shared model by extending from `YDocument<T>`. [YDocument](https://github.com/jupyterlab/jupyterlab/blob/46e2b9bc4659c0529d32678004fc59ec3e39f0e6/packages/shared-models/src/ymodels.ts#L28) is a generic implementation of a shared model that handles the initialization of the `YDoc` and already implements some functionalities like the changes history.
+
+To create a new shared object, you have to use the `ydoc`. The new attribute will be linked to the `ydoc` and sync between the different clients automatically. You can also listen to changes on the shared attributes to propagate them to the `DocumentWidget`.
 
 ```ts
-// src/index.ts#L188-L189
+// src/model.ts#L302-L303
 
 this._content = this.ydoc.getMap('content');
 this._content.observe(this._contentObserver);
+```
+
+To access the information about the different users connected, you can use the `awareness` attribute on the shared model. The `awareness` keeps the state of every user as a map with the user's id as a key and a JSON object as the value for the state. You could add new information to the user's state by using the method `setLocalStateField` and access to the state of all users with `getStates`. To listen for changes on the state of the users, you can use the method `on('change', () => {})`.
+
+```ts
+// src/model.ts#L236
+
+this.sharedModel.awareness.setLocalStateField('mouse', pos);
+```
+
+```ts
+// src/model.ts#L165
+
+const clients = this.sharedModel.awareness.getStates();
+```
+
+```ts
+// src/model.ts#L41
+
+this.sharedModel.awareness.on('change', this._onClientChanged);
+```
+
+Every time you modify a shared property, this property triggers an event in all the clients to notify them. Still, sometimes you will need to apply a series of modifications as a single transaction to trigger the event only when it has applied all the changes. In this case, you can use the `transaction` method to group all the operations.
+
+```ts
+// src/model.ts#L170-L173
+
+this.sharedModel.transact(() => {
+  this.sharedModel.setContent('position', { x: obj.x, y: obj.y });
+  this.sharedModel.setContent('content', obj.content);
+});
+```
+
+When modifying a shared attribute, Yjs notifies all the clients, including the one that altered the property. Usually, you are going to listen for changes to apply them to other clients. The problem is that Yjs also notified these changes to the client that updated the model. To avoid applying the changes twice in this client, create a flag attribute, wrap the writing operations with this flag and check when reading from the shared model. This way, the client won't apply the updates twice.
+
+```ts
+// src/model.ts#L55-L65
+
+/**
+ * get/set the editing attribute to know when the
+ * client is editing shared objects and not apply the
+ * changes twice.
+ */
+get editing(): boolean {
+  return this._editing;
+}
+set editing(value: boolean) {
+  this._editing = value;
+}
+```
+
+```ts
+// src/widget.ts#L167-L173
+
+this._context.model.editing = true;
+const x = event.clientX + this._offset.x;
+const y = event.clientY + this._offset.y;
+this._cube.style.left = x + 'px';
+this._cube.style.top = y + 'px';
+this._context.model.setPosition({ x, y });
+this._context.model.editing = false;
+});
+```
+
+```ts
+// src/widget.ts#L193-L198
+
+if (!this._context.model.editing && change.positionChange) {
+  this._cube.style.left = change.positionChange.x + 'px';
+  this._cube.style.top = change.positionChange.y + 'px';
+  // updating the widgets to re-render it
+  this.update();
+}
 ```

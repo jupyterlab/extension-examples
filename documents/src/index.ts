@@ -17,9 +17,8 @@ import { ExampleDocWidget } from './widget';
  */
 const FACTORY = 'Example editor';
 
-type ExampleDocTracker = IWidgetTracker<ExampleDocWidget>;
-
-export const IExampleDocTracker = new Token<ExampleDocTracker>(
+// Export a token so other extensions can require it
+export const IExampleDocTracker = new Token<IWidgetTracker<ExampleDocWidget>>(
   'exampleDocTracker'
 );
 
@@ -32,11 +31,14 @@ const extension: JupyterFrontEndPlugin<void> = {
   requires: [ILayoutRestorer],
   provides: IExampleDocTracker,
   activate: (app: JupyterFrontEnd, restorer: ILayoutRestorer) => {
+    // Namespace for the tracker
     const namespace = 'example';
+    // Creating the tracker for the document
     const tracker = new WidgetTracker<ExampleDocWidget>({ namespace });
 
     // Handle state restoration.
     if (restorer) {
+      // When restoring the app, if the document was open, reopen it
       restorer.restore(tracker, {
         command: 'docmanager:open',
         args: widget => ({ path: widget.context.path, factory: FACTORY }),
@@ -44,6 +46,8 @@ const extension: JupyterFrontEndPlugin<void> = {
       });
     }
 
+    // Creating the widget factory to register it so the document manager knows about
+    // our new DocumentWidget
     const widgetFactory = new ExampleWidgetFactory({
       name: FACTORY,
       modelName: 'example-model',
@@ -51,6 +55,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       defaultFor: ['example']
     });
 
+    // Add the widget to the tracker when it's created
     widgetFactory.widgetCreated.connect((sender, widget) => {
       // Notify the instance tracker if restore data needs to update.
       widget.context.pathChanged.connect(() => {
@@ -58,8 +63,10 @@ const extension: JupyterFrontEndPlugin<void> = {
       });
       tracker.add(widget);
     });
+    // Registering the widget factory
     app.docRegistry.addWidgetFactory(widgetFactory);
 
+    // Creating and registering the model factory for our custom DocumentModel
     const modelFactory = new ExampleDocModelFactory();
     app.docRegistry.addModelFactory(modelFactory);
 

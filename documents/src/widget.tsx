@@ -22,6 +22,9 @@ import { Signal } from '@lumino/signaling';
 
 import { ExampleDocModel, ExampleDocChange, Position } from './model';
 
+/**
+ * DocumentWidget: widget that represents the view or editor for a file type.
+ */
 export class ExampleDocWidget extends DocumentWidget<
   ExamplePanel,
   ExampleDocModel
@@ -39,6 +42,9 @@ export class ExampleDocWidget extends DocumentWidget<
   }
 }
 
+/**
+ * Widget that contains the main view of the DocumentWidget.
+ */
 export class ExamplePanel extends Widget {
   /**
    * Construct a `ExamplePanel`.
@@ -139,51 +145,73 @@ export class ExamplePanel extends Widget {
         case 'mouseenter':
           break;
         case 'mouseleave':
-          this._context.model.mutex(() => {
-            this._context.model.setClient(undefined);
-          });
+          // Wrapping the modifications to the shared model into a flag
+          // to prevent apply changes triggered by the same client
+          this._context.model.editing = true;
+          this._context.model.setClient(undefined);
+          this._context.model.editing = false;
           break;
         case 'mousemove':
-          this._context.model.mutex(() => {
-            const offset = this.node.getBoundingClientRect();
-            const x = event.x - offset.left;
-            const y = event.y - offset.top;
-            this._context.model.setClient({ x, y });
-          });
+          // Wrapping the modifications to the shared model into a flag
+          // to prevent apply changes triggered by the same client
+          this._context.model.editing = true;
+          const offset = this.node.getBoundingClientRect();
+          const x = event.x - offset.left;
+          const y = event.y - offset.top;
+          this._context.model.setClient({ x, y });
+          this._context.model.editing = false;
 
           if (this._isDown) {
-            this._context.model.mutex(() => {
-              const x = event.clientX + this._offset.x;
-              const y = event.clientY + this._offset.y;
-              this._cube.style.left = x + 'px';
-              this._cube.style.top = y + 'px';
-              this._context.model.setPosition({ x, y });
-            });
+            // Wrapping the modifications to the shared model into a flag
+            // to prevent apply changes triggered by the same client
+            this._context.model.editing = true;
+            const x = event.clientX + this._offset.x;
+            const y = event.clientY + this._offset.y;
+            this._cube.style.left = x + 'px';
+            this._cube.style.top = y + 'px';
+            this._context.model.setPosition({ x, y });
+            this._context.model.editing = false;
           }
           break;
       }
     }
   }
 
+  /**
+   * Callback to listen for changes on the model. This callback listens
+   * to changes on shared model's content.
+   *
+   * @param sender: The DocumentModel that triggers the changes.
+   *
+   * @param change: The changes on the model
+   */
   private _onContentChanged = (
     sender: ExampleDocModel,
     change: ExampleDocChange
   ): void => {
-    this._context.model.mutex(() => {
-      if (change.positionChange) {
-        this._cube.style.left = change.positionChange.x + 'px';
-        this._cube.style.top = change.positionChange.y + 'px';
-      }
-
+    // Wrapping the updates into a flag to prevent apply changes triggered by the same client
+    if (!this._context.model.editing && change.positionChange) {
+      this._cube.style.left = change.positionChange.x + 'px';
+      this._cube.style.top = change.positionChange.y + 'px';
+      // updating the widgets to re-render it
       this.update();
-    });
+    }
   };
 
+  /**
+   * Callback to listen for changes on the model. This callback listens
+   * to changes on the different clients sharing the document.
+   *
+   * @param sender: The DocumentModel that triggers the changes.
+   *
+   * @param clients: The list of client's states.
+   */
   private _onClientChanged = (
     sender: ExampleDocModel,
     clients: Map<number, any>
   ): void => {
-    this._context.model.mutex(() => {
+    // Wrapping the updates into a flag to prevent apply changes triggered by the same client
+    if (!this._context.model.editing) {
       clients.forEach((client, key) => {
         const id = key.toString();
 
@@ -203,9 +231,10 @@ export class ExamplePanel extends Widget {
           this._clients[id] = undefined;
         }
       });
-    });
 
-    this.update();
+      // updating the widgets to re-render it
+      this.update();
+    }
   };
 
   private _isDown: boolean;

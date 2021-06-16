@@ -1,6 +1,6 @@
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
-import { YDocument, MapChange, createMutex } from '@jupyterlab/shared-models';
+import { YDocument, MapChange } from '@jupyterlab/shared-models';
 
 import { IModelDB, ModelDB } from '@jupyterlab/observables';
 
@@ -23,6 +23,9 @@ export type Position = {
   y: number;
 };
 
+/**
+ * DocumentModel: this Model represents the content of the file
+ */
 export class ExampleDocModel implements DocumentRegistry.IModel {
   /**
    * Construct a new ExampleDocModel.
@@ -33,10 +36,15 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   constructor(languagePreference?: string, modelDB?: IModelDB) {
     this.modelDB = modelDB || new ModelDB();
 
+    // Listening for changes on the shared model to propagate them
     this.sharedModel.changed.connect(this._onSharedModelChanged);
     this.sharedModel.awareness.on('change', this._onClientChanged);
   }
 
+  /**
+   * get/set the dirty attribute to know when the
+   * content in the document differs from disk
+   */
   get dirty(): boolean {
     return this._dirty;
   }
@@ -44,6 +52,22 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     this._dirty = value;
   }
 
+  /**
+   * get/set the editing attribute to know when the
+   * client is editing shared objects and not apply the
+   * changes twice.
+   */
+  get editing(): boolean {
+    return this._editing;
+  }
+  set editing(value: boolean) {
+    this._editing = value;
+  }
+
+  /**
+   * get/set the readOnly attribute to know whether this model
+   * is read only or not
+   */
   get readOnly(): boolean {
     return this._readOnly;
   }
@@ -51,36 +75,75 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     this._readOnly = value;
   }
 
+  /**
+   * get the isDisposed attribute to know whether this model
+   * has been disposed or not
+   */
   get isDisposed(): boolean {
     return this._isDisposed;
   }
 
+  /**
+   * get the signal contentChange to listen for changes on the content
+   * of the model.
+   *
+   * NOTE: The content refers to de data stored in the model while the state refers
+   * to the metadata or attributes of the model.
+   */
   get contentChanged(): ISignal<this, void> {
     return this._contentChanged;
   }
 
+  /**
+   * get the signal stateChanged to listen for changes on the state
+   * of the model.
+   *
+   * NOTE: The content refers to de data stored in the model while the state refers
+   * to the metadata or attributes of the model.
+   */
   get stateChanged(): ISignal<this, IChangedArgs<any, any, string>> {
     return this._stateChanged;
   }
 
+  /**
+   * get the signal sharedModelChanged to listen for changes on the content
+   * of the shared model.
+   */
   get sharedModelChanged(): ISignal<this, ExampleDocChange> {
     return this._sharedModelChanged;
   }
 
+  /**
+   * get the signal clientChanged to listen for changes on the clients sharing
+   * the same document.
+   */
   get clientChanged(): ISignal<this, Map<number, any>> {
     return this._clientChanged;
   }
 
+  /**
+   * defaultKernelName and defaultKernelLanguage are only used by the Notebook widget
+   * or documents that use kernels, and they store the name and the language of the kernel.
+   */
   readonly defaultKernelName: string;
-
   readonly defaultKernelLanguage: string;
 
+  /**
+   * modelBD is the datastore for the content of the document.
+   * modelDB is not a shared datastore so we don't use it on this example since
+   * this example is a shared document.
+   */
   readonly modelDB: IModelDB;
 
+  /**
+   * New datastore introduced in JupyterLab v3.1 to store shared data and make notebooks
+   * collaborative
+   */
   readonly sharedModel: ExampleDoc = ExampleDoc.create();
 
-  readonly mutex = createMutex();
-
+  /**
+   * Dispose of the resources held by the model.
+   */
   dispose(): void {
     if (this._isDisposed) {
       return;
@@ -89,6 +152,11 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     Signal.clearData(this);
   }
 
+  /**
+   * Should return the data that you need to store in disk as a string.
+   * The context will call this method to get the file's content and save it
+   * to disk
+   */
   toString(): string {
     const pos = this.sharedModel.getContent('position');
     const obj = {
@@ -99,14 +167,27 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     return JSON.stringify(obj, null, 2);
   }
 
+  /**
+   * The context will call this method when loading data from disk.
+   * This method should implement the logic to parse the data and store it
+   * on the datastore.
+   */
   fromString(data: string): void {
     const obj = JSON.parse(data);
-    this.transact(() => {
+    this.sharedModel.transact(() => {
       this.sharedModel.setContent('position', { x: obj.x, y: obj.y });
       this.sharedModel.setContent('content', obj.content);
     });
   }
 
+  /**
+   * Should return the data that you need to store in disk as a JSON object.
+   * The context will call this method to get the file's content and save it
+   * to disk.
+   *
+   * NOTE: This method is only used by the context of the notebook, every other
+   * document will load/save the data through toString/fromString.
+   */
   toJSON(): PartialJSONObject {
     const pos = this.sharedModel.getContent('position');
     const obj = {
@@ -117,19 +198,26 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     return obj;
   }
 
+  /**
+   * The context will call this method when loading data from disk.
+   * This method should implement the logic to parse the data and store it
+   * on the datastore.
+   *
+   * NOTE: This method is only used by the context of the notebook, every other
+   * document will load/save the data through toString/fromString.
+   */
   fromJSON(data: PartialJSONObject): void {
-    this.transact(() => {
+    this.sharedModel.transact(() => {
       this.sharedModel.setContent('position', { x: data.x, y: data.y });
       this.sharedModel.setContent('content', data.content);
     });
   }
 
+  /**
+   *
+   */
   initialize(): void {
     // not implemented
-  }
-
-  transact(cb: () => void): void {
-    this.sharedModel.transact(cb);
   }
 
   getSharedObject(): SharedObject {
@@ -151,9 +239,18 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   }
 
   setClient(pos: Position): void {
+    // Adds the position of the mouse from the client to the shared state.
     this.sharedModel.awareness.setLocalStateField('mouse', pos);
   }
 
+  /**
+   * Callback to listen for changes on the sharedModel. This callback listens
+   * to changes on shared model's content and propagates them to the DocumentWidget.
+   *
+   * @param sender: The sharedModel that triggers the changes.
+   *
+   * @param change: The changes on the sharedModel.
+   */
   private _onSharedModelChanged = (
     sender: ExampleDoc,
     changes: ExampleDocChange
@@ -161,12 +258,22 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     this._sharedModelChanged.emit(changes);
   };
 
+  /**
+   * Callback to listen for changes on the sharedModel. This callback listens
+   * to changes on the different clients sharing the document and propagates
+   * them to the DocumentWidget.
+   *
+   * @param sender: The sharedModel that triggers the changes.
+   *
+   * @param clients: The list of client's states.
+   */
   private _onClientChanged = () => {
     const clients = this.sharedModel.awareness.getStates();
     this._clientChanged.emit(clients);
   };
 
   private _dirty = false;
+  private _editing = false;
   private _readOnly = false;
   private _isDisposed = false;
   private _contentChanged = new Signal<this, void>(this);
@@ -175,15 +282,31 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   private _sharedModelChanged = new Signal<this, ExampleDocChange>(this);
 }
 
+/**
+ * Type representing the changes on the sharedModel.
+ *
+ * NOTE: Yjs automatically syncs the documents of the different clients
+ * and triggers an event to notify that the content changed. You can
+ * listen to this changes and propagate them to the widget so you don't
+ * need to update all the data in the widget, you can only update the data
+ * that changed.
+ *
+ * This type represents the different changes that may happen and ready to use
+ * for the widget.
+ */
 export type ExampleDocChange = {
   contextChange?: MapChange;
   contentChange?: string;
   positionChange?: Position;
 };
 
+/**
+ * SharedModel, stores and shares the content between clients.
+ */
 export class ExampleDoc extends YDocument<ExampleDocChange> {
   constructor() {
     super();
+    // Creating a new shared object and listen to its changes
     this._content = this.ydoc.getMap('content');
     this._content.observe(this._contentObserver);
   }
@@ -195,15 +318,17 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
     this._content.unobserve(this._contentObserver);
   }
 
+  /**
+   * Static method to create instances on the sharedModel
+   */
   public static create(): ExampleDoc {
     return new ExampleDoc();
   }
 
   /**
-   * Returns an data.
+   * Returns an the requested object.
    *
-   * @param key
-   * @param key: The key of the attribute.
+   * @param key: The key of the object.
    */
   public getContent(key: string): any {
     return this._content.get(key);
@@ -212,10 +337,8 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
   /**
    * Adds new data.
    *
-   * @param key: The key of the attribute.
-   * @param key
-   * @param value
-   * @param value: New source.
+   * @param key: The key of the object.
+   * @param value: New object.
    */
   public setContent(key: string, value: any): void {
     this._content.set(key, value);
@@ -229,6 +352,7 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
   private _contentObserver = (event: Y.YMapEvent<any>): void => {
     const changes: ExampleDocChange = {};
 
+    // Checks which object changed and propagates them.
     if (event.keysChanged.has('position')) {
       changes.positionChange = this._content.get('position');
     }
