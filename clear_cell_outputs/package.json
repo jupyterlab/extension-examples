@@ -1,5 +1,5 @@
 {
-  "name": "clear-cell-outputs",
+  "name": "@jupyterlab-examples/toolbar-button",
   "version": "0.1.0",
   "description": "A JupyterLab extension for clearing all cells output at once.",
   "keywords": [
@@ -7,9 +7,9 @@
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/yash112-lang/clear-cell-outputs",
+  "homepage": "https://github.com/jupyterlab/extension-examples",
   "bugs": {
-    "url": "https://github.com/yash112-lang/clear-cell-outputs/issues"
+    "url": "https://github.com/jupyterlab/extension-examples/issues"
   },
   "license": "BSD-3-Clause",
   "author": {
@@ -25,7 +25,7 @@
   "style": "style/index.css",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yash112-lang/clear-cell-outputs.git"
+    "url": "https://github.com/jupyterlab/extension-examples.git"
   },
   "scripts": {
     "build": "jlpm run build:lib && jlpm run build:labextension:dev",
@@ -66,6 +66,6 @@
   "styleModule": "style/index.js",
   "jupyterlab": {
     "extension": true,
-    "outputDir": "clear_cell_outputs/labextension"
+    "outputDir": "jupyterlab_examples_toolbar_button/labextension"
   }
 }
