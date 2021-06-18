@@ -9,7 +9,7 @@ import setuptools
 HERE = Path(__file__).parent.resolve()
 
 # The name of the project
-name = "clear_cell_outputs"
+name = "jupyterlab_examples_toolbar_button"
 
 lab_path = (HERE / name.replace("-", "_") / "labextension")
 
@@ -19,7 +19,7 @@ ensured_targets = [
     str(lab_path / "static/style.js")
 ]
 
-labext_name = "clear-cell-outputs"
+labext_name = "@jupyterlab-examples/toolbar-button"
 
 data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str(lab_path), "**"),
