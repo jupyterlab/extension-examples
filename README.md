@@ -52,6 +52,7 @@ You may find it easier to learn how to create extensions _by examples_, instead 
 
 Start with the [Hello World](hello-world) and then jump to the topic you are interested in.
 
+- [Clear Cell Outputs](clear_cell_outputs)
 - [Commands](commands)
 - [Command Palette](command-palette)
 - [Context Menu](context-menu)

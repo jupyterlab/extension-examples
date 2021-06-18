@@ -1,10 +1,61 @@
-# clear_cell_outputs
+# clear cell outputs
 
-<!-- ![Github Actions Status](https://github.com/yash112-lang/clear-cell-outputs/preview.gif) -->
+This example shows how to clear all cell outputs at once by clicking on the button.
 
-A JupyterLab extension for clearing all cells output at once.
+![Github Actions Status](./preview.gif)
 
+<!-- A JupyterLab extension for clearing all cells output at once. -->
 
+To use it first we need to import the packages
+```
+import { ToolbarButton } from '@jupyterlab/apputils';
+import { DocumentRegistry } from '@jupyterlab/docregistry';
+import { NotebookActions, NotebookPanel, INotebookModel } from '@jupyterlab/notebook';
+import { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application';
+import { IDisposable, DisposableDelegate } from '@lumino/disposable';
+```
+
+Firstly we have to register the plugin information. In this we have to pass a activate **function** & the plugin **id**.
+
+```
+const plugin: JupyterFrontEndPlugin<void> = {
+  activate,
+  id: 'clear-cell-outputs:buttonPlugin',
+  autoStart: true
+};
+```
+Now creating a notebook widget extension that adds a button to the toolbar. For more info [IWidgetExtension](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.documentregistry.iwidgetextension.html)
+
+```
+export
+  class ButtonExtension implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
+  
+   // Create a new extension object.
+   
+  createNew(panel: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
+    let clearOutput = () => {
+      NotebookActions.clearAllOutputs(panel.content);
+    };
+    let button = new ToolbarButton({
+      className: 'clear-output-button',
+      label: 'Clear All Outputs',
+      onClick: clearOutput,
+      tooltip: 'Clear All Outputs'
+    });
+
+    panel.toolbar.insertItem(10, 'clearOutputs', button);
+    return new DisposableDelegate(() => {
+      button.dispose();
+    });
+  }
+}
+```
+Now activating the extension
+```
+function activate(app: JupyterFrontEnd) {
+  app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
+};
+```
 
 ## Requirements
 
@@ -26,51 +77,3 @@ To remove the extension, execute:
 pip uninstall clear_cell_outputs
 ```
 
-
-## Contributing
-
-### Development install
-
-Note: You will need NodeJS to build the extension package.
-
-The `jlpm` command is JupyterLab's pinned version of
-[yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
-`yarn` or `npm` in lieu of `jlpm` below.
-
-```bash
-# Clone the repo to your local environment
-# Change directory to the clear_cell_outputs directory
-# Install package in development mode
-pip install -e .
-# Link your development version of the extension with JupyterLab
-jupyter labextension develop . --overwrite
-# Rebuild extension Typescript source after making changes
-jlpm run build
-```
-
-You can watch the source directory and run JupyterLab at the same time in different terminals to watch for changes in the extension's source and automatically rebuild the extension.
-
-```bash
-# Watch the source directory in one terminal, automatically rebuilding when needed
-jlpm run watch
-# Run JupyterLab in another terminal
-jupyter lab
-```
-
-With the watch command running, every saved change will immediately be built locally and available in your running JupyterLab. Refresh JupyterLab to load the change in your browser (you may need to wait several seconds for the extension to be rebuilt).
-
-By default, the `jlpm run build` command generates the source maps for this extension to make it easier to debug using the browser dev tools. To also generate source maps for the JupyterLab core extensions, you can run the following command:
-
-```bash
-jupyter lab build --minimize=False
-```
-
-### Development uninstall
-
-```bash
-pip uninstall clear_cell_outputs
-```
-
-In development mode, you will also need to remove the symlink created by `jupyter labextension develop`
-command. To find its location, you can run `jupyter labextension list` to figure out where the `labextensions`
-folder is located. Then you can remove the symlink named `clear-cell-outputs` within that folder.
