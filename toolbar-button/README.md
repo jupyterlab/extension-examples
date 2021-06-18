@@ -2,7 +2,7 @@
 
 This example shows how to clear all cell outputs at once by clicking on the button.
 
-![Github Actions Status](https://github.com/yash112-lang/extension-examples/blob/master/clear_cell_outputs/Preview.gif)
+![Github Actions Status](https://github.com/yash112-lang/extension-examples/blob/master/toolbar-button/Preview.gif)
 
 To use it first we need to import the packages
 ```ts
