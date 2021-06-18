@@ -4,20 +4,35 @@ This example shows how to clear all cell outputs at once by clicking on the butt
 
 ![Github Actions Status](https://github.com/yash112-lang/extension-examples/blob/master/clear_cell_outputs/Preview.gif)
 
-<!-- A JupyterLab extension for clearing all cells output at once. -->
-
 To use it first we need to import the packages
-```
-import { ToolbarButton } from '@jupyterlab/apputils';
-import { DocumentRegistry } from '@jupyterlab/docregistry';
-import { NotebookActions, NotebookPanel, INotebookModel } from '@jupyterlab/notebook';
-import { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application';
-import { IDisposable, DisposableDelegate } from '@lumino/disposable';
+```ts
+// src/index.ts#L1-L19
+
+import {
+  IDisposable, DisposableDelegate
+} from '@lumino/disposable';
+
+import {
+  JupyterFrontEnd, JupyterFrontEndPlugin
+} from '@jupyterlab/application';
+
+import {
+  ToolbarButton
+} from '@jupyterlab/apputils';
+
+import {
+  DocumentRegistry
+} from '@jupyterlab/docregistry';
+
+import {
+  NotebookActions, NotebookPanel, INotebookModel
+} from '@jupyterlab/notebook';
 ```
 
 Firstly we have to register the plugin information. In this we have to pass a activate **function** & the plugin **id**.
 
-```
+```ts
+// src/index.ts#L25-L29
 const plugin: JupyterFrontEndPlugin<void> = {
   activate,
   id: 'clear-cell-outputs:buttonPlugin',
@@ -26,7 +41,8 @@ const plugin: JupyterFrontEndPlugin<void> = {
 ```
 Now creating a notebook widget extension that adds a button to the toolbar. For more info [IWidgetExtension](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.documentregistry.iwidgetextension.html)
 
-```
+```ts
+// src/index.ts#L35-L56
 export
   class ButtonExtension implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
   
@@ -51,29 +67,9 @@ export
 }
 ```
 Now activating the extension
-```
+```ts
+// src/index.ts#L61-L63
 function activate(app: JupyterFrontEnd) {
   app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
 };
 ```
-
-## Requirements
-
-* JupyterLab >= 3.0
-
-## Install
-
-To install the extension, execute:
-
-```bash
-pip install clear_cell_outputs
-```
-
-## Uninstall
-
-To remove the extension, execute:
-
-```bash
-pip uninstall clear_cell_outputs
-```
-
