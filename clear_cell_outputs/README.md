@@ -2,7 +2,7 @@
 
 This example shows how to clear all cell outputs at once by clicking on the button.
 
-![Github Actions Status](./preview.gif)
+![Github Actions Status](https://github.com/yash112-lang/extension-examples/blob/master/clear_cell_outputs/Preview.gif)
 
 <!-- A JupyterLab extension for clearing all cells output at once. -->
 
