@@ -73,3 +73,8 @@ function activate(app: JupyterFrontEnd) {
   app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
 };
 ```
+Finally exporting the plugin
+```ts
+// src/index.ts#L69-L69
+export default plugin;
+```
