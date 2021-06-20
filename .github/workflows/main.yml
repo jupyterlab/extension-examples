@@ -17,6 +17,7 @@ jobs:
           - kernel-messaging
           - kernel-output
           - datagrid
+          - documents
           - hello-world
           - signals
           - command-palette

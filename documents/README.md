@@ -4,6 +4,8 @@
 
 ![Documents example](./preview.gif)
 
+> ⚠ **This example only works on JupyterLab v3.1 or higher**
+
 > Before starting this guide, we strongly recommend to look at the documentation, precisely the section of [Documents](https://jupyterlab.readthedocs.io/en/stable/extension/documents.html#documents)
 
 - [Documents](#documents)
@@ -89,7 +91,7 @@ app.docRegistry.addFileType({
 });
 ```
 
-Once the file type is registered, you can register a `DocumentModel` for a specific file type. The `DocumentModel` represent the content of the file. For example, JupyterLab has two models registered for the notebook. When you open a notebook with the Notebook editor, the `DocumentManager` creates an instance of the `NotobookModel` that loads the notebook as a JSON object and offers a complex API to manage cells and metadata independently (treats the content of the notebook as a structured data), opposite when opening a notebook with the plain text editor the `DocumentManager` creates an instance of the base `DocumentModel` class which treats the content of the notebook as a string. Note that you can register multiple models for the same file type. Still, these models are not in sync when the user opens two editors for the same file that use different models (like opening a notebook with the notebook editor and the plain text editor). These editors are not in sync because they use other models. At some point, they will show different content.
+Once the file type is registered, you can register a `DocumentModel` for a specific file type. The `DocumentModel` represent the content of the file. For example, JupyterLab has two models registered for the notebook. When you open a notebook with the Notebook editor, the `DocumentManager` creates an instance of the `NotebookModel` that loads the notebook as a JSON object and offers a complex API to manage cells and metadata independently (treats the content of the notebook as a structured data), opposite when opening a notebook with the plain text editor the `DocumentManager` creates an instance of the base `DocumentModel` class which treats the content of the notebook as a string. Note that you can register multiple models for the same file type. Still, these models are not in sync when the user opens two editors for the same file that use different models (like opening a notebook with the notebook editor and the plain text editor). These editors are not in sync because they use other models. At some point, they will show different content.
 
 To register a new `DocumentModel` we can use the API `addModelFactory` from the `DocumentRegistry`. In this case, we created the model factory without arguments, but you can add the argument that you need.
 
@@ -157,7 +159,7 @@ After a short explanation of Yjs' features, now it's time to start with the impl
 To create a new shared object, you have to use the `ydoc`. The new attribute will be linked to the `ydoc` and sync between the different clients automatically. You can also listen to changes on the shared attributes to propagate them to the `DocumentWidget`.
 
 ```ts
-// src/model.ts#L302-L303
+// src/model.ts#L301-L302
 
 this._content = this.ydoc.getMap('content');
 this._content.observe(this._contentObserver);
@@ -166,13 +168,13 @@ this._content.observe(this._contentObserver);
 To access the information about the different users connected, you can use the `awareness` attribute on the shared model. The `awareness` keeps the state of every user as a map with the user's id as a key and a JSON object as the value for the state. You could add new information to the user's state by using the method `setLocalStateField` and access to the state of all users with `getStates`. To listen for changes on the state of the users, you can use the method `on('change', () => {})`.
 
 ```ts
-// src/model.ts#L236
+// src/model.ts#L235
 
 this.sharedModel.awareness.setLocalStateField('mouse', pos);
 ```
 
 ```ts
-// src/model.ts#L165
+// src/model.ts#L263
 
 const clients = this.sharedModel.awareness.getStates();
 ```
@@ -186,52 +188,10 @@ this.sharedModel.awareness.on('change', this._onClientChanged);
 Every time you modify a shared property, this property triggers an event in all the clients to notify them. Still, sometimes you will need to apply a series of modifications as a single transaction to trigger the event only when it has applied all the changes. In this case, you can use the `transaction` method to group all the operations.
 
 ```ts
-// src/model.ts#L170-L173
+// src/model.ts#L165-L168
 
 this.sharedModel.transact(() => {
   this.sharedModel.setContent('position', { x: obj.x, y: obj.y });
   this.sharedModel.setContent('content', obj.content);
 });
-```
-
-When modifying a shared attribute, Yjs notifies all the clients, including the one that altered the property. Usually, you are going to listen for changes to apply them to other clients. The problem is that Yjs also notified these changes to the client that updated the model. To avoid applying the changes twice in this client, create a flag attribute, wrap the writing operations with this flag and check when reading from the shared model. This way, the client won't apply the updates twice.
-
-```ts
-// src/model.ts#L55-L65
-
-/**
- * get/set the editing attribute to know when the
- * client is editing shared objects and not apply the
- * changes twice.
- */
-get editing(): boolean {
-  return this._editing;
-}
-set editing(value: boolean) {
-  this._editing = value;
-}
-```
-
-```ts
-// src/widget.ts#L167-L173
-
-this._context.model.editing = true;
-const x = event.clientX + this._offset.x;
-const y = event.clientY + this._offset.y;
-this._cube.style.left = x + 'px';
-this._cube.style.top = y + 'px';
-this._context.model.setPosition({ x, y });
-this._context.model.editing = false;
-});
-```
-
-```ts
-// src/widget.ts#L193-L198
-
-if (!this._context.model.editing && change.positionChange) {
-  this._cube.style.left = change.positionChange.x + 'px';
-  this._cube.style.top = change.positionChange.y + 'px';
-  // updating the widgets to re-render it
-  this.update();
-}
 ```

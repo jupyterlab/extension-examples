@@ -53,18 +53,6 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   }
 
   /**
-   * get/set the editing attribute to know when the
-   * client is editing shared objects and not apply the
-   * changes twice.
-   */
-  get editing(): boolean {
-    return this._editing;
-  }
-  set editing(value: boolean) {
-    this._editing = value;
-  }
-
-  /**
    * get/set the readOnly attribute to know whether this model
    * is read only or not
    */
@@ -220,6 +208,10 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     // not implemented
   }
 
+  getClientId(): number {
+    return this.sharedModel.awareness.clientID;
+  }
+
   getSharedObject(): SharedObject {
     const pos = this.sharedModel.getContent('position');
     const obj = {
@@ -273,7 +265,6 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   };
 
   private _dirty = false;
-  private _editing = false;
   private _readOnly = false;
   private _isDisposed = false;
   private _contentChanged = new Signal<this, void>(this);

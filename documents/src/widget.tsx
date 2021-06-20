@@ -147,30 +147,24 @@ export class ExamplePanel extends Widget {
         case 'mouseleave':
           // Wrapping the modifications to the shared model into a flag
           // to prevent apply changes triggered by the same client
-          this._context.model.editing = true;
           this._context.model.setClient(undefined);
-          this._context.model.editing = false;
           break;
         case 'mousemove':
           // Wrapping the modifications to the shared model into a flag
           // to prevent apply changes triggered by the same client
-          this._context.model.editing = true;
           const offset = this.node.getBoundingClientRect();
           const x = event.x - offset.left;
           const y = event.y - offset.top;
           this._context.model.setClient({ x, y });
-          this._context.model.editing = false;
 
           if (this._isDown) {
             // Wrapping the modifications to the shared model into a flag
             // to prevent apply changes triggered by the same client
-            this._context.model.editing = true;
             const x = event.clientX + this._offset.x;
             const y = event.clientY + this._offset.y;
             this._cube.style.left = x + 'px';
             this._cube.style.top = y + 'px';
             this._context.model.setPosition({ x, y });
-            this._context.model.editing = false;
           }
           break;
       }
@@ -190,7 +184,7 @@ export class ExamplePanel extends Widget {
     change: ExampleDocChange
   ): void => {
     // Wrapping the updates into a flag to prevent apply changes triggered by the same client
-    if (!this._context.model.editing && change.positionChange) {
+    if (change.positionChange) {
       this._cube.style.left = change.positionChange.x + 'px';
       this._cube.style.top = change.positionChange.y + 'px';
       // updating the widgets to re-render it
@@ -210,9 +204,8 @@ export class ExamplePanel extends Widget {
     sender: ExampleDocModel,
     clients: Map<number, any>
   ): void => {
-    // Wrapping the updates into a flag to prevent apply changes triggered by the same client
-    if (!this._context.model.editing) {
-      clients.forEach((client, key) => {
+    clients.forEach((client, key) => {
+      if (this._context.model.getClientId() !== key) {
         const id = key.toString();
 
         if (client.mouse && this._clients[id]) {
@@ -223,18 +216,19 @@ export class ExamplePanel extends Widget {
           el.className = 'jp-example-client';
           el.style.left = client.mouse.x + 'px';
           el.style.top = client.mouse.y + 'px';
-          el.innerText = id.toString();
+          el.style.backgroundColor = client.user.color;
+          el.innerText = client.user.name;
           this._clients[id] = el;
           this.node.appendChild(el);
         } else if (!client.mouse && this._clients[id]) {
           this.node.removeChild(this._clients[id]);
           this._clients[id] = undefined;
         }
-      });
+      }
+    });
 
-      // updating the widgets to re-render it
-      this.update();
-    }
+    // updating the widgets to re-render it
+    this.update();
   };
 
   private _isDown: boolean;
