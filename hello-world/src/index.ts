@@ -6,12 +6,12 @@ import {
 /**
  * Initialization data for the hello-world extension.
  */
-const extension: JupyterFrontEndPlugin<void> = {
-  id: 'hello-world',
+const plugin: JupyterFrontEndPlugin<void> = {
+  id: 'hello-world:plugin',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
     console.log('the JupyterLab main application:', app);
   },
 };
 
-export default extension;
+export default plugin;
