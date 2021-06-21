@@ -36,10 +36,10 @@ export class ButtonExtension
     panel: NotebookPanel,
     context: DocumentRegistry.IContext<INotebookModel>
   ): IDisposable {
-    let clearOutput = () => {
+    const clearOutput = () => {
       NotebookActions.clearAllOutputs(panel.content);
     };
-    let button = new ToolbarButton({
+    const button = new ToolbarButton({
       className: 'clear-output-button',
       label: 'Clear All Outputs',
       onClick: clearOutput,
