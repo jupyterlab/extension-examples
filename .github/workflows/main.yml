@@ -13,7 +13,6 @@ jobs:
       fail-fast: false
       matrix:
         example:
-          - clear-cell-outputs
           - kernel-messaging
           - kernel-output
           - datagrid
@@ -29,6 +28,7 @@ jobs:
           - react-widget
           - settings
           - state
+          - toolbar-button
           - widgets
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:

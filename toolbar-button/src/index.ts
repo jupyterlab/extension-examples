@@ -1,43 +1,41 @@
-import {
-  IDisposable, DisposableDelegate
-} from '@lumino/disposable';
+import { IDisposable, DisposableDelegate } from '@lumino/disposable';
 
 import {
-  JupyterFrontEnd, JupyterFrontEndPlugin
+  JupyterFrontEnd,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import {
-  ToolbarButton
-} from '@jupyterlab/apputils';
+import { ToolbarButton } from '@jupyterlab/apputils';
+
+import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import {
-  DocumentRegistry
-} from '@jupyterlab/docregistry';
-
-import {
-  NotebookActions, NotebookPanel, INotebookModel
+  NotebookActions,
+  NotebookPanel,
+  INotebookModel
 } from '@jupyterlab/notebook';
-
 
 /**
  * The plugin registration information.
  */
 const plugin: JupyterFrontEndPlugin<void> = {
   activate,
-  id: 'clear-cell-outputs:buttonPlugin',
+  id: 'toolbar-button',
   autoStart: true
 };
-
 
 /**
  * A notebook widget extension that adds a button to the toolbar.
  */
-export
-  class ButtonExtension implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
+export class ButtonExtension
+  implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
   /**
-   * Create a new extension object.
+   * Create a new extension for the notebook panel widget.
    */
-  createNew(panel: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
+  createNew(
+    panel: NotebookPanel,
+    context: DocumentRegistry.IContext<INotebookModel>
+  ): IDisposable {
     let clearOutput = () => {
       NotebookActions.clearAllOutputs(panel.content);
     };
@@ -60,8 +58,7 @@ export
  */
 function activate(app: JupyterFrontEnd) {
   app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
-};
-
+}
 
 /**
  * Export the plugin as default.

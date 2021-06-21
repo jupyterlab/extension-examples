@@ -1,54 +1,61 @@
-# clear cell outputs
+# Toolbar Item
 
-This example shows how to clear all cell outputs at once by clicking on the button.
+This example shows how to add a button to the notebook toolbar.
 
-![Github Actions Status](https://github.com/yash112-lang/extension-examples/blob/master/toolbar-button/Preview.gif)
+![Toolbar button](Preview.gif)
 
-To use it first we need to import the packages
+In this particular example, the button will clear all cell outputs
+
+To use it first you need to import the following packages:
+
 ```ts
-// src/index.ts#L1-L19
+// src/index.ts#L1-L16
+
+import { IDisposable, DisposableDelegate } from '@lumino/disposable';
 
 import {
-  IDisposable, DisposableDelegate
-} from '@lumino/disposable';
-
-import {
-  JupyterFrontEnd, JupyterFrontEndPlugin
+  JupyterFrontEnd,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import {
-  ToolbarButton
-} from '@jupyterlab/apputils';
+import { ToolbarButton } from '@jupyterlab/apputils';
+
+import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import {
-  DocumentRegistry
-} from '@jupyterlab/docregistry';
-
-import {
-  NotebookActions, NotebookPanel, INotebookModel
+  NotebookActions,
+  NotebookPanel,
+  INotebookModel
 } from '@jupyterlab/notebook';
 ```
 
-Firstly we have to register the plugin information. In this we have to pass a activate **function** & the plugin **id**.
+Firstly you have to register the plugin information. For that you have to pass a activate **function** and the plugin **id**.
 
 ```ts
-// src/index.ts#L25-L29
+// src/index.ts#L21-L25
+
 const plugin: JupyterFrontEndPlugin<void> = {
   activate,
-  id: 'clear-cell-outputs:buttonPlugin',
+  id: 'toolbar-button',
   autoStart: true
 };
 ```
-Now creating a notebook widget extension that adds a button to the toolbar. For more info [IWidgetExtension](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.documentregistry.iwidgetextension.html)
+
+New widgets can be added to a document widget by implementing the interface [DocumentRegistry.IWidgetExtension](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.documentregistry.iwidgetextension.html). In particular, you need to add your widget in the `createNew` method that is called when creating a new
+document widget; in this case a notebook panel.
 
 ```ts
-// src/index.ts#L35-L56
-export
-  class ButtonExtension implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
-  
-   // Create a new extension object.
-   
-  createNew(panel: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
+// src/index.ts#L30-L54
+
+export class ButtonExtension
+  implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
+  /**
+   * Create a new extension for the notebook panel widget.
+   */
+  createNew(
+    panel: NotebookPanel,
+    context: DocumentRegistry.IContext<INotebookModel>
+  ): IDisposable {
     let clearOutput = () => {
       NotebookActions.clearAllOutputs(panel.content);
     };
@@ -66,15 +73,18 @@ export
   }
 }
 ```
-Now activating the extension
+
+Finally you need to tell the document registry about your widget extension:
+
 ```ts
-// src/index.ts#L61-L63
+// src/index.ts#L59-L61
+
 function activate(app: JupyterFrontEnd) {
   app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
-};
+}
 ```
-Finally exporting the plugin
-```ts
-// src/index.ts#L69-L69
-export default plugin;
-```
+
+## Where to Go Next
+
+This example uses a command to display the widget. Have a look a the
+[commands example](../commands/README.md) for more information about it.
