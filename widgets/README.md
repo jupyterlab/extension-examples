@@ -98,3 +98,4 @@ widgets in the following examples:
 - Widget showing a [Datagrid](../datagrid/README.md)
 - Widget integrating [React components](../react-widget/README.md)
 - Widget interacting with a [Kernel](../kernel-messaging/README.md)
+- Extending document widget (like the notebook panel) with a new [Toolbar Button](../toolbar-button/README.md)

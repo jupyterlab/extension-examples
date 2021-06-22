@@ -284,5 +284,5 @@ example, you will explore how you can reuse some Jupyter components to have a ni
 This example uses React to define UI elements. You can
 learn more about React in JupyterLab in [that example](../react-widget/README.md).
 
-The UI refresh is triggered by signal emitions. To know more about it,
+The UI refresh is triggered by signal emissions. To know more about it,
 you can have a look at the [signal example](../signals/README.md).

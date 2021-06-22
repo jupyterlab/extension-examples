@@ -1,0 +1,5 @@
+{
+  "packageManager": "python",
+  "packageName": "jupyterlab_examples_toolbar_button",
+  "uninstallInstructions": "Use your Python package manager (pip, conda, etc.) to uninstall the package clear_cell_outputs"
+}
