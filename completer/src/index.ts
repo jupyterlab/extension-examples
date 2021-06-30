@@ -54,16 +54,12 @@ const extension: JupyterFrontEndPlugin<void> = {
     // modelled after completer-extension's notebooks plugin
     notebooks.widgetAdded.connect(
       (sender: INotebookTracker, panel: NotebookPanel) => {
-        const editor = panel.content.activeCell?.editor ?? null;
+        let editor = panel.content.activeCell?.editor ?? null;
         const session = panel.sessionContext.session;
         const renderer = Completer.defaultRenderer;
         let options = { session, editor };
         const connector = new CompletionConnector([]);
         // partial logic from jupyterlab-lsp's completion.ts (CompletionLabIntegration class)
-        console.info(
-          'REGISTERING COMPLETION MANAGER AS ONLY EXTENSION EDITOR=',
-          editor
-        );
         const handler = completionManager.register(
           { connector, editor, parent: panel },
           renderer
@@ -74,9 +70,9 @@ const extension: JupyterFrontEndPlugin<void> = {
           cell: Cell | any
         ) => {
           console.info('CONNECTOR UPDATED');
-          const editor = panel.content.activeCell?.editor ?? null;
+          editor = panel.content.activeCell?.editor ?? null;
           options.session = panel.sessionContext.session;
-
+          options.editor = editor;
           handler.editor = editor;
 
           const kernel = new KernelConnector(options);
@@ -89,16 +85,6 @@ const extension: JupyterFrontEndPlugin<void> = {
             custom
           ]);
         };
-        /* // @ts-ignore
-      handler.completer.indexChanged.connect( (completer: Completer, index: number) => {
-        // @ts-ignore
-        console.debug("Index changed:", index, completer.activeIndex);
-        // @ts-ignore
-        handler._connector.fetchDocumentation(completer.items, index)
-        .then( (items: any) => {
-          completer.model.setCompletionItems(items);
-        });
-      }); */
 
         // Update the handler whenever the prompt or session changes
         panel.content.activeCellChanged.connect(updateConnector);
