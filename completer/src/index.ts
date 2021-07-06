@@ -78,8 +78,7 @@ const extension: JupyterFrontEndPlugin<void> = {
           const kernel = new KernelConnector(options);
           const context = new ContextConnector(options);
           const custom = new CustomConnector(options);
-          // @ts-ignore
-          handler._connector = new CompletionConnector([
+          handler.connector = new CompletionConnector([
             kernel,
             context,
             custom

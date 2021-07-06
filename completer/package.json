@@ -74,6 +74,10 @@
   ],
   "jupyterlab": {
     "extension": true,
-    "outputDir": "jupyterlab_examples_completer/labextension"
+    "schemaDir": "schema",
+    "outputDir": "jupyterlab_examples_completer/labextension",
+    "disabledExtensions": [
+      "@jupyterlab/completer-extension:notebooks"
+    ]
   }
 }
