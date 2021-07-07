@@ -14,6 +14,7 @@ The `IMainMenu` interface can be requested as a new argument to the `activate`
 function, but first it has to be imported. And the class `Menu` to create new
 menu needs also to be imported but from the Lumino library:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L6-L8
 
@@ -21,10 +22,12 @@ import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { Menu } from '@lumino/widgets';
 ```
+<!-- prettier-ignore-end -->
 
 You can add the `IMainMenu` in the `requires:` property such that it is injected into
 the `activate` function. The extension looks like:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L15-L57
 
@@ -72,6 +75,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   },
 };
 ```
+<!-- prettier-ignore-end -->
 
 In this extension, you have the dependencies to _@jupyterlab/mainmenu_ and
 _@lumino/widgets_. Before it builds, this dependencies have to be added to the
@@ -85,11 +89,11 @@ After the execution of that command, `package.json` should list them in the
 `dependencies`:
 
 ```json5
-// package.json#L46-L50
+// package.json#L50-L54
 
 "dependencies": {
-  "@jupyterlab/application": "^3.0.0-rc.15",
-  "@jupyterlab/mainmenu": "^3.0.0-rc.15",
+  "@jupyterlab/application": "^3.0.10",
+  "@jupyterlab/mainmenu": "^3.0.8",
   "@lumino/widgets": "^1.16.1"
 },
 ```

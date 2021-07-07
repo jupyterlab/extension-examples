@@ -79,12 +79,12 @@ with this line:
 
 void this._sessionContext
   .initialize()
-  .then(async value => {
+  .then(async (value) => {
     if (value) {
       await sessionContextDialogs.selectKernel(this._sessionContext);
     }
   })
-  .catch(reason => {
+  .catch((reason) => {
     console.error(
       `Failed to initialize the session in ExamplePanel.\n${reason}`
     );
@@ -145,7 +145,7 @@ execute(code: string): void {
     .then((msg: KernelMessage.IExecuteReplyMsg) => {
       console.log(msg);
     })
-    .catch(reason => console.error(reason));
+    .catch((reason) => console.error(reason));
 }
 ```
 

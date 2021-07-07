@@ -52,7 +52,7 @@ app.docRegistry.addFileType({
   extensions: ['.example'],
   fileFormat: 'text',
   contentType: 'file',
-  mimeTypes: ['text/plain']
+  mimeTypes: ['text/plain'],
 });
 ```
 <!-- prettier-ignore-end -->
@@ -73,9 +73,9 @@ app.commands.addCommand('jlab-examples/context-menu:open', {
     showDialog({
       title: file.name,
       body: 'Path: ' + file.path,
-      buttons: [Dialog.okButton()]
-    }).catch(e => console.log(e));
-  }
+      buttons: [Dialog.okButton()],
+    }).catch((e) => console.log(e));
+  },
 });
 ```
 <!-- prettier-ignore-end -->
@@ -93,7 +93,7 @@ Finally, you can add the command to a context menu using the `addItem()` method 
 app.contextMenu.addItem({
   command: 'jlab-examples/context-menu:open',
   selector: '.jp-DirListing-item[data-file-type="example"]',
-  rank: 0
+  rank: 0,
 });
 ```
 <!-- prettier-ignore-end -->

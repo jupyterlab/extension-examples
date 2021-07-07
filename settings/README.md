@@ -17,11 +17,13 @@ jlpm add @jupyterlab/settingregistry
 
 Once this is done, you can import the interface in your code.
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L6-L6
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 ```
+<!-- prettier-ignore-end -->
 
 To see how you can access the settings, let's have a look at
 `src/index.ts`.
@@ -96,11 +98,13 @@ settings, your extension name must be structured as _package name_**:**_settings
 
 and the extension id is:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L12-L12
 
 const PLUGIN_ID = '@jupyterlab-examples/settings:settings-example';
 ```
+<!-- prettier-ignore-end -->
 
 Therefore the settings file must be named `settings-example.json`.
 
@@ -109,25 +113,26 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 
 <!-- prettier-ignore-start -->
 ```json5
-// package.json#L70-L74
+// package.json#L75-L79
 
 "jupyterlab": {
   "extension": true,
   "schemaDir": "schema",
   "outputDir": "jupyterlab_examples_settings/labextension"
-}
+},
 ```
 <!-- prettier-ignore-end -->
 
 And you should not forget to add it to the files of the package:
 
 ```json5
-// package.json#L16-L20
+// package.json#L19-L24
 
 "files": [
   "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
   "schema/**/*.json",
-  "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}"
+  "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
+  "style/index.js"
 ],
 ```
 
@@ -183,7 +188,7 @@ const extension: JupyterFrontEndPlugin<void> = {
             // Programmatically change a setting
             Promise.all([
               setting.set('flag', !flag),
-              setting.set('limit', limit + 1)
+              setting.set('limit', limit + 1),
             ])
               .then(() => {
                 const newLimit = setting.get('limit').composite as number;
@@ -192,12 +197,12 @@ const extension: JupyterFrontEndPlugin<void> = {
                   `Settings Example extension: Limit is set to '${newLimit}' and flag to '${newFlag}'`
                 );
               })
-              .catch(reason => {
+              .catch((reason) => {
                 console.error(
                   `Something went wrong when changing the settings.\n${reason}`
                 );
               });
-          }
+          },
         });
 
         // Create a menu
@@ -207,15 +212,15 @@ const extension: JupyterFrontEndPlugin<void> = {
 
         // Add the command to the menu
         settingsMenu.addItem({
-          command: COMMAND_ID
+          command: COMMAND_ID,
         });
       })
-      .catch(reason => {
+      .catch((reason) => {
         console.error(
           `Something went wrong when reading the settings.\n${reason}`
         );
       });
-  }
+  },
 };
 ```
 <!-- prettier-ignore-end -->
@@ -238,6 +243,7 @@ JSON file).
 After getting the setting, you need to access the `composite` attribute
 to get its value and specify the type explicitly.
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L37-L45
 
@@ -251,6 +257,7 @@ function loadSetting(setting: ISettingRegistry.ISettings): void {
   );
 }
 ```
+<!-- prettier-ignore-end -->
 
 > `composite` means the setting value is the composition of the default
 > and the user values.
@@ -259,11 +266,13 @@ To react at a setting change by the user, you should use the signal
 `changed`. In this case, when that signal is emitted the function
 `loadSetting` is called with the new settings.
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L55-L55
 
 setting.changed.connect(loadSetting);
 ```
+<!-- prettier-ignore-end -->
 
 Finally, to demonstrate the programmatic change of a setting, a command to toggle
 the `flag` and increment the `limit` settings is implemented.
@@ -276,7 +285,7 @@ execute: () => {
   // Programmatically change a setting
   Promise.all([
     setting.set('flag', !flag),
-    setting.set('limit', limit + 1)
+    setting.set('limit', limit + 1),
   ])
     .then(() => {
       const newLimit = setting.get('limit').composite as number;
@@ -285,12 +294,12 @@ execute: () => {
         `Settings Example extension: Limit is set to '${newLimit}' and flag to '${newFlag}'`
       );
     })
-    .catch(reason => {
+    .catch((reason) => {
       console.error(
         `Something went wrong when changing the settings.\n${reason}`
       );
     });
-}
+},
 ```
 <!-- prettier-ignore-end -->
 
@@ -302,7 +311,7 @@ new value.
 // src/index.ts#L63-L64
 
 setting.set('flag', !flag),
-setting.set('limit', limit + 1)
+setting.set('limit', limit + 1),
 ```
 <!-- prettier-ignore-end -->
 
@@ -319,7 +328,7 @@ mainMenu.addMenu(settingsMenu, { rank: 80 });
 
 // Add the command to the menu
 settingsMenu.addItem({
-  command: COMMAND_ID
+  command: COMMAND_ID,
 });
 ```
 <!-- prettier-ignore-end -->

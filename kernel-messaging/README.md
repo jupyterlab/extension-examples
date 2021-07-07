@@ -51,12 +51,12 @@ this._sessionContext = new SessionContext({
 ```ts
 void this._sessionContext
   .initialize()
-  .then(async value => {
+  .then(async (value) => {
     if (value) {
       await sessionContextDialogs.selectKernel(this._sessionContext);
     }
   })
-  .catch(reason => {
+  .catch((reason) => {
     console.error(
       `Failed to initialize the session in ExamplePanel.\n${reason}`
     );

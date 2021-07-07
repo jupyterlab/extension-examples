@@ -18,13 +18,12 @@ example before diving into this one.
 Writing a JupyterLab extension usually starts from a configurable template. It
 can be downloaded with the [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/) tool and the following command for an extension with a server part:
 
-<!-- prettier-ignore-start -->
 ```bash
 cookiecutter https://github.com/jupyterlab/extension-cookiecutter-ts
 ```
 
 `cookiecutter` asks for some basic information that could for example be setup
-like this (be careful to set _has\_server\_extension_ to _y_):
+like this (be careful to set _has_server_extension_ to _y_):
 
 ```bash
 author_name []: my_name
@@ -103,16 +102,19 @@ The entry point for the frontend extension is `src/index.ts`. The
 communication with the server extension is contained in another file
 `src/handler.ts`. So you need to import it:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L12-L12
 
 import { requestAPI } from './handler';
 ```
+<!-- prettier-ignore-end -->
 
 In the `activate` function, the server extension is first called through
 a GET request on the endpoint _/jlab-ext-example/hello_. The response from the server
 is printed in the web browser console:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L36-L42
 
@@ -124,19 +126,23 @@ try {
   console.error(`Error on GET /jlab-ext-example/hello.\n${reason}`);
 }
 ```
+<!-- prettier-ignore-end -->
 
 As the server response is not instantaneous, the request is done asynchronously
 using the `await` keyword:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L38-L38
 
 const data = await requestAPI<any>('hello');
 ```
+<!-- prettier-ignore-end -->
 
 To use that `await` keyword, the function must be declared as asynchronous
 using the `async` keyword:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L29-L33
 
@@ -146,11 +152,13 @@ activate: async (
   launcher: ILauncher | null
 ) => {
 ```
+<!-- prettier-ignore-end -->
 
 A GET request cannot carry data from the frontend to the server. To achieve that,
 you will need to execute a POST request. In this example, a POST request
 is sent to the _/jlab-ext-example/hello_ endpoint with the data `{name: 'George'}`:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L45-L56
 
@@ -158,7 +166,7 @@ const dataToSend = { name: 'George' };
 try {
   const reply = await requestAPI<any>('hello', {
     body: JSON.stringify(dataToSend),
-    method: 'POST'
+    method: 'POST',
   });
   console.log(reply);
 } catch (reason) {
@@ -167,6 +175,7 @@ try {
   );
 }
 ```
+<!-- prettier-ignore-end -->
 
 The difference with the GET request is the use of the `body` option to send data
 and the `method` option to set the appropriate HTTP method.
@@ -178,6 +187,7 @@ the server, it needs to be stringified to be carried over by the request.
 The communication logic with the server is hidden in the `requestAPI` function.
 Its definition is :
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/handler.ts#L12-L37
 
@@ -208,14 +218,17 @@ export async function requestAPI<T>(
 
   return data;
 ```
+<!-- prettier-ignore-end -->
 
 First the server settings are obtained from:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/handler.ts#L17-L17
 
 const settings = ServerConnection.makeSettings();
 ```
+<!-- prettier-ignore-end -->
 
 This requires to add `@jupyterlab/services` to the package dependencies:
 
@@ -225,14 +238,17 @@ jlpm add @jupyterlab/services
 
 Then the class `ServerConnection` can be imported:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/handler.ts#L3-L3
 
 import { ServerConnection } from '@jupyterlab/services';
 ```
+<!-- prettier-ignore-end -->
 
 The next step is to build the full request URL:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/handler.ts#L18-L21
 
@@ -241,14 +257,17 @@ const requestUrl = URLExt.join(
   'jlab-ext-example',
   endPoint
 ```
+<!-- prettier-ignore-end -->
 
 To concatenate the various parts, the `URLExt` utility is imported:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/handler.ts#L1-L1
 
 import { URLExt } from '@jupyterlab/coreutils';
 ```
+<!-- prettier-ignore-end -->
 
 This requires to add another dependency to the package:
 
@@ -258,15 +277,18 @@ jlpm add @jupyterlab/coreutils
 
 You now have all the elements to make the request:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/handler.ts#L26-L26
 
 response = await ServerConnection.makeRequest(requestUrl, init, settings);
 ```
+<!-- prettier-ignore-end -->
 
 Finally, once the server response is obtained, its body is interpreted as
 JSON. And the resulting data is returned.
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/handler.ts#L31-L37
 
@@ -278,9 +300,11 @@ if (!response.ok) {
 
 return data;
 ```
+<!-- prettier-ignore-end -->
 
 This example also showcases how you can serve static files from the server extension.
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L58-L79
 
@@ -294,7 +318,7 @@ commands.addCommand(command, {
   execute: () => {
     const widget = new IFrameWidget();
     shell.add(widget, 'main');
-  }
+  },
 });
 
 palette.addItem({ command, category: category });
@@ -303,10 +327,11 @@ if (launcher) {
   // Add launcher
   launcher.add({
     command: command,
-    category: category
+    category: category,
   });
 }
 ```
+<!-- prettier-ignore-end -->
 
 Invoking the command (via the command palette or the launcher) will open a new tab with
 an `IFrame` that will display static content fetched from the server extension.
@@ -520,7 +545,6 @@ data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str('.'), "install.json"),
     ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/jupyter_notebook_config.d", "jlab_ext_example.json"),
     ("etc/jupyter/jupyter_server_config.d", "jupyter-config/jupyter_server_config.d", "jlab_ext_example.json"),
-    
 ]
 
 long_description = (HERE / "README.md").read_text()
@@ -581,38 +605,50 @@ if __name__ == "__main__":
 But in this case, it is a bit more complicated to build the frontend extension and ship it
 directly with the Python package. To deploy simultaneously the frontend and the backend,
 the frontend NPM package needs to be built and inserted in the Python package. This is
-done using a special `cmdclass`:
+done using a special a dedicated builder following [PEP 517](https://www.python.org/dev/peps/pep-0517) from package [jupyter-packaging](https://github.com/jupyter/jupyter-packaging). Its configuration is done in `pyproject.toml`:
 
 ```py
-# setup.py#L39-L46
+# pyproject.toml
 
-cmdclass = create_cmdclass(
-    "jsdeps", package_data_spec=package_data_spec, data_files_spec=data_files_spec
-)
+[build-system]
+requires = ["jupyter_packaging~=0.10,<2", "jupyterlab~=3.0"]
+build-backend = "jupyter_packaging.build_api"
 
-js_command = combine_commands(
-    install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
-    ensure_targets(jstargets),
-)
+[tool.jupyter-packaging.options]
+skip-if-exists = ["jlab_ext_example/labextension/static/style.js"]
+ensured-targets = ["jlab_ext_example/labextension/static/style.js", "jlab_ext_example/labextension/package.json"]
+
+[tool.jupyter-packaging.builder]
+factory = "jupyter_packaging.npm_builder"
+
+[tool.jupyter-packaging.build-args]
+build_cmd = "build:prod"
+npm = ["jlpm"]
+
+[tool.check-manifest]
+ignore = ["jlab_ext_example/labextension/**", "yarn.lock", ".*", "package-lock.json"]
+
 ```
 
-Basically it will build the frontend NPM package:
+It will build the frontend NPM package through its _factory_:
 
 ```py
-# setup.py#L44-L44
+# pyproject.toml#L9-L14
 
-install_npm(HERE, build_cmd="build:prod", npm=["jlpm"]),
+[tool.jupyter-packaging.builder]
+factory = "jupyter_packaging.npm_builder"
+
+[tool.jupyter-packaging.build-args]
+build_cmd = "build:prod"
+npm = ["jlpm"]
 ```
 
 It will ensure one of the generated files is `jlab_ext_example/labextension/package.json`:
 
 ```py
-# setup.py#L23-L26
+# pyproject.toml#L7-L7
 
-# Representative files that should exist after a successful build
-jstargets = [
-    str(lab_path / "package.json"),
-]
+ensured-targets = ["jlab_ext_example/labextension/static/style.js", "jlab_ext_example/labextension/package.json"]
 ```
 
 It will copy the NPM package in the Python package and force it to be copied in a place
@@ -621,14 +657,14 @@ JupyterLab is looking for frontend extensions when the Python package is install
 ```py
 # setup.py#L25-L25
 
-    ("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
+("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
 ```
 
 The last piece of configuration needed is the enabling of the server extension. This is
 done by copying the following JSON file:
 
 ```json5
-// jupyter-config/jlab_ext_example.json
+// jupyter-config/jupyter_server_config.d/jlab_ext_example.json
 
 {
   "ServerApp": {
@@ -649,7 +685,7 @@ in the appropriate jupyter folder (`etc/jupyter/jupyter_server_config.d`):
 ```
 
 For backward compatibility with the classical notebook, the old version of that file is copied in
- (`etc/jupyter/jupyter_notebook_config.d`):
+(`etc/jupyter/jupyter_notebook_config.d`):
 
 ```py
 # setup.py#L27-L27
@@ -666,7 +702,7 @@ user about that dependency by adding the `discovery` metadata to your `package.j
 file:
 
 ```json5
-// package.json#L70-L80
+// package.json#L75-L85
 
 "jupyterlab": {
   "discovery": {
@@ -684,7 +720,7 @@ file:
 In this example, the extension requires a `server` extension:
 
 ```json5
-// package.json#L71-L71
+// package.json#L76-L76
 
 "discovery": {
 ```
@@ -692,7 +728,7 @@ In this example, the extension requires a `server` extension:
 And that server extension is available through `pip`:
 
 ```json5
-// package.json#L72-L74
+// package.json#L77-L79
 
 "server": {
   "managers": [
@@ -723,4 +759,3 @@ jupyter labextension develop . --overwrite
 # Rebuild extension Typescript source after making changes
 jlpm run build
 ```
-<!-- prettier-ignore-end -->

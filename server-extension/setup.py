@@ -26,7 +26,6 @@ data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str('.'), "install.json"),
     ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/jupyter_notebook_config.d", "jlab_ext_example.json"),
     ("etc/jupyter/jupyter_server_config.d", "jupyter-config/jupyter_server_config.d", "jlab_ext_example.json"),
-    
 ]
 
 long_description = (HERE / "README.md").read_text()

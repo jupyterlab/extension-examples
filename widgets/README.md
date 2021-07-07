@@ -49,7 +49,7 @@ in this example:
 execute: () => {
   const widget = new ExampleWidget();
   shell.add(widget, 'main');
-}
+},
 ```
 <!-- prettier-ignore-end -->
 
