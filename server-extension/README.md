@@ -664,6 +664,7 @@ JupyterLab is looking for frontend extensions when the Python package is install
 The last piece of configuration needed is the enabling of the server extension. This is
 done by copying the following JSON file:
 
+<!-- prettier-ignore-start -->
 ```json5
 // jupyter-config/server-config/jlab_ext_example.json
 
@@ -676,6 +677,7 @@ done by copying the following JSON file:
 }
 
 ```
+<!-- prettier-ignore-end -->
 
 in the appropriate jupyter folder (`etc/jupyter/jupyter_server_config.d`):
 

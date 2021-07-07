@@ -5,18 +5,18 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:jsdoc/recommended',
     'plugin:prettier/recommended',
-    'plugin:react/recommended'
+    'plugin:react/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: 'tsconfig.json',
-    sourceType: 'module'
+    sourceType: 'module',
   },
   plugins: ['@typescript-eslint', 'jsdoc'],
   rules: {
     '@typescript-eslint/interface-name-prefix': [
       'error',
-      { prefixWithI: 'always' }
+      { prefixWithI: 'always' },
     ],
     '@typescript-eslint/no-unused-vars': ['warn', { args: 'none' }],
     '@typescript-eslint/no-explicit-any': 'off',
@@ -26,7 +26,7 @@ module.exports = {
     '@typescript-eslint/quotes': [
       'error',
       'single',
-      { avoidEscape: true, allowTemplateLiterals: false }
+      { avoidEscape: true, allowTemplateLiterals: false },
     ],
     curly: ['error', 'all'],
     eqeqeq: 'error',
@@ -34,14 +34,14 @@ module.exports = {
     'jsdoc/require-property-type': 'off',
     'jsdoc/require-returns-type': 'off',
     'jsdoc/no-types': 'warn',
-    'prefer-arrow-callback': 'error'
+    'prefer-arrow-callback': 'error',
   },
   settings: {
     jsdoc: {
-      mode: 'typescript'
+      mode: 'typescript',
     },
     react: {
-      version: 'detect'
-    }
-  }
+      version: 'detect',
+    },
+  },
 };
