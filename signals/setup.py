@@ -22,8 +22,8 @@ ensured_targets = [
 labext_name = "@jupyterlab-examples/signals"
 
 data_files_spec = [
-    ("share/jupyter/labextensions/%s" % labext_name, str(lab_path), "**"),
-    ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),
+    ("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
+    ("share/jupyter/labextensions/%s" % labext_name, str('.'), "install.json"),
 ]
 
 long_description = (HERE / "README.md").read_text()
