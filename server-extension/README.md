@@ -530,7 +530,7 @@ HERE = Path(__file__).parent.resolve()
 # The name of the project
 name = "jlab_ext_example"
 
-lab_path = (HERE / name / "labextension")
+lab_path = (HERE / name.replace("-", "_") / "labextension")
 
 # Representative files that should exist after a successful build
 ensured_targets = [
@@ -543,8 +543,9 @@ labext_name = "@jupyterlab-examples/server-extension"
 data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
     ("share/jupyter/labextensions/%s" % labext_name, str('.'), "install.json"),
-    ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/jupyter_notebook_config.d", "jlab_ext_example.json"),
-    ("etc/jupyter/jupyter_server_config.d", "jupyter-config/jupyter_server_config.d", "jlab_ext_example.json"),
+    ("etc/jupyter/jupyter_server_config.d", "jupyter-config/server-config", "jlab_ext_example.json"),
+    # For backward compatibility with notebook server
+    ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/nb-config", "jlab_ext_example.json"),
 ]
 
 long_description = (HERE / "README.md").read_text()
@@ -664,7 +665,7 @@ The last piece of configuration needed is the enabling of the server extension. 
 done by copying the following JSON file:
 
 ```json5
-// jupyter-config/jupyter_server_config.d/jlab_ext_example.json
+// jupyter-config/server-config/jlab_ext_example.json
 
 {
   "ServerApp": {
@@ -679,18 +680,18 @@ done by copying the following JSON file:
 in the appropriate jupyter folder (`etc/jupyter/jupyter_server_config.d`):
 
 ```py
-# setup.py#L28-L28
+# setup.py#L27-L27
 
-("etc/jupyter/jupyter_server_config.d", "jupyter-config/jupyter_server_config.d", "jlab_ext_example.json"),
+("etc/jupyter/jupyter_server_config.d", "jupyter-config/server-config", "jlab_ext_example.json"),
 ```
 
 For backward compatibility with the classical notebook, the old version of that file is copied in
 (`etc/jupyter/jupyter_notebook_config.d`):
 
 ```py
-# setup.py#L27-L27
+# setup.py#L29-L29
 
-("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/jupyter_notebook_config.d", "jlab_ext_example.json"),
+("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/nb-config", "jlab_ext_example.json"),
 ```
 
 ### JupyterLab Extension Manager

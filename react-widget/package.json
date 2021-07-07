@@ -48,8 +48,8 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^3.0.10",
-    "@jupyterlab/launcher": "^3.0.8",
+    "@jupyterlab/application": "^3.0.11",
+    "@jupyterlab/launcher": "^3.0.9",
     "@jupyterlab/ui-components": "^3.0.7"
   },
   "devDependencies": {

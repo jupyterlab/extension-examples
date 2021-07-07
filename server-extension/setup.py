@@ -11,7 +11,7 @@ HERE = Path(__file__).parent.resolve()
 # The name of the project
 name = "jlab_ext_example"
 
-lab_path = (HERE / name / "labextension")
+lab_path = (HERE / name.replace("-", "_") / "labextension")
 
 # Representative files that should exist after a successful build
 ensured_targets = [
@@ -24,8 +24,9 @@ labext_name = "@jupyterlab-examples/server-extension"
 data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
     ("share/jupyter/labextensions/%s" % labext_name, str('.'), "install.json"),
-    ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/jupyter_notebook_config.d", "jlab_ext_example.json"),
-    ("etc/jupyter/jupyter_server_config.d", "jupyter-config/jupyter_server_config.d", "jlab_ext_example.json"),
+    ("etc/jupyter/jupyter_server_config.d", "jupyter-config/server-config", "jlab_ext_example.json"),
+    # For backward compatibility with notebook server
+    ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/nb-config", "jlab_ext_example.json"),
 ]
 
 long_description = (HERE / "README.md").read_text()

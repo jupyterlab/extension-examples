@@ -11,7 +11,7 @@ HERE = Path(__file__).parent.resolve()
 # The name of the project
 name = "jupyterlab_examples_custom_log_console"
 
-lab_path = (HERE / name / "labextension")
+lab_path = (HERE / name.replace("-", "_") / "labextension")
 
 # Representative files that should exist after a successful build
 ensured_targets = [
