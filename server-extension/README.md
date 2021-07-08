@@ -27,13 +27,15 @@ cookiecutter https://github.com/jupyterlab/extension-cookiecutter-ts
 like this (be careful to set _has\_server\_extension_ to _y_):
 
 ```bash
-author_name []: my_name
-python_name [myextension]: jlab_ext_example
-extension_name [jlab_ext_example]: jlab-ext-example
+author_name []: tuto
+author_email []: tuto@help.you
+labextension_name [myextension]: jlab-ext-example
+python_name [jlab_ext_example]:
 project_short_description [A JupyterLab extension.]: A minimal JupyterLab extension with backend and frontend parts.
+has_settings [n]:
 has_server_extension [n]: y
 has_binder [n]: y
-repository [https://github.com/github_username/jlab_ext_example]:
+repository [https://github.com/github_username/jlab-ext-example]:
 ```
 
 > The python name should not contain `-`. It is nice for user to test your extension online, so the `has_binder` was set to _yes_.
