@@ -349,7 +349,7 @@ an `IFrame` that will display static content fetched from the server extension.
 
 The server part of the extension is going to be presented in this section.
 
-JupyterLab server is built on top of the [Tornado](https://tornadoweb.org/en/stable/guide.html) Python package. To extend the server,
+JupyterLab server is built on top of the [Tornado](https://www.tornadoweb.org/en/stable/guide.html) Python package. To extend the server,
 your extension needs to be defined as a proper Python package with some hook functions:
 
 ```py
