@@ -51,7 +51,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   ) => {
     console.log('JupyterLab custom completer extension is activated!');
 
-    // modelled after completer-extension's notebooks plugin
+    // Modelled after completer-extension's notebooks plugin
     notebooks.widgetAdded.connect(
       (sender: INotebookTracker, panel: NotebookPanel) => {
         let editor = panel.content.activeCell?.editor ?? null;
@@ -59,7 +59,7 @@ const extension: JupyterFrontEndPlugin<void> = {
         const renderer = Completer.defaultRenderer;
         let options = { session, editor };
         const connector = new CompletionConnector([]);
-        // partial logic from jupyterlab-lsp's completion.ts (CompletionLabIntegration class)
+        // Partial logic from jupyterlab-lsp's completion.ts (CompletionLabIntegration class)
         const handler = completionManager.register(
           { connector, editor, parent: panel },
           renderer
@@ -69,7 +69,6 @@ const extension: JupyterFrontEndPlugin<void> = {
           notebook: Notebook | ISessionContext,
           cell: Cell | any
         ) => {
-          console.info('CONNECTOR UPDATED');
           editor = panel.content.activeCell?.editor ?? null;
           options.session = panel.sessionContext.session;
           options.editor = editor;
