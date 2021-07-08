@@ -37,6 +37,7 @@
       "settings",
       "signals",
       "state",
+      "toolbar-button",
       "widgets"
     ]
   },
