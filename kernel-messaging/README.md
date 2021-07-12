@@ -41,7 +41,7 @@ that manages a single kernel session. Here is the code to initialize such sessio
 this._sessionContext = new SessionContext({
   sessionManager: manager.sessions,
   specsManager: manager.kernelspecs,
-  name: 'Extension Examples'
+  name: 'Extension Examples',
 });
 ```
 
@@ -51,12 +51,12 @@ this._sessionContext = new SessionContext({
 ```ts
 void this._sessionContext
   .initialize()
-  .then(async value => {
+  .then(async (value) => {
     if (value) {
       await sessionContextDialogs.selectKernel(this._sessionContext);
     }
   })
-  .catch(reason => {
+  .catch((reason) => {
     console.error(
       `Failed to initialize the session in ExamplePanel.\n${reason}`
     );
@@ -96,7 +96,7 @@ export class ExamplePanel extends StackedPanel {
     this._sessionContext = new SessionContext({
       sessionManager: manager.sessions,
       specsManager: manager.kernelspecs,
-      name: 'Extension Examples'
+      name: 'Extension Examples',
     });
 
     this._model = new KernelModel(this._sessionContext);
@@ -105,12 +105,12 @@ export class ExamplePanel extends StackedPanel {
     this.addWidget(this._example);
     void this._sessionContext
       .initialize()
-      .then(async value => {
+      .then(async (value) => {
         if (value) {
           await sessionContextDialogs.selectKernel(this._sessionContext);
         }
       })
-      .catch(reason => {
+      .catch((reason) => {
         console.error(
           `Failed to initialize the session in ExamplePanel.\n${reason}`
         );
@@ -148,7 +148,7 @@ Once a kernel is initialized and ready, code can be executed with the following 
 // src/model.ts#L46-L48
 
 this.future = this._sessionContext.session?.kernel?.requestExecute({
-  code
+  code,
 });
 ```
 
@@ -205,7 +205,7 @@ export class KernelModel {
       return;
     }
     this.future = this._sessionContext.session?.kernel?.requestExecute({
-      code
+      code,
     });
   }
 

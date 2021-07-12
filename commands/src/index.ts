@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 /**
@@ -24,16 +24,16 @@ const extension: JupyterFrontEndPlugin<void> = {
         if (orig !== 'init') {
           window.alert(`jlab-examples:command has been called from ${orig}.`);
         }
-      }
+      },
     });
 
     // Call the command execution
-    commands.execute(command, { origin: 'init' }).catch(reason => {
+    commands.execute(command, { origin: 'init' }).catch((reason) => {
       console.error(
         `An error occurred during the execution of jlab-examples:command.\n${reason}`
       );
     });
-  }
+  },
 };
 
 export default extension;

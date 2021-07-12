@@ -15,7 +15,7 @@ import { IDisposable, DisposableDelegate } from '@lumino/disposable';
 
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import { ToolbarButton } from '@jupyterlab/apputils';
@@ -25,7 +25,7 @@ import { DocumentRegistry } from '@jupyterlab/docregistry';
 import {
   NotebookActions,
   NotebookPanel,
-  INotebookModel
+  INotebookModel,
 } from '@jupyterlab/notebook';
 ```
 
@@ -37,7 +37,7 @@ Firstly you have to register the plugin information. For that you have to pass a
 const plugin: JupyterFrontEndPlugin<void> = {
   activate,
   id: 'toolbar-button',
-  autoStart: true
+  autoStart: true,
 };
 ```
 
@@ -48,7 +48,8 @@ document widget; in this case a notebook panel.
 // src/index.ts#L30-L54
 
 export class ButtonExtension
-  implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
+  implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel>
+{
   /**
    * Create a new extension for the notebook panel widget.
    */
@@ -63,7 +64,7 @@ export class ButtonExtension
       className: 'clear-output-button',
       label: 'Clear All Outputs',
       onClick: clearOutput,
-      tooltip: 'Clear All Outputs'
+      tooltip: 'Clear All Outputs',
     });
 
     panel.toolbar.insertItem(10, 'clearOutputs', button);
@@ -71,7 +72,6 @@ export class ButtonExtension
       button.dispose();
     });
   }
-}
 ```
 
 Finally you need to tell the document registry about your widget extension:
@@ -79,9 +79,9 @@ Finally you need to tell the document registry about your widget extension:
 ```ts
 // src/index.ts#L59-L61
 
+ */
 function activate(app: JupyterFrontEnd) {
   app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
-}
 ```
 
 ## Where to Go Next

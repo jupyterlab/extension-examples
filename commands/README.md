@@ -40,16 +40,16 @@ const extension: JupyterFrontEndPlugin<void> = {
         if (orig !== 'init') {
           window.alert(`jlab-examples:command has been called from ${orig}.`);
         }
-      }
+      },
     });
 
     // Call the command execution
-    commands.execute(command, { origin: 'init' }).catch(reason => {
+    commands.execute(command, { origin: 'init' }).catch((reason) => {
       console.error(
         `An error occurred during the execution of jlab-examples:command.\n${reason}`
       );
     });
-  }
+  },
 };
 ```
 
@@ -71,12 +71,12 @@ with the unique command id and optionally the arguments.
 ```ts
 // src/index.ts#L31-L36
 
-  commands.execute(command, { origin: 'init' }).catch(reason => {
+  commands.execute(command, { origin: 'init' }).catch((reason) => {
     console.error(
       `An error occurred during the execution of jlab-examples:command.\n${reason}`
     );
   });
-}
+},
 ```
 
 When running JupyterLab with this extension, the following message should

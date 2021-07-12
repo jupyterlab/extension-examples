@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import { ICommandPalette } from '@jupyterlab/apputils';
@@ -30,7 +30,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   autoStart: true,
   optional: [ILauncher],
   requires: [ICommandPalette, IMainMenu, ITranslator],
-  activate
+  activate,
 };
 
 /**
@@ -58,7 +58,7 @@ function activate(
   if (launcher) {
     launcher.add({
       command: CommandIDs.create,
-      category: category
+      category: category,
     });
   }
 
@@ -85,7 +85,7 @@ function activate(
   commands.addCommand(CommandIDs.create, {
     label: trans.__('Open the Signal Example Panel'),
     caption: trans.__('Open the Signal Example Panel'),
-    execute: createPanel
+    execute: createPanel,
   });
 
   // Add items in command palette and menu

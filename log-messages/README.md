@@ -62,7 +62,7 @@ Finally, you can send log messages by calling the `log` method of the `logger` o
 const msg: ITextLog = {
   type: 'text',
   level: 'info',
-  data: 'Hello world text!!'
+  data: 'Hello world text!!',
 };
 
 logger?.log(msg);

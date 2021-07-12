@@ -1,7 +1,7 @@
 import {
   ISessionContext,
   SessionContext,
-  sessionContextDialogs
+  sessionContextDialogs,
 } from '@jupyterlab/apputils';
 
 import { OutputAreaModel, SimplifiedOutputArea } from '@jupyterlab/outputarea';
@@ -13,7 +13,7 @@ import { KernelMessage, ServiceManager } from '@jupyterlab/services';
 import {
   ITranslator,
   nullTranslator,
-  TranslationBundle
+  TranslationBundle,
 } from '@jupyterlab/translation';
 
 import { Message } from '@lumino/messaging';
@@ -45,25 +45,25 @@ export class ExamplePanel extends StackedPanel {
     this._sessionContext = new SessionContext({
       sessionManager: manager.sessions,
       specsManager: manager.kernelspecs,
-      name: 'Kernel Output'
+      name: 'Kernel Output',
     });
 
     this._outputareamodel = new OutputAreaModel();
     this._outputarea = new SimplifiedOutputArea({
       model: this._outputareamodel,
-      rendermime: rendermime
+      rendermime: rendermime,
     });
 
     this.addWidget(this._outputarea);
 
     void this._sessionContext
       .initialize()
-      .then(async value => {
+      .then(async (value) => {
         if (value) {
           await sessionContextDialogs.selectKernel(this._sessionContext);
         }
       })
-      .catch(reason => {
+      .catch((reason) => {
         console.error(
           `Failed to initialize the session in ExamplePanel.\n${reason}`
         );
@@ -84,7 +84,7 @@ export class ExamplePanel extends StackedPanel {
       .then((msg: KernelMessage.IExecuteReplyMsg) => {
         console.log(msg);
       })
-      .catch(reason => console.error(reason));
+      .catch((reason) => console.error(reason));
   }
 
   protected onCloseRequest(msg: Message): void {

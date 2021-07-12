@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import { ICommandPalette } from '@jupyterlab/apputils';
@@ -30,7 +30,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       execute: () => {
         const widget = new ExampleWidget();
         shell.add(widget, 'main');
-      }
+      },
     });
     palette.addItem({ command, category: 'Extension Examples' });
 
@@ -39,7 +39,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     exampleMenu.title.label = 'Widget Example';
     mainMenu.addMenu(exampleMenu, { rank: 80 });
     exampleMenu.addItem({ command });
-  }
+  },
 };
 
 export default extension;

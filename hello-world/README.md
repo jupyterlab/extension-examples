@@ -102,14 +102,16 @@ The following sections will walk you through the extension code files.
 Start with the file `src/index.ts`. This typescript file contains the main
 logic of the extension. It begins with the following import section:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L1-L4
 
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 ```
+<!-- prettier-ignore-end -->
 
 `JupyterFrontEnd` is the main Jupyterlab application class. It allows you to
 access and modify some of its main components. `JupyterFrontEndPlugin` is the class
@@ -118,10 +120,10 @@ called `@jupyterlab/application`. The dependency of your extension on this
 package is declared in the file `package.json`:
 
 ```json5
-// package.json#L46-L48
+// package.json#L50-L52
 
 "dependencies": {
-  "@jupyterlab/application": "^3.0.0"
+  "@jupyterlab/application": "^3.0.11"
 },
 ```
 
@@ -145,7 +147,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
 ```ts
 // src/index.ts#L14-L17
 
-  }
+  },
 };
 
 export default plugin;
@@ -232,7 +234,7 @@ a bit. Simply replace the `activate` function with the following lines:
 
 activate: (app: JupyterFrontEnd) => {
   console.log('the JupyterLab main application:', app);
-}
+},
 ```
 <!-- prettier-ignore-end -->
 

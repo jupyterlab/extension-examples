@@ -81,7 +81,7 @@ constructor(options = { node: document.createElement('button') }) {
 // src/button.ts#L28-L30
 
 private _count: ICount = {
-  clickCount: 0
+  clickCount: 0,
 };
 ```
 

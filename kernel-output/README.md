@@ -55,7 +55,7 @@ the kernel) is started with these lines:
 this._sessionContext = new SessionContext({
   sessionManager: manager.sessions,
   specsManager: manager.kernelspecs,
-  name: 'Kernel Output'
+  name: 'Kernel Output',
 });
 ```
 
@@ -79,12 +79,12 @@ with this line:
 
 void this._sessionContext
   .initialize()
-  .then(async value => {
+  .then(async (value) => {
     if (value) {
       await sessionContextDialogs.selectKernel(this._sessionContext);
     }
   })
-  .catch(reason => {
+  .catch((reason) => {
     console.error(
       `Failed to initialize the session in ExamplePanel.\n${reason}`
     );
@@ -129,7 +129,7 @@ the data to show:
 this._outputareamodel = new OutputAreaModel();
 this._outputarea = new SimplifiedOutputArea({
   model: this._outputareamodel,
-  rendermime: rendermime
+  rendermime: rendermime,
 });
 ```
 
@@ -145,7 +145,7 @@ execute(code: string): void {
     .then((msg: KernelMessage.IExecuteReplyMsg) => {
       console.log(msg);
     })
-    .catch(reason => console.error(reason));
+    .catch((reason) => console.error(reason));
 }
 ```
 
@@ -188,7 +188,7 @@ on a list:
 // src/index.ts#L110-L114
 
 // add items in command palette and menu
-[CommandIDs.create, CommandIDs.execute].forEach(command => {
+[CommandIDs.create, CommandIDs.execute].forEach((command) => {
   palette.addItem({ command, category });
   exampleMenu.addItem({ command });
 });
@@ -245,14 +245,14 @@ commands.addCommand(CommandIDs.execute, {
     const input = await InputDialog.getText({
       title: trans.__('Code to execute'),
       okLabel: trans.__('Execute'),
-      placeholder: trans.__('Statement to execute')
+      placeholder: trans.__('Statement to execute'),
     });
     // Execute the statement
     if (input.button.accept) {
       const code = input.value;
       panel.execute(code);
     }
-  }
+  },
 });
 ```
 

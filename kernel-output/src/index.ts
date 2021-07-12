@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import { ICommandPalette, InputDialog } from '@jupyterlab/apputils';
@@ -34,7 +34,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   autoStart: true,
   optional: [ILauncher],
   requires: [ICommandPalette, IMainMenu, IRenderMimeRegistry, ITranslator],
-  activate: activate
+  activate: activate,
 };
 
 /**
@@ -82,7 +82,7 @@ function activate(
   commands.addCommand(CommandIDs.create, {
     label: trans.__('Open the Kernel Output Panel'),
     caption: trans.__('Open the Kernel Output Panel'),
-    execute: createPanel
+    execute: createPanel,
   });
 
   commands.addCommand(CommandIDs.execute, {
@@ -97,18 +97,18 @@ function activate(
       const input = await InputDialog.getText({
         title: trans.__('Code to execute'),
         okLabel: trans.__('Execute'),
-        placeholder: trans.__('Statement to execute')
+        placeholder: trans.__('Statement to execute'),
       });
       // Execute the statement
       if (input.button.accept) {
         const code = input.value;
         panel.execute(code);
       }
-    }
+    },
   });
 
   // add items in command palette and menu
-  [CommandIDs.create, CommandIDs.execute].forEach(command => {
+  [CommandIDs.create, CommandIDs.execute].forEach((command) => {
     palette.addItem({ command, category });
     exampleMenu.addItem({ command });
   });
@@ -117,7 +117,7 @@ function activate(
   if (launcher) {
     launcher.add({
       command: CommandIDs.create,
-      category: category
+      category: category,
     });
   }
 }
