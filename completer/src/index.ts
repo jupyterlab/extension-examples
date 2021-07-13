@@ -3,23 +3,13 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { ISessionContext } from '@jupyterlab/apputils';
-
-import { Cell } from '@jupyterlab/cells';
-
 import {
-  Completer,
-  CompletionHandler,
   ContextConnector,
   ICompletionManager,
   KernelConnector
 } from '@jupyterlab/completer';
 
-import {
-  INotebookTracker,
-  Notebook,
-  NotebookPanel
-} from '@jupyterlab/notebook';
+import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 
 import { CompletionConnector } from './connector';
 import { CustomConnector } from './customconnector';
@@ -56,19 +46,15 @@ const extension: JupyterFrontEndPlugin<void> = {
       (sender: INotebookTracker, panel: NotebookPanel) => {
         let editor = panel.content.activeCell?.editor ?? null;
         const session = panel.sessionContext.session;
-        const renderer = Completer.defaultRenderer;
         let options = { session, editor };
         const connector = new CompletionConnector([]);
-        // Partial logic from jupyterlab-lsp's completion.ts (CompletionLabIntegration class)
-        const handler = completionManager.register(
-          { connector, editor, parent: panel },
-          renderer
-        ) as CompletionHandler;
+        const handler = completionManager.register({
+          connector,
+          editor,
+          parent: panel
+        });
 
-        const updateConnector = (
-          notebook: Notebook | ISessionContext,
-          cell: Cell | any
-        ) => {
+        const updateConnector = () => {
           editor = panel.content.activeCell?.editor ?? null;
           options.session = panel.sessionContext.session;
           options.editor = editor;

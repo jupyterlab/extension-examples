@@ -37,7 +37,7 @@ export class CustomConnector extends DataConnector<
       return Promise.reject('No editor');
     }
     return new Promise<CompletionHandler.IReply>(resolve => {
-      resolve(Private.contextHint(this._editor!));
+      resolve(Private.completionHint(this._editor!));
     });
   }
 
@@ -66,14 +66,14 @@ namespace Private {
   /**
    * Get a list of mocked completion hints.
    */
-  export function contextHint(
+  export function completionHint(
     editor: CodeEditor.IEditor
   ): CompletionHandler.IReply {
     // Find the token at the cursor
     const cursor = editor.getCursorPosition();
     const token = editor.getTokenForPosition(cursor);
 
-    // Get the list of matching tokens.
+    // Create a list of matching tokens.
     const tokenList = [
       { value: token.value + 'Magic', offset: token.offset, type: 'magic' },
       { value: token.value + 'Science', offset: token.offset, type: 'science' },
@@ -82,7 +82,7 @@ namespace Private {
 
     // Only choose the ones that have a non-empty type field, which are likely to be of interest.
     const completionList = tokenList.filter(t => t.type).map(t => t.value);
-    // Remove duplicate completsions from the list
+    // Remove duplicate completions from the list
     const matches = Array.from(new Set<string>(completionList));
 
     return {

@@ -38,14 +38,14 @@ export class CompletionConnector extends DataConnector<
   fetch(
     request: CompletionHandler.IRequest
   ): Promise<CompletionHandler.IReply> {
-    return Promise.all(this._connectors.map(con => con.fetch(request))).then(
-      replies => {
-        const definedReplies = replies.filter(
-          (reply): reply is CompletionHandler.IReply => !!reply
-        );
-        return Private.mergeReplies(definedReplies);
-      }
-    );
+    return Promise.all(
+      this._connectors.map(connector => connector.fetch(request))
+    ).then(replies => {
+      const definedReplies = replies.filter(
+        (reply): reply is CompletionHandler.IReply => !!reply
+      );
+      return Private.mergeReplies(definedReplies);
+    });
   }
 
   private _connectors: DataConnector<
