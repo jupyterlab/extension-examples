@@ -101,6 +101,7 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         run: jlpm run eslint:check
       - name: Build and check by extension
+        if: steps.filter.outputs.extension == 'true'
         run: |
           pip install . -vvv
           jupyter labextension list 2>&1 | tee labextension.list
