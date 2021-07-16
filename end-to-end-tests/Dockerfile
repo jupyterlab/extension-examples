@@ -1,8 +1,9 @@
+# Use base jupyter image that comes with jupyterlab
 FROM jupyter/base-notebook
 
 USER root
 
-# Install specific JupyterLab
-RUN python -m pip install --pre --upgrade jupyterlab
+# Upgrade JupyterLab
+RUN python -m pip install --upgrade jupyterlab
 
 USER 1000

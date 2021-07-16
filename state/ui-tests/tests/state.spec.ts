@@ -7,16 +7,22 @@ test('should store state between reloads', async ({ page }) => {
   await page.waitForSelector('#jupyterlab-splash');
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
 
-  // expect(await page.waitForSelector('text=one')).toBeTruthy();
+  // Check select current value
+  expect(
+    await page.$eval<string, HTMLSelectElement>(
+      'text=Pick an option to persist by the State Example extensiononetwothreeCancelOK >> select',
+      (s) => s.value
+    )
+  ).toEqual('one');
 
   // Select two
   await page.selectOption(
-    'text=Pick an option to persist by the State Example extension >> select',
+    'text=Pick an option to persist by the State Example extensiononetwothreeCancelOK >> select',
     'two'
   );
 
   const select = await page.waitForSelector(
-    'text=Pick an option to persist by the State Example extension >> select'
+    'text=Pick an option to persist by the State Example extensiononetwothreeCancelOK >> select'
   );
 
   // Click button:has-text("OK")
@@ -27,7 +33,12 @@ test('should store state between reloads', async ({ page }) => {
   await page.waitForSelector('#jupyterlab-splash');
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
 
-  expect(await page.waitForSelector('text=one')).toBeTruthy();
+  expect(
+    await page.$eval<string, HTMLSelectElement>(
+      'text=Pick an option to persist by the State Example extensiononetwothreeCancelOK >> select',
+      (s) => s.value
+    )
+  ).toEqual('two');
 
   // Add delay for better documentation
   await page.waitForTimeout(500);

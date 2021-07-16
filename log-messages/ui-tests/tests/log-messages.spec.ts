@@ -40,12 +40,14 @@ test('should capture log messages in dedicated panel', async ({ page }) => {
   // Click text=Text log message
   await page.click('text=Text log message');
 
+  let failed = true;
   try {
     await page.waitForSelector('text=Hello world text!!', { timeout: 200 });
-    throw new Error('Found unexpected log message.');
   } catch (e) {
-    expect(e).not.toBeUndefined();
+    failed = false;
+    expect(e).toBeTruthy();
   }
+  expect(failed).toBe(false);
 
   // Select debug
   await page.selectOption('[aria-label="Log level"]', 'debug');
@@ -59,12 +61,15 @@ test('should capture log messages in dedicated panel', async ({ page }) => {
   // Click button:has-text("Clear Log")
   await page.click('button:has-text("Clear Log")');
 
+  failed = true;
   try {
     await page.waitForSelector('text=Hello world text!!', { timeout: 200 });
     throw new Error('Log messages were not cleared.');
   } catch (e) {
-    expect(e).not.toBeUndefined();
+    failed = false;
+    expect(e).toBeTruthy();
   }
+  expect(failed).toBe(false);
 
   // Add delay for better documentation
   await page.waitForTimeout(500);

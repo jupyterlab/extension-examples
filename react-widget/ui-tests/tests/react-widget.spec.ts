@@ -25,6 +25,8 @@ test('should open a new panel with a react component', async ({ page }) => {
   // Click text=You clicked 4 times!
   expect(await page.waitForSelector('text=You clicked 4 times!')).toBeTruthy();
 
+  expect(await page.screenshot()).toMatchSnapshot('react-widget-example.png');
+
   // Add delay for better documentation
   await page.waitForTimeout(500);
 });

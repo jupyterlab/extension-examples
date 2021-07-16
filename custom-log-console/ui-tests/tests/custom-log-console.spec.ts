@@ -70,15 +70,17 @@ test('should open a log panel and filter message depending on the log level.', a
   // Click text=HTML log message
   await page.click('text=HTML log message');
 
+  let failed = true;
   try {
     await page.waitForSelector('text=Hello world HTML!!', {
       state: 'attached',
       timeout: 200,
     });
-    throw new Error('HTML message is not filtered.');
   } catch (e) {
+    failed = false;
     expect(e).toBeTruthy();
   }
+  expect(failed).toBe(false);
 
   // Select debug
   await page.selectOption('[aria-label="Log level"]', 'debug');

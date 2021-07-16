@@ -27,13 +27,13 @@ services:
     image: mcr.microsoft.com/playwright:v1.12.0-focal
     entrypoint:
       [
-        '/tmp/e2e-tests/wait-for-it.sh',
+        '/tmp/e2e-tests/prepare.sh',
         'jupyterlab:8888',
         '--strict',
         '--timeout=60',
         '--',
       ]
-    command: '/tmp/e2e-tests/run-e2e.sh'
+    command: ['npx', 'playwright', 'test']
     environment:
       # JupyterLab URL
       TARGET_URL: http://jupyterlab:8888
