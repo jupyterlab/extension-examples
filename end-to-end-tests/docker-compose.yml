@@ -8,6 +8,8 @@ services:
     command: [
         'jupyter',
         'lab',
+        # Set working directory as empty directory - no modified time displayed
+        '--notebook-dir=./work',
         '--ServerApp.token=',
         '--ServerApp.password=',
         '--ServerApp.disable_check_xsrf=True',
