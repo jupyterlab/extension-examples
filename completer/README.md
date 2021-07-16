@@ -5,6 +5,7 @@
 - [Code structure](#code-structure)
 - [Creating a custom connector](#creating-a-custom-connector)
 - [Aggregating connector responses](#aggregating-connector-responses)
+- [Disabling a JupyterLab plugin](#disabling-a-jupyterlab-plugin)
 - [Asynchronous extension initialization](#asynchronous-extension-initialization)
 - [Where to go next](#where-to-go-next)
 
@@ -35,7 +36,7 @@ In `src/customconnector.ts` we define a `CustomConnector` to generate mock autoc
 
 [_JupyterLab_'s `CompletionConnector`](https://github.com/jupyterlab/jupyterlab/blob/master/packages/completer/src/connector.ts) fetches and merges completion responses from `KernelConnector` and `ContextConnector`. Our modified `CompletionConnector` in `src/connector.ts` is more general; given an array of `DataConnectors`, it can fetch and merge completion matches from every connector provided.
 
-## Asynchronous extension initialization
+## Disabling a JupyterLab plugin
 
 [_JupyterLab_'s completer-extension](https://github.com/jupyterlab/jupyterlab/tree/master/packages/completer-extension) includes a notebooks plugin that registers notebooks for code completion. Our extension will override the notebooks plugin's behavior, so we [disable notebooks](https://jupyterlab.readthedocs.io/en/stable/extension/extension_dev.html#disabling-other-extensions) in our `.package.json`:
 
@@ -51,12 +52,14 @@ In `src/customconnector.ts` we define a `CustomConnector` to generate mock autoc
   }
 ```
 
+## Asynchronous extension initialization
+
 `index.ts` contains the code to initialize this extension. Nearly all of the code in `index.ts` is copied directly from the notebooks plugin.
 
 Note that the extension commands we're overriding are unified into one namespace at the top of the file:
 
 ```ts
-// src/index.ts#L23-L31
+// src/index.ts#L20-L28
 
 namespace CommandIDs {
   export const invoke = 'completer:invoke';
@@ -84,7 +87,7 @@ import {
 and two from our extension:
 
 ```ts
-// src/index.ts#L17-L18
+// src/index.ts#L14-L15
 
 import { CompletionConnector } from './connector';
 import { CustomConnector } from './customconnector';
@@ -93,7 +96,7 @@ import { CustomConnector } from './customconnector';
 Just like the notebooks plugin, when we update the handler for a notebook we call `updateConnector`:
 
 ```ts
-// src/index.ts#L72-L74
+// src/index.ts#L73-L75
 
 // Update the handler whenever the prompt or session changes
 panel.content.activeCellChanged.connect(updateConnector);
@@ -103,7 +106,7 @@ panel.sessionContext.sessionChanged.connect(updateConnector);
 which, unlike the notebooks plugin, instantiates `KernelConnector`, `ContextConnector`, and `CustomConnector`, then passes them to our modified `CompletionConnector`:
 
 ```ts
-// src/index.ts#L56-L70
+// src/index.ts#L57-L71
 
 const updateConnector = () => {
   editor = panel.content.activeCell?.editor ?? null;
