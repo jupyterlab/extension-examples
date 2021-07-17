@@ -103,7 +103,7 @@ jobs:
       - name: Build and check by extension
         if: steps.filter.outputs.extension == 'true'
         run: |
-          pip install . -vvv
+          pip install . -v
           jupyter labextension list 2>&1 | tee labextension.list
           cat labextension.list | grep -ie "@jupyterlab-examples/*.*OK"
           python -m jupyterlab.browser_check
@@ -113,6 +113,8 @@ jobs:
       - name: Integration tests
         if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux')
         run: |
+          ls -l jupyterlab_examples_*/labextension
+          ls -l jupyterlab_examples_*/labextension/static
           docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env down || true
           docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env pull -q || true
           docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env build

@@ -29,6 +29,8 @@ test('should emit console message and alert when button is pressed', async ({
   });
   await page.click('text=Click me');
 
+  await page.click('text=Signal Example View');
+
   expect(await page.screenshot()).toMatchSnapshot('signals-example.png');
 
   // Add delay for better documentation

@@ -13,6 +13,8 @@ test('should open a widget panel', async ({ page }) => {
   // Click ul[role="menu"] >> text=Open a Tab Widget
   await page.click('ul[role="menu"] >> text=Open a Tab Widget');
 
+  await page.click('text=Widget Example View');
+
   expect(await page.screenshot()).toMatchSnapshot('widgets-example.png');
 
   // Add delay for better documentation
