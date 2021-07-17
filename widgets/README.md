@@ -79,6 +79,7 @@ class ExampleWidget extends Widget {
 You can associate style properties to the custom CSS class in the file
 `style/base.css`:
 
+<!-- prettier-ignore-start -->
 <!-- embedme style/base.css -->
 
 ```css
@@ -87,6 +88,7 @@ You can associate style properties to the custom CSS class in the file
 }
 
 ```
+<!-- prettier-ignore-end -->
 
 ## Where to Go Next
 

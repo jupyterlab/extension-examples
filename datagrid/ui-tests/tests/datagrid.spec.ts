@@ -7,6 +7,13 @@ test('should open a datagrid panel', async ({ page }) => {
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
   await page.waitForSelector('text=Launcher');
 
+  // Close filebrowser
+  await page.click('text=View');
+  await Promise.all([
+    page.waitForSelector('#filebrowser', { state: 'hidden' }),
+    page.click('ul[role="menu"] >> text=Show Left Sidebar'),
+  ]);
+
   // Click text=DataGrid Example
   await page.click('text=DataGrid Example');
   // Click ul[role="menu"] >> text=Open a Datagrid

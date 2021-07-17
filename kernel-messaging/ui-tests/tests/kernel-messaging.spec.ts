@@ -26,6 +26,13 @@ test('should open a panel connected to a kernel', async ({ page }) => {
     )
   ).toBeTruthy();
 
+  // Close filebrowser
+  await page.click('text=View');
+  await Promise.all([
+    page.waitForSelector('#filebrowser', { state: 'hidden' }),
+    page.click('ul[role="menu"] >> text=Show Left Sidebar'),
+  ]);
+
   // Compare screenshot with a stored reference.
   expect(await page.screenshot()).toMatchSnapshot(
     'kernel-messaging-example.png'

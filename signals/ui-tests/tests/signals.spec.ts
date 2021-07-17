@@ -29,7 +29,12 @@ test('should emit console message and alert when button is pressed', async ({
   });
   await page.click('text=Click me');
 
-  await page.click('text=Signal Example View');
+  // Close filebrowser
+  await page.click('text=View');
+  await Promise.all([
+    page.waitForSelector('#filebrowser', { state: 'hidden' }),
+    page.click('ul[role="menu"] >> text=Show Left Sidebar'),
+  ]);
 
   expect(await page.screenshot()).toMatchSnapshot('signals-example.png');
 
