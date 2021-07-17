@@ -77,14 +77,15 @@ class ExampleWidget extends Widget {
 ```
 
 You can associate style properties to the custom CSS class in the file
-`style/index.css`:
+`style/base.css`:
 
-<!-- embedme style/index.css -->
+<!-- embedme style/base.css -->
 
 ```css
 .jp-example-view {
   background-color: AliceBlue;
 }
+
 ```
 
 ## Where to Go Next
