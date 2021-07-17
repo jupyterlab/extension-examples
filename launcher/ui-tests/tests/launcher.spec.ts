@@ -4,8 +4,8 @@ const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
 
 test('should add a card to create Python file', async ({ page }) => {
   await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash');
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
+  await page.waitForSelector('text=Launcher');
 
   // Scroll to the new card
   await page.focus('text=Extension ExamplesPython File >> p');

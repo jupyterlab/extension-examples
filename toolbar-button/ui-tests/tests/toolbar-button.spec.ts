@@ -4,8 +4,8 @@ const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
 
 test('should clear all outputs when clicked', async ({ page }) => {
   await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash');
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
+  await page.waitForSelector('text=Launcher');
 
   // Click text=File
   await page.click('text=File');
@@ -15,6 +15,8 @@ test('should clear all outputs when clicked', async ({ page }) => {
   await page.click('#jp-mainmenu-file-new >> text=Notebook');
   // Click button:has-text("Select")
   await page.click('button:has-text("Select")');
+
+  await page.waitForSelector('text=Idle');
 
   // Fill textarea
   await page.fill('textarea', 'print("Hello, JupyterLab")');

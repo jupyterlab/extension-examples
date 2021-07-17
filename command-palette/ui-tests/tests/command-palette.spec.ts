@@ -12,8 +12,8 @@ test('should emit console message when called from palette', async ({
   });
 
   await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash');
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
+  await page.waitForSelector('text=Launcher');
 
   // Click text=View
   await page.click('text=View');

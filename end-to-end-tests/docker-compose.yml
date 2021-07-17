@@ -26,7 +26,8 @@ services:
       - ../$EXT_FOLDER/labextension:/opt/labextension/@jupyterlab-examples/$EXT_NAME
 
   e2e:
-    image: mcr.microsoft.com/playwright:v1.12.0-focal
+    # docker must match playwright version in ui-tests/package.json
+    image: mcr.microsoft.com/playwright:v1.12.3-focal
     entrypoint:
       [
         '/tmp/e2e-tests/prepare.sh',

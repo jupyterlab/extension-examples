@@ -4,8 +4,8 @@ const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
 
 test('should capture log messages in dedicated panel', async ({ page }) => {
   await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash');
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
+  await page.waitForSelector('text=Launcher');
 
   // Click File menu
   await page.click('text=File');

@@ -6,8 +6,8 @@ test('should emit console message and alert when button is pressed', async ({
   page,
 }) => {
   await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash');
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
+  await page.waitForSelector('text=Launcher');
 
   // Click text=Signal Example
   await page.click('text=Signal Example');

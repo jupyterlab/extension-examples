@@ -6,8 +6,8 @@ test('should open a log panel and filter message depending on the log level.', a
   page,
 }) => {
   await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash');
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
+  await page.waitForSelector('text=Launcher');
 
   // Click text=Log Console Example
   await page.click('text=Log Console Example');

@@ -4,8 +4,8 @@ const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
 
 test('should open a new panel with a react component', async ({ page }) => {
   await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash');
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
+  await page.waitForSelector('text=Launcher');
 
   // Click text=React Widget
   await page.click('text=React Widget');

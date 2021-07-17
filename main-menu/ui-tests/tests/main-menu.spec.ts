@@ -12,8 +12,8 @@ test('should emit a message in a dialog when menu is triggered', async ({
   });
 
   await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash');
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
+  await page.waitForSelector('text=Launcher');
 
   // Click text=Main Menu Example
   await page.click('text=Main Menu Example');

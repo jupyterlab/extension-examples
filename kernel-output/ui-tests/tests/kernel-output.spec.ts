@@ -4,8 +4,8 @@ const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
 
 test('should open a panel connected to a notebook kernel', async ({ page }) => {
   await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash');
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
+  await page.waitForSelector('text=Launcher');
 
   // Install pandas through console
   await page.click('text=File');
