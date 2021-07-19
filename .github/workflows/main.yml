@@ -64,6 +64,8 @@ jobs:
           diff ../hello-world/.eslintignore .eslintignore
           diff ../hello-world/.eslintrc.js .eslintrc.js
           diff ../hello-world/.gitignore .gitignore
+          diff ../hello-world/ui-tests/playwright.config.ts ./ui-tests/playwright.config.ts
+          diff ../hello-world/ui-tests/README.md ./ui-tests/README.md
         shell: bash
       - name: Install node
         if: steps.filter.outputs.extension == 'true'
@@ -168,6 +170,8 @@ jobs:
           diff hello-world/tsconfig.json server-extension/tsconfig.json
           diff hello-world/.eslintignore server-extension/.eslintignore
           diff hello-world/.eslintrc.js server-extension/.eslintrc.js
+          diff hello-world/ui-tests/playwright.config.ts server-extension/ui-tests/playwright.config.ts
+          diff hello-world/ui-tests/README.md server-extension/ui-tests/README.md
         shell: bash
       - name: Install Python
         if: steps.filter.outputs.extension == 'true'
