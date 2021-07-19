@@ -84,7 +84,7 @@ Finally you need to tell the document registry about your widget extension:
 ```ts
 // src/index.ts#L66-L68
 
-function activate(app: JupyterFrontEnd) {
+function activate(app: JupyterFrontEnd): void {
   app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
 }
 ```
