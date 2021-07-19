@@ -105,6 +105,7 @@ panel.sessionContext.sessionChanged.connect(updateConnector);
 
 which, unlike the notebooks plugin, instantiates `KernelConnector`, `ContextConnector`, and `CustomConnector`, then passes them to our modified `CompletionConnector`:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L57-L71
 
@@ -117,9 +118,14 @@ const updateConnector = () => {
   const kernel = new KernelConnector(options);
   const context = new ContextConnector(options);
   const custom = new CustomConnector(options);
-  handler.connector = new CompletionConnector([kernel, context, custom]);
+  handler.connector = new CompletionConnector([
+    kernel,
+    context,
+    custom
+  ]);
 };
 ```
+<!-- prettier-ignore-end -->
 
 ## Where to go next
 
