@@ -45,7 +45,7 @@ New widgets can be added to a document widget by implementing the interface [Doc
 document widget; in this case a notebook panel.
 
 ```ts
-// src/index.ts#L30-L60
+// src/index.ts#L30-L59
 
 export class ButtonExtension
   implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel>
@@ -77,7 +77,6 @@ export class ButtonExtension
     });
   }
 }
-
 ```
 
 Finally you need to tell the document registry about your widget extension:
