@@ -5,7 +5,7 @@ const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
 test('should open a widget panel', async ({ page }) => {
   await page.goto(`${TARGET_URL}/lab`);
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-  await page.waitForSelector('text=Launcher');
+  await page.waitForSelector('div[role="main"] >> text=Launcher');
 
   // Close filebrowser
   await page.click('text=View');
@@ -20,7 +20,7 @@ test('should open a widget panel', async ({ page }) => {
   // Click ul[role="menu"] >> text=Open a Tab Widget
   await page.click('ul[role="menu"] >> text=Open a Tab Widget');
 
-  await page.click('text=Widget Example View');
+  await page.click('div[role="main"] >> text=Widget Example View');
 
   expect(await page.screenshot()).toMatchSnapshot('widgets-example.png');
 });

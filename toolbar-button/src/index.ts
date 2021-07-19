@@ -63,7 +63,7 @@ export class ButtonExtension
  *
  * @param app Main application object
  */
-function activate(app: JupyterFrontEnd) {
+function activate(app: JupyterFrontEnd): void {
   app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
 }
 

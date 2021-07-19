@@ -5,7 +5,7 @@ const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
 test('should store state between reloads', async ({ page }) => {
   await page.goto(`${TARGET_URL}/lab`);
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-  await page.waitForSelector('text=Launcher');
+  await page.waitForSelector('div[role="main"] >> text=Launcher');
 
   // Check select current value
   expect(
@@ -44,7 +44,7 @@ test('should store state between reloads', async ({ page }) => {
   // Reload page
   await page.goto(`${TARGET_URL}/lab`);
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-  await page.waitForSelector('text=Launcher');
+  await page.waitForSelector('div[role="main"] >> text=Launcher');
 
   expect(
     await page.$eval<string, HTMLSelectElement>(

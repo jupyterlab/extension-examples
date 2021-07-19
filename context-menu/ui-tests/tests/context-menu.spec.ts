@@ -11,7 +11,7 @@ test('should have new context menu for example files', async ({ page }) => {
 
   await page.goto(`${TARGET_URL}/lab`);
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-  await page.waitForSelector('text=Launcher');
+  await page.waitForSelector('div[role="main"] >> text=Launcher');
 
   // Click li[role="menuitem"]:has-text("File")
   await page.click('li[role="menuitem"]:has-text("File")');
