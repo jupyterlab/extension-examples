@@ -17,6 +17,8 @@ services:
         # Workaround bug: https://github.com/ipython/traitlets/issues/668
         '--LabServerApp.extra_labextensions_path=/dev/null',
       ]
+    environment:
+      PYTHONPATH: /opt/serverextension
     networks:
       - frontend
     ports:
@@ -24,6 +26,8 @@ services:
     volumes:
       # Extension folder and name are set externally through .env file
       - ../$EXT_FOLDER/labextension:/opt/labextension/@jupyterlab-examples/$EXT_NAME
+      - ../$EXT_FOLDER/..:/opt/serverextension
+      - ../$EXT_FOLDER/../jupyter-config/server-config:/etc/jupyter/jupyter_server_config.d
 
   e2e:
     # docker must match playwright version in ui-tests/package.json

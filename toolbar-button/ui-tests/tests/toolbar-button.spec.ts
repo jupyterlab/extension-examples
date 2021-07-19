@@ -48,7 +48,4 @@ test('should clear all outputs when clicked', async ({ page }) => {
     expect(e).toBeTruthy();
   }
   expect(failed).toBe(false);
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

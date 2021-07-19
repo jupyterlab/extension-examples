@@ -38,7 +38,4 @@ test('should emit a message in a dialog when menu is triggered', async ({
       (s) => s === 'jlab-examples:main-menu has been called from the menu.'
     )
   ).toHaveLength(1);
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

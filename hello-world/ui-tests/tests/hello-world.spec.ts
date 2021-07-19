@@ -16,7 +16,4 @@ test('should emit console message', async ({ page }) => {
   expect(
     logs.filter((s) => s.startsWith('the JupyterLab main application'))
   ).toHaveLength(1);
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

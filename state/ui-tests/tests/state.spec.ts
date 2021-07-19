@@ -33,6 +33,7 @@ test('should store state between reloads', async ({ page }) => {
   await Promise.all([
     page.waitForRequest(
       (request) =>
+        request.url().search(/\/api\/workspaces\/default/) >= 0 &&
         request.method() === 'PUT' &&
         '@jupyterlab-examples/state:state-example' in
           request.postDataJSON()?.data
@@ -51,7 +52,4 @@ test('should store state between reloads', async ({ page }) => {
       (s) => s.value
     )
   ).toEqual('two');
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

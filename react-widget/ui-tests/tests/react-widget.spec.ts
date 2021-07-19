@@ -33,7 +33,4 @@ test('should open a new panel with a react component', async ({ page }) => {
   ]);
 
   expect(await page.screenshot()).toMatchSnapshot('react-widget-example.png');
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

@@ -104,7 +104,4 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
 
   // Compare screenshot with a stored reference.
   expect(await page.screenshot()).toMatchSnapshot('kernel-output-example.png');
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

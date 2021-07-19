@@ -239,6 +239,27 @@ jobs:
           cat labextension.list | grep -ie "@jupyterlab-examples/server-extension.*OK"
           python -m jupyterlab.browser_check
 
+      - name: Integration tests
+        if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux')
+        run: |
+          docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env down || true
+          docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env pull -q || true
+          docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env build
+          docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env run --rm e2e
+      - name: Upload UI Test artifacts
+        if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux') && always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: ui-test-output
+          path: |
+            ${{ matrix.example }}/ui-tests/test-results
+      - name: Stop containers
+        if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux') && always()
+        run: |
+          # Print jupyterlab logs before removing the containers using the container name set in docker-compose file
+          docker logs jupyterlab
+          docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env down
+
   build_all:
     runs-on: ${{ matrix.os }}
     strategy:

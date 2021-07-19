@@ -91,7 +91,4 @@ test('should open a log panel and filter message depending on the log level.', a
   await page.click('text=HTML log message');
 
   expect(await page.waitForSelector('text=Hello world HTML!!')).toBeTruthy();
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

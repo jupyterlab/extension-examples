@@ -16,7 +16,4 @@ test('should emit console message', async ({ page }) => {
   expect(
     logs.filter((s) => s === 'jlab-examples:command has been called from init.')
   ).toHaveLength(1);
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

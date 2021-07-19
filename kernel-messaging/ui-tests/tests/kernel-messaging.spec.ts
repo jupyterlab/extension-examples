@@ -37,7 +37,4 @@ test('should open a panel connected to a kernel', async ({ page }) => {
   expect(await page.screenshot()).toMatchSnapshot(
     'kernel-messaging-example.png'
   );
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

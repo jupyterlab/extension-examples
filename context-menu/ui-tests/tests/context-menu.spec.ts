@@ -49,7 +49,4 @@ test('should have new context menu for example files', async ({ page }) => {
 
   // Click button:has-text("OK")
   await page.click('button:has-text("OK")');
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

@@ -23,7 +23,4 @@ test('should open a widget panel', async ({ page }) => {
   await page.click('text=Widget Example View');
 
   expect(await page.screenshot()).toMatchSnapshot('widgets-example.png');
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

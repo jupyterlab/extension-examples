@@ -72,7 +72,4 @@ test('should emit console message', async ({ page }) => {
   });
   // Click button:has-text("Save User Settings")
   await page.click('button:has-text("Save User Settings")');
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

@@ -32,7 +32,4 @@ test('should emit console message when called from palette', async ({
       s.startsWith('jlab-examples:command-palette has been called from palette')
     )
   ).toHaveLength(1);
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

@@ -25,7 +25,4 @@ test('should open a datagrid panel', async ({ page }) => {
 
   // Compare screenshot with a stored reference.
   expect(await page.screenshot()).toMatchSnapshot('datagrid-example.png');
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });

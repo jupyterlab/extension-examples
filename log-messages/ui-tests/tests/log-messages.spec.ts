@@ -70,7 +70,4 @@ test('should capture log messages in dedicated panel', async ({ page }) => {
     expect(e).toBeTruthy();
   }
   expect(failed).toBe(false);
-
-  // Add delay for better documentation
-  await page.waitForTimeout(500);
 });
