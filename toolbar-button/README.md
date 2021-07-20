@@ -45,13 +45,17 @@ New widgets can be added to a document widget by implementing the interface [Doc
 document widget; in this case a notebook panel.
 
 ```ts
-// src/index.ts#L30-L54
+// src/index.ts#L30-L59
 
 export class ButtonExtension
   implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel>
 {
   /**
    * Create a new extension for the notebook panel widget.
+   *
+   * @param panel Notebook panel
+   * @param context Notebook context
+   * @returns Disposable on the added button
    */
   createNew(
     panel: NotebookPanel,
@@ -72,16 +76,17 @@ export class ButtonExtension
       button.dispose();
     });
   }
+}
 ```
 
 Finally you need to tell the document registry about your widget extension:
 
 ```ts
-// src/index.ts#L59-L61
+// src/index.ts#L66-L68
 
- */
-function activate(app: JupyterFrontEnd) {
+function activate(app: JupyterFrontEnd): void {
   app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
+}
 ```
 
 ## Where to Go Next

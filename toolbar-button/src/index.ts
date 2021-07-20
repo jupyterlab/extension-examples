@@ -32,6 +32,10 @@ export class ButtonExtension
 {
   /**
    * Create a new extension for the notebook panel widget.
+   *
+   * @param panel Notebook panel
+   * @param context Notebook context
+   * @returns Disposable on the added button
    */
   createNew(
     panel: NotebookPanel,
@@ -56,8 +60,10 @@ export class ButtonExtension
 
 /**
  * Activate the extension.
+ *
+ * @param app Main application object
  */
-function activate(app: JupyterFrontEnd) {
+function activate(app: JupyterFrontEnd): void {
   app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
 }
 
