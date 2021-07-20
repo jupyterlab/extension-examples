@@ -2,7 +2,7 @@
 
 The test will produce a video to help debugging and check what happened.
 
-To execute integration tests, you can two options:
+To execute integration tests, you have two options:
 
 - use docker-compose (cons: needs to know and use docker) - this is a more reliable solution.
 - run tests locally (cons: will interact with your JupyterLab user settings)
@@ -16,12 +16,12 @@ jlpm install
 jlpm run build:prod
 ```
 
-2. Execute the docker stack (`extension-path` needs to be set accordingly):
+2. Execute the docker stack in the example folder:
 
 ```
-docker-compose -f ./end-to-end-tests/docker-compose.yml --env-file ./extension-path/ui-tests/.env build
-docker-compose -f ./end-to-end-tests/docker-compose.yml --env-file ./extension-path/ui-tests/.env run --rm e2e
-docker-compose -f ./end-to-end-tests/docker-compose.yml --env-file ./extension-path/ui-tests/.env down
+docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env build
+docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env run --rm e2e
+docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env down
 ```
 
 ## Test locally
@@ -63,7 +63,7 @@ jlpm run build:prod
 **Using docker**
 
 ```
-docker-compose -f ./end-to-end-tests/docker-compose.yml --env-file ./extension-path/ui-tests/.env run --rm -p 8888:8888 lab
+docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env run --rm -p 8888:8888 lab
 ```
 
 **Using local installation**
@@ -96,7 +96,7 @@ jlpm run build:prod
 **Using docker**
 
 ```
-docker-compose -f ./end-to-end-tests/docker-compose.yml --env-file ./extension-path/ui-tests/.env run --rm -p 8888:8888 lab
+docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env run --rm -p 8888:8888 lab
 ```
 
 **Using local installation**

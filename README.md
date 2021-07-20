@@ -3,6 +3,34 @@
 [![Github Actions Status](https://github.com/jupyterlab/extension-examples/workflows/CI/badge.svg)](https://github.com/jupyterlab/extension-examples/actions?query=workflow%3ACI)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/extension-examples/master?urlpath=lab)
 
+1. [Goal](#tldr)
+2. [Develop by Examples](#develop-by-examples)
+   1. [Commands](#commands)
+   2. [Command Palette](#command-palette)
+   3. [Context Menu](#context-menu)
+   4. [Custom Log Console](#custom-log-console)
+   5. [Datagrid](#datagrid)
+   6. _[Hello World](#hello-world)_
+   7. [Kernel Messaging](#kernel-messaging)
+   8. [Kernel Output](#kernel-output)
+   9. [Launcher](#launcher)
+   10. [Log Messages](#log-messages)
+   11. [Main Menu](#main-menu)
+   12. [React Widget](#react-widget)
+   13. _[Server Hello World](#server-hello-world)_
+   14. [Settings](#settings)
+   15. [Signals](#signals)
+   16. [State](#state)
+   17. [Toolbar Item](#toolbar-item)
+   18. [Widgets](#widgets)
+3. [Prerequisites](#prerequisites)
+4. [Develop and Use the Examples](#develop-and-use-the-examples)
+5. [Test the Examples](#test-the-examples)
+6. [Install a Published Extension](#install-a-published-extension)
+7. [About JupyterLab](#about-jupyterlab)
+8. [Credits](#credits)
+9. [Community Guidelines and Code of Conduct](#community-guidelines-and-code-of-conduct)
+
 ## TL;DR
 
 The goal of this repository is to show how to develop extensions for [JupyterLab](https://github.com/jupyterlab/jupyterlab), presented as short tutorial series.
@@ -178,7 +206,7 @@ Use State persistence in an extension.
 
 [![State](state/preview.gif)](state)
 
-### [Toolbar item](toolbar-button)
+### [Toolbar Item](toolbar-button)
 
 Add a new button to the notebook toolbar.
 
@@ -274,6 +302,20 @@ From there, you can change your extension source code, it will be recompiled,
 and you can refresh your browser to see your changes.
 
 We are using [embedme](https://github.com/zakhenry/embedme) to embed code snippets into the markdown READMEs. If you make changes to the source code, ensure you update the README and run `jlpm embedme` from the root of the repository to regenerate the READMEs.
+
+## Test the Examples
+
+The examples are automatically tested for:
+
+- Homogeneous configuration:  
+  Configuration files are compared to the reference ones of the _hello-world_ example
+- TypeScript code lint
+- Installation in JupyterLab:  
+  The installation is checked by listing the installed extension and running JupyterLab with the helper `python -m jupyterlab.browser_check`
+- Integration test:  
+  Those tests are emulating user action in JupyterLab to check the extension is behaving as expected.  
+  The tests are defined in the `ui-tests` subfolder within each example.
+  This is possible thanks to a tool called [playwright](https://playwright.dev/).
 
 ## Install a Published Extension
 
