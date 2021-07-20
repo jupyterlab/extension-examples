@@ -1,3 +1,3 @@
 jlpm
-jlpm run lerna exec -- python -m pip install -e .
+jlpm run install-py
 jupyter serverextension enable jlab_ext_example
