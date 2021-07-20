@@ -1,12 +1,12 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import {
   ContextConnector,
   ICompletionManager,
-  KernelConnector
+  KernelConnector,
 } from '@jupyterlab/completer';
 
 import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
@@ -46,12 +46,12 @@ const extension: JupyterFrontEndPlugin<void> = {
       (sender: INotebookTracker, panel: NotebookPanel) => {
         let editor = panel.content.activeCell?.editor ?? null;
         const session = panel.sessionContext.session;
-        let options = { session, editor };
+        const options = { session, editor };
         const connector = new CompletionConnector([]);
         const handler = completionManager.register({
           connector,
           editor,
-          parent: panel
+          parent: panel,
         });
 
         const updateConnector = () => {
@@ -66,7 +66,7 @@ const extension: JupyterFrontEndPlugin<void> = {
           handler.connector = new CompletionConnector([
             kernel,
             context,
-            custom
+            custom,
           ]);
         };
 
@@ -83,7 +83,7 @@ const extension: JupyterFrontEndPlugin<void> = {
         if (panel && panel.content.activeCell?.model.type === 'code') {
           return app.commands.execute(CommandIDs.invoke, { id: panel.id });
         }
-      }
+      },
     });
 
     // Add notebook completer select command.
@@ -94,16 +94,16 @@ const extension: JupyterFrontEndPlugin<void> = {
         if (id) {
           return app.commands.execute(CommandIDs.select, { id });
         }
-      }
+      },
     });
 
     // Set enter key for notebook completer select command.
     app.commands.addKeyBinding({
       command: CommandIDs.selectNotebook,
       keys: ['Enter'],
-      selector: `.jp-Notebook .jp-mod-completer-active`
+      selector: '.jp-Notebook .jp-mod-completer-active',
     });
-  }
+  },
 };
 
 export default extension;

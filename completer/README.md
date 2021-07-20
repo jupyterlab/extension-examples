@@ -80,7 +80,7 @@ namespace CommandIDs {
 import {
   ContextConnector,
   ICompletionManager,
-  KernelConnector
+  KernelConnector,
 } from '@jupyterlab/completer';
 ```
 
@@ -121,7 +121,7 @@ const updateConnector = () => {
   handler.connector = new CompletionConnector([
     kernel,
     context,
-    custom
+    custom,
   ]);
 };
 ```

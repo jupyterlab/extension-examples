@@ -29,6 +29,7 @@ export class CustomConnector extends DataConnector<
    * Fetch completion requests.
    *
    * @param request - The completion request text and details.
+   * @returns Completion reply
    */
   fetch(
     request: CompletionHandler.IRequest
@@ -36,8 +37,8 @@ export class CustomConnector extends DataConnector<
     if (!this._editor) {
       return Promise.reject('No editor');
     }
-    return new Promise<CompletionHandler.IReply>(resolve => {
-      resolve(Private.completionHint(this._editor!));
+    return new Promise<CompletionHandler.IReply>((resolve) => {
+      resolve(Private.completionHint(this._editor));
     });
   }
 
@@ -65,6 +66,9 @@ export namespace CustomConnector {
 namespace Private {
   /**
    * Get a list of mocked completion hints.
+   *
+   * @param editor Editor
+   * @returns Completion reply
    */
   export function completionHint(
     editor: CodeEditor.IEditor
@@ -77,11 +81,11 @@ namespace Private {
     const tokenList = [
       { value: token.value + 'Magic', offset: token.offset, type: 'magic' },
       { value: token.value + 'Science', offset: token.offset, type: 'science' },
-      { value: token.value + 'Neither', offset: token.offset }
+      { value: token.value + 'Neither', offset: token.offset },
     ];
 
     // Only choose the ones that have a non-empty type field, which are likely to be of interest.
-    const completionList = tokenList.filter(t => t.type).map(t => t.value);
+    const completionList = tokenList.filter((t) => t.type).map((t) => t.value);
     // Remove duplicate completions from the list
     const matches = Array.from(new Set<string>(completionList));
 
@@ -89,7 +93,7 @@ namespace Private {
       start: token.offset,
       end: token.offset + token.value.length,
       matches,
-      metadata: {}
+      metadata: {},
     };
   }
 }
