@@ -67,6 +67,7 @@ export function completionHint(
 
 A list of mock completion tokens is then created to return as `matches` in the `CompletionHandler.IReply` response.
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/customconnector.ts#L80-L97
 
@@ -74,11 +75,11 @@ A list of mock completion tokens is then created to return as `matches` in the `
 const tokenList = [
   { value: token.value + 'Magic', offset: token.offset, type: 'magic' },
   { value: token.value + 'Science', offset: token.offset, type: 'science' },
-  { value: token.value + 'Neither', offset: token.offset }
+  { value: token.value + 'Neither', offset: token.offset },
 ];
 
 // Only choose the ones that have a non-empty type field, which are likely to be of interest.
-const completionList = tokenList.filter(t => t.type).map(t => t.value);
+const completionList = tokenList.filter((t) => t.type).map((t) => t.value);
 // Remove duplicate completions from the list
 const matches = Array.from(new Set<string>(completionList));
 
@@ -86,9 +87,10 @@ return {
   start: token.offset,
   end: token.offset + token.value.length,
   matches,
-  metadata: {}
+  metadata: {},
 };
 ```
+<!-- prettier-ignore-end -->
 
 ## Aggregating connector responses
 
@@ -155,15 +157,17 @@ namespace CommandIDs {
 
 `index.ts` imports four connector classes, two from `JupyterLab`:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L6-L10
 
 import {
   ContextConnector,
   ICompletionManager,
-  KernelConnector
+  KernelConnector,
 } from '@jupyterlab/completer';
 ```
+<!-- prettier-ignore-end -->
 
 and two from this extension:
 
