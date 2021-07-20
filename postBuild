@@ -1,3 +1,4 @@
 jlpm
+python -m pip install -U pip
 jlpm run install-py
 jupyter serverextension enable jlab_ext_example
