@@ -29,11 +29,14 @@ The easiest way of creating a new widget factory is extending from the `ABCWidge
 ```ts
 // src/factory.ts#L32-L40
 
-protected createNewWidget(context: DocumentRegistry.IContext<ExampleDocModel>): ExampleDocWidget {
-  return new ExampleDocWidget({
-    context,
-    content: new ExamplePanel(context)
-  });
+  protected createNewWidget(
+    context: DocumentRegistry.IContext<ExampleDocModel>
+  ): ExampleDocWidget {
+    return new ExampleDocWidget({
+      context,
+      content: new ExamplePanel(context)
+    });
+  }
 }
 ```
 
@@ -41,37 +44,12 @@ On the other hand, to create a `ModelFactory`, you need to implement the interfa
 
 ```ts
 // src/factory.ts#L48-L67
-
-/**
- * The name of the model.
- */
-get name(): string {
-  return 'example';
-}
-
-/**
- * The content type of the file.
- */
-get contentType(): Contents.ContentType {
-  return 'file';
-}
-
-/**
- * The format of the file.
- */
-get fileFormat(): Contents.FileFormat {
-  return 'text';
-}
 ```
 
 At the same time, you need to implement the method `createNew`. The `DocumentManager` will call this method when opening a file that uses your custom `DocumentModel`.
 
 ```ts
 // src/factory.ts#L92-L101
-
-createNew(languagePreference?: string, modelDB?: IModelDB): ExampleDocModel {
-  return new ExampleDocModel(languagePreference, modelDB);
-}
 ```
 
 ## Registering new Documents
@@ -81,6 +59,7 @@ When registering a new document, the first step is to know which file type you w
 ```ts
 // src/index.ts#L73-L81
 
+// register the filetype
 app.docRegistry.addFileType({
   name: 'example',
   displayName: 'Example',
@@ -168,19 +147,19 @@ this._content.observe(this._contentObserver);
 To access the information about the different users connected, you can use the `awareness` attribute on the shared model. The `awareness` keeps the state of every user as a map with the user's id as a key and a JSON object as the value for the state. You could add new information to the user's state by using the method `setLocalStateField` and access to the state of all users with `getStates`. To listen for changes on the state of the users, you can use the method `on('change', () => {})`.
 
 ```ts
-// src/model.ts#L235
+// src/model.ts#L235-L235
 
 this.sharedModel.awareness.setLocalStateField('mouse', pos);
 ```
 
 ```ts
-// src/model.ts#L263
+// src/model.ts#L263-L263
 
 const clients = this.sharedModel.awareness.getStates();
 ```
 
 ```ts
-// src/model.ts#L41
+// src/model.ts#L41-L41
 
 this.sharedModel.awareness.on('change', this._onClientChanged);
 ```
