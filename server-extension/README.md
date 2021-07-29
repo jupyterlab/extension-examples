@@ -617,7 +617,7 @@ done using a special a dedicated builder following [PEP 517](https://www.python.
 # pyproject.toml
 
 [build-system]
-requires = ["jupyter_packaging~=0.10,<2", "jupyterlab~=3.0"]
+requires = ["jupyter_packaging~=0.10,<2", "jupyterlab~=3.1"]
 build-backend = "jupyter_packaging.build_api"
 
 [tool.jupyter-packaging.options]
