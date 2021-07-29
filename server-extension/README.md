@@ -7,11 +7,14 @@
 It is strongly recommended to read the [basic hello-world](../hello-world)
 example before diving into this one.
 
-- [The template folder structure](#the-template-folder-structure)
-- [Frontend Part](#frontend-part)
-- [Backend (server) Part](<#backend-(server)-part>)
-- [Packaging the Extension](#packaging-the-extension)
-- [Installing the Package](#installing-the-package)
+- [Server Hello World](#server-hello-world)
+  - [The template folder structure](#the-template-folder-structure)
+  - [Frontend Part](#frontend-part)
+  - [Backend (Server) Part](#backend-server-part)
+  - [Packaging the Extension](#packaging-the-extension)
+    - [Python Package Manager](#python-package-manager)
+    - [JupyterLab Extension Manager](#jupyterlab-extension-manager)
+  - [Installing the Package](#installing-the-package)
 
 ## The template folder structure
 
@@ -761,6 +764,8 @@ to get you set are:
 pip install -e .
 # Link your development version of the extension with JupyterLab
 jupyter labextension develop . --overwrite
+# Enable the server extension
+jupyter server extension enable jlab_ext_example
 # Rebuild extension Typescript source after making changes
 jlpm run build
 ```
