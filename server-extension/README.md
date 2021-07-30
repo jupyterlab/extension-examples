@@ -526,6 +526,7 @@ The `setup.py` file is the entry point to describe package metadata:
 jlab_ext_example setup
 """
 import json
+import sys
 from pathlib import Path
 
 import setuptools
@@ -547,10 +548,12 @@ labext_name = "@jupyterlab-examples/server-extension"
 
 data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
-    ("share/jupyter/labextensions/%s" % labext_name, str('.'), "install.json"),
-    ("etc/jupyter/jupyter_server_config.d", "jupyter-config/server-config", "jlab_ext_example.json"),
+    ("share/jupyter/labextensions/%s" % labext_name, str("."), "install.json"),
+    ("etc/jupyter/jupyter_server_config.d",
+     "jupyter-config/server-config", "jlab_ext_example.json"),
     # For backward compatibility with notebook server
-    ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/nb-config", "jlab_ext_example.json"),
+    ("etc/jupyter/jupyter_notebook_config.d",
+     "jupyter-config/nb-config", "jlab_ext_example.json"),
 ]
 
 long_description = (HERE / "README.md").read_text()
@@ -598,10 +601,14 @@ try:
     post_develop = npm_builder(
         build_cmd="install:extension", source_dir="src", build_dir=lab_path
     )
-    setup_args['cmdclass'] = wrap_installers(post_develop=post_develop, ensured_targets=ensured_targets)
-    setup_args['data_files'] = get_data_files(data_files_spec)
+    setup_args["cmdclass"] = wrap_installers(post_develop=post_develop, ensured_targets=ensured_targets)
+    setup_args["data_files"] = get_data_files(data_files_spec)
 except ImportError as e:
-    pass
+    import logging
+    logging.basicConfig(format="%(levelname)s: %(message)s")
+    logging.warning("Build tool `jupyter-packaging` is missing. Install it with pip or conda.")
+    if not ("--name" in sys.argv or "--version" in sys.argv):
+        raise e
 
 if __name__ == "__main__":
     setuptools.setup(**setup_args)
@@ -663,7 +670,7 @@ JupyterLab is looking for frontend extensions when the Python package is install
 ```py
 # setup.py#L25-L25
 
-("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
+data_files_spec = [
 ```
 
 The last piece of configuration needed is the enabling of the server extension. This is
@@ -689,7 +696,7 @@ in the appropriate jupyter folder (`etc/jupyter/jupyter_server_config.d`):
 ```py
 # setup.py#L27-L27
 
-("etc/jupyter/jupyter_server_config.d", "jupyter-config/server-config", "jlab_ext_example.json"),
+("share/jupyter/labextensions/%s" % labext_name, str("."), "install.json"),
 ```
 
 For backward compatibility with the classical notebook, the old version of that file is copied in
@@ -698,7 +705,7 @@ For backward compatibility with the classical notebook, the old version of that 
 ```py
 # setup.py#L29-L29
 
-("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/nb-config", "jlab_ext_example.json"),
+"jupyter-config/server-config", "jlab_ext_example.json"),
 ```
 
 ### JupyterLab Extension Manager
