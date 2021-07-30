@@ -39,7 +39,7 @@ jlpm run build:prod
 jupyter lab --ServerApp.token= --ServerApp.password=
 ```
 
-3. Execute in another console the [Playwright](https://playwright.dev/docs/test-intro) tests:
+3. Execute in another console the [Playwright](https://playwright.dev/docs/intro) tests:
 
 ```
 cd ui-tests
