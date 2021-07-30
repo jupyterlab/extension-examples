@@ -668,9 +668,9 @@ It will copy the NPM package in the Python package and force it to be copied in 
 JupyterLab is looking for frontend extensions when the Python package is installed:
 
 ```py
-# setup.py#L25-L25
+# setup.py#L26-L26
 
-data_files_spec = [
+("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
 ```
 
 The last piece of configuration needed is the enabling of the server extension. This is
@@ -694,18 +694,20 @@ done by copying the following JSON file:
 in the appropriate jupyter folder (`etc/jupyter/jupyter_server_config.d`):
 
 ```py
-# setup.py#L27-L27
+# setup.py#L28-L29
 
-("share/jupyter/labextensions/%s" % labext_name, str("."), "install.json"),
+("etc/jupyter/jupyter_server_config.d",
+ "jupyter-config/server-config", "jlab_ext_example.json"),
 ```
 
 For backward compatibility with the classical notebook, the old version of that file is copied in
 (`etc/jupyter/jupyter_notebook_config.d`):
 
 ```py
-# setup.py#L29-L29
+# setup.py#L31-L32
 
-"jupyter-config/server-config", "jlab_ext_example.json"),
+("etc/jupyter/jupyter_notebook_config.d",
+ "jupyter-config/nb-config", "jlab_ext_example.json"),
 ```
 
 ### JupyterLab Extension Manager
