@@ -39,12 +39,11 @@ jlpm run build:prod
 jupyter lab --ServerApp.token= --ServerApp.password=
 ```
 
-1. Execute in another console the [Playwright](https://playwright.dev/docs/intro) tests:
+3. Execute in another console the [Playwright](https://playwright.dev/docs/intro) tests:
 
 ```
 cd ui-tests
 jlpm install
-npx playwright install
 npx playwright test
 ```
 
@@ -111,6 +110,5 @@ jupyter lab --ServerApp.token= --ServerApp.password=
 ```
 cd ui-tests
 jlpm install
-npx playwright install
 PWDEBUG=1 npx playwright test
 ```
