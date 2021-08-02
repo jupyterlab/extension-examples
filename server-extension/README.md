@@ -7,11 +7,14 @@
 It is strongly recommended to read the [basic hello-world](../hello-world)
 example before diving into this one.
 
-- [The template folder structure](#the-template-folder-structure)
-- [Frontend Part](#frontend-part)
-- [Backend (server) Part](<#backend-(server)-part>)
-- [Packaging the Extension](#packaging-the-extension)
-- [Installing the Package](#installing-the-package)
+- [Server Hello World](#server-hello-world)
+  - [The template folder structure](#the-template-folder-structure)
+  - [Frontend Part](#frontend-part)
+  - [Backend (Server) Part](#backend-server-part)
+  - [Packaging the Extension](#packaging-the-extension)
+    - [Python Package Manager](#python-package-manager)
+    - [JupyterLab Extension Manager](#jupyterlab-extension-manager)
+  - [Installing the Package](#installing-the-package)
 
 ## The template folder structure
 
@@ -523,6 +526,7 @@ The `setup.py` file is the entry point to describe package metadata:
 jlab_ext_example setup
 """
 import json
+import sys
 from pathlib import Path
 
 import setuptools
@@ -544,10 +548,12 @@ labext_name = "@jupyterlab-examples/server-extension"
 
 data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
-    ("share/jupyter/labextensions/%s" % labext_name, str('.'), "install.json"),
-    ("etc/jupyter/jupyter_server_config.d", "jupyter-config/server-config", "jlab_ext_example.json"),
+    ("share/jupyter/labextensions/%s" % labext_name, str("."), "install.json"),
+    ("etc/jupyter/jupyter_server_config.d",
+     "jupyter-config/server-config", "jlab_ext_example.json"),
     # For backward compatibility with notebook server
-    ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/nb-config", "jlab_ext_example.json"),
+    ("etc/jupyter/jupyter_notebook_config.d",
+     "jupyter-config/nb-config", "jlab_ext_example.json"),
 ]
 
 long_description = (HERE / "README.md").read_text()
@@ -595,10 +601,14 @@ try:
     post_develop = npm_builder(
         build_cmd="install:extension", source_dir="src", build_dir=lab_path
     )
-    setup_args['cmdclass'] = wrap_installers(post_develop=post_develop, ensured_targets=ensured_targets)
-    setup_args['data_files'] = get_data_files(data_files_spec)
+    setup_args["cmdclass"] = wrap_installers(post_develop=post_develop, ensured_targets=ensured_targets)
+    setup_args["data_files"] = get_data_files(data_files_spec)
 except ImportError as e:
-    pass
+    import logging
+    logging.basicConfig(format="%(levelname)s: %(message)s")
+    logging.warning("Build tool `jupyter-packaging` is missing. Install it with pip or conda.")
+    if not ("--name" in sys.argv or "--version" in sys.argv):
+        raise e
 
 if __name__ == "__main__":
     setuptools.setup(**setup_args)
@@ -614,7 +624,7 @@ done using a special a dedicated builder following [PEP 517](https://www.python.
 # pyproject.toml
 
 [build-system]
-requires = ["jupyter_packaging~=0.10,<2", "jupyterlab~=3.0"]
+requires = ["jupyter_packaging~=0.10,<2", "jupyterlab~=3.1"]
 build-backend = "jupyter_packaging.build_api"
 
 [tool.jupyter-packaging.options]
@@ -658,7 +668,7 @@ It will copy the NPM package in the Python package and force it to be copied in 
 JupyterLab is looking for frontend extensions when the Python package is installed:
 
 ```py
-# setup.py#L25-L25
+# setup.py#L26-L26
 
 ("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
 ```
@@ -684,18 +694,20 @@ done by copying the following JSON file:
 in the appropriate jupyter folder (`etc/jupyter/jupyter_server_config.d`):
 
 ```py
-# setup.py#L27-L27
+# setup.py#L28-L29
 
-("etc/jupyter/jupyter_server_config.d", "jupyter-config/server-config", "jlab_ext_example.json"),
+("etc/jupyter/jupyter_server_config.d",
+ "jupyter-config/server-config", "jlab_ext_example.json"),
 ```
 
 For backward compatibility with the classical notebook, the old version of that file is copied in
 (`etc/jupyter/jupyter_notebook_config.d`):
 
 ```py
-# setup.py#L29-L29
+# setup.py#L31-L32
 
-("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/nb-config", "jlab_ext_example.json"),
+("etc/jupyter/jupyter_notebook_config.d",
+ "jupyter-config/nb-config", "jlab_ext_example.json"),
 ```
 
 ### JupyterLab Extension Manager
@@ -761,6 +773,8 @@ to get you set are:
 pip install -e .
 # Link your development version of the extension with JupyterLab
 jupyter labextension develop . --overwrite
+# Enable the server extension
+jupyter server extension enable jlab_ext_example
 # Rebuild extension Typescript source after making changes
 jlpm run build
 ```

@@ -123,7 +123,7 @@ package is declared in the file `package.json`:
 // package.json#L50-L52
 
 "dependencies": {
-  "@jupyterlab/application": "^3.0.11"
+  "@jupyterlab/application": "^3.1.0"
 },
 ```
 
