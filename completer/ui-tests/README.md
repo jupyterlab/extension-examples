@@ -44,6 +44,7 @@ jupyter lab --ServerApp.token= --ServerApp.password=
 ```
 cd ui-tests
 jlpm install
+npx playwright install
 npx playwright test
 ```
 
@@ -110,5 +111,6 @@ jupyter lab --ServerApp.token= --ServerApp.password=
 ```
 cd ui-tests
 jlpm install
+npx playwright install
 PWDEBUG=1 npx playwright test
 ```
