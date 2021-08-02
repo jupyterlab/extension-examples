@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
 
-test('test', async ({ page }) => {
+test('should open a notebook and use the completer', async ({ page }) => {
   // Go to http://localhost:8888/lab?
   await page.goto(`${TARGET_URL}/lab`);
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
