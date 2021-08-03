@@ -8,6 +8,13 @@ test('should open a notebook and use the completer', async ({ page }) => {
   await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
   await page.waitForSelector('div[role="main"] >> text=Launcher');
 
+  // Close filebrowser
+  await page.click('text=View');
+  await Promise.all([
+    page.waitForSelector('#filebrowser', { state: 'hidden' }),
+    page.click('ul[role="menu"] >> text=Show Left Sidebar'),
+  ]);
+
   // Click text=File
   await page.click('text=File');
 
@@ -15,10 +22,7 @@ test('should open a notebook and use the completer', async ({ page }) => {
   await page.click('ul[role="menu"] >> text=New');
 
   // Click #jp-mainmenu-file-new >> text=Notebook
-  await Promise.all([
-    page.waitForNavigation(/*{ url: 'http://localhost:8888/lab/tree/Untitled.ipynb' }*/),
-    page.click('#jp-mainmenu-file-new >> text=Notebook'),
-  ]);
+  await page.click('#jp-mainmenu-file-new >> text=Notebook');
 
   // Click button:has-text("Select")
   await page.click('button:has-text("Select")');
