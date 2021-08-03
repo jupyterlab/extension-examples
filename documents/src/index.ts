@@ -23,7 +23,7 @@ export const IExampleDocTracker = new Token<IWidgetTracker<ExampleDocWidget>>(
 );
 
 /**
- * Initialization data for the hello-world extension.
+ * Initialization data for the documents extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'documents',
@@ -32,7 +32,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   provides: IExampleDocTracker,
   activate: (app: JupyterFrontEnd, restorer: ILayoutRestorer) => {
     // Namespace for the tracker
-    const namespace = 'example';
+    const namespace = 'documents-example';
     // Creating the tracker for the document
     const tracker = new WidgetTracker<ExampleDocWidget>({ namespace });
 

@@ -205,17 +205,24 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     });
   }
 
-  /**
-   *
-   */
   initialize(): void {
-    // not implemented
+    // nothing to do
   }
 
+  /**
+   * Returns the Id of the client from the YDoc
+   *
+   * @returns client id
+   */
   getClientId(): number {
     return this.sharedModel.awareness.clientID;
   }
 
+  /**
+   * Returns the SharedObject
+   *
+   * @returns SharedObject
+   */
   getSharedObject(): SharedObject {
     const pos = this.sharedModel.getContent('position');
     const obj = {
@@ -226,14 +233,29 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     return obj;
   }
 
+  /**
+   * Sets the position of the SharedObject
+   *
+   * @param pos
+   */
   setPosition(pos: Position): void {
     this.sharedModel.setContent('position', pos);
   }
 
+  /**
+   * Sets the text inside the SharedObject
+   *
+   * @param content
+   */
   setContent(content: string): void {
     this.sharedModel.setContent('content', content);
   }
 
+  /**
+   * Sets the mouse's position of the client
+   *
+   * @param pos
+   */
   setClient(pos: Position): void {
     // Adds the position of the mouse from the client to the shared state.
     this.sharedModel.awareness.setLocalStateField('mouse', pos);
