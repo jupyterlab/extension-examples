@@ -51,14 +51,13 @@ test('should open a notebook and use the completer', async ({ page }) => {
     }
   }
 
-  // Increase tolerance as the cursor may or may not be captured
-  //  - the threshold is low enough to check the completion pop-up is missing
-  expect(
-    await (await page.$('.jp-Notebook.jp-NotebookPanel-notebook')).screenshot()
-  ).toMatchSnapshot('completer-example.png', { threshold: 0.2 });
-
   // Click on suggestions
-  await suggestions.click();
+  await Promise.all([
+    page.waitForSelector('code:has-text("yMagic")', { state: 'hidden' }),
+    suggestions.click(),
+  ]);
 
-  expect(await page.waitForSelector('text=yMagic')).toBeTruthy();
+  expect(
+    await page.waitForSelector('text=yMagic', { state: 'visible' })
+  ).toBeTruthy();
 });
