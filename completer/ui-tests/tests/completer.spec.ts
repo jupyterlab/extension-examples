@@ -23,6 +23,11 @@ test('should open a notebook and use the completer', async ({ page }) => {
   // Click button:has-text("Select")
   await page.click('button:has-text("Select")');
 
+  // Wait until kernel is ready
+  await page.waitForSelector(
+    '#jp-main-statusbar >> text=Python 3 (ipykernel) | Idle'
+  );
+
   // Click div[role="presentation"]:has-text("​")
   await page.click('div[role="presentation"]:has-text("​")');
 
@@ -30,10 +35,10 @@ test('should open a notebook and use the completer', async ({ page }) => {
   await page.fill('textarea', 'import ');
 
   // Press Tab
-  await page.press('textarea', 'Tab');
+  await page.keyboard.press('Tab');
 
   // Press Tab
-  await page.press('textarea', 'Tab');
+  await page.keyboard.press('Tab');
 
   // Click code:has-text("abc")
   await page.click('code:has-text("abc")');
