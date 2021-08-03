@@ -123,16 +123,17 @@ fetch(
 
 [_JupyterLab_'s completer-extension](https://github.com/jupyterlab/jupyterlab/tree/master/packages/completer-extension) includes a notebooks plugin that registers notebooks for code completion. Your extension will override the notebooks plugin's behavior, so you can [disable notebooks](https://jupyterlab.readthedocs.io/en/stable/extension/extension_dev.html#disabling-other-extensions) in your `.package.json`:
 
-```json
-// package.json#L75-L82
-  "jupyterlab": {
-    "extension": true,
-    "schemaDir": "schema",
-    "outputDir": "jupyterlab_examples_completer/labextension",
-    "disabledExtensions": [
-      "@jupyterlab/completer-extension:notebooks"
-    ]
-  }
+```json5
+// package.json#L83-L90
+
+"jupyterlab": {
+  "extension": true,
+  "schemaDir": "schema",
+  "outputDir": "jupyterlab_examples_completer/labextension",
+  "disabledExtensions": [
+    "@jupyterlab/completer-extension:notebooks"
+  ]
+},
 ```
 
 ## Asynchronous extension initialization
@@ -142,7 +143,7 @@ fetch(
 Note that the extension commands you're overriding are unified into one namespace at the top of the file:
 
 ```ts
-// src/index.ts#L20-L28
+// src/index.ts#L21-L29
 
 namespace CommandIDs {
   export const invoke = 'completer:invoke';
@@ -172,16 +173,17 @@ import {
 and two from this extension:
 
 ```ts
-// src/index.ts#L14-L15
+// src/index.ts#L14-L16
 
 import { CompletionConnector } from './connector';
+
 import { CustomConnector } from './customconnector';
 ```
 
 Just like the notebooks plugin, when you update the handler for a notebook call `updateConnector`:
 
 ```ts
-// src/index.ts#L73-L75
+// src/index.ts#L74-L76
 
 // Update the handler whenever the prompt or session changes
 panel.content.activeCellChanged.connect(updateConnector);
@@ -192,7 +194,7 @@ which, unlike the notebooks plugin, instantiates `KernelConnector`, `ContextConn
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L57-L71
+// src/index.ts#L58-L72
 
 const updateConnector = () => {
   editor = panel.content.activeCell?.editor ?? null;

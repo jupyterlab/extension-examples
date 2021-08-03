@@ -32,16 +32,33 @@ test('should open a notebook and use the completer', async ({ page }) => {
   await page.click('div[role="presentation"]:has-text("​")');
 
   // Fill textarea
-  await page.fill('textarea', 'import ');
+  await page.fill('textarea', 'y');
 
-  // Press Tab
-  await page.keyboard.press('Tab');
+  let suggestions = null;
+  let counter = 20;
+  while (suggestions === null && counter > 0) {
+    // Press Tab
+    await page.keyboard.press('Tab');
 
-  // Press Tab
-  await page.keyboard.press('Tab');
+    // Wait for completion pop-up
+    try {
+      suggestions = await page.waitForSelector('code:has-text("yMagic")', {
+        timeout: 1000,
+      });
+    } catch {
+    } finally {
+      counter -= 1;
+    }
+  }
 
-  // Click code:has-text("abc")
-  await page.click('code:has-text("abc")');
+  // Increase tolerance as the cursor may or may not be captured
+  //  - the threshold is low enough to check the completion pop-up is missing
+  expect(
+    await (await page.$('.jp-Notebook.jp-NotebookPanel-notebook')).screenshot()
+  ).toMatchSnapshot('completer-example.png', { threshold: 0.2 });
 
-  expect(await page.waitForSelector('text=abc')).toBeTruthy();
+  // Click on suggestions
+  await suggestions.click();
+
+  expect(await page.waitForSelector('text=yMagic')).toBeTruthy();
 });

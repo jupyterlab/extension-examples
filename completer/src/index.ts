@@ -12,6 +12,7 @@ import {
 import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 
 import { CompletionConnector } from './connector';
+
 import { CustomConnector } from './customconnector';
 
 /**
