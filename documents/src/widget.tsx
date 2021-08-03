@@ -152,19 +152,20 @@ export class ExamplePanel extends Widget {
         case 'mousemove':
           // Wrapping the modifications to the shared model into a flag
           // to prevent apply changes triggered by the same client
-          const offset = this.node.getBoundingClientRect();
-          const x = event.x - offset.left;
-          const y = event.y - offset.top;
-          this._context.model.setClient({ x, y });
+          this._context.model.setClient({
+            x: event.x - this.node.getBoundingClientRect().left,
+            y: event.y - this.node.getBoundingClientRect().top,
+          });
 
           if (this._isDown) {
             // Wrapping the modifications to the shared model into a flag
             // to prevent apply changes triggered by the same client
-            const x = event.clientX + this._offset.x;
-            const y = event.clientY + this._offset.y;
-            this._cube.style.left = x + 'px';
-            this._cube.style.top = y + 'px';
-            this._context.model.setPosition({ x, y });
+            this._cube.style.left = event.clientX + this._offset.x + 'px';
+            this._cube.style.top = event.clientY + this._offset.y + 'px';
+            this._context.model.setPosition({
+              x: event.clientX + this._offset.x,
+              y: event.clientY + this._offset.y,
+            });
           }
           break;
       }
