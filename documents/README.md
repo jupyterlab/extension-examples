@@ -35,7 +35,7 @@ protected createNewWidget(
 ): ExampleDocWidget {
   return new ExampleDocWidget({
     context,
-    content: new ExamplePanel(context)
+    content: new ExamplePanel(context),
   });
 }
 ```
@@ -46,6 +46,7 @@ On the other hand, to create a `ModelFactory`, you need to implement the interfa
 <!-- prettier-ignore-start -->
 ```ts
 // src/factory.ts#L46-L47
+
 export class ExampleDocModelFactory
   implements DocumentRegistry.IModelFactory<ExampleDocModel>
 ```
@@ -78,7 +79,7 @@ app.docRegistry.addFileType({
   mimeTypes: ['text/json', 'application/json'],
   extensions: ['.example'],
   fileFormat: 'text',
-  contentType: 'file'
+  contentType: 'file',
 });
 ```
 <!-- prettier-ignore-end -->
@@ -110,7 +111,7 @@ const widgetFactory = new ExampleWidgetFactory({
   name: FACTORY,
   modelName: 'example-model',
   fileTypes: ['example'],
-  defaultFor: ['example']
+  defaultFor: ['example'],
 });
 
 // Add the widget to the tracker when it's created
