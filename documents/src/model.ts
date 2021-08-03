@@ -150,7 +150,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     const obj = {
       x: pos?.x || 10,
       y: pos?.y || 10,
-      content: this.sharedModel.getContent('content') || ''
+      content: this.sharedModel.getContent('content') || '',
     };
     return JSON.stringify(obj, null, 2);
   }
@@ -159,6 +159,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * The context will call this method when loading data from disk.
    * This method should implement the logic to parse the data and store it
    * on the datastore.
+   *
+   * @param data
    */
   fromString(data: string): void {
     const obj = JSON.parse(data);
@@ -181,7 +183,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     const obj = {
       x: pos?.x || 10,
       y: pos?.y || 10,
-      content: this.sharedModel.getContent('content') || ''
+      content: this.sharedModel.getContent('content') || '',
     };
     return obj;
   }
@@ -193,6 +195,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    *
    * NOTE: This method is only used by the context of the notebook, every other
    * document will load/save the data through toString/fromString.
+   *
+   * @param data
    */
   fromJSON(data: PartialJSONObject): void {
     this.sharedModel.transact(() => {
@@ -217,7 +221,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     const obj = {
       x: pos?.x || 10,
       y: pos?.y || 10,
-      content: this.sharedModel.getContent('content') || ''
+      content: this.sharedModel.getContent('content') || '',
     };
     return obj;
   }
@@ -240,8 +244,9 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * to changes on shared model's content and propagates them to the DocumentWidget.
    *
    * @param sender: The sharedModel that triggers the changes.
-   *
    * @param change: The changes on the sharedModel.
+   * @param sender
+   * @param changes
    */
   private _onSharedModelChanged = (
     sender: ExampleDoc,
@@ -256,7 +261,6 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * them to the DocumentWidget.
    *
    * @param sender: The sharedModel that triggers the changes.
-   *
    * @param clients: The list of client's states.
    */
   private _onClientChanged = () => {
@@ -320,6 +324,7 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
    * Returns an the requested object.
    *
    * @param key: The key of the object.
+   * @param key
    */
   public getContent(key: string): any {
     return this._content.get(key);
@@ -330,6 +335,8 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
    *
    * @param key: The key of the object.
    * @param value: New object.
+   * @param key
+   * @param value
    */
   public setContent(key: string, value: any): void {
     this._content.set(key, value);

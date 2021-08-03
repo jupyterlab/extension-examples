@@ -28,13 +28,14 @@ export class ExampleWidgetFactory extends ABCWidgetFactory<
    * Create a new widget given a context.
    *
    * @param context: Contains the information of the file
+   * @param context
    */
   protected createNewWidget(
     context: DocumentRegistry.IContext<ExampleDocModel>
   ): ExampleDocWidget {
     return new ExampleDocWidget({
       context,
-      content: new ExamplePanel(context)
+      content: new ExamplePanel(context),
     });
   }
 }
@@ -43,7 +44,8 @@ export class ExampleWidgetFactory extends ABCWidgetFactory<
  * A Model factory to create new instances of ExampleDocModel.
  */
 export class ExampleDocModelFactory
-  implements DocumentRegistry.IModelFactory<ExampleDocModel> {
+  implements DocumentRegistry.IModelFactory<ExampleDocModel>
+{
   /**
    * The name of the model.
    */
@@ -83,6 +85,7 @@ export class ExampleDocModelFactory
    * Get the preferred language given the path on the file.
    *
    * @param path: path of the file represented by this document model
+   * @param path
    */
   preferredLanguage(path: string): string {
     return '';
@@ -92,7 +95,6 @@ export class ExampleDocModelFactory
    * Create a new instance of ExampleDocModel.
    *
    * @param languagePreference
-   *
    * @param modelDB
    */
   createNew(languagePreference?: string, modelDB?: IModelDB): ExampleDocModel {
