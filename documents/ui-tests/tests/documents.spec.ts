@@ -14,10 +14,7 @@ test('should check if the cube is loaded', async ({ page }) => {
   await page.click('ul[role="menu"] >> text=New');
 
   // Click #jp-mainmenu-file-new >> text=Text File
-  await Promise.all([
-    page.waitForNavigation(/*{ url: 'http://localhost:8888/lab/tree/untitled.txt' }*/),
-    page.click('#jp-mainmenu-file-new >> text=Text File'),
-  ]);
+  page.click('#jp-mainmenu-file-new >> text=Text File');
 
   // Click pre[role="presentation"]:has-text("​")
   await page.click('pre[role="presentation"]:has-text("​")');
@@ -64,9 +61,20 @@ test('should check if the cube is loaded', async ({ page }) => {
 
   expect(await page.waitForSelector('text=Hello YJS!')).toBeTruthy();
 
-  // TODO: Upgrade playwright to 1.13
-  /* await page.dragAndDrop(
+  await page.dragAndDrop(
     'text=Hello YJS!',
-    'div[role="region"]:has-text("Hello YJS!")',
-  ); */
+    'div[role="region"]:has-text("Hello YJS!")'
+  );
+
+  // Click [aria-label="main sidebar"] path
+  await page.click('[aria-label="main sidebar"] path');
+
+  // Click text=Hello YJS!
+  await page.click('text=Hello YJS!');
+
+  // Press s with modifiers
+  await page.keyboard.press('Control+s');
+
+  // Compare screenshot with a stored reference.
+  expect(await page.screenshot()).toMatchSnapshot('documents-example.png');
 });
