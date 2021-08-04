@@ -1,0 +1,27 @@
+.jp-example-canvas {
+  width: 100%;
+  height: 100%;
+  background-color: var(--jp-cell-editor-background);
+}
+
+.jp-example-cube {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  background-color: var(--jp-private-notebook-selected-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.jp-example-client {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  z-index: 10;
+  background-color: var(--jp-private-notebook-active-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
