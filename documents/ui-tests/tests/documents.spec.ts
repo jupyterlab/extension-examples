@@ -33,8 +33,6 @@ test('should check if the cube is loaded', async ({ page }) => {
     'div[role="main"] >> text=Launcheruntitled.txt >> :nth-match(svg, 4)'
   );
 
-  expect(page.url()).toBe(`${TARGET_URL}/lab`);
-
   // Click [aria-label="File Browser Section"] >> text=untitled.txt
   await page.click('[aria-label="File Browser Section"] >> text=untitled.txt', {
     button: 'right',
@@ -55,19 +53,23 @@ test('should check if the cube is loaded', async ({ page }) => {
   expect(await page.waitForSelector('text=untitled.example')).toBeTruthy();
 
   // Click text=untitled.example
-  await page.click('text=untitled.example', { clickCount: 2 });
+  await page.dblclick('text=untitled.example');
 
   await page.waitForSelector('div[role="main"] >> text=untitled.example');
 
   expect(await page.waitForSelector('text=Hello YJS!')).toBeTruthy();
 
+  // Close filebrowser
+  await page.click('text=View');
+  await Promise.all([
+    page.waitForSelector('#filebrowser', { state: 'hidden' }),
+    page.click('ul[role="menu"] >> text=Show Left Sidebar'),
+  ]);
+
   await page.dragAndDrop(
     'text=Hello YJS!',
     'div[role="region"]:has-text("Hello YJS!")'
   );
-
-  // Click [aria-label="main sidebar"] path
-  await page.click('[aria-label="main sidebar"] path');
 
   // Click text=Hello YJS!
   await page.click('text=Hello YJS!');
