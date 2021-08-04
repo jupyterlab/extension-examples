@@ -33,7 +33,7 @@ test('should check if the cube is loaded', async ({ page }) => {
     'div[role="main"] >> text=Launcheruntitled.txt >> :nth-match(svg, 4)'
   );
 
-  expect(page.url()).toBe('http://localhost:8888/lab');
+  expect(page.url()).toBe(`${TARGET_URL}/lab`);
 
   // Click [aria-label="File Browser Section"] >> text=untitled.txt
   await page.click('[aria-label="File Browser Section"] >> text=untitled.txt', {
