@@ -14,11 +14,11 @@ First you need to import `StackedPanel`, `DataGrid`
 and `DataModel` classes from lumino:
 
 ```ts
-// src/index.ts#L16-L18
+// src/index.ts#L14-L16
 
 import { DataGrid, DataModel } from '@lumino/datagrid';
 
-import { Menu, StackedPanel } from '@lumino/widgets';
+import { StackedPanel } from '@lumino/widgets';
 ```
 
 The `StackedPanel` widget can hold several sub-widgets that are added with its
@@ -35,7 +35,7 @@ the main area of JupyterLab as seen in the above screenshot.
 With these three classes, you can create your own widget, called `DataGridPanel` :
 
 ```ts
-// src/index.ts#L57-L77
+// src/index.ts#L48-L68
 
 class DataGridPanel extends StackedPanel {
   constructor(translator?: ITranslator) {
@@ -71,7 +71,7 @@ Therefore in this example a class `LargeDataModel` is derived from it
 to implement its abstract methods:
 
 ```ts
-// src/index.ts#L79-L88
+// src/index.ts#L70-L79
 
 class LargeDataModel extends DataModel {
   rowCount(region: DataModel.RowRegion): number {
@@ -122,7 +122,7 @@ values of the datagrid. In this case it simply displays the row and
 column index in each cell, and adds a letter prefix in the header regions:
 
 ```ts
-// src/index.ts#L88-L99
+// src/index.ts#L79-L90
 
 data(region: DataModel.CellRegion, row: number, column: number): any {
   if (region === 'row-header') {

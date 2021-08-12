@@ -4,17 +4,13 @@ import {
 } from '@jupyterlab/application';
 import { ILoggerRegistry, ITextLog } from '@jupyterlab/logconsole';
 import { INotebookTracker } from '@jupyterlab/notebook';
-import { IMainMenu } from '@jupyterlab/mainmenu';
-import { Menu } from '@lumino/widgets';
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'log-messages',
   autoStart: true,
-  requires: [IMainMenu, ILoggerRegistry, INotebookTracker],
-  optional: [],
+  requires: [ILoggerRegistry, INotebookTracker],
   activate: (
     app: JupyterFrontEnd,
-    mainMenu: IMainMenu,
     loggerRegistry: ILoggerRegistry,
     nbtracker: INotebookTracker
   ) => {
@@ -38,14 +34,6 @@ const extension: JupyterFrontEndPlugin<void> = {
         logger?.log(msg);
       },
     });
-
-    // Create a new menu
-    const menu: Menu = new Menu({ commands });
-    menu.title.label = 'Log Messages Example';
-    console.log(mainMenu);
-    mainMenu.addMenu(menu, { rank: 80 });
-
-    menu.addItem({ command: 'jlab-examples/log-messages:logTextMessage' });
   },
 };
 

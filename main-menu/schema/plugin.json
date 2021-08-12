@@ -1,0 +1,23 @@
+{
+  "title": "Main Menu Example",
+  "description": "Main Menu Example settings.",
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-example-menu",
+        "label": "Main Menu Example",
+        "rank": 80,
+        "items": [
+          {
+            "command": "jlab-examples:main-menu",
+            "args": {
+              "origin": "from the menu"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

@@ -66,7 +66,7 @@ jlpm run build
 jupyter lab
 ```
 
-The examples currently target **JupyterLab 3.x**.
+The examples currently target **JupyterLab 3.1 or later**.
 
 If you would like to use the examples with JupyterLab 2.x, check out the [2.x branch](https://github.com/jupyterlab/extension-examples/tree/2.x).
 

@@ -25,18 +25,16 @@ First of all, you will start by looking into the declaration of the extension:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L28-L39
+// src/index.ts#L26-L35
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'custom-log-console',
   autoStart: true,
-  requires: [ICommandPalette, IRenderMimeRegistry, IMainMenu, ILayoutRestorer],
-  optional: [],
+  requires: [ICommandPalette, IRenderMimeRegistry, ILayoutRestorer],
   activate: (
     app: JupyterFrontEnd,
     palette: ICommandPalette,
     rendermime: IRenderMimeRegistry,
-    mainMenu: IMainMenu,
     restorer: ILayoutRestorer
   ) => {
 ```
@@ -48,7 +46,7 @@ In the `activate` function, the first step is to declare `logConsolePanel` and `
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L42-L43
+// src/index.ts#L38-L39
 
 let logConsolePanel: LogConsolePanel = null;
 let logConsoleWidget: MainAreaWidget<LogConsolePanel> = null;
@@ -59,7 +57,7 @@ The next step is to create a new widget when clicking on the button to open the 
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L76-L76
+// src/index.ts#L72-L72
 
 const createLogConsoleWidget = (): void => {
 ```
@@ -69,7 +67,7 @@ To initialize a new `LogConsoleWidget` you have to create a `LogConsolePanel` to
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L77-L82
+// src/index.ts#L73-L78
 
 logConsolePanel = new LogConsolePanel(
   new LoggerRegistry({
@@ -84,7 +82,7 @@ The `source` property identifies where the message comes from and is necessary t
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L84-L84
+// src/index.ts#L80-L80
 
 logConsolePanel.source = 'custom-log-console';
 ```
@@ -94,7 +92,7 @@ Now you are ready to initialize a new `MainAreaWidget` passing the `logConsolePa
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L86-L88
+// src/index.ts#L82-L84
 
 logConsoleWidget = new MainAreaWidget<LogConsolePanel>({
   content: logConsolePanel,
@@ -106,7 +104,7 @@ The last step of the function `createLogConsoleWidget` is to establish how to pr
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L112-L116
+// src/index.ts#L108-L112
 
 logConsoleWidget.disposed.connect(() => {
   logConsoleWidget = null;
@@ -121,7 +119,7 @@ To launch a new log console, you can add a new command. In this case, you can us
 <!-- prettier-ignore-start -->
 
 ```ts
-// src/index.ts#L125-L136
+// src/index.ts#L121-L132
 
 commands.addCommand('jlab-examples/custom-log-console:open', {
   label: 'Custom Log Console',
@@ -142,7 +140,7 @@ Finally, you can send log messages calling `log` method present on the `logger` 
 - HTML message with `IHtmlLog`:
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L147-L153
+// src/index.ts#L143-L149
 
 const msg: IHtmlLog = {
   type: 'html',
@@ -158,7 +156,7 @@ logConsolePanel?.logger?.log(msg);
   <!-- prettier-ignore-start -->
 
 ```ts
-// src/index.ts#L161-L167
+// src/index.ts#L157-L163
 
 const msg: ITextLog = {
   type: 'text',
@@ -175,7 +173,7 @@ logConsolePanel?.logger?.log(msg);
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L175-L188
+// src/index.ts#L171-L184
 
 const data: nbformat.IOutput = {
   output_type: 'display_data',

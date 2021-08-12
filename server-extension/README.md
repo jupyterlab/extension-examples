@@ -719,7 +719,7 @@ user about that dependency by adding the `discovery` metadata to your `package.j
 file:
 
 ```json5
-// package.json#L75-L85
+// package.json#L74-L84
 
 "jupyterlab": {
   "discovery": {
@@ -737,7 +737,7 @@ file:
 In this example, the extension requires a `server` extension:
 
 ```json5
-// package.json#L76-L76
+// package.json#L75-L75
 
 "discovery": {
 ```
@@ -745,7 +745,7 @@ In this example, the extension requires a `server` extension:
 And that server extension is available through `pip`:
 
 ```json5
-// package.json#L77-L79
+// package.json#L76-L78
 
 "server": {
   "managers": [

@@ -29,17 +29,14 @@ To see how you can access the settings, let's have a look at
 `src/index.ts`.
 
 ```ts
-// src/index.ts#L19-L27
+// src/index.ts#L15-L20
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
   autoStart: true,
-  requires: [IMainMenu, ISettingRegistry],
-  activate: (
-    app: JupyterFrontEnd,
-    mainMenu: IMainMenu,
-    settings: ISettingRegistry
-  ) => {
+  requires: [ISettingRegistry],
+  activate: (app: JupyterFrontEnd, settings: ISettingRegistry) => {
+    const { commands } = app;
 ```
 
 The `ISettingRegistry` is passed to the `activate` function as an
@@ -59,7 +56,20 @@ In the example it is called `schema/settings-example.json`.
 {
   "title": "Settings Example",
   "description": "Settings of the settings example.",
-  "type": "object",
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-example-settings",
+        "label": "Settings Example",
+        "rank": 80,
+        "items": [
+          {
+            "command": "@jupyterlab-examples/settings:toggle-flag"
+          }
+        ]
+      }
+    ]
+  },
   "properties": {
     "limit": {
       "type": "integer",
@@ -73,7 +83,9 @@ In the example it is called `schema/settings-example.json`.
       "description": "This is an example of a boolean setting.",
       "default": false
     }
-  }
+  },
+  "additionalProperties": false,
+  "type": "object"
 }
 
 ```
@@ -84,6 +96,11 @@ _description_ entry is a more detailed explanation of the extension using
 those settings. The _type_ is a mandatory key required by [JSON Schema](https://json-schema.org/understanding-json-schema/reference/type.html).
 For all extensions, this will be an `object` as the settings are defined
 by a _dictionary_. Then the most important entry is `properties` describing a mapping of _setting id_ and the associated properties.
+
+> JupyterLab is using special keys `jupyter.lab.xyz` to allow extension to add
+> some features to the UI for a data description. In the above example, the
+> `jupyter.lab.menus` key allow to add menu entry for your extension in the
+> main menu bar. Have a look at the [menu example](../main-menu/README.md) for more information.
 
 The naming of the file needs to follow a strict convention. When using
 settings, your extension name must be structured as _package name_**:**_settings name_. The settings file must be named _settings name_. In the example, the package name is:
@@ -100,7 +117,7 @@ and the extension id is:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L12-L12
+// src/index.ts#L8-L8
 
 const PLUGIN_ID = '@jupyterlab-examples/settings:settings-example';
 ```
@@ -113,7 +130,7 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 
 <!-- prettier-ignore-start -->
 ```json5
-// package.json#L75-L79
+// package.json#L73-L77
 
 "jupyterlab": {
   "extension": true,
@@ -126,13 +143,12 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 And you should not forget to add it to the files of the package:
 
 ```json5
-// package.json#L19-L24
+// package.json#L19-L23
 
 "files": [
   "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
   "schema/**/*.json",
-  "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
-  "style/index.js"
+  "style/**/*.{css,eot,js,gif,html,jpg,json,png,svg,woff2,ttf}"
 ],
 ```
 
@@ -141,17 +157,13 @@ use them inside your extension. Let's look at this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L19-L97
+// src/index.ts#L15-L79
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
   autoStart: true,
-  requires: [IMainMenu, ISettingRegistry],
-  activate: (
-    app: JupyterFrontEnd,
-    mainMenu: IMainMenu,
-    settings: ISettingRegistry
-  ) => {
+  requires: [ISettingRegistry],
+  activate: (app: JupyterFrontEnd, settings: ISettingRegistry) => {
     const { commands } = app;
     let limit = 25;
     let flag = false;
@@ -204,16 +216,6 @@ const extension: JupyterFrontEndPlugin<void> = {
               });
           },
         });
-
-        // Create a menu
-        const settingsMenu = new Menu({ commands });
-        settingsMenu.title.label = 'Settings Example';
-        mainMenu.addMenu(settingsMenu, { rank: 80 });
-
-        // Add the command to the menu
-        settingsMenu.addItem({
-          command: COMMAND_ID,
-        });
       })
       .catch((reason) => {
         console.error(
@@ -230,7 +232,7 @@ your plugin settings to be loaded :
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L49-L49
+// src/index.ts#L41-L41
 
 Promise.all([app.restored, settings.load(PLUGIN_ID)])
 ```
@@ -245,7 +247,7 @@ to get its value and specify the type explicitly.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L37-L45
+// src/index.ts#L29-L37
 
 function loadSetting(setting: ISettingRegistry.ISettings): void {
   // Read the settings and convert to the correct type
@@ -268,7 +270,7 @@ To react at a setting change by the user, you should use the signal
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L55-L55
+// src/index.ts#L47-L47
 
 setting.changed.connect(loadSetting);
 ```
@@ -279,7 +281,7 @@ the `flag` and increment the `limit` settings is implemented.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L60-L78
+// src/index.ts#L52-L70
 
 execute: () => {
   // Programmatically change a setting
@@ -308,30 +310,37 @@ new value.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L63-L64
+// src/index.ts#L55-L56
 
 setting.set('flag', !flag),
 setting.set('limit', limit + 1),
 ```
 <!-- prettier-ignore-end -->
 
-That command can be executed by clicking on the item menu created at the end of the
-`activate` function.
+That command can be executed by clicking on the item menu defined in the settings file:
 
 <!-- prettier-ignore-start -->
-```ts
-// src/index.ts#L82-L89
+```json5
+// schema/settings-example.json#L4-L17
 
-const settingsMenu = new Menu({ commands });
-settingsMenu.title.label = 'Settings Example';
-mainMenu.addMenu(settingsMenu, { rank: 80 });
-
-// Add the command to the menu
-settingsMenu.addItem({
-  command: COMMAND_ID,
-});
+"jupyter.lab.menus": {
+  "main": [
+    {
+      "id": "jp-mainmenu-example-settings",
+      "label": "Settings Example",
+      "rank": 80,
+      "items": [
+        {
+          "command": "@jupyterlab-examples/settings:toggle-flag"
+        }
+      ]
+    }
+  ]
+},
 ```
 <!-- prettier-ignore-end -->
+
+> Have a look at the [menu example](../main-menu/README.md) for more information.
 
 Note
 

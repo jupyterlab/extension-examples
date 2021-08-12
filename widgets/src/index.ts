@@ -5,9 +5,7 @@ import {
 
 import { ICommandPalette } from '@jupyterlab/apputils';
 
-import { IMainMenu } from '@jupyterlab/mainmenu';
-
-import { Menu, Widget } from '@lumino/widgets';
+import { Widget } from '@lumino/widgets';
 
 /**
  * Activate the widgets example extension.
@@ -15,12 +13,8 @@ import { Menu, Widget } from '@lumino/widgets';
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'widgets-example',
   autoStart: true,
-  requires: [ICommandPalette, IMainMenu],
-  activate: (
-    app: JupyterFrontEnd,
-    palette: ICommandPalette,
-    mainMenu: IMainMenu
-  ) => {
+  requires: [ICommandPalette],
+  activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {
     const { commands, shell } = app;
     const command = 'widgets:open-tab';
 
@@ -33,12 +27,6 @@ const extension: JupyterFrontEndPlugin<void> = {
       },
     });
     palette.addItem({ command, category: 'Extension Examples' });
-
-    const exampleMenu = new Menu({ commands });
-
-    exampleMenu.title.label = 'Widget Example';
-    mainMenu.addMenu(exampleMenu, { rank: 80 });
-    exampleMenu.addItem({ command });
   },
 };
 

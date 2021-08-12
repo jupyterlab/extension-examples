@@ -18,8 +18,8 @@
   },
   "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
-    "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
-    "style/index.js"
+    "style/**/*.{css,eot,js,gif,html,jpg,json,png,svg,woff2,ttf}",
+    "schema/**/*.json"
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -52,7 +52,6 @@
     "@jupyterlab/apputils": "^3.1.0",
     "@jupyterlab/coreutils": "^5.1.0",
     "@jupyterlab/logconsole": "^3.1.0",
-    "@jupyterlab/mainmenu": "^3.1.0",
     "@jupyterlab/nbformat": "^3.1.0",
     "@jupyterlab/notebook": "^3.1.0",
     "@jupyterlab/rendermime": "^3.1.0",
@@ -80,7 +79,8 @@
   ],
   "jupyterlab": {
     "extension": true,
-    "outputDir": "jupyterlab_examples_log_messages/labextension"
+    "outputDir": "jupyterlab_examples_log_messages/labextension",
+    "schemaDir": "schema"
   },
   "styleModule": "style/index.js"
 }

@@ -1,0 +1,20 @@
+{
+  "title": "Widget Example",
+  "description": "Widget Example settings.",
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-example-widget",
+        "label": "Widget Example",
+        "rank": 80,
+        "items": [
+          {
+            "command": "widgets:open-tab"
+          }
+        ]
+      }
+    ]
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

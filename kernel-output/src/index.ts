@@ -7,13 +7,9 @@ import { ICommandPalette, InputDialog } from '@jupyterlab/apputils';
 
 import { ILauncher } from '@jupyterlab/launcher';
 
-import { IMainMenu } from '@jupyterlab/mainmenu';
-
 import { ITranslator } from '@jupyterlab/translation';
 
 import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
-
-import { Menu } from '@lumino/widgets';
 
 import { ExamplePanel } from './panel';
 
@@ -33,7 +29,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   id: 'kernel-output',
   autoStart: true,
   optional: [ILauncher],
-  requires: [ICommandPalette, IMainMenu, IRenderMimeRegistry, ITranslator],
+  requires: [ICommandPalette, IRenderMimeRegistry, ITranslator],
   activate: activate,
 };
 
@@ -42,7 +38,6 @@ const extension: JupyterFrontEndPlugin<void> = {
  *
  * @param app Jupyter Front End
  * @param palette Jupyter Commands Palette
- * @param mainMenu Jupyter Menu
  * @param rendermime Jupyter Render Mime Registry
  * @param translator Jupyter Translator
  * @param launcher [optional] Jupyter Launcher
@@ -50,7 +45,6 @@ const extension: JupyterFrontEndPlugin<void> = {
 function activate(
   app: JupyterFrontEnd,
   palette: ICommandPalette,
-  mainMenu: IMainMenu,
   rendermime: IRenderMimeRegistry,
   translator: ITranslator,
   launcher: ILauncher | null
@@ -72,11 +66,6 @@ function activate(
     shell.add(panel, 'main');
     return panel;
   }
-
-  // add menu tab
-  const exampleMenu = new Menu({ commands });
-  exampleMenu.title.label = trans.__('Kernel Output');
-  mainMenu.addMenu(exampleMenu);
 
   // add commands to registry
   commands.addCommand(CommandIDs.create, {
@@ -110,7 +99,6 @@ function activate(
   // add items in command palette and menu
   [CommandIDs.create, CommandIDs.execute].forEach((command) => {
     palette.addItem({ command, category });
-    exampleMenu.addItem({ command });
   });
 
   // Add launcher

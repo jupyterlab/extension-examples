@@ -9,8 +9,6 @@ import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
 
 import { ILauncher } from '@jupyterlab/launcher';
 
-import { IMainMenu } from '@jupyterlab/mainmenu';
-
 import { LabIcon } from '@jupyterlab/ui-components';
 
 import pythonIconStr from '../style/Python-logo-notext.svg';
@@ -26,12 +24,11 @@ const extension: JupyterFrontEndPlugin<void> = {
   id: 'launcher',
   autoStart: true,
   requires: [IFileBrowserFactory],
-  optional: [ILauncher, IMainMenu, ICommandPalette],
+  optional: [ILauncher, ICommandPalette],
   activate: (
     app: JupyterFrontEnd,
     browserFactory: IFileBrowserFactory,
     launcher: ILauncher | null,
-    menu: IMainMenu | null,
     palette: ICommandPalette | null
   ) => {
     const { commands } = app;
@@ -48,7 +45,8 @@ const extension: JupyterFrontEndPlugin<void> = {
       execute: async (args) => {
         // Get the directory in which the Python file must be created;
         // otherwise take the current filebrowser directory
-        const cwd = args['cwd'] || browserFactory.defaultBrowser.model.path;
+        const cwd =
+          args['cwd'] || browserFactory.tracker.currentWidget.model.path;
 
         // Create a new untitled python file
         const model = await commands.execute('docmanager:new-untitled', {
@@ -81,11 +79,6 @@ const extension: JupyterFrontEndPlugin<void> = {
         args: { isPalette: true },
         category: PALETTE_CATEGORY,
       });
-    }
-
-    // Add the command to the menu
-    if (menu) {
-      menu.fileMenu.newMenu.addGroup([{ command }], 30);
     }
   },
 };

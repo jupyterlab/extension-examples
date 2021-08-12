@@ -7,11 +7,7 @@ import { ICommandPalette } from '@jupyterlab/apputils';
 
 import { ILauncher } from '@jupyterlab/launcher';
 
-import { IMainMenu } from '@jupyterlab/mainmenu';
-
 import { ITranslator } from '@jupyterlab/translation';
-
-import { Menu } from '@lumino/widgets';
 
 import { SignalExamplePanel } from './panel';
 
@@ -29,7 +25,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   id: 'signals',
   autoStart: true,
   optional: [ILauncher],
-  requires: [ICommandPalette, IMainMenu, ITranslator],
+  requires: [ICommandPalette, ITranslator],
   activate,
 };
 
@@ -38,14 +34,12 @@ const extension: JupyterFrontEndPlugin<void> = {
  *
  * @param app Jupyter Font End
  * @param palette Jupyter Commands Palette
- * @param mainMenu Jupyter Menu
  * @param translator Jupyter Translator
  * @param launcher [optional] Jupyter Launcher
  */
 function activate(
   app: JupyterFrontEnd,
   palette: ICommandPalette,
-  mainMenu: IMainMenu,
   translator: ITranslator,
   launcher: ILauncher | null
 ): void {
@@ -76,11 +70,6 @@ function activate(
     });
   }
 
-  // Add menu tab
-  const signalMenu = new Menu({ commands });
-  signalMenu.title.label = trans.__('Signal Example');
-  mainMenu.addMenu(signalMenu);
-
   // Add commands to registry
   commands.addCommand(CommandIDs.create, {
     label: trans.__('Open the Signal Example Panel'),
@@ -90,7 +79,6 @@ function activate(
 
   // Add items in command palette and menu
   palette.addItem({ command: CommandIDs.create, category });
-  signalMenu.addItem({ command: CommandIDs.create });
 }
 
 export default extension;
