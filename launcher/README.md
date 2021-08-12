@@ -17,6 +17,7 @@ your extension will use two commands defined by the [documents manager](https://
 
 The command will create a new Python file and then open it:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L41-L64
 
@@ -45,6 +46,7 @@ commands.addCommand(command, {
   },
 });
 ```
+<!-- prettier-ignore-end -->
 
 To link that command to the JupyterLab launcher, the `ILauncher` interface needs to be passed to the `activate`
 extension function. As that interface is provided by the `@jupyterlab/launcher` package, it needs first to be installed:
