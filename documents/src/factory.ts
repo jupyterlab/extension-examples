@@ -18,7 +18,7 @@ export class ExampleWidgetFactory extends ABCWidgetFactory<
   /**
    * Constructor of ExampleWidgetFactory.
    *
-   * @param options
+   * @param options Constructor options
    */
   constructor(options: DocumentRegistry.IWidgetFactoryOptions) {
     super(options);
@@ -27,8 +27,8 @@ export class ExampleWidgetFactory extends ABCWidgetFactory<
   /**
    * Create a new widget given a context.
    *
-   * @param context: Contains the information of the file
-   * @param context
+   * @param context Contains the information of the file
+   * @returns The widget
    */
   protected createNewWidget(
     context: DocumentRegistry.IContext<ExampleDocModel>
@@ -48,6 +48,8 @@ export class ExampleDocModelFactory
 {
   /**
    * The name of the model.
+   *
+   * @returns The name
    */
   get name(): string {
     return 'example-model';
@@ -55,6 +57,8 @@ export class ExampleDocModelFactory
 
   /**
    * The content type of the file.
+   *
+   * @returns The content type
    */
   get contentType(): Contents.ContentType {
     return 'file';
@@ -62,6 +66,8 @@ export class ExampleDocModelFactory
 
   /**
    * The format of the file.
+   *
+   * @returns the file format
    */
   get fileFormat(): Contents.FileFormat {
     return 'text';
@@ -69,6 +75,8 @@ export class ExampleDocModelFactory
 
   /**
    * Get whether the model factory has been disposed.
+   *
+   * @returns disposed status
    */
   get isDisposed(): boolean {
     return this._disposed;
@@ -84,8 +92,8 @@ export class ExampleDocModelFactory
   /**
    * Get the preferred language given the path on the file.
    *
-   * @param path: path of the file represented by this document model
-   * @param path
+   * @param path path of the file represented by this document model
+   * @returns The preferred language
    */
   preferredLanguage(path: string): string {
     return '';
@@ -94,8 +102,9 @@ export class ExampleDocModelFactory
   /**
    * Create a new instance of ExampleDocModel.
    *
-   * @param languagePreference
-   * @param modelDB
+   * @param languagePreference Language
+   * @param modelDB Model database
+   * @returns The model
    */
   createNew(languagePreference?: string, modelDB?: IModelDB): ExampleDocModel {
     return new ExampleDocModel(languagePreference, modelDB);

@@ -96,7 +96,7 @@ export class ExamplePanel extends Widget {
   /**
    * Handle `after-attach` messages sent to the widget.
    *
-   * @param msg
+   * @param msg Widget layout message
    */
   protected onAfterAttach(msg: Message): void {
     super.onAfterAttach(msg);
@@ -110,7 +110,7 @@ export class ExamplePanel extends Widget {
   /**
    * Handle `before-detach` messages sent to the widget.
    *
-   * @param msg
+   * @param msg Widget layout message
    */
   protected onBeforeDetach(msg: Message): void {
     super.onBeforeDetach(msg);
@@ -124,7 +124,7 @@ export class ExamplePanel extends Widget {
   /**
    * Handle event messages sent to the widget.
    *
-   * @param event
+   * @param event Event on the widget
    */
   public handleEvent(event: MouseEvent): void {
     event.preventDefault();
@@ -176,10 +176,8 @@ export class ExamplePanel extends Widget {
    * Callback to listen for changes on the model. This callback listens
    * to changes on shared model's content.
    *
-   * @param sender: The DocumentModel that triggers the changes.
-   * @param change: The changes on the model
-   * @param sender
-   * @param change
+   * @param sender The DocumentModel that triggers the changes.
+   * @param change The changes on the model
    */
   private _onContentChanged = (
     sender: ExampleDocModel,
@@ -198,10 +196,8 @@ export class ExamplePanel extends Widget {
    * Callback to listen for changes on the model. This callback listens
    * to changes on the different clients sharing the document.
    *
-   * @param sender: The DocumentModel that triggers the changes.
-   * @param clients: The list of client's states.
-   * @param sender
-   * @param clients
+   * @param sender The DocumentModel that triggers the changes.
+   * @param clients The list of client's states.
    */
   private _onClientChanged = (
     sender: ExampleDocModel,

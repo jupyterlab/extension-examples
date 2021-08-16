@@ -30,8 +30,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   /**
    * Construct a new ExampleDocModel.
    *
-   * @param languagePreference
-   * @param modelDB
+   * @param languagePreference Language
+   * @param modelDB Document model database
    */
   constructor(languagePreference?: string, modelDB?: IModelDB) {
     this.modelDB = modelDB || new ModelDB();
@@ -44,6 +44,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   /**
    * get/set the dirty attribute to know when the
    * content in the document differs from disk
+   *
+   * @returns dirty attribute
    */
   get dirty(): boolean {
     return this._dirty;
@@ -55,6 +57,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   /**
    * get/set the readOnly attribute to know whether this model
    * is read only or not
+   *
+   * @returns readOnly attribute
    */
   get readOnly(): boolean {
     return this._readOnly;
@@ -66,6 +70,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   /**
    * get the isDisposed attribute to know whether this model
    * has been disposed or not
+   *
+   * @returns Model status
    */
   get isDisposed(): boolean {
     return this._isDisposed;
@@ -77,6 +83,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    *
    * NOTE: The content refers to de data stored in the model while the state refers
    * to the metadata or attributes of the model.
+   *
+   * @returns The signal
    */
   get contentChanged(): ISignal<this, void> {
     return this._contentChanged;
@@ -88,6 +96,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    *
    * NOTE: The content refers to de data stored in the model while the state refers
    * to the metadata or attributes of the model.
+   *
+   * @returns The signal
    */
   get stateChanged(): ISignal<this, IChangedArgs<any, any, string>> {
     return this._stateChanged;
@@ -96,6 +106,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   /**
    * get the signal sharedModelChanged to listen for changes on the content
    * of the shared model.
+   *
+   * @returns The signal
    */
   get sharedModelChanged(): ISignal<this, ExampleDocChange> {
     return this._sharedModelChanged;
@@ -104,6 +116,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   /**
    * get the signal clientChanged to listen for changes on the clients sharing
    * the same document.
+   *
+   * @returns The signal
    */
   get clientChanged(): ISignal<this, Map<number, any>> {
     return this._clientChanged;
@@ -144,6 +158,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * Should return the data that you need to store in disk as a string.
    * The context will call this method to get the file's content and save it
    * to disk
+   *
+   * @returns The data
    */
   toString(): string {
     const pos = this.sharedModel.getContent('position');
@@ -160,7 +176,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * This method should implement the logic to parse the data and store it
    * on the datastore.
    *
-   * @param data
+   * @param data Serialized data
    */
   fromString(data: string): void {
     const obj = JSON.parse(data);
@@ -177,6 +193,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    *
    * NOTE: This method is only used by the context of the notebook, every other
    * document will load/save the data through toString/fromString.
+   *
+   * @returns Model JSON representation
    */
   toJSON(): PartialJSONObject {
     const pos = this.sharedModel.getContent('position');
@@ -196,7 +214,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * NOTE: This method is only used by the context of the notebook, every other
    * document will load/save the data through toString/fromString.
    *
-   * @param data
+   * @param data Serialized model
    */
   fromJSON(data: PartialJSONObject): void {
     this.sharedModel.transact(() => {
@@ -236,7 +254,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   /**
    * Sets the position of the SharedObject
    *
-   * @param pos
+   * @param pos Position
    */
   setPosition(pos: Position): void {
     this.sharedModel.setContent('position', pos);
@@ -245,7 +263,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   /**
    * Sets the text inside the SharedObject
    *
-   * @param content
+   * @param content Text
    */
   setContent(content: string): void {
     this.sharedModel.setContent('content', content);
@@ -254,7 +272,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   /**
    * Sets the mouse's position of the client
    *
-   * @param pos
+   * @param pos Mouse position
    */
   setClient(pos: Position): void {
     // Adds the position of the mouse from the client to the shared state.
@@ -265,10 +283,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * Callback to listen for changes on the sharedModel. This callback listens
    * to changes on shared model's content and propagates them to the DocumentWidget.
    *
-   * @param sender: The sharedModel that triggers the changes.
-   * @param change: The changes on the sharedModel.
-   * @param sender
-   * @param changes
+   * @param sender The sharedModel that triggers the changes.
+   * @param changes The changes on the sharedModel.
    */
   private _onSharedModelChanged = (
     sender: ExampleDoc,
@@ -281,9 +297,6 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * Callback to listen for changes on the sharedModel. This callback listens
    * to changes on the different clients sharing the document and propagates
    * them to the DocumentWidget.
-   *
-   * @param sender: The sharedModel that triggers the changes.
-   * @param clients: The list of client's states.
    */
   private _onClientChanged = () => {
     const clients = this.sharedModel.awareness.getStates();
@@ -337,6 +350,8 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
 
   /**
    * Static method to create instances on the sharedModel
+   *
+   * @returns The sharedModel instance
    */
   public static create(): ExampleDoc {
     return new ExampleDoc();
@@ -345,8 +360,8 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
   /**
    * Returns an the requested object.
    *
-   * @param key: The key of the object.
-   * @param key
+   * @param key The key of the object.
+   * @returns The content
    */
   public getContent(key: string): any {
     return this._content.get(key);
@@ -355,10 +370,8 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
   /**
    * Adds new data.
    *
-   * @param key: The key of the object.
-   * @param value: New object.
-   * @param key
-   * @param value
+   * @param key The key of the object.
+   * @param value New object.
    */
   public setContent(key: string, value: any): void {
     this._content.set(key, value);
@@ -367,7 +380,7 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
   /**
    * Handle a change.
    *
-   * @param event
+   * @param event Model event
    */
   private _contentObserver = (event: Y.YMapEvent<any>): void => {
     const changes: ExampleDocChange = {};

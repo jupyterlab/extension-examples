@@ -9,10 +9,8 @@ test('should check if the cube is loaded', async ({ page }) => {
 
   // Click text=File
   await page.click('text=File');
-
   // Click ul[role="menu"] >> text=New
   await page.click('ul[role="menu"] >> text=New');
-
   // Click #jp-mainmenu-file-new >> text=Text File
   page.click('#jp-mainmenu-file-new >> text=Text File');
 
@@ -28,10 +26,10 @@ test('should check if the cube is loaded', async ({ page }) => {
   // Press s with modifiers
   await page.keyboard.press('Control+s');
 
-  // Click div[role="main"] >> text=Launcheruntitled.txt >> :nth-match(svg, 4)
-  await page.click(
-    'div[role="main"] >> text=Launcheruntitled.txt >> :nth-match(svg, 4)'
-  );
+  // Close file
+  await page.click('text=File');
+  // Click ul[role="menu"] >> text=New
+  await page.click('ul[role="menu"] >> text=Close Tab');
 
   // Click [aria-label="File Browser Section"] >> text=untitled.txt
   await page.click('[aria-label="File Browser Section"] >> text=untitled.txt', {
