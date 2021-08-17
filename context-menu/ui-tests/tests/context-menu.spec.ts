@@ -35,13 +35,14 @@ test('should have new context menu for example files', async ({ page }) => {
   await page.press('input.jp-DirListing-editor', 'Enter');
 
   // Wait for the data attribute to be set
-  let type = '';
-  do {
-    type = await page.getAttribute(
-      '[aria-label="File Browser Section"] >> text=test.example',
-      'data-file-type'
-    );
-  } while (!type);
+  let resolveImmediate;
+  const waitForImmediate = new Promise((resolve) => {
+    resolveImmediate = resolve;
+  });
+  setImmediate(() => {
+    resolveImmediate();
+  });
+  await waitForImmediate;
 
   // Click [aria-label="File Browser Section"] >> text=test.example
   await page.click('[aria-label="File Browser Section"] >> text=test.example', {
