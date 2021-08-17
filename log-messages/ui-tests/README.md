@@ -19,7 +19,7 @@ jlpm run build:prod
 2. Execute the docker stack in the example folder:
 
 ```
-docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env build
+docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env build --no-cache
 docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env run --rm e2e
 docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env down
 ```
@@ -107,7 +107,7 @@ docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.
 jupyter lab --ServerApp.token= --ServerApp.password=
 ```
 
-3. Launch the code generator tool:
+3. Launch the debug tool:
 
 ```
 cd ui-tests

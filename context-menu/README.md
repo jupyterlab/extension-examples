@@ -69,7 +69,7 @@ You will need to define a context menu item under the property `context` of the 
   "context": [
     {
       "command": "jlab-examples/context-menu:open",
-      "selector": ".jp-DirListing-item[data-file-type=\"example\"]",
+      "selector": ".jp-DirListing-item[data-file-type=\"text\"]",
       "rank": 0
     }
   ]
@@ -77,7 +77,7 @@ You will need to define a context menu item under the property `context` of the 
 ```
 <!-- prettier-ignore-end -->
 
-The `selector` can be any valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors). In this case, the first part is the CSS class that identifies the file browser items `.jp-DirListing-item` and the second part `[data-file-type="example"]` is a attribute value to be found on the item; the `data-file-type` attribute is set with the file extension. You can omit the second part to add the command to every file type.
+The `selector` can be any valid [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors). In this case, the first part is the CSS class that identifies the file browser items `.jp-DirListing-item` and the second part `[data-file-type="text"]` is a attribute value to be found on the item; the `data-file-type` attribute is set with the file type name or `text` for generic files. You can omit the second part to add the command to every file type.
 
 You can find some of the CSS classes that identify different widgets in JupyterLab in the [developer documentation](https://jupyterlab.readthedocs.io/en/stable/developer/css.html#commonly-used-css-selectors).
 

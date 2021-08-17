@@ -76,5 +76,7 @@ test('should check if the cube is loaded', async ({ page }) => {
   await page.keyboard.press('Control+s');
 
   // Compare screenshot with a stored reference.
-  expect(await page.screenshot()).toMatchSnapshot('documents-example.png');
+  expect(
+    await (await page.waitForSelector('div[role="main"]')).screenshot()
+  ).toMatchSnapshot('documents-example.png');
 });

@@ -5,7 +5,7 @@
     "context": [
       {
         "command": "jlab-examples/context-menu:open",
-        "selector": ".jp-DirListing-item[data-file-type=\"example\"]",
+        "selector": ".jp-DirListing-item[data-file-type=\"text\"]",
         "rank": 0
       }
     ]

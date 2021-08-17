@@ -56,7 +56,7 @@ At the same time, you need to implement the method `createNew`. The `DocumentMan
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L100-L102
+// src/factory.ts#L109-L111
 
 createNew(languagePreference?: string, modelDB?: IModelDB): ExampleDocModel {
   return new ExampleDocModel(languagePreference, modelDB);
@@ -157,7 +157,7 @@ To create a new shared object, you have to use the `ydoc`. The new attribute wil
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L327-L328
+// src/model.ts#L340-L341
 
 this._content = this.ydoc.getMap('content');
 this._content.observe(this._contentObserver);
@@ -168,7 +168,7 @@ To access the information about the different users connected, you can use the `
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L261-L261
+// src/model.ts#L279-L279
 
 this.sharedModel.awareness.setLocalStateField('mouse', pos);
 ```
@@ -176,7 +176,7 @@ this.sharedModel.awareness.setLocalStateField('mouse', pos);
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L289-L289
+// src/model.ts#L302-L302
 
 const clients = this.sharedModel.awareness.getStates();
 ```
@@ -194,7 +194,7 @@ Every time you modify a shared property, this property triggers an event in all 
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L167-L170
+// src/model.ts#L183-L186
 
 this.sharedModel.transact(() => {
   this.sharedModel.setContent('position', { x: obj.x, y: obj.y });
