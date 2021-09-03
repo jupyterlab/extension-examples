@@ -16,9 +16,9 @@ It is the fundamental brick of any visual component in the JupyterLab interface.
 The base widget class can be imported with:
 
 ```ts
-// src/index.ts#L10-L10
+// src/index.ts#L8-L8
 
-import { Menu, Widget } from '@lumino/widgets';
+import { Widget } from '@lumino/widgets';
 ```
 
 It requires to add the library as package dependency:
@@ -34,7 +34,7 @@ Inside of the `activate` function, you can obtain it through the `shell` attribu
 of the `app` object:
 
 ```ts
-// src/index.ts#L24-L24
+// src/index.ts#L18-L18
 
 const { commands, shell } = app;
 ```
@@ -44,7 +44,7 @@ in this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L30-L33
+// src/index.ts#L24-L27
 
 execute: () => {
   const widget = new ExampleWidget();
@@ -63,7 +63,7 @@ In this case, no specific behavior is defined for the widget. Only some properti
 - `title.closable`: Allow the widget tab to be closed
 
 ```ts
-// src/index.ts#L47-L55
+// src/index.ts#L35-L43
 
 class ExampleWidget extends Widget {
   constructor() {

@@ -18,8 +18,6 @@ import {
 } from '@jupyterlab/logconsole';
 import { addIcon, clearIcon, listIcon } from '@jupyterlab/ui-components';
 import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
-import { IMainMenu } from '@jupyterlab/mainmenu';
-import { Menu } from '@lumino/widgets';
 
 import * as nbformat from '@jupyterlab/nbformat';
 
@@ -28,13 +26,11 @@ import LogLevelSwitcher from './logLevelSwitcher';
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'custom-log-console',
   autoStart: true,
-  requires: [ICommandPalette, IRenderMimeRegistry, IMainMenu, ILayoutRestorer],
-  optional: [],
+  requires: [ICommandPalette, IRenderMimeRegistry, ILayoutRestorer],
   activate: (
     app: JupyterFrontEnd,
     palette: ICommandPalette,
     rendermime: IRenderMimeRegistry,
-    mainMenu: IMainMenu,
     restorer: ILayoutRestorer
   ) => {
     const { commands } = app;
@@ -187,26 +183,6 @@ const extension: JupyterFrontEndPlugin<void> = {
 
         logConsolePanel?.logger?.log(msg);
       },
-    });
-
-    // Create a new menu
-    const menu: Menu = new Menu({ commands });
-    menu.title.label = 'Log Console Example';
-    mainMenu.addMenu(menu, { rank: 80 });
-
-    // Button to open custom log console
-    menu.addItem({ command: 'jlab-examples/custom-log-console:open' });
-    menu.addItem({ type: 'separator' });
-
-    // Buttons for the different examples
-    menu.addItem({
-      command: 'jlab-examples/custom-log-console:logHTMLMessage',
-    });
-    menu.addItem({
-      command: 'jlab-examples/custom-log-console:logTextMessage',
-    });
-    menu.addItem({
-      command: 'jlab-examples/custom-log-console:logOutputMessage',
     });
   },
 };

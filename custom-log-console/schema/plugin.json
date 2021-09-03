@@ -1,0 +1,32 @@
+{
+  "title": "Log Console Example",
+  "description": "Log Console Example settings.",
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-example-log-console",
+        "label": "Log Console Example",
+        "rank": 80,
+        "items": [
+          {
+            "command": "jlab-examples/custom-log-console:open"
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "command": "jlab-examples/custom-log-console:logHTMLMessage"
+          },
+          {
+            "command": "jlab-examples/custom-log-console:logTextMessage"
+          },
+          {
+            "command": "jlab-examples/custom-log-console:logOutputMessage"
+          }
+        ]
+      }
+    ]
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

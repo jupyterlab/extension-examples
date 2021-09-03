@@ -10,15 +10,16 @@ dependencies to JupyterLab features.
 > Credit: This example is copied from Jeremy Tuloup [Python file extension](https://github.com/jtpio/jupyterlab-python-file).
 
 This example allows to create an empty Python file. To do so,
-your extension will use two commands defined by the [documents manager](https://github.com/jupyterlab/jupyterlab/blob/master/packages/docmanager-extension/src/index.ts#L53-L86) of JupyterLab:
+your extension will use two commands defined by the [documents manager](https://github.com/jupyterlab/jupyterlab/blob/master/packages/docmanager-extension/src/index.tsx#L52-L82) of JupyterLab:
 
 - `'docmanager:new-untitled'`: Create new untitled document
 - `'docmanager:open'`: Open a document
 
 The command will create a new Python file and then open it:
 
+<!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L44-L66
+// src/index.ts#L41-L64
 
 commands.addCommand(command, {
   label: (args) => (args['isPalette'] ? 'New Python File' : 'Python File'),
@@ -27,7 +28,8 @@ commands.addCommand(command, {
   execute: async (args) => {
     // Get the directory in which the Python file must be created;
     // otherwise take the current filebrowser directory
-    const cwd = args['cwd'] || browserFactory.defaultBrowser.model.path;
+    const cwd =
+      args['cwd'] || browserFactory.tracker.currentWidget.model.path;
 
     // Create a new untitled python file
     const model = await commands.execute('docmanager:new-untitled', {
@@ -44,6 +46,7 @@ commands.addCommand(command, {
   },
 });
 ```
+<!-- prettier-ignore-end -->
 
 To link that command to the JupyterLab launcher, the `ILauncher` interface needs to be passed to the `activate`
 extension function. As that interface is provided by the `@jupyterlab/launcher` package, it needs first to be installed:
@@ -63,18 +66,17 @@ import { ILauncher } from '@jupyterlab/launcher';
 And finally you can add it to the list of dependencies:
 
 ```ts
-// src/index.ts#L25-L36
+// src/index.ts#L23-L33
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'launcher',
   autoStart: true,
   requires: [IFileBrowserFactory],
-  optional: [ILauncher, IMainMenu, ICommandPalette],
+  optional: [ILauncher, ICommandPalette],
   activate: (
     app: JupyterFrontEnd,
     browserFactory: IFileBrowserFactory,
     launcher: ILauncher | null,
-    menu: IMainMenu | null,
     palette: ICommandPalette | null
   ) => {
 ```
@@ -90,7 +92,7 @@ Therefore before adding the command to the launcher, you need to check if the `l
 variable is not `null`:
 
 ```ts
-// src/index.ts#L68-L75
+// src/index.ts#L66-L73
 
 // Add the command to the launcher
 if (launcher) {

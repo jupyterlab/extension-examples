@@ -5,8 +5,6 @@ import {
 
 import { ICommandPalette } from '@jupyterlab/apputils';
 
-import { IMainMenu } from '@jupyterlab/mainmenu';
-
 import {
   ITranslator,
   nullTranslator,
@@ -15,7 +13,7 @@ import {
 
 import { DataGrid, DataModel } from '@lumino/datagrid';
 
-import { Menu, StackedPanel } from '@lumino/widgets';
+import { StackedPanel } from '@lumino/widgets';
 
 /**
  * Initialization data for the extension1 extension.
@@ -23,11 +21,10 @@ import { Menu, StackedPanel } from '@lumino/widgets';
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'datagrid',
   autoStart: true,
-  requires: [ICommandPalette, IMainMenu, ITranslator],
+  requires: [ICommandPalette, ITranslator],
   activate: (
     app: JupyterFrontEnd,
     palette: ICommandPalette,
-    mainMenu: IMainMenu,
     translator: ITranslator
   ) => {
     const { commands, shell } = app;
@@ -43,12 +40,6 @@ const extension: JupyterFrontEndPlugin<void> = {
       },
     });
     palette.addItem({ command, category: 'Extension Examples' });
-
-    const exampleMenu = new Menu({ commands });
-
-    exampleMenu.title.label = trans.__('DataGrid Example');
-    mainMenu.addMenu(exampleMenu, { rank: 80 });
-    exampleMenu.addItem({ command });
   },
 };
 

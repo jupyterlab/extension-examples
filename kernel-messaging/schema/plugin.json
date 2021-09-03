@@ -1,0 +1,20 @@
+{
+  "title": "Kernel Messaging Example",
+  "description": "Kernel Messaging Example settings.",
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-example-kernel-messaging",
+        "label": "Kernel Messaging",
+        "rank": 80,
+        "items": [
+          {
+            "command": "kernel-messaging:create"
+          }
+        ]
+      }
+    ]
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

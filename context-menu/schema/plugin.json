@@ -1,0 +1,15 @@
+{
+  "title": "Context Menu Example",
+  "description": "Context Menu Example settings.",
+  "jupyter.lab.menus": {
+    "context": [
+      {
+        "command": "jlab-examples/context-menu:open",
+        "selector": ".jp-DirListing-item[data-file-type=\"text\"]",
+        "rank": 0
+      }
+    ]
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

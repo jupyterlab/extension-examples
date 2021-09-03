@@ -1,0 +1,23 @@
+{
+  "title": "Kernel Output Example",
+  "description": "Kernel Output Example settings.",
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-example-kernel-output",
+        "label": "Kernel Output",
+        "rank": 80,
+        "items": [
+          {
+            "command": "kernel-output:create"
+          },
+          {
+            "command": "kernel-output:execute"
+          }
+        ]
+      }
+    ]
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

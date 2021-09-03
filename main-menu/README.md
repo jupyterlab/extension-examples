@@ -9,94 +9,107 @@ the notion of _Commands_ as explained in the [commands example](../commands/READ
 One of the possibilities offered to the user to trigger that command is to call it from
 a menu item.
 
-Adding new menu item works in a similar way to the [command palette](../command-palette/README.md).
-The `IMainMenu` interface can be requested as a new argument to the `activate`
-function, but first it has to be imported. And the class `Menu` to create new
-menu needs also to be imported but from the Lumino library:
+Since JupyterLab 3.1, the preferred way to define menus is through a description
+stored in plugin settings file. On the Typescript code, you only need
+to define the _commands_ to be displayed in the menu(s). The code to add
+a command will first be described.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L6-L8
+// src/index.ts#L16-L31
 
-import { IMainMenu } from '@jupyterlab/mainmenu';
+const { commands } = app;
 
-import { Menu } from '@lumino/widgets';
-```
-<!-- prettier-ignore-end -->
-
-You can add the `IMainMenu` in the `requires:` property such that it is injected into
-the `activate` function. The extension looks like:
-
-<!-- prettier-ignore-start -->
-```ts
-// src/index.ts#L15-L57
-
-const extension: JupyterFrontEndPlugin<void> = {
-  id: 'main-menu',
-  autoStart: true,
-  requires: [ICommandPalette, IMainMenu],
-  activate: (
-    app: JupyterFrontEnd,
-    palette: ICommandPalette,
-    mainMenu: IMainMenu
-  ) => {
-    const { commands } = app;
-
-    // Add a command
-    const command = 'jlab-examples:main-menu';
-    commands.addCommand(command, {
-      label: 'Execute jlab-examples:main-menu Command',
-      caption: 'Execute jlab-examples:main-menu Command',
-      execute: (args: any) => {
-        console.log(
-          `jlab-examples:main-menu has been called ${args['origin']}.`
-        );
-        window.alert(
-          `jlab-examples:main-menu has been called ${args['origin']}.`
-        );
-      },
-    });
-
-    // Add the command to the command palette
-    const category = 'Extension Examples';
-    palette.addItem({
-      command,
-      category,
-      args: { origin: 'from the palette' },
-    });
-
-    // Create a menu
-    const tutorialMenu: Menu = new Menu({ commands });
-    tutorialMenu.title.label = 'Main Menu Example';
-    mainMenu.addMenu(tutorialMenu, { rank: 80 });
-
-    // Add the command to the menu
-    tutorialMenu.addItem({ command, args: { origin: 'from the menu' } });
+// Add a command
+const command = 'jlab-examples:main-menu';
+commands.addCommand(command, {
+  label: 'Execute jlab-examples:main-menu Command',
+  caption: 'Execute jlab-examples:main-menu Command',
+  execute: (args: any) => {
+    console.log(
+      `jlab-examples:main-menu has been called ${args['origin']}.`
+    );
+    window.alert(
+      `jlab-examples:main-menu has been called ${args['origin']}.`
+    );
   },
-};
+});
 ```
 <!-- prettier-ignore-end -->
 
-In this extension, you have the dependencies to _@jupyterlab/mainmenu_ and
-_@lumino/widgets_. Before it builds, this dependencies have to be added to the
-`package.json` file. This is done invoking the following command:
+Now that the command is defined, you need to add the definition of the menu
+in the plugin settings file.
 
-```bash
-jlpm add @jupyterlab/mainmenu @lumino/widgets
-```
+> Tip: when using the cookiecutter template for JupyterLab extension, you can
+> request initial settings to be created.
 
-After the execution of that command, `package.json` should list them in the
-`dependencies`:
+The creation of a settings file is described in the [settings example](../settings/README.md). Here only the needed keys to add a menu will describe.
+
+<!-- prettier-ignore-start -->
 
 ```json5
-// package.json#L50-L54
+// schema/plugin.json#L4-L20
 
-"dependencies": {
-  "@jupyterlab/application": "^3.1.0",
-  "@jupyterlab/mainmenu": "^3.1.0",
-  "@lumino/widgets": "^1.19.0"
+"jupyter.lab.menus": {
+  "main": [
+    {
+      "id": "jp-mainmenu-example-menu",
+      "label": "Main Menu Example",
+      "rank": 80,
+      "items": [
+        {
+          "command": "jlab-examples:main-menu",
+          "args": {
+            "origin": "from the menu"
+          }
+        }
+      ]
+    }
+  ]
 },
 ```
+
+<!-- prettier-ignore-start -->
+
+Main menu can be added and edited through the `main` property of the special 
+key `jupyter.lab.menus`. That property accepts a list of menus; each item will
+have an entry in the main menu bar.
+
+A menu is described by:
+
+- an `id`: Unique menu identifier
+- a `label`: The text to be displayed in the menu bar
+- some `items`: The commands available under that menu
+- a `rank`: (optional) number to order the menu items in the menu bar
+
+The `items` are a list of objects with the following attributes:
+
+- `type`: Type of the item
+  - _command_: (default) If the item triggers a command
+  - _separator_: if the item is a menu separator
+  - _submenu_: if the item is a submenu
+- `command`: (needed for _command_ type item) the unique command id to be trigger by the menu entry
+- `args`: (optional for _command_ item) arguments to be passed to the _command_
+- `rank`: (optional) number to order the menu entries
+
+The label displayed for a command will be given by the `label` attribute
+coded in Typescript; in this example:
+
+<!-- prettier-ignore-start -->
+```ts
+// src/index.ts#L21-L21
+
+label: 'Execute jlab-examples:main-menu Command',
+```
+<!-- prettier-ignore-end -->
+
+To add items to an existing menu, you will need to use the `id` of the default menu.
+An example to add an item to the _New_ submenu of the _File_ menu is available in the
+[launcher example](../launcher/schema/plugin.json).
+
+The list of default menu `id`s is available in the [documentation](https://jupyterlab.readthedocs.io/en/stable/extension/extension_points.html#settings-defined-menu).
+
+> See also the [documentation](https://jupyterlab.readthedocs.io/en/stable/extension/extension_points.html#settings-defined-menu).
 
 With this extension installed, a new menu _Main Menu Example_ should be present. And when
 clicking on the menu item _jlab-examples:main-menu_, the following text should appear

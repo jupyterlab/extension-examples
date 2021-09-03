@@ -5,10 +5,6 @@ import {
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
-import { IMainMenu } from '@jupyterlab/mainmenu';
-
-import { Menu } from '@lumino/widgets';
-
 const PLUGIN_ID = '@jupyterlab-examples/settings:settings-example';
 
 const COMMAND_ID = '@jupyterlab-examples/settings:toggle-flag';
@@ -19,12 +15,8 @@ const COMMAND_ID = '@jupyterlab-examples/settings:toggle-flag';
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
   autoStart: true,
-  requires: [IMainMenu, ISettingRegistry],
-  activate: (
-    app: JupyterFrontEnd,
-    mainMenu: IMainMenu,
-    settings: ISettingRegistry
-  ) => {
+  requires: [ISettingRegistry],
+  activate: (app: JupyterFrontEnd, settings: ISettingRegistry) => {
     const { commands } = app;
     let limit = 25;
     let flag = false;
@@ -76,16 +68,6 @@ const extension: JupyterFrontEndPlugin<void> = {
                 );
               });
           },
-        });
-
-        // Create a menu
-        const settingsMenu = new Menu({ commands });
-        settingsMenu.title.label = 'Settings Example';
-        mainMenu.addMenu(settingsMenu, { rank: 80 });
-
-        // Add the command to the menu
-        settingsMenu.addItem({
-          command: COMMAND_ID,
         });
       })
       .catch((reason) => {

@@ -1,6 +1,6 @@
 # Kernel Output
 
-> Render kernel messages in an OuputArea.
+> Render kernel messages in an _OuputArea_.
 
 - [Code structure](#code-structure)
 - [Initializing a Kernel Session](#initializing-a-kernel-session)
@@ -25,7 +25,7 @@ example.
 The code is split into two parts:
 
 1.  the JupyterLab plugin that activates all the extension components and connects
-    them to the main _JupyterLab_ application via commands, launcher and menu
+    them to the main _JupyterLab_ application via commands and launcher
     items,
 2.  a panel that contains the extension logic and UI elements to interact with it.
 
@@ -172,7 +172,7 @@ The last step is to add the panel to the JupyterLab main area.
 First, it is a good practice to unify the extension commands into one namespace at the top of the file:
 
 ```ts
-// src/index.ts#L23-L27
+// src/index.ts#L19-L23
 
 namespace CommandIDs {
   export const create = 'kernel-output:create';
@@ -181,16 +181,15 @@ namespace CommandIDs {
 }
 ```
 
-You can then add the commands to the palette and the menu by iterating
+You can then add the commands to the palette by iterating
 on a list:
 
 ```ts
-// src/index.ts#L110-L114
+// src/index.ts#L99-L102
 
 // add items in command palette and menu
 [CommandIDs.create, CommandIDs.execute].forEach((command) => {
   palette.addItem({ command, category });
-  exampleMenu.addItem({ command });
 });
 ```
 
@@ -198,7 +197,7 @@ To create a new client session, the service manager must be obtained from
 the JupyterLab application:
 
 ```ts
-// src/index.ts#L58-L58
+// src/index.ts#L52-L52
 
 const manager = app.serviceManager;
 ```
@@ -208,7 +207,7 @@ ready. Then once the panel is created and its session is ready, it
 can be added to the JupyterLab main area:
 
 ```ts
-// src/index.ts#L63-L74
+// src/index.ts#L57-L68
 
 let panel: ExamplePanel;
 
@@ -231,7 +230,7 @@ to be executed by the kernel. Then you will send it to your panel for execution
 and display:
 
 ```ts
-// src/index.ts#L88-L108
+// src/index.ts#L77-L97
 
 commands.addCommand(CommandIDs.execute, {
   label: trans.__('Contact Kernel and Execute Code'),

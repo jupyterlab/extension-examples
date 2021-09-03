@@ -15,10 +15,8 @@ test('should have new context menu for example files', async ({ page }) => {
 
   // Click li[role="menuitem"]:has-text("File")
   await page.click('li[role="menuitem"]:has-text("File")');
-
   // Click ul[role="menu"] >> text=New
   await page.click('ul[role="menu"] >> text=New');
-
   // Click #jp-mainmenu-file-new >> text=Text File
   await page.click('#jp-mainmenu-file-new >> text=Text File');
 
@@ -35,6 +33,9 @@ test('should have new context menu for example files', async ({ page }) => {
 
   // Press Enter
   await page.press('input.jp-DirListing-editor', 'Enter');
+
+  // Wait for the data attribute to be set
+  await page.waitForTimeout(200);
 
   // Click [aria-label="File Browser Section"] >> text=test.example
   await page.click('[aria-label="File Browser Section"] >> text=test.example', {

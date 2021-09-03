@@ -1,0 +1,20 @@
+{
+  "title": "DataGrid Example",
+  "description": "DataGrid Example settings.",
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-example-datagrid",
+        "label": "DataGrid Example",
+        "rank": 80,
+        "items": [
+          {
+            "command": "examples:datagrid"
+          }
+        ]
+      }
+    ]
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

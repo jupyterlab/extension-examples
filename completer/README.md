@@ -124,7 +124,7 @@ fetch(
 [_JupyterLab_'s completer-extension](https://github.com/jupyterlab/jupyterlab/tree/master/packages/completer-extension) includes a notebooks plugin that registers notebooks for code completion. Your extension will override the notebooks plugin's behavior, so you can [disable notebooks](https://jupyterlab.readthedocs.io/en/stable/extension/extension_dev.html#disabling-other-extensions) in your `.package.json`:
 
 ```json5
-// package.json#L83-L90
+// package.json#L81-L88
 
 "jupyterlab": {
   "extension": true,
