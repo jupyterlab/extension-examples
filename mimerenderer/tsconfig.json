@@ -9,7 +9,8 @@
     "outDir": "./lib",
     "target": "es2015",
     "strict": true,
-    "types": []
+    "types": [],
+    "skipLibCheck": true
   },
   "include": ["src/*"]
 }
