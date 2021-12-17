@@ -28,7 +28,7 @@
     "extension:disable": "jupyter labextension disable jupyterlab-mp4"
   },
   "dependencies": {
-    "@jupyterlab/rendermime-interfaces": "^1.0.0",
+    "@jupyterlab/rendermime-interfaces": "^3.0.0",
     "@phosphor/widgets": "^1.5.0"
   },
   "devDependencies": {
