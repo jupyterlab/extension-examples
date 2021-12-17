@@ -2,7 +2,7 @@ import { IRenderMime } from '@jupyterlab/rendermime-interfaces';
 
 
 
-import { Widget } from '@phosphor/widgets';
+import { Widget } from '@lumino/widgets';
 
 import '../style/index.css';
 
