@@ -41,14 +41,14 @@ const plugin: JupyterFrontEndPlugin<void> = {
           widget.node.style.minHeight = '1rem';
           widget.node.style.backgroundColor = 'white';
           widget.node.style.paddingLeft = '0.5rem';
-          widget.node.innerHTML = generateContent();
+          widget.node.textContent = generateContent();
 
           // and insert it into the header
           main.contentHeader.addWidget(widget);
 
           // Every so often, update the widget's contents
           setInterval(() => {
-            widget.node.innerHTML = generateContent();
+            widget.node.textContent = generateContent();
           }, 1000);
         }
       }
