@@ -55,6 +55,8 @@ As in the demo animated GIF above, once in JupyterLab
 
 > Nota bene, you can _toggle_ the `contentHeader` via the Command Palette ➜ "Show Header Above Content" if you decide you don't want to see it.
 
+> Nota bene 2, the `contentHeader` and the "Show Header Above Content" toggle apply on a *per* `MainAreaWidget`: if you run this extension, it will show the time in the `contentHeader` of the *active* main area, and the time will not appear in another notebook tab. This may be useful for some extension workflows and not others.
+
 ## Implementation notes
 
 For full details see the body of the `execute` function in [`index.ts`](./src/index.ts), but in prose, here's what we do to make use of the `contentHeader` widget—

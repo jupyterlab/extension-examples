@@ -9,7 +9,7 @@ import { MainAreaWidget } from '@jupyterlab/apputils';
 /**
  * Generate whatever content we'll render in `contentHeader`
  *
- * @returns string containing memory usage information or an error message
+ * @returns string
  */
 function generateContent(): string {
   return 'Time in GMT is: ' + new Date().toUTCString();
