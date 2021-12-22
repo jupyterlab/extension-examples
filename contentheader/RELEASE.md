@@ -15,7 +15,7 @@ Python package. Before generating a package, we first need to install `build`.
 pip install build twine
 ```
 
-To create a Python source package (``.tar.gz``) and the binary package (`.whl`) in the `dist/` directory, do:
+To create a Python source package (`.tar.gz`) and the binary package (`.whl`) in the `dist/` directory, do:
 
 ```bash
 python -m build

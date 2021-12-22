@@ -6,7 +6,7 @@
 
 This JupyterLab example extension is intended to demo one specific feature of `MainAreaWidget`, namely, its `contentHeader` section.
 
-> As background, `MainAreaWidget` is a high-level JupyterLab widget that conventionally is used to enclose the Launcher (shown above) or a notebook editor. The `contentHeader`, in turn, is a Lumino `BoxPanel` widget positioned at the very top of this main area. This makes the `contentHeader` potentially useful to extensions needing some place to put content that the user will *always see*.
+> As background, `MainAreaWidget` is a high-level JupyterLab widget that conventionally is used to enclose the Launcher (shown above) or a notebook editor. The `contentHeader`, in turn, is a Lumino `BoxPanel` widget positioned at the very top of this main area. This makes the `contentHeader` potentially useful to extensions needing some place to put content that the user will _always see_.
 
 ## Install
 
@@ -53,7 +53,7 @@ As in the demo animated GIF above, once in JupyterLab
 2. Type in "populate" to see the command created by this extension: "Populate content header (time example)".
 3. This will create a small header bar at the top of the main JupyterLab window that shows the current time in GMT (Greenwich Mean Time, also called UTC, Coordinated Universal Time).
 
-> Nota bene, you can *toggle* the `contentHeader` via the Command Palette ➜ "Show Header Above Content" if you decide you don't want to see it.
+> Nota bene, you can _toggle_ the `contentHeader` via the Command Palette ➜ "Show Header Above Content" if you decide you don't want to see it.
 
 ## Implementation notes
 
