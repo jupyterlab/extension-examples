@@ -7,22 +7,23 @@
 2. [Develop by Examples](#develop-by-examples)
    1. [Commands](#commands)
    2. [Command Palette](#command-palette)
-   3. [Context Menu](#context-menu)
-   4. [Custom Log Console](#custom-log-console)
-   5. [Datagrid](#datagrid)
-   6. _[Hello World](#hello-world)_
-   7. [Kernel Messaging](#kernel-messaging)
-   8. [Kernel Output](#kernel-output)
-   9. [Launcher](#launcher)
-   10. [Log Messages](#log-messages)
-   11. [Main Menu](#main-menu)
-   12. [React Widget](#react-widget)
-   13. _[Server Hello World](#server-hello-world)_
-   14. [Settings](#settings)
-   15. [Signals](#signals)
-   16. [State](#state)
-   17. [Toolbar Item](#toolbar-item)
-   18. [Widgets](#widgets)
+   3. [contentHeader](#contentheader)
+   4. [Context Menu](#context-menu)
+   5. [Custom Log Console](#custom-log-console)
+   6. [Datagrid](#datagrid)
+   7. _[Hello World](#hello-world)_
+   8. [Kernel Messaging](#kernel-messaging)
+   9. [Kernel Output](#kernel-output)
+   10. [Launcher](#launcher)
+   11. [Log Messages](#log-messages)
+   12. [Main Menu](#main-menu)
+   13. [React Widget](#react-widget)
+   14. _[Server Hello World](#server-hello-world)_
+   15. [Settings](#settings)
+   16. [Signals](#signals)
+   17. [State](#state)
+   18. [Toolbar Item](#toolbar-item)
+   19. [Widgets](#widgets)
 3. [Prerequisites](#prerequisites)
 4. [Develop and Use the Examples](#develop-and-use-the-examples)
 5. [Test the Examples](#test-the-examples)
@@ -83,6 +84,7 @@ Start with the [Hello World](hello-world) and then jump to the topic you are int
 - [Commands](commands)
 - [Command Palette](command-palette)
 - [Completer](completer)
+- [contentHeader](contentheader)
 - [Context Menu](context-menu)
 - [Custom Log Console](custom-log-console)
 - [Datagrid](datagrid)
@@ -129,6 +131,12 @@ Register commands in the Command Palette.
 Customize tab autocomplete data sources.
 
 [![Completer](completer/preview.png)](completer)
+
+### [contentHeader](contentheader)
+
+Put widgets at the top of the main JupyterLab area.
+
+[![contentHeader](contentheader/preview.gif)](contentheader)
 
 ### [Context Menu](context-menu)
 

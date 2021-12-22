@@ -2,7 +2,7 @@
 
 > Insert a widget into the `contentHeader` section of a `MainAreaWidget`—useful for toolbars, headers, etc.
 
-![Demo: activate the extension using Command Palette to populate the time in GMT in the content header](./contentheader.gif)
+![Demo: activate the extension using Command Palette to populate the time in GMT in the content header](./preview.gif)
 
 This JupyterLab example extension is intended to demo one specific feature of `MainAreaWidget`, namely, its `contentHeader` section.
 
