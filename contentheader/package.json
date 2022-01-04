@@ -1,5 +1,5 @@
 {
-  "name": "contentheader",
+  "name": "@jupyterlab-examples/contentheader",
   "version": "0.1.0",
   "description": "Minimal JupyterLab example using contentHeader.",
   "keywords": [
@@ -16,6 +16,12 @@
     "name": "Project Jupyter Contributors",
     "email": ""
   },
+  "contributors": [
+    {
+      "name": "Ahmed Fasih",
+      "email": "afasih@bloomberg.net"
+    }
+  ],
   "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
     "style/**/*.{css,js,eot,gif,html,jpg,json,png,svg,woff2,ttf}"

@@ -7,7 +7,7 @@
 2. [Develop by Examples](#develop-by-examples)
    1. [Commands](#commands)
    2. [Command Palette](#command-palette)
-   3. [contentHeader](#contentheader)
+   3. Main Widget [Content Header](#main-widget-content-header)
    4. [Context Menu](#context-menu)
    5. [Custom Log Console](#custom-log-console)
    6. [Datagrid](#datagrid)
@@ -84,7 +84,7 @@ Start with the [Hello World](hello-world) and then jump to the topic you are int
 - [Commands](commands)
 - [Command Palette](command-palette)
 - [Completer](completer)
-- [contentHeader](contentheader)
+- Main Widget [Content Header](contentheader)
 - [Context Menu](context-menu)
 - [Custom Log Console](custom-log-console)
 - [Datagrid](datagrid)
@@ -132,9 +132,9 @@ Customize tab autocomplete data sources.
 
 [![Completer](completer/preview.png)](completer)
 
-### [contentHeader](contentheader)
+### Main Widget [Content Header](contentheader)
 
-Put widgets at the top of the main JupyterLab area.
+Put widgets at the top of a main JupyterLab area widget.
 
 [![contentHeader](contentheader/preview.gif)](contentheader)
 

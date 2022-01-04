@@ -1,5 +1,5 @@
 {
-  "name": "contentheader-tests",
+  "name": "@jupyterlab-examples/contentheader-tests",
   "version": "0.1.0",
   "description": "Integration test for widgets example",
   "repository": "https://github.com/jupyterlab/extension-examples",
