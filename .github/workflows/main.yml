@@ -33,6 +33,7 @@ jobs:
           - toolbar-button
           - widgets
           - completer
+          - contentheader
         os: [ubuntu-latest, macos-latest, windows-latest]
 
     defaults:
