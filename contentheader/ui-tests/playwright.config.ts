@@ -11,8 +11,8 @@ const config: PlaywrightTestConfig = {
     viewport: { width: 1280, height: 720 },
 
     // Artifacts
-    video: 'on',
-  },
+    video: 'on'
+  }
 };
 
 export default config;

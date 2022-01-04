@@ -38,7 +38,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         if (main instanceof MainAreaWidget) {
           // Create a widget
           const widget = new Widget();
-          widget.addClass('example-extension-contentheader-widget')
+          widget.addClass('example-extension-contentheader-widget');
           widget.node.textContent = generateContent();
 
           // and insert it into the header

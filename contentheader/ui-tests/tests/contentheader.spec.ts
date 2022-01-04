@@ -20,7 +20,5 @@ test('should populate the contentheader', async ({ page }) => {
   await page.click('text=Populate content header (time example)');
 
   // Ensure we see text from the extension example
-  expect(
-    await page.waitForSelector('text=Time in GMT is:')
-  ).toBeTruthy();
+  expect(await page.waitForSelector('text=Time in GMT is:')).toBeTruthy();
 });

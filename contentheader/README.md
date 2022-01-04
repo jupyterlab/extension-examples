@@ -9,18 +9,23 @@ This JupyterLab example extension is intended to demo one specific feature of `M
 > As background, `MainAreaWidget` is a high-level JupyterLab widget that conventionally is used to enclose the Launcher (shown above) or a notebook editor. The `contentHeader`, in turn, is a Lumino `BoxPanel` widget positioned at the very top of this main area. This makes the `contentHeader` potentially useful to extensions needing some place to put content that the user will _always see_.
 
 In code: after we get a `MainAreaWidget`, for example via
+
 ```ts
 // src/index.ts#L37-L37
 
 const main = app.shell.currentWidget;
 ```
+
 we can then create a widget of interest, for example as
+
 ```ts
 // src/index.ts#L40-L40
 
 const widget = new Widget();
 ```
+
 before finally adding it to the JupyterLab main area's `contentHeader` real estate at its very top:
+
 ```ts
 // src/index.ts#L47-L47
 
