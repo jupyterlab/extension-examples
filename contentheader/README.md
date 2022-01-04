@@ -27,7 +27,7 @@ const widget = new Widget();
 before finally adding it to the JupyterLab main area's `contentHeader` real estate at its very top:
 
 ```ts
-// src/index.ts#L47-L47
+// src/index.ts#L45-L45
 
 main.contentHeader.addWidget(widget);
 ```
