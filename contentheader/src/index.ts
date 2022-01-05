@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 import { ICommandPalette } from '@jupyterlab/apputils';
 import { Widget } from '@lumino/widgets';
@@ -49,14 +49,14 @@ const plugin: JupyterFrontEndPlugin<void> = {
             widget.node.textContent = generateContent();
           }, 1000);
         }
-      }
+      },
     });
     // Create a command palette entry for easy access
     const category = 'Extension Examples';
     if (pal) {
       pal.addItem({ command, category, args: { origin: 'from palette' } });
     }
-  }
+  },
 };
 
 export default plugin;
