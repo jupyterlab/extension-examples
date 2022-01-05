@@ -41,7 +41,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
 };
 ```
 
-New widgets can be added to a document widget by implementing the interface [DocumentRegistry.IWidgetExtension](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.documentregistry.iwidgetextension.html). In particular, you need to add your widget in the `createNew` method that is called when creating a new
+New widgets can be added to a document widget by implementing the interface [DocumentRegistry.IWidgetExtension](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IWidgetExtension.html). In particular, you need to add your widget in the `createNew` method that is called when creating a new
 document widget; in this case a notebook panel.
 
 ```ts

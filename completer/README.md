@@ -27,7 +27,7 @@ The first part is contained in the `index.ts` file, the second is in `connector.
 
 ## Creating a custom DataConnector
 
-`src/customconnector.ts` defines a `CustomConnector` to generate mock autocomplete suggestions. Like the `ContextConnector` it is based on, `CustomConnector` extends _JupyterLab_'s abstract [`DataConnector`](https://jupyterlab.readthedocs.io/en/latest/api/classes/statedb.dataconnector.html) class.
+`src/customconnector.ts` defines a `CustomConnector` to generate mock autocomplete suggestions. Like the `ContextConnector` it is based on, `CustomConnector` extends _JupyterLab_'s abstract [`DataConnector`](https://jupyterlab.readthedocs.io/en/latest/api/classes/statedb.DataConnector.html) class.
 
 The only abstract method in `DataConnector` is `fetch`, which must be implemented in your `CustomConnector`.
 
