@@ -8,7 +8,7 @@ This JupyterLab example extension is intended to demo one specific feature of `M
 
 > As background, `MainAreaWidget` is a high-level JupyterLab widget that conventionally is used to enclose the Launcher (shown above) or a notebook editor. The `contentHeader`, in turn, is a Lumino `BoxPanel` widget positioned at the very top of this main area. This makes the `contentHeader` potentially useful to extensions needing some place to put content that the user will _always see_.
 
-In code: after we get a `MainAreaWidget`, for example via
+In code: after you get a `MainAreaWidget`, for example via
 
 ```ts
 // src/index.ts#L37-L37
@@ -16,7 +16,7 @@ In code: after we get a `MainAreaWidget`, for example via
 const main = app.shell.currentWidget;
 ```
 
-we can then create a widget of interest, for example as
+you can then create a widget of interest, for example as
 
 ```ts
 // src/index.ts#L40-L40
@@ -50,7 +50,7 @@ conda env create
 conda activate jupyterlab-extension-examples
 ```
 
-Then build this extension and launch it—this largely also follows from the instructions in the top-level [README](../README.md), except using this repo instead of the `hello-world`:
+Then build this extension and launch it — this largely follows from the instructions in the top-level [README](../README.md), except using this example instead of the `hello-world` one:
 
 ```bash
 # go to the contentheader example
@@ -73,24 +73,24 @@ jupyter lab
 
 As in the demo animated GIF above, once in JupyterLab
 
-1. open the [Command Palette](https://jupyterlab.readthedocs.io/en/stable/user/commands.html) via, e.g., View ➜ Activate Command Palette.
-2. Type in "populate" to see the command created by this extension: "Populate content header (time example)".
+1. Open the [Command Palette](https://jupyterlab.readthedocs.io/en/stable/user/commands.html) via, e.g., _View_ ➜ _Activate Command Palette_.
+2. Type in `populate` to see the command created by this extension: _Populate content header (time example)_.
 3. This will create a small header bar at the top of the main JupyterLab window that shows the current time in GMT (Greenwich Mean Time, also called UTC, Coordinated Universal Time).
 
-> Nota bene, you can _toggle_ the `contentHeader` via the Command Palette ➜ "Show Header Above Content" if you decide you don't want to see it.
+> Nota bene, you can _toggle_ the `contentHeader` via the _Command Palette_ ➜ _Show Header Above Content_ if you decide you don't want to see it.
 
-> Nota bene 2, the `contentHeader` and the "Show Header Above Content" toggle apply on a _per_ `MainAreaWidget`: if you run this extension, it will show the time in the `contentHeader` of the _active_ main area, and the time will not appear in another notebook tab. This may be useful for some extension workflows and not others.
+> Nota bene 2, the `contentHeader` and the _Show Header Above Content_ toggle apply on a _per_ `MainAreaWidget`: if you run this extension, it will show the time in the `contentHeader` of the _active_ main area, and the time will not appear in another notebook tab. This may be useful for some extension workflows and not others.
 
 ## Implementation notes
 
-For full details see the body of the `execute` function in [`index.ts`](./src/index.ts), but in prose, here's what we do to make use of the `contentHeader` widget—
+For full details see the body of the `execute` function in [`index.ts`](./src/index.ts), but in prose, here's what to do to make use of the `contentHeader` widget.
 
-First, get a `MainAreaWidget`. The approach used here will likely be useful for many JupyterLab use cases: `JupyterFrontEnd.shell.currentWidget` will be a `MainAreaWidget` if your extension is being activated with a classic JupyterLab window, and we ensure that this is so by ensuring `app.shell.currentWidget instanceof MainAreaWidget`.
+First, get a `MainAreaWidget`. The approach used here will likely be useful for many JupyterLab use cases: `JupyterFrontEnd.shell.currentWidget` will be a `MainAreaWidget` if your extension is being activated with a classic JupyterLab window, and you can ensure that by testing for `app.shell.currentWidget instanceof MainAreaWidget`.
 
 `MainAreaWidget.contentHeader` is a "top-to-bottom" vertical [Lumino BoxPanel](https://jupyterlab.github.io/lumino/widgets/classes/boxpanel.html). You can call its `addWidget` and `insertWidget` methods to populate this space with your own custom widgets.
 
 ## Background
 
-The motivation for this extension example was a question on the Jupyter Discourse, ["How to add Widget to an arbitrary HTMLElement?"](https://discourse.jupyter.org/t/how-to-add-widget-to-an-arbitrary-htmlelement/11576), where Michał Krassowski kindly recomended we create this to remind JupyterLab developers of this feature.
+The motivation for this extension example was a question on the Jupyter Discourse, ["How to add Widget to an arbitrary HTMLElement?"](https://discourse.jupyter.org/t/how-to-add-widget-to-an-arbitrary-htmlelement/11576), where Michał Krassowski kindly recommended to create this example to remind JupyterLab developers of this feature.
 
-The feature was added in [this PR](https://github.com/jupyterlab/jupyterlab/pull/9984) which has further discussion.
+The feature was added in [that PR](https://github.com/jupyterlab/jupyterlab/pull/9984) which has further discussion.
