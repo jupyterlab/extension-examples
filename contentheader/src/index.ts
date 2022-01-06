@@ -7,7 +7,7 @@ import { Widget } from '@lumino/widgets';
 import { MainAreaWidget } from '@jupyterlab/apputils';
 
 /**
- * Generate whatever content we'll render in `contentHeader`
+ * Generate whatever content to render in `contentHeader`
  *
  * @returns string
  */
@@ -33,7 +33,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
       label: 'Populate content header (time example)',
       caption: 'Populate content header (time example)',
       execute: (args: any) => {
-        // Check to ensure this is a MainAreaWidget, and not e.g. a Viola app or something that won't have a contentHeader
+        // Check to ensure this is a MainAreaWidget
         const main = app.shell.currentWidget;
         if (main instanceof MainAreaWidget) {
           // Create a widget
