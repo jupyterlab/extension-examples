@@ -48,10 +48,11 @@ export class ButtonExtension
       label: 'Test Command',
       onClick: testCommand,
       tooltip: 'Test Command',
-      enabled: context.path.endsWith('.tex')
     });
 
-    panel.toolbar.insertItem(10, 'clearOutputs', button);
+    if (context.path.endsWith('.tex')) {
+      panel.toolbar.insertItem(10, 'clearOutputs', button);
+    }
     return new DisposableDelegate(() => {
       button.dispose();
     });
@@ -63,7 +64,7 @@ export class ButtonExtension
  *
  * @param app Main application object
  */
-function activate(app: JupyterFrontEnd): void {
+ function activate(app: JupyterFrontEnd): void {
   app.docRegistry.addWidgetExtension('Editor', new ButtonExtension());
 }
 
