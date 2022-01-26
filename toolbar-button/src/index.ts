@@ -10,7 +10,6 @@ import { ToolbarButton } from '@jupyterlab/apputils';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import {
-  NotebookActions,
   NotebookPanel,
   INotebookModel,
 } from '@jupyterlab/notebook';
@@ -41,14 +40,15 @@ export class ButtonExtension
     panel: NotebookPanel,
     context: DocumentRegistry.IContext<INotebookModel>
   ): IDisposable {
-    const clearOutput = () => {
-      NotebookActions.clearAllOutputs(panel.content);
+    const testCommand = () => {
+      console.log('TESTING BUTTON');
     };
     const button = new ToolbarButton({
-      className: 'clear-output-button',
-      label: 'Clear All Outputs',
-      onClick: clearOutput,
-      tooltip: 'Clear All Outputs',
+      className: 'run-test-command',
+      label: 'Test Command',
+      onClick: testCommand,
+      tooltip: 'Test Command',
+      enabled: context.path.endsWith('.tex')
     });
 
     panel.toolbar.insertItem(10, 'clearOutputs', button);
@@ -64,7 +64,7 @@ export class ButtonExtension
  * @param app Main application object
  */
 function activate(app: JupyterFrontEnd): void {
-  app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
+  app.docRegistry.addWidgetExtension('Editor', new ButtonExtension());
 }
 
 /**
