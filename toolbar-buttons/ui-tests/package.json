@@ -1,7 +1,7 @@
 {
-  "name": "@jupyterlab-examples/toolbar-button-tests",
+  "name": "@jupyterlab-examples/toolbar-buttons-tests",
   "version": "0.1.0",
-  "description": "Integration test for toolbar-button example",
+  "description": "Integration test for toolbar-buttons example",
   "repository": "https://github.com/jupyterlab/extension-examples",
   "author": "Project Jupyter Contributors",
   "license": "BSD-3-Clause",

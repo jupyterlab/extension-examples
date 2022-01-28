@@ -1,5 +1,5 @@
 {
-  "name": "@jupyterlab-examples/toolbar-button",
+  "name": "@jupyterlab-examples/toolbar-buttons",
   "version": "0.1.0",
   "description": "A JupyterLab extension for clearing all cells output at once.",
   "keywords": [

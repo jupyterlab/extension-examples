@@ -100,7 +100,7 @@ Start with the [Hello World](hello-world) and then jump to the topic you are int
 - [Settings](settings)
 - [Signals](signals)
 - [State](state)
-- [Toolbar item](toolbar-button)
+- [Toolbar item](toolbar-buttons)
 - [Widgets](widgets)
 
 You can expect from each example:
@@ -228,11 +228,11 @@ Use State persistence in an extension.
 
 [![State](state/preview.gif)](state)
 
-### [Toolbar Item](toolbar-button)
+### [Toolbar Item](toolbar-buttons)
 
-Add a new button to the notebook toolbar.
+Add a new buttons to the notebook and editor toolbars.
 
-[![Toolbar button](toolbar-button/Preview.gif)](toolbar-button)
+[![Toolbar buttons](toolbar-buttons/Preview.gif)](toolbar-buttons)
 
 ### [Widgets](widgets)
 

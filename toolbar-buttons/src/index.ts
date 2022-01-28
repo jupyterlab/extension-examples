@@ -10,6 +10,7 @@ import { ToolbarButton } from '@jupyterlab/apputils';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import {
+  NotebookActions,
   NotebookPanel,
   INotebookModel,
 } from '@jupyterlab/notebook';
@@ -19,21 +20,55 @@ import {
  */
 const plugin: JupyterFrontEndPlugin<void> = {
   activate,
-  id: 'toolbar-button',
+  id: 'toolbar-buttons',
   autoStart: true,
 };
 
 /**
  * A notebook widget extension that adds a button to the toolbar.
  */
-export class ButtonExtension
+ export class NotebookButtonExtension
+ implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel>
+{
+ /**
+  * Create a new extension for the notebook panel widget.
+  *
+  * @param panel Notebook panel
+  * @param context Notebook context
+  * @returns Disposable on the added button
+  */
+ createNew(
+   panel: NotebookPanel,
+   context: DocumentRegistry.IContext<INotebookModel>
+ ): IDisposable {
+   const clearOutput = () => {
+     NotebookActions.clearAllOutputs(panel.content);
+   };
+   const button = new ToolbarButton({
+     className: 'clear-output-button',
+     label: 'Clear All Outputs',
+     onClick: clearOutput,
+     tooltip: 'Clear All Outputs',
+   });
+
+   panel.toolbar.insertItem(10, 'clearOutputs', button);
+   return new DisposableDelegate(() => {
+     button.dispose();
+   });
+ }
+}
+
+/**
+ * An editor widget extension that adds a button to the toolbar.
+ */
+export class EditorButtonExtension
   implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel>
 {
   /**
-   * Create a new extension for the notebook panel widget.
+   * Create a new extension for the editor panel widget.
    *
-   * @param panel Notebook panel
-   * @param context Notebook context
+   * @param panel Editor panel
+   * @param context Editor context
    * @returns Disposable on the added button
    */
   createNew(
@@ -65,7 +100,8 @@ export class ButtonExtension
  * @param app Main application object
  */
  function activate(app: JupyterFrontEnd): void {
-  app.docRegistry.addWidgetExtension('Editor', new ButtonExtension());
+  app.docRegistry.addWidgetExtension('Notebook', new NotebookButtonExtension());
+  app.docRegistry.addWidgetExtension('Editor', new EditorButtonExtension());
 }
 
 /**

@@ -30,7 +30,7 @@ jobs:
           - react-widget
           - settings
           - state
-          - toolbar-button
+          - toolbar-buttons
           - widgets
           - completer
           - contentheader

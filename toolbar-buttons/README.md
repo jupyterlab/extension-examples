@@ -36,7 +36,7 @@ Firstly you have to register the plugin information. For that you have to pass a
 
 const plugin: JupyterFrontEndPlugin<void> = {
   activate,
-  id: 'toolbar-button',
+  id: 'toolbar-buttons',
   autoStart: true,
 };
 ```
