@@ -3,10 +3,8 @@
 > Provide a connector to customize tab completion results in a notebook.
 
 - [Code structure](#code-structure)
-- [Creating a custom connector](#creating-a-custom-connector)
-- [Aggregating connector responses](#aggregating-connector-responses)
-- [Disabling a JupyterLab plugin](#disabling-a-jupyterlab-plugin)
-- [Asynchronous extension initialization](#asynchronous-extension-initialization)
+- [ Creating a provider for completer widget](#creating-a-provider-for-completer-widget)
+- [Extension initialization](#extension-initialization)
 - [Where to go next](#where-to-go-next)
 
 ![Custom completion](preview.png)
@@ -15,203 +13,146 @@ In this example, you will learn how to customize the behavior of JupyterLab note
 
 ## Code structure
 
-The code is split into three parts:
+The code is split into two parts:
 
-1.  the JupyterLab plugin that activates all the extension components and connects
-    them to the main _JupyterLab_ application via commands,
-2.  a custom `CompletionConnector`, adapted from [jupyterlab/packages/completer/src/connector.ts](https://github.com/jupyterlab/jupyterlab/blob/master/packages/completer/src/connector.ts),
-    that aggregates completion results from three sources: _JupyterLab_'s existing `KernelConnector` and `ContextConnector`, plus...
-3.  `CustomConnector`, a lightweight source of mocked completion results.
+1.  A JupyterLab plugin that instantiates a completer provider and registers it to the completer provider manager of JupyterLab,
+2.  A provider that generates the autocomplete suggestions and documentation for the JupyterLab completer widget.
 
-The first part is contained in the `index.ts` file, the second is in `connector.ts`, and the third is in `customconnector.ts`.
+The first part is implemented in the `index.ts` file and the second is in `provider.ts`.
 
-## Creating a custom DataConnector
+## Creating a provider for completer widget
 
-`src/customconnector.ts` defines a `CustomConnector` to generate mock autocomplete suggestions. Like the `ContextConnector` it is based on, `CustomConnector` extends _JupyterLab_'s abstract [`DataConnector`](https://jupyterlab.readthedocs.io/en/latest/api/classes/statedb.DataConnector.html) class.
+`src/provider.ts` defines a `CompletionProvider` class to generate mock autocomplete suggestions and documentation. A code completion provider needs to implement [`ICompletionProvider`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/completer.ICompletionProvider.html) interface.
 
-The only abstract method in `DataConnector` is `fetch`, which must be implemented in your `CustomConnector`.
+### The minimum requirement for a provider.
+
+The following methods/properties are required, which must be implemented in your `CompletionProvider`.
+
+- `identifier`: the unique identifier of your provider, if another provider with the same `identifier` is already registered, JupyterLab will ignore your provider.
 
 ```ts
-// src/customconnector.ts#L28-L43
+// src/provider.ts#L48
 
-/**
- * Fetch completion requests.
- *
- * @param request - The completion request text and details.
- * @returns Completion reply
- */
-fetch(
-  request: CompletionHandler.IRequest
-): Promise<CompletionHandler.IReply> {
-  if (!this._editor) {
-    return Promise.reject('No editor');
-  }
-  return new Promise<CompletionHandler.IReply>((resolve) => {
-    resolve(Private.completionHint(this._editor));
-  });
-}
+   readonly identifier = 'completerProviderExampler';
 ```
 
-This calls a private `completionHint` function, which, like `ContextConnector`'s `contextHint` function, uses the `CodeEditor.IEditor` widget to determine the token to suggest matches for.
+- `renderer`: the custom renderer for provider's completion items. By setting it to `null`, this provider will use the default renderer of JypyterLab.
 
 ```ts
-// src/customconnector.ts#L73-L78
+// src/provider.ts#L49
+
+   readonly renderer:  Completer.IRenderer  |  null  |  undefined  =  null;
+```
+
+- `isApplicable`: this method is used to check if your completion provider applies to the current context. For this example, the current provider is only applicable if the editor is available.
+
+```ts
+// src/provider.ts#L13-L22
+
+  /**
+   * The custom completion provider is applicable only if the editor is available.
+   * @param context - additional information about the context of completion request
+   */
+  async isApplicable(context: ICompletionContext): Promise<boolean> {
+    if (!context.editor) {
+      return false;
+    }
+    return true;
+  }
+```
+
+- `fetch`: Generate the completion response from the completion request and the current context
+
+```ts
+// src/provider.ts#L23-L33
+
+  /**
+   * Fetch completion requests.
+   *
+   * @param request - The completion request text and details.
+   */
+  async fetch(
+    request: CompletionHandler.IRequest,
+    context: ICompletionContext
+  ): Promise<CompletionHandler.ICompletionItemsReply> {
+    return Private.completionHint(context.editor!);
+  }
+```
+
+This method needs to return the response which matches the [`CompletionHandler.ICompletionItemsReply`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/completer.CompletionHandler.ICompletionItemsReply.html) interface.
+This response can come from any kind of source, in this example, it calls a private `completionHint` function, which uses the `CodeEditor.IEditor` widget to determine the token to suggest matches for.
+
+```ts
+// src/customconnector.ts#L62-L67
 
 export function completionHint(
   editor: CodeEditor.IEditor
-): CompletionHandler.IReply {
+): CompletionHandler.ICompletionItemsReply {
   // Find the token at the cursor
   const cursor = editor.getCursorPosition();
   const token = editor.getTokenForPosition(cursor);
 ```
 
-A list of mock completion tokens is then created to return as `matches` in the `CompletionHandler.IReply` response.
+A list of mock completion items is then created to return as `items` in the `CompletionHandler.ICompletionItemsReply` response.
 
 <!-- prettier-ignore-start -->
 ```ts
 // src/customconnector.ts#L80-L97
 
-// Create a list of matching tokens.
-const tokenList = [
-  { value: token.value + 'Magic', offset: token.offset, type: 'magic' },
-  { value: token.value + 'Science', offset: token.offset, type: 'science' },
-  { value: token.value + 'Neither', offset: token.offset },
-];
+    // Create a list of matching tokens.
+    const items = [
+      { label: token.value + 'Magic', type: 'function' },
+      { label: token.value + 'Science', type: 'instance' },
+      { label: token.value + 'Neither' },
+    ];
 
-// Only choose the ones that have a non-empty type field, which are likely to be of interest.
-const completionList = tokenList.filter((t) => t.type).map((t) => t.value);
-// Remove duplicate completions from the list
-const matches = Array.from(new Set<string>(completionList));
-
-return {
-  start: token.offset,
-  end: token.offset + token.value.length,
-  matches,
-  metadata: {},
-};
+    return {
+      start: token.offset,
+      end: token.offset + token.value.length,
+      items,
+    };
+  }
 ```
 <!-- prettier-ignore-end -->
 
-## Aggregating connector responses
+### Lazy load missing contents of completion responses
 
-[_JupyterLab_'s `CompletionConnector`](https://github.com/jupyterlab/jupyterlab/blob/master/packages/completer/src/connector.ts) fetches and merges completion responses from `KernelConnector` and `ContextConnector`. The modified `CompletionConnector` in `src/connector.ts` is more general; given an array of `DataConnectors`, it can fetch and merge completion matches from every connector provided.
-
-```ts
-// src/connector.ts#L33-L50
-
-/**
- * Fetch completion requests.
- *
- * @param request - The completion request text and details.
- * @returns Completion reply
- */
-fetch(
-  request: CompletionHandler.IRequest
-): Promise<CompletionHandler.IReply> {
-  return Promise.all(
-    this._connectors.map((connector) => connector.fetch(request))
-  ).then((replies) => {
-    const definedReplies = replies.filter(
-      (reply): reply is CompletionHandler.IReply => !!reply
-    );
-    return Private.mergeReplies(definedReplies);
-  });
-}
-```
-
-## Disabling a JupyterLab plugin
-
-[_JupyterLab_'s completer-extension](https://github.com/jupyterlab/jupyterlab/tree/master/packages/completer-extension) includes a notebooks plugin that registers notebooks for code completion. Your extension will override the notebooks plugin's behavior, so you can [disable notebooks](https://jupyterlab.readthedocs.io/en/stable/extension/extension_dev.html#disabling-other-extensions) in your `.package.json`:
-
-```json5
-// package.json#L81-L88
-
-"jupyterlab": {
-  "extension": true,
-  "schemaDir": "schema",
-  "outputDir": "jupyterlab_examples_completer/labextension",
-  "disabledExtensions": [
-    "@jupyterlab/completer-extension:notebooks"
-  ]
-},
-```
-
-## Asynchronous extension initialization
-
-`index.ts` contains the code to initialize this extension. Nearly all of the code in `index.ts` is copied directly from the notebooks plugin.
-
-Note that the extension commands you're overriding are unified into one namespace at the top of the file:
+The optional `resolve` method of a completer provider can be used to lazy-load the missing contents of a completion item. When an item is highlighted for the first time, `resolve` is invoked and users can fetch the missing data for this item. In this example, we will provide the content for the documentation panel by using this method.
 
 ```ts
-// src/index.ts#L21-L29
+// src/connector.ts#L39-L46
 
-namespace CommandIDs {
-  export const invoke = 'completer:invoke';
-
-  export const invokeNotebook = 'completer:invoke-notebook';
-
-  export const select = 'completer:select';
-
-  export const selectNotebook = 'completer:select-notebook';
-}
+  async resolve(
+    item: CompletionHandler.ICompletionItem,
+    context: ICompletionContext,
+    patch?: Completer.IPatch | null
+  ): Promise<CompletionHandler.ICompletionItem> {
+    item.documentation = `This is the documentation for ${item.label}`;
+    return item;
+  }
 ```
 
-`index.ts` imports four connector classes, two from `JupyterLab`:
+## Extension initialization
 
-<!-- prettier-ignore-start -->
-```ts
-// src/index.ts#L6-L10
-
-import {
-  ContextConnector,
-  ICompletionManager,
-  KernelConnector,
-} from '@jupyterlab/completer';
-```
-<!-- prettier-ignore-end -->
-
-and two from this extension:
+`index.ts` contains the code to initialize this extension. We only need to require the `ICompletionProviderManager` token and register our provider `CompletionProvider` with this token.
 
 ```ts
-// src/index.ts#L14-L16
+// src/index.ts#L12-L23
 
-import { CompletionConnector } from './connector';
-
-import { CustomConnector } from './customconnector';
-```
-
-Just like the notebooks plugin, when you update the handler for a notebook call `updateConnector`:
-
-```ts
-// src/index.ts#L74-L76
-
-// Update the handler whenever the prompt or session changes
-panel.content.activeCellChanged.connect(updateConnector);
-panel.sessionContext.sessionChanged.connect(updateConnector);
-```
-
-which, unlike the notebooks plugin, instantiates `KernelConnector`, `ContextConnector`, and `CustomConnector`, then passes them to your modified `CompletionConnector`:
-
-<!-- prettier-ignore-start -->
-```ts
-// src/index.ts#L58-L72
-
-const updateConnector = () => {
-  editor = panel.content.activeCell?.editor ?? null;
-  options.session = panel.sessionContext.session;
-  options.editor = editor;
-  handler.editor = editor;
-
-  const kernel = new KernelConnector(options);
-  const context = new ContextConnector(options);
-  const custom = new CustomConnector(options);
-  handler.connector = new CompletionConnector([
-    kernel,
-    context,
-    custom,
-  ]);
+const extension: JupyterFrontEndPlugin<void> = {
+  id: 'extension-example:completer',
+  autoStart: true,
+  requires: [ICompletionProviderManager],
+  activate: (
+    app: JupyterFrontEnd,
+    completionManager: ICompletionProviderManager
+  ) => {
+    console.log('JupyterLab custom completer extension is activated!');
+    completionManager.registerProvider(new CompletionProvider());
+  },
 };
 ```
+
 <!-- prettier-ignore-end -->
 
 ## Where to go next
