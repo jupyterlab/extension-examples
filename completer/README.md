@@ -19,7 +19,7 @@ The code is split into three parts:
 
 1.  the JupyterLab plugin that activates all the extension components and connects
     them to the main _JupyterLab_ application via commands,
-2.  a custom `CompletionConnector`, adapted from [jupyterlab/packages/completer/src/connector.ts](https://github.com/jupyterlab/jupyterlab/blob/master/packages/completer/src/connector.ts),
+2.  a custom `CompletionConnector`, adapted from [jupyterlab/packages/completer/src/connector.ts](https://github.com/jupyterlab/jupyterlab/blob/v3.0.0/packages/completer/src/connector.ts),
     that aggregates completion results from three sources: _JupyterLab_'s existing `KernelConnector` and `ContextConnector`, plus...
 3.  `CustomConnector`, a lightweight source of mocked completion results.
 
@@ -94,7 +94,7 @@ return {
 
 ## Aggregating connector responses
 
-[_JupyterLab_'s `CompletionConnector`](https://github.com/jupyterlab/jupyterlab/blob/master/packages/completer/src/connector.ts) fetches and merges completion responses from `KernelConnector` and `ContextConnector`. The modified `CompletionConnector` in `src/connector.ts` is more general; given an array of `DataConnectors`, it can fetch and merge completion matches from every connector provided.
+[_JupyterLab_'s `CompletionConnector`](https://github.com/jupyterlab/jupyterlab/blob/v3.0.0/packages/completer/src/connector.ts) fetches and merges completion responses from `KernelConnector` and `ContextConnector`. The modified `CompletionConnector` in `src/connector.ts` is more general; given an array of `DataConnectors`, it can fetch and merge completion matches from every connector provided.
 
 ```ts
 // src/connector.ts#L33-L50
@@ -121,7 +121,7 @@ fetch(
 
 ## Disabling a JupyterLab plugin
 
-[_JupyterLab_'s completer-extension](https://github.com/jupyterlab/jupyterlab/tree/master/packages/completer-extension) includes a notebooks plugin that registers notebooks for code completion. Your extension will override the notebooks plugin's behavior, so you can [disable notebooks](https://jupyterlab.readthedocs.io/en/stable/extension/extension_dev.html#disabling-other-extensions) in your `.package.json`:
+[_JupyterLab_'s completer-extension](https://github.com/jupyterlab/jupyterlab/tree/v3.0.0/packages/completer-extension) includes a notebooks plugin that registers notebooks for code completion. Your extension will override the notebooks plugin's behavior, so you can [disable notebooks](https://jupyterlab.readthedocs.io/en/stable/extension/extension_dev.html#disabling-other-extensions) in your `.package.json`:
 
 ```json5
 // package.json#L81-L88
