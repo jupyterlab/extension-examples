@@ -15,7 +15,7 @@ It is quite common for an extension to define one or more such commands.
 
 In this extension, you are going to add a command to the application command registry.
 
-The registry has `CommandRegistry` type ([documentation](https://jupyterlab.github.io/lumino/commands/classes/commandregistry.html)).
+The registry has `CommandRegistry` type ([documentation](https://lumino.readthedocs.io/en/1.x/api/commands/classes/commandregistry.html)).
 
 To see how you can access the application command registry, open the file `src/index.ts`.
 
@@ -58,7 +58,7 @@ The CommandRegistry is an attribute of the main JupyterLab application
 adds your own function.
 
 That method takes two arguments: the unique command id
-and [options](https://jupyterlab.github.io/lumino/commands/interfaces/commandregistry.icommandoptions.html) for the command.
+and [options](https://lumino.readthedocs.io/en/1.x/api/commands/interfaces/commandregistry.icommandoptions.html) for the command.
 
 The only mandatory option is `execute`, this takes the function to be called
 when the command is executed. It can optionally takes arguments (arbitrarily defined
