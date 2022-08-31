@@ -87,7 +87,7 @@ For full details see the body of the `execute` function in [`index.ts`](./src/in
 
 First, get a `MainAreaWidget`. The approach used here will likely be useful for many JupyterLab use cases: `JupyterFrontEnd.shell.currentWidget` will be a `MainAreaWidget` if your extension is being activated with a classic JupyterLab window, and you can ensure that by testing for `app.shell.currentWidget instanceof MainAreaWidget`.
 
-`MainAreaWidget.contentHeader` is a "top-to-bottom" vertical [Lumino BoxPanel](https://jupyterlab.github.io/lumino/widgets/classes/boxpanel.html). You can call its `addWidget` and `insertWidget` methods to populate this space with your own custom widgets.
+`MainAreaWidget.contentHeader` is a "top-to-bottom" vertical [Lumino BoxPanel](https://lumino.readthedocs.io/en/stable/api/classes/widgets.BoxPanel-1.html). You can call its `addWidget` and `insertWidget` methods to populate this space with your own custom widgets.
 
 ## Background
 

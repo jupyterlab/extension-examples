@@ -7,7 +7,7 @@
 JupyterLab is built on top of [Lumino](https://github.com/jupyterlab/lumino).
 That library defines `Widget` as the primary interface brick.
 
-In this example [the datagrid lumino example](https://jupyterlab.github.io/lumino/datagrid/classes/datagrid.html)
+In this example [the datagrid lumino example](https://lumino.readthedocs.io/en/stable/api/classes/datagrid.DataGrid-1.html)
 is integrated into JupyterLab.
 
 First you need to import `StackedPanel`, `DataGrid`

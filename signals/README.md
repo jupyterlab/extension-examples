@@ -16,7 +16,7 @@ In this extension, a simple HTML button will be added to print something to the 
 
 JupyterLab's Lumino engine uses the `ISignal` interface and the
 `Signal` class that implements this interface for communication
-(read more on the [documentation](https://jupyterlab.github.io/lumino/signaling/index.html) page).
+(read more on the [documentation](https://lumino.readthedocs.io/en/stable/api/modules/signaling.html) page).
 
 The basic concept is as follows:
 
