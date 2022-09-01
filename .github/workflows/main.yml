@@ -42,7 +42,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Path filter
         id: filter
         uses: dorny/paths-filter@v2
@@ -52,7 +52,7 @@ jobs:
               - '${{ matrix.example }}/**'
       - name: Cache lerna
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             node_modules
@@ -72,12 +72,12 @@ jobs:
         shell: bash
       - name: Install node
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: "12.x"
+          node-version: "16.x"
       - name: Install Python
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: "3.7"
           architecture: "x64"
@@ -89,7 +89,7 @@ jobs:
         shell: bash
       - name: Cache pip
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
           key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
@@ -124,7 +124,7 @@ jobs:
           docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env run --rm e2e
       - name: Upload UI Test artifacts
         if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux') && always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ui-test-output
           path: |
@@ -144,7 +144,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Path filter
         id: filter
         uses: dorny/paths-filter@v2
@@ -154,7 +154,7 @@ jobs:
               - 'server-extension/**'
       - name: Cache lerna
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             node_modules
@@ -164,9 +164,9 @@ jobs:
             ${{ runner.os }}-lerna-
       - name: Install node
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: "12.x"
+          node-version: "16.x"
       - name: Check config files
         if: steps.filter.outputs.extension == 'true'
         run: |
@@ -178,7 +178,7 @@ jobs:
         shell: bash
       - name: Install Python
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: "3.7"
           architecture: "x64"
@@ -190,7 +190,7 @@ jobs:
         shell: bash
       - name: Cache pip
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
           key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
@@ -256,7 +256,7 @@ jobs:
           docker-compose -f ../end-to-end-tests/docker-compose.yml --env-file ./ui-tests/.env run --rm e2e
       - name: Upload UI Test artifacts
         if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux') && always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ui-test-output
           path: |
@@ -277,9 +277,9 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Cache lerna
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             node_modules
@@ -288,11 +288,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-lerna-
       - name: Install node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: "12.x"
+          node-version: "16.x"
       - name: Install Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: "3.7"
           architecture: "x64"
@@ -302,7 +302,7 @@ jobs:
           echo "::set-output name=dir::$(pip cache dir)"
         shell: bash
       - name: Cache pip
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
           key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
