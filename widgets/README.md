@@ -4,7 +4,7 @@
 
 In this example you will learn how to add a new tab to JupyterLab.
 
-Visible elements such as tabs and notebooks are represented by widgets in the [Lumino](https://jupyterlab.github.io/lumino/widgets/index.html)
+Visible elements such as tabs and notebooks are represented by widgets in the [Lumino](https://lumino.readthedocs.io/en/1.x/api/widgets/index.html)
 library that is the basis of the JupyterLab application.
 
 It is the fundamental brick of any visual component in the JupyterLab interface.
