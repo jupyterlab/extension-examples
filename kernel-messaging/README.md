@@ -76,7 +76,7 @@ const manager = app.serviceManager;
 With these lines, you can extend the panel widget from the [signal example](../signals) to initialize a
 kernel. In addition, you will create a `KernelModel` class in it and
 overwrite the `dispose` and `onCloseRequest` methods of the `StackedPanel`
-([see the documentation](https://lumino.readthedocs.io/en/1.x/api/widgets/classes/stackedpanel.html))
+([see the documentation](https://lumino.readthedocs.io/en/stable/api/classes/widgets.StackedPanel-1.html))
 to free the kernel session resources if the panel is closed. The whole adapted
 panel class looks like this:
 
