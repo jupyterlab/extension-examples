@@ -4,45 +4,31 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
   test.setTimeout(120000);
 
   // Install pandas through console
-  await page.getByRole('menuitem', { name: 'File' }).click();
-  await page.getByRole('listitem').filter({ hasText: 'New' }).click();
-  await page.getByRole('menuitem', { name: 'Console', exact: true }).click();
+  await page.menu.clickMenuItem('File>New>Console');
   await page.getByRole('button', { name: 'Select' }).click();
   await page.getByText('| Idle').waitFor();
 
-  await page.fill(
-    '.jp-CodeConsole-input >> textarea',
-    '!mamba install -qy pandas'
-  );
-  await page.getByRole('menuitem', { name: 'Run' }).click();
-  await page.getByRole('menuitem', { name: 'Run Cell Shift+Enter' }).click();
-  await page.waitForSelector('text=Executing transaction: ...working... done');
+  await page.click('.jp-CodeConsole-promptCell .jp-InputArea-editor');
+  await page.keyboard.type('!mamba install -qy pandas', { delay: 100 });
+
+  await page.menu.clickMenuItem('Run>Run Cell (forced)');
 
   // Create a notebook
-  await page.getByRole('menuitem', { name: 'File' }).click();
-  await page.getByRole('listitem').filter({ hasText: 'New' }).click();
-  await page.getByRole('menuitem', { name: 'Notebook', exact: true }).click();
-  await page.getByRole('button', { name: 'Select', exact: true }).click();
+  await page.notebook.createNew();
   await page.getByText('| Idle').waitFor();
 
-  await page
-    .getByRole('region', { name: 'notebook content' })
-    .locator('.jp-Editor >> textarea')
-    .fill('import numpy\nimport pandas\ndf = pandas.DataFrame(numpy.eye(5))');
+  await page.notebook.setCell(
+    0,
+    'code',
+    'import numpy\nimport pandas\ndf = pandas.DataFrame(numpy.eye(5))'
+  );
+  await page.notebook.runCell(0);
 
-  await page.getByRole('menuitem', { name: 'Run' }).click();
-  await page
-    .getByRole('menuitem', { name: 'Run Selected Cells Shift+Enter' })
-    .click();
-
-  await page.getByRole('menuitem', { name: 'Kernel Output' }).click();
-  await page
-    .getByRole('menuitem', { name: 'Open the Kernel Output Panel' })
-    .click();
+  await page.menu.clickMenuItem('Kernel Output>Open the Kernel Output Panel');
 
   // Select Notebook kernel
   await page.locator('.jp-Dialog-body').locator('select').selectOption({
-    label: 'Untitled.ipynb',
+    label: 'Untitled.ipynb'
   });
 
   await page.getByRole('button', { name: 'Select', exact: true }).click();
@@ -71,10 +57,9 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
     .locator('div[role="main"] >> text=Kernel Output Example View')
     .click();
 
-  await page.getByRole('menuitem', { name: 'Kernel Output' }).click();
-  await page
-    .getByRole('menuitem', { name: 'Contact Kernel and Execute Code' })
-    .click();
+  await page.menu.clickMenuItem(
+    'Kernel Output>Contact Kernel and Execute Code'
+  );
 
   // Fill [placeholder="Statement to execute"]
   await page.locator('[placeholder="Statement to execute"]').fill('df');
@@ -84,10 +69,9 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
   await expect.soft(page.locator('th')).toHaveCount(11);
 
   // Close filebrowser
-  await page.getByText('View', { exact: true }).click();
   await Promise.all([
     page.locator('#filebrowser').waitFor({ state: 'hidden' }),
-    page.getByRole('menuitem', { name: 'Show Left Sidebar Ctrl+B' }).click(),
+    page.menu.clickMenuItem('View>File Browser')
   ]);
 
   // Compare screenshot with a stored reference.

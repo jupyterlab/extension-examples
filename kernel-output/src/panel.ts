@@ -1,10 +1,14 @@
 import {
   ISessionContext,
   SessionContext,
-  sessionContextDialogs,
+  SessionContextDialogs
 } from '@jupyterlab/apputils';
 
-import { OutputAreaModel, SimplifiedOutputArea } from '@jupyterlab/outputarea';
+import {
+  OutputArea,
+  OutputAreaModel,
+  SimplifiedOutputArea
+} from '@jupyterlab/outputarea';
 
 import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 
@@ -13,7 +17,7 @@ import { KernelMessage, ServiceManager } from '@jupyterlab/services';
 import {
   ITranslator,
   nullTranslator,
-  TranslationBundle,
+  TranslationBundle
 } from '@jupyterlab/translation';
 
 import { Message } from '@lumino/messaging';
@@ -45,25 +49,29 @@ export class ExamplePanel extends StackedPanel {
     this._sessionContext = new SessionContext({
       sessionManager: manager.sessions,
       specsManager: manager.kernelspecs,
-      name: 'Kernel Output',
+      name: 'Kernel Output'
     });
 
     this._outputareamodel = new OutputAreaModel();
     this._outputarea = new SimplifiedOutputArea({
       model: this._outputareamodel,
-      rendermime: rendermime,
+      rendermime: rendermime
+    });
+
+    this._sessionContextDialogs = new SessionContextDialogs({
+      translator: translator
     });
 
     this.addWidget(this._outputarea);
 
     void this._sessionContext
       .initialize()
-      .then(async (value) => {
+      .then(async value => {
         if (value) {
-          await sessionContextDialogs.selectKernel(this._sessionContext);
+          await this._sessionContextDialogs.selectKernel(this._sessionContext);
         }
       })
-      .catch((reason) => {
+      .catch(reason => {
         console.error(
           `Failed to initialize the session in ExamplePanel.\n${reason}`
         );
@@ -80,11 +88,11 @@ export class ExamplePanel extends StackedPanel {
   }
 
   execute(code: string): void {
-    SimplifiedOutputArea.execute(code, this._outputarea, this._sessionContext)
-      .then((msg: KernelMessage.IExecuteReplyMsg) => {
+    OutputArea.execute(code, this._outputarea, this._sessionContext)
+      .then((msg: KernelMessage.IExecuteReplyMsg | undefined) => {
         console.log(msg);
       })
-      .catch((reason) => console.error(reason));
+      .catch(reason => console.error(reason));
   }
 
   protected onCloseRequest(msg: Message): void {
@@ -95,6 +103,7 @@ export class ExamplePanel extends StackedPanel {
   private _sessionContext: SessionContext;
   private _outputarea: SimplifiedOutputArea;
   private _outputareamodel: OutputAreaModel;
+  private _sessionContextDialogs: SessionContextDialogs;
 
   private _translator: ITranslator;
   private _trans: TranslationBundle;

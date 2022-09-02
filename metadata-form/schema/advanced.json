@@ -1,0 +1,100 @@
+{
+  "type": "object",
+  "title": "Metadata Form example",
+  "description": "Settings of the metadata form extension.",
+  "jupyter.lab.metadataforms": [
+    {
+      "id": "@jupyterlab-examples/metadata-form:advanced",
+      "label": "Advanced example",
+      "metadataSchema": {
+        "type": "object",
+        "properties": {
+          "/my-extension/active": {
+            "title": "Custom widget",
+            "description": "Replace the default checkbox",
+            "type": "boolean"
+          },
+          "/my-extension/raw-cells": {
+            "title": "Cell type",
+            "description": "Should exists only on raw cells",
+            "type": "string"
+          },
+          "/my-extension/nested/more-nested/test": {
+            "title": "nested",
+            "description": "Nested metadata",
+            "type": "string"
+          },
+          "/default-value": {
+            "title": "Value with default",
+            "description": "Should not be written in metadata if value is default",
+            "type": "integer",
+            "default": 1
+          },
+          "/notebook-level": {
+            "title": "Notebook level",
+            "description": "Should be written in Notebook metadata",
+            "type": "boolean"
+          },
+          "/custom-array": {
+            "title": "Custom field (array)",
+            "description": "Build a custom field",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "/my-extension/active": {
+                  "const": true
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "/my-extension/conditional": {
+                  "title": "Conditional field",
+                  "description": "Field depend on the value of the 'Custom widget'",
+                  "type": "string",
+                  "enum": ["condition1", "condition2", "condition3"]
+                }
+              }
+            }
+          }
+        ]
+      },
+      "uiSchema": {
+        "ui:order": [
+          "/notebook-level",
+          "/my-extension/raw-cells",
+          "/my-extension/active",
+          "/my-extension/conditional",
+          "/default-value",
+          "/my-extension/nested/more-nested/test",
+          "/custom-array"
+        ]
+      },
+      "metadataOptions": {
+        "/my-extension/active": {
+          "customRenderer": "@jupyterlab-examples/metadata-form:advanced.custom-checkbox"
+        },
+        "/my-extension/raw-cells": {
+          "cellTypes": ["raw"]
+        },
+        "/default-value": {
+          "writeDefault": false
+        },
+        "/notebook-level": {
+          "metadataLevel": "notebook"
+        },
+        "/custom-array": {
+          "customRenderer": "@jupyterlab-examples/metadata-form:advanced.custom-field"
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

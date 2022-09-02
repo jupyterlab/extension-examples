@@ -19,31 +19,34 @@ The command will create a new Python file and then open it:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L41-L64
+// src/index.ts#L38-L64
 
 commands.addCommand(command, {
-  label: (args) => (args['isPalette'] ? 'New Python File' : 'Python File'),
+  label: args =>
+    args['isPalette']
+      ? 'New Python File From Extension'
+      : 'Python File From Extension',
   caption: 'Create a new Python file',
-  icon: (args) => (args['isPalette'] ? null : icon),
-  execute: async (args) => {
+  icon: args => (args['isPalette'] ? undefined : icon),
+  execute: async args => {
     // Get the directory in which the Python file must be created;
     // otherwise take the current filebrowser directory
     const cwd =
-      args['cwd'] || browserFactory.tracker.currentWidget.model.path;
+      args['cwd'] || browserFactory.tracker.currentWidget?.model.path;
 
     // Create a new untitled python file
     const model = await commands.execute('docmanager:new-untitled', {
       path: cwd,
       type: 'file',
-      ext: 'py',
+      ext: 'py'
     });
 
     // Open the newly created file with the 'Editor'
     return commands.execute('docmanager:open', {
       path: model.path,
-      factory: FACTORY,
+      factory: FACTORY
     });
-  },
+  }
 });
 ```
 <!-- prettier-ignore-end -->
@@ -58,7 +61,7 @@ jlpm add @jupyterlab/launcher
 Then you can use it in the extension by importing it:
 
 ```ts
-// src/index.ts#L10-L10
+// src/index.ts#L7-L7
 
 import { ILauncher } from '@jupyterlab/launcher';
 ```
@@ -66,10 +69,11 @@ import { ILauncher } from '@jupyterlab/launcher';
 And finally you can add it to the list of dependencies:
 
 ```ts
-// src/index.ts#L23-L33
+// src/index.ts#L19-L30
 
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'launcher',
+  id: '@jupyterlab-examples/launcher:plugin',
+  description: 'A minimal JupyterLab example using the launcher.',
   autoStart: true,
   requires: [IFileBrowserFactory],
   optional: [ILauncher, ICommandPalette],
@@ -99,7 +103,7 @@ if (launcher) {
   launcher.add({
     command,
     category: 'Extension Examples',
-    rank: 1,
+    rank: 1
   });
 }
 ```

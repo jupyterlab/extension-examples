@@ -1,34 +1,22 @@
 import { test, expect } from '@jupyterlab/galata';
 
 test('should clear all outputs when clicked', async ({ page }) => {
-  // Click text=File
-  await page.click('text=File');
-  // Click ul[role="menu"] >> text=New
-  await page.click('ul[role="menu"] >> text=New');
-  // Click #jp-mainmenu-file-new >> text=Notebook
-  await page.click('#jp-mainmenu-file-new >> text=Notebook');
-  // Click button:has-text("Select")
+  // Create a new Notebook
+  await page.menu.clickMenuItem('File>New>Notebook');
   await page.click('button:has-text("Select")');
 
   await page.waitForSelector('text=| Idle');
 
-  // Fill textarea
   await page.notebook.setCell(0, 'code', 'print("Hello, JupyterLab")');
-  // Press Enter with modifiers
   await page.keyboard.press('Shift+Enter');
 
-  // Fill text=[ ]: ​ >> textarea
   await page.notebook.setCell(1, 'code', 'print("Welcome to JupyterLab")');
-  // Press Enter with modifiers
   await page.keyboard.press('Shift+Enter');
 
-  // Click .lm-Widget.p-Widget.jp-RenderedText
-  const OUTPUT =
-    '.lm-Widget.p-Widget.jp-RenderedText >> text=Hello, JupyterLab';
+  const OUTPUT = '.lm-Widget.jp-RenderedText >> text=Hello, JupyterLab';
   expect(await page.waitForSelector(OUTPUT)).toBeTruthy();
 
-  // Click button:has-text("Clear All Outputs")
-  await page.click('button:has-text("Clear All Outputs")');
+  await page.click('button:has-text("Clear Outputs of All Cells")');
 
   let failed = true;
   try {

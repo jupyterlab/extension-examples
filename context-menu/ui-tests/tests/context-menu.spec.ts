@@ -9,7 +9,7 @@ test('should have new context menu for example files', async ({ page }) => {
     .locator('[aria-label="File Browser Section"]')
     .getByText('untitled.txt')
     .click({
-      button: 'right',
+      button: 'right'
     });
 
   await page.getByRole('menuitem', { name: 'Rename' }).click();
@@ -27,7 +27,7 @@ test('should have new context menu for example files', async ({ page }) => {
     .locator('[aria-label="File Browser Section"]')
     .getByText('test.example')
     .click({
-      button: 'right',
+      button: 'right'
     });
 
   await page.getByRole('menuitem', { name: 'Example' }).click();

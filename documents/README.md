@@ -32,14 +32,14 @@ For example, in this extension:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L33-L40
+// src/factory.ts#L31-L38
 
 protected createNewWidget(
   context: DocumentRegistry.IContext<ExampleDocModel>
 ): ExampleDocWidget {
   return new ExampleDocWidget({
     context,
-    content: new ExamplePanel(context),
+    content: new ExamplePanel(context)
   });
 }
 ```
@@ -51,7 +51,7 @@ For example, in this extension, we define `ExampleDocModelFactory`:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L46-L47
+// src/factory.ts#L44-L45
 
 export class ExampleDocModelFactory
   implements DocumentRegistry.IModelFactory<ExampleDocModel>
@@ -159,7 +159,7 @@ const widgetFactory = new ExampleWidgetFactory({
   name: FACTORY,
   modelName: 'example-model',
   fileTypes: ['example'],
-  defaultFor: ['example'],
+  defaultFor: ['example']
 });
 ```
 

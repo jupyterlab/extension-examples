@@ -4,7 +4,7 @@
 
 In this example you will learn how to add a new tab to JupyterLab.
 
-Visible elements such as tabs and notebooks are represented by widgets in the [Lumino](https://lumino.readthedocs.io/en/1.x/api/widgets/index.html)
+Visible elements such as tabs and notebooks are represented by widgets in the [Lumino](https://lumino.readthedocs.io/en/stable/api/modules/widgets.html)
 library that is the basis of the JupyterLab application.
 
 It is the fundamental brick of any visual component in the JupyterLab interface.
@@ -28,13 +28,13 @@ jlpm add @lumino/widgets
 ```
 
 A Widget can be added to the main area through the
-[JupyterLab Shell](https://jupyterlab.readthedocs.io/en/3.6.x/api/classes/application.labshell.html).
+[JupyterLab Shell](https://jupyterlab.readthedocs.io/en/latest/api/classes/application.LabShell.html).
 
 Inside of the `activate` function, you can obtain it through the `shell` attribute
 of the `app` object:
 
 ```ts
-// src/index.ts#L18-L18
+// src/index.ts#L19-L19
 
 const { commands, shell } = app;
 ```
@@ -44,12 +44,12 @@ in this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L24-L27
+// src/index.ts#L25-L28
 
 execute: () => {
   const widget = new ExampleWidget();
   shell.add(widget, 'main');
-},
+}
 ```
 <!-- prettier-ignore-end -->
 
@@ -63,7 +63,7 @@ In this case, no specific behavior is defined for the widget. Only some properti
 - `title.closable`: Allow the widget tab to be closed
 
 ```ts
-// src/index.ts#L35-L43
+// src/index.ts#L36-L44
 
 class ExampleWidget extends Widget {
   constructor() {
@@ -80,13 +80,12 @@ You can associate style properties to the custom CSS class in the file
 `style/base.css`:
 
 <!-- prettier-ignore-start -->
-<!-- embedme style/base.css -->
+<!-- embedme style/base.css#L7-L9 -->
 
 ```css
 .jp-example-view {
-  background-color: AliceBlue;
+  background-color: aliceblue;
 }
-
 ```
 <!-- prettier-ignore-end -->
 

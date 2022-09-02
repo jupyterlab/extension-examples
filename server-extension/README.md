@@ -19,78 +19,118 @@ example before diving into this one.
 ## The template folder structure
 
 Writing a JupyterLab extension usually starts from a configurable template. It
-can be downloaded with the [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/) tool and the following command for an extension with a server part:
+can be downloaded with the [`copier`](https://copier.readthedocs.io/) tool and the following command for an extension with a server part:
 
 ```bash
-cookiecutter https://github.com/jupyterlab/extension-cookiecutter-ts
+pip install copier jinja2-time
+mkdir my_extension
+cd my_extension
+copier https://github.com/jupyterlab/extension-template .
 ```
 
-`cookiecutter` asks for some basic information that could for example be setup
-like this (be careful to set _has_server_extension_ to _y_):
+You will be asked for some basic information that could for example be setup
+like this (be careful to pick _server_ as _kind_):
 
 ```bash
-author_name []: tuto
-author_email []: tuto@help.you
-labextension_name [myextension]: jlab-ext-example
-python_name [jlab_ext_example]:
-project_short_description [A JupyterLab extension.]: A minimal JupyterLab extension with backend and frontend parts.
-has_settings [n]:
-has_server_extension [n]: y
-has_binder [n]: y
-repository [https://github.com/github_username/jlab-ext-example]:
+🎤 What is your extension kind?
+   server
+🎤 Extension author name
+   tuto
+🎤 Extension author email
+   tuto@help.you
+🎤 JavaScript package name
+   jlab-ext-example
+🎤 Python package name
+   jlab_ext_example
+🎤 Extension short description
+   A minimal JupyterLab extension with backend and frontend parts.
+🎤 Does the extension have user settings?
+   No
+🎤 Do you want to set up Binder example?
+   Yes
+🎤 Do you want to set up tests for the extension?
+   Yes
+🎤 Git remote repository URL
+   https://github.com/github_username/jlab-ext-example
 ```
 
-> The python name should not contain `-`. It is nice for user to test your extension online, so the `has_binder` was set to _yes_.
+> The python name must be a valid Python module name (characters such `-`, `@` or `/` are not allowed).
+> It is nice for user to test your extension online, so the _set up Binder_ was set to _Yes_.
 
-The cookiecutter creates the directory `jlab_ext_example` [or your extension name]
+The template creates creates files in the current director
 that looks like this:
 
 ```bash
-jlab_ext_example/
-│  # Generic Files
-│   .gitignore
-│   install.json                # Information retrieved by JupyterLab to help users know how to manage the extension
-│   LICENSE                     # License of your code
-│   README.md                   # Instructions to install and build
+.
+├── CHANGELOG.md
+├── .gitignore
+├── LICENSE                    # License of your code
+├── README.md                  # Instructions to install and build
+├── RELEASE.md
+├── .copier-answers.yml        # Answers given when executing the extension template
 │
-├───.github
-│   └───workflows
-│           build.yml
+├── .github
+│   └── workflows
+│       ├── binder-on-pr.yml   # Test PR online
+│       ├── build.yml          # Test extension on GitHub CI
+│       ├── update-integration-tests.yml
+│       │  # Handle package release as GitHub actions
+│       ├── check-release.yml
+│       ├── enforce-label.yml
+│       ├── prep-release.yml
+│       └── publish-release.yml
 │
-├───binder
-│       environment.yml
-│       postBuild
-│  
-│  # Python Package Files
-│   MANIFEST.in                 # Help Python to list your source files
-│   pyproject.toml              # Define dependencies for building the package
-│   setup.py                    # Information about the package
+│  # Online extension demo
+├── binder
+│   ├── environment.yml
+│   └── postBuild
 │
 │  # Backend (server) Files
-├───jupyter-config
-│       jlab_ext_example.json   # Server extension enabler
+├── conftest.py                # Python unit tests configuration
+├── install.json               # Information retrieved by JupyterLab to help users know how to manage the extension
+├── pyproject.toml             # Python package configuration
+├── setup.py                   # Optional - for backward compatibility if a tool does not support pyproject.toml
 │
-├───jlab_ext_example
-│       handlers.py             # API handler (where things happen)
-│       _version.py             # Server extension version
-│       __init__.py             # Hook the extension in the server
-│  
-│  # Frontend Files
-│   .eslintignore               # Code linter configuration
-│   .eslintrc.js
-│   .prettierignore             # Code formatter configuration
-│   .prettierrc
-│   package.json                # Information about the frontend package
-│   tsconfig.json               # Typescript compilation configuration
-│  
-├───src
-│       index.ts                # Actual code of the extension
-│       handler.ts       # More code used by the extension
+├── jlab_ext_example
+│   ├── handlers.py            # API handler (where things happen)
+│   ├── __init__.py            # Hook the extension in the server
+│   └── tests                  # Python unit tests
+│       ├── __init__.py
+│       └── test_handlers.py
+├── jupyter-config             # Server extension auto-install
+│   ├── nb-config
+│   │   └── jlab_ext_example.json
+│   └── server-config
+│       └── jlab_ext_example.json
 │
-└───style
-        base.css               # CSS styling
-        index.css
-        index.js
+│  # Frontend Files
+├── babel.config.js
+├── jest.config.js
+├── package.json               # Information about the frontend package
+├── .prettierignore
+├── tsconfig.json              # Typescript compilation configuration
+├── tsconfig.test.json
+├── .yarnrc.yml
+│
+├── src                        # Actual code of the extension
+│   ├── handler.ts
+│   ├── index.ts
+│   └── __tests__              # JavaScript unit tests
+│       └── jlab_ext_example.spec.ts
+│
+├── style                      # CSS styling
+│   ├── base.css
+│   ├── index.css
+│   └── index.js
+│
+└── ui-tests                   # Integration tests
+    ├── jupyter_server_test_config.py
+    ├── package.json
+    ├── playwright.config.js
+    ├── README.md
+    ├── tests
+    │   └── jlab_ext_example.spec.ts
+    └── yarn.lock
 ```
 
 There are two major parts in the extension:
@@ -121,43 +161,25 @@ is printed in the web browser console:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L36-L42
+// src/index.ts#L42-L50
 
-// GET request
-try {
-  const data = await requestAPI<any>('hello');
-  console.log(data);
-} catch (reason) {
-  console.error(`Error on GET /jlab-ext-example/hello.\n${reason}`);
-}
+requestAPI<any>('hello')
+  .then(data => {
+    console.log(data);
+  })
+  .catch(reason => {
+    console.error(
+      `The jupyterlab_examples_server server extension appears to be missing.\n${reason}`
+    );
+  });
 ```
 <!-- prettier-ignore-end -->
 
 As the server response is not instantaneous, the request is done asynchronously
-using the `await` keyword:
-
-<!-- prettier-ignore-start -->
-```ts
-// src/index.ts#L38-L38
-
-const data = await requestAPI<any>('hello');
-```
-<!-- prettier-ignore-end -->
-
-To use that `await` keyword, the function must be declared as asynchronous
-using the `async` keyword:
-
-<!-- prettier-ignore-start -->
-```ts
-// src/index.ts#L29-L33
-
-activate: async (
-  app: JupyterFrontEnd,
-  palette: ICommandPalette,
-  launcher: ILauncher | null
-) => {
-```
-<!-- prettier-ignore-end -->
+using [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises).
+You could also use the keyword [`async`-`await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function).
+But it is not recommended in a plugin `activate` method as it may delay the application start
+up time.
 
 A GET request cannot carry data from the frontend to the server. To achieve that,
 you will need to execute a POST request. In this example, a POST request
@@ -165,20 +187,21 @@ is sent to the _/jlab-ext-example/hello_ endpoint with the data `{name: 'George'
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L45-L56
+// src/index.ts#L53-L65
 
 const dataToSend = { name: 'George' };
-try {
-  const reply = await requestAPI<any>('hello', {
-    body: JSON.stringify(dataToSend),
-    method: 'POST',
+requestAPI<any>('hello', {
+  body: JSON.stringify(dataToSend),
+  method: 'POST'
+})
+  .then(reply => {
+    console.log(reply);
+  })
+  .catch(reason => {
+    console.error(
+      `Error on POST /jupyterlab-examples-server/hello ${dataToSend}.\n${reason}`
+    );
   });
-  console.log(reply);
-} catch (reason) {
-  console.error(
-    `Error on POST /jlab-ext-example/hello ${dataToSend}.\n${reason}`
-  );
-}
 ```
 <!-- prettier-ignore-end -->
 
@@ -194,7 +217,7 @@ Its definition is :
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/handler.ts#L12-L37
+// src/handler.ts#L12-L46
 
 export async function requestAPI<T>(
   endPoint = '',
@@ -204,7 +227,7 @@ export async function requestAPI<T>(
   const settings = ServerConnection.makeSettings();
   const requestUrl = URLExt.join(
     settings.baseUrl,
-    'jlab-ext-example',
+    'jupyterlab-examples-server', // API Namespace
     endPoint
   );
 
@@ -212,16 +235,25 @@ export async function requestAPI<T>(
   try {
     response = await ServerConnection.makeRequest(requestUrl, init, settings);
   } catch (error) {
-    throw new ServerConnection.NetworkError(error);
+    throw new ServerConnection.NetworkError(error as any);
   }
 
-  const data = await response.json();
+  let data: any = await response.text();
+
+  if (data.length > 0) {
+    try {
+      data = JSON.parse(data);
+    } catch (error) {
+      console.log('Not a JSON response body.', response);
+    }
+  }
 
   if (!response.ok) {
-    throw new ServerConnection.ResponseError(response, data.message);
+    throw new ServerConnection.ResponseError(response, data.message || data);
   }
 
   return data;
+}
 ```
 <!-- prettier-ignore-end -->
 
@@ -259,7 +291,7 @@ The next step is to build the full request URL:
 
 const requestUrl = URLExt.join(
   settings.baseUrl,
-  'jlab-ext-example',
+  'jupyterlab-examples-server', // API Namespace
   endPoint
 ```
 <!-- prettier-ignore-end -->
@@ -295,12 +327,20 @@ JSON. And the resulting data is returned.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/handler.ts#L31-L37
+// src/handler.ts#L31-L45
 
-const data = await response.json();
+let data: any = await response.text();
+
+if (data.length > 0) {
+  try {
+    data = JSON.parse(data);
+  } catch (error) {
+    console.log('Not a JSON response body.', response);
+  }
+}
 
 if (!response.ok) {
-  throw new ServerConnection.ResponseError(response, data.message);
+  throw new ServerConnection.ResponseError(response, data.message || data);
 }
 
 return data;
@@ -311,7 +351,7 @@ This example also showcases how you can serve static files from the server exten
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L58-L79
+// src/index.ts#L67-L88
 
 const { commands, shell } = app;
 const command = CommandIDs.get;
@@ -323,7 +363,7 @@ commands.addCommand(command, {
   execute: () => {
     const widget = new IFrameWidget();
     shell.add(widget, 'main');
-  },
+  }
 });
 
 palette.addItem({ command, category: category });
@@ -332,7 +372,7 @@ if (launcher) {
   // Add launcher
   launcher.add({
     command: command,
-    category: category,
+    category: category
   });
 }
 ```
@@ -343,7 +383,7 @@ an `IFrame` that will display static content fetched from the server extension.
 
 **Note**
 
-- If the response is not ok (i.e. status code not in range 200-299),
+- If the response is not ok (i.e. status code not in range 200-399),
   a `ResponseError` is thrown.
 - The response body is interpreted as JSON even in case the response is not
   ok. In JupyterLab, it is a good practice in case of error on the server
@@ -358,42 +398,39 @@ JupyterLab server is built on top of the [Tornado](https://www.tornadoweb.org/en
 your extension needs to be defined as a proper Python package with some hook functions:
 
 ```py
-# jlab_ext_example/__init__.py
+# jupyterlab_examples_server/__init__.py
 
-import json
-from pathlib import Path
-
-from .handlers import setup_handlers
 from ._version import __version__
-
-HERE = Path(__file__).parent.resolve()
-
-with (HERE / "labextension" / "package.json").open() as fid:
-    data = json.load(fid)
+from .handlers import setup_handlers
 
 
 def _jupyter_labextension_paths():
-    return [{"src": "labextension", "dest": data["name"]}]
+    return [{
+        "src": "labextension",
+        "dest": "@jupyterlab-examples/server-extension"
+    }]
 
 
 def _jupyter_server_extension_points():
-    return [{"module": "jlab_ext_example"}]
+    return [{
+        "module": "jupyterlab_examples_server"
+    }]
 
 
 def _load_jupyter_server_extension(server_app):
     """Registers the API handler to receive HTTP requests from the frontend extension.
+
     Parameters
     ----------
     server_app: jupyterlab.labapp.LabApp
         JupyterLab application instance
     """
-    url_path = "jlab-ext-example"
-    setup_handlers(server_app.web_app, url_path)
-    server_app.log.info(
-        f"Registered jlab_ext_example extension at URL path /{url_path}"
-    )
+    setup_handlers(server_app.web_app)
+    name = "jupyterlab_examples_server"
+    server_app.log.info(f"Registered {name} server extension")
 
-# For backward compatibility with the classical notebook
+
+# For backward compatibility with notebook server - useful for Binder/JupyterHub
 load_jupyter_server_extension = _load_jupyter_server_extension
 
 ```
@@ -403,22 +440,22 @@ to the server. But the most important one is `_load_jupyter_server_extension`
 that register new handlers.
 
 ```py
-# jlab_ext_example/__init__.py#L29-L29
+# jupyterlab_examples_server/__init__.py#L26-L26
 
-setup_handlers(server_app.web_app, url_path)
+setup_handlers(server_app.web_app)
 ```
 
 A handler is registered in the web application by linking an url to a class. In this
 example the url is _base_server_url_`/jlab-ext-example/hello` and the class handler is `RouteHandler`:
 
 ```py
-# jlab_ext_example/handlers.py#L28-L34
+# jupyterlab_examples_server/handlers.py#L29-L35
 
 host_pattern = ".*$"
-base_url = web_app.settings["base_url"]
 
+base_url = web_app.settings["base_url"]
 # Prepend the base_url so that it works in a JupyterHub setting
-route_pattern = url_path_join(base_url, url_path, "hello")
+route_pattern = url_path_join(base_url, "jupyterlab-examples-server", "hello")
 handlers = [(route_pattern, RouteHandler)]
 web_app.add_handlers(host_pattern, handlers)
 ```
@@ -428,7 +465,7 @@ implement the wanted HTTP verbs. For example, here, `/jlab-ext-example/hello` ca
 by a _GET_ or a _POST_ request. They will call the `get` or `post` method respectively.
 
 ```py
-# jlab_ext_example/handlers.py#L11-L24
+# jupyterlab_examples_server/handlers.py#L10-L25
 
 class RouteHandler(APIHandler):
     # The following decorator should be present on all verb methods (head, get, post,
@@ -436,7 +473,9 @@ class RouteHandler(APIHandler):
     # Jupyter server
     @tornado.web.authenticated
     def get(self):
-        self.finish(json.dumps({"data": "This is /jlab-ext-example/hello endpoint!"}))
+        self.finish(json.dumps({
+            "data": "This is /jupyterlab-examples-server/hello endpoint!"
+        }))
 
     @tornado.web.authenticated
     def post(self):
@@ -457,10 +496,12 @@ by calling the `finish` method. That method can optionally take an argument that
 become the response body of the request in the frontend.
 
 ```py
-# jlab_ext_example/handlers.py#L16-L17
+# jupyterlab_examples_server/handlers.py#L15-L18
 
 def get(self):
-    self.finish(json.dumps({"data": "This is /jlab-ext-example/hello endpoint!"}))
+    self.finish(json.dumps({
+        "data": "This is /jupyterlab-examples-server/hello endpoint!"
+    }))
 ```
 
 In Jupyter, it is common to use JSON as format between the frontend and the backend.
@@ -472,7 +513,7 @@ sent by the frontend. When using JSON as communication format, you can directly 
 `get_json_body` helper method to convert the request body into a Python dictionary.
 
 ```py
-# jlab_ext_example/handlers.py#L22-L23
+# jupyterlab_examples_server/handlers.py#L23-L24
 
 input_data = self.get_json_body()
 data = {"greetings": "Hello {}, enjoy JupyterLab!".format(input_data["name"])}
@@ -482,15 +523,15 @@ The part responsible to serve static content with a `StaticFileHandler` handler
 is the following:
 
 ```py
-# jlab_ext_example/handlers.py#L37-L43
+# jupyterlab_examples_server/handlers.py#L38-L44
 
-doc_url = url_path_join(base_url, url_path, "public")
+doc_url = url_path_join(base_url, "jupyterlab-examples-server", "public")
 doc_dir = os.getenv(
     "JLAB_SERVER_EXAMPLE_STATIC_DIR",
     os.path.join(os.path.dirname(__file__), "public"),
 )
 handlers = [("{}/(.*)".format(doc_url), StaticFileHandler, {"path": doc_dir})]
-web_app.add_handlers(".*$", handlers)
+web_app.add_handlers(host_pattern, handlers)
 ```
 
 **Security Note**
@@ -512,165 +553,136 @@ In the previous sections, the acting code has been described. But there are othe
 with the sole purpose of packaging the full extension nicely to help its distribution
 through package managers like `pip`.
 
-> Note: In particular, [`jupyter-packaging`](https://github.com/jupyter/jupyter-packaging) provides helpers to package and install JS files
-> with a Python package for Jupyter frontends (classical notebook,
-> JupyterLab,...).
-> As this package is a setup requirement, it needs to be specified in the `pyproject.toml` to be installed by `pip`.
-
-The `setup.py` file is the entry point to describe package metadata:
-
-```py
-# setup.py
-
-"""
-jlab_ext_example setup
-"""
-import json
-import sys
-from pathlib import Path
-
-import setuptools
-
-HERE = Path(__file__).parent.resolve()
-
-# The name of the project
-name = "jlab_ext_example"
-
-lab_path = (HERE / name.replace("-", "_") / "labextension")
-
-# Representative files that should exist after a successful build
-ensured_targets = [
-    str(lab_path / "package.json"),
-    str(lab_path / "static/style.js")
-]
-
-labext_name = "@jupyterlab-examples/server-extension"
-
-data_files_spec = [
-    ("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
-    ("share/jupyter/labextensions/%s" % labext_name, str("."), "install.json"),
-    ("etc/jupyter/jupyter_server_config.d",
-     "jupyter-config/server-config", "jlab_ext_example.json"),
-    # For backward compatibility with notebook server
-    ("etc/jupyter/jupyter_notebook_config.d",
-     "jupyter-config/nb-config", "jlab_ext_example.json"),
-]
-
-long_description = (HERE / "README.md").read_text()
-
-# Get the package info from package.json
-pkg_json = json.loads((HERE / "package.json").read_bytes())
-
-setup_args = dict(
-    name=name,
-    version=pkg_json["version"],
-    url=pkg_json["homepage"],
-    author=pkg_json["author"]["name"],
-    author_email=pkg_json["author"]["email"],
-    description=pkg_json["description"],
-    license=pkg_json["license"],
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    packages=setuptools.find_packages(),
-    install_requires=[
-        "jupyter_server>=1.6,<2"
-    ],
-    zip_safe=False,
-    include_package_data=True,
-    python_requires=">=3.6",
-    platforms="Linux, Mac OS X, Windows",
-    keywords=["Jupyter", "JupyterLab", "JupyterLab3"],
-    classifiers=[
-        "License :: OSI Approved :: BSD License",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Framework :: Jupyter",
-    ],
-)
-
-try:
-    from jupyter_packaging import (
-        wrap_installers,
-        npm_builder,
-        get_data_files
-    )
-    post_develop = npm_builder(
-        build_cmd="install:extension", source_dir="src", build_dir=lab_path
-    )
-    setup_args["cmdclass"] = wrap_installers(post_develop=post_develop, ensured_targets=ensured_targets)
-    setup_args["data_files"] = get_data_files(data_files_spec)
-except ImportError as e:
-    import logging
-    logging.basicConfig(format="%(levelname)s: %(message)s")
-    logging.warning("Build tool `jupyter-packaging` is missing. Install it with pip or conda.")
-    if not ("--name" in sys.argv or "--version" in sys.argv):
-        raise e
-
-if __name__ == "__main__":
-    setuptools.setup(**setup_args)
-
-```
-
-But in this case, it is a bit more complicated to build the frontend extension and ship it
-directly with the Python package. To deploy simultaneously the frontend and the backend,
+To deploy simultaneously the frontend and the backend,
 the frontend NPM package needs to be built and inserted in the Python package. This is
-done using a special a dedicated builder following [PEP 517](https://www.python.org/dev/peps/pep-0517) from package [jupyter-packaging](https://github.com/jupyter/jupyter-packaging). Its configuration is done in `pyproject.toml`:
+done using [hatch](https://hatch.pypa.io/) builder with some additional plugins:
+
+- [hatch-nodejs-version](https://github.com/agoose77/hatch-nodejs-version): Get package metadata from `package.json` to align Python and JavaScript metadata.
+- [hatch-jupyter-builder](https://github.com/jupyterlab/hatch-jupyter-builder/): Builder plugin to build Jupyter JavaScript assets as part of the Python package.
+  Its configuration is done in `pyproject.toml`:
 
 ```py
 # pyproject.toml
 
 [build-system]
-requires = ["jupyter_packaging~=0.10,<2", "jupyterlab~=3.1"]
-build-backend = "jupyter_packaging.build_api"
+requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0b0,<5", "hatch-nodejs-version"]
+build-backend = "hatchling.build"
 
-[tool.jupyter-packaging.options]
-skip-if-exists = ["jlab_ext_example/labextension/static/style.js"]
-ensured-targets = ["jlab_ext_example/labextension/static/style.js", "jlab_ext_example/labextension/package.json"]
+[project]
+name = "jupyterlab_examples_server"
+readme = "README.md"
+license = {text = "BSD-3-Clause License"}
+requires-python = ">=3.8"
+classifiers = [
+    "Framework :: Jupyter",
+    "Framework :: Jupyter :: JupyterLab",
+    "Framework :: Jupyter :: JupyterLab :: 4",
+    "Framework :: Jupyter :: JupyterLab :: Extensions",
+    "Framework :: Jupyter :: JupyterLab :: Extensions :: Prebuilt",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "jupyter_server>=2.0.1,<3"
+]
+dynamic = ["version", "description", "authors", "urls", "keywords"]
 
-[tool.jupyter-packaging.builder]
-factory = "jupyter_packaging.npm_builder"
+[project.optional-dependencies]
+test = [
+    "coverage",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "pytest-jupyter[server]>=0.6.0"
+]
 
-[tool.jupyter-packaging.build-args]
+[tool.hatch.version]
+source = "nodejs"
+
+[tool.hatch.metadata.hooks.nodejs]
+fields = ["description", "authors", "urls"]
+
+[tool.hatch.build.targets.sdist]
+artifacts = ["jupyterlab_examples_server/labextension"]
+exclude = [".github", "binder"]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"jupyterlab_examples_server/labextension" = "share/jupyter/labextensions/@jupyterlab-examples/server-extension"
+"install.json" = "share/jupyter/labextensions/@jupyterlab-examples/server-extension/install.json"
+"jupyter-config/server-config" = "etc/jupyter/jupyter_server_config.d"
+"jupyter-config/nb-config" = "etc/jupyter/jupyter_notebook_config.d"
+
+[tool.hatch.build.hooks.version]
+path = "jupyterlab_examples_server/_version.py"
+
+[tool.hatch.build.hooks.jupyter-builder]
+dependencies = ["hatch-jupyter-builder>=0.5"]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = [
+    "jupyterlab_examples_server/labextension/static/style.js",
+    "jupyterlab_examples_server/labextension/package.json",
+]
+skip-if-exists = ["jupyterlab_examples_server/labextension/static/style.js"]
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
 npm = ["jlpm"]
 
-[tool.check-manifest]
-ignore = ["jlab_ext_example/labextension/**", "yarn.lock", ".*", "package-lock.json"]
+[tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
+build_cmd = "install:extension"
+npm = ["jlpm"]
+source_dir = "src"
+build_dir = "jupyterlab_examples_server/labextension"
+
+[tool.jupyter-releaser.options]
+version_cmd = "hatch version"
+
+[tool.jupyter-releaser.hooks]
+before-build-npm = [
+    "python -m pip install 'jupyterlab>=4.0.0b0,<5'",
+    "jlpm",
+    "jlpm build:prod"
+]
+before-build-python = ["jlpm clean:all"]
+
+[tool.check-wheel-contents]
+ignore = ["W002"]
 
 ```
 
-It will build the frontend NPM package through its _factory_:
+It will build the frontend NPM package through its _factory_, and will ensure one of the
+generated files is `jupyterlab_examples_server/labextension/package.json`:
 
 ```py
-# pyproject.toml#L9-L14
+# pyproject.toml#L57-L68
 
-[tool.jupyter-packaging.builder]
-factory = "jupyter_packaging.npm_builder"
+[tool.hatch.build.hooks.jupyter-builder]
+dependencies = ["hatch-jupyter-builder>=0.5"]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = [
+    "jupyterlab_examples_server/labextension/static/style.js",
+    "jupyterlab_examples_server/labextension/package.json",
+]
+skip-if-exists = ["jupyterlab_examples_server/labextension/static/style.js"]
 
-[tool.jupyter-packaging.build-args]
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
 npm = ["jlpm"]
-```
-
-It will ensure one of the generated files is `jlab_ext_example/labextension/package.json`:
-
-```py
-# pyproject.toml#L7-L7
-
-ensured-targets = ["jlab_ext_example/labextension/static/style.js", "jlab_ext_example/labextension/package.json"]
 ```
 
 It will copy the NPM package in the Python package and force it to be copied in a place
 JupyterLab is looking for frontend extensions when the Python package is installed:
 
 ```py
-# setup.py#L26-L26
+# pyproject.toml#L48-L49
 
-("share/jupyter/labextensions/%s" % labext_name, str(lab_path.relative_to(HERE)), "**"),
+[tool.hatch.build.targets.wheel.shared-data]
+"jupyterlab_examples_server/labextension" = "share/jupyter/labextensions/@jupyterlab-examples/server-extension"
 ```
 
 The last piece of configuration needed is the enabling of the server extension. This is
@@ -678,12 +690,12 @@ done by copying the following JSON file:
 
 <!-- prettier-ignore-start -->
 ```json5
-// jupyter-config/server-config/jlab_ext_example.json
+// jupyter-config/server-config/jupyterlab_examples_server.json
 
 {
   "ServerApp": {
     "jpserver_extensions": {
-      "jlab_ext_example": true
+      "jupyterlab_examples_server": true
     }
   }
 }
@@ -694,20 +706,18 @@ done by copying the following JSON file:
 in the appropriate jupyter folder (`etc/jupyter/jupyter_server_config.d`):
 
 ```py
-# setup.py#L28-L29
+# pyproject.toml#L51-L51
 
-("etc/jupyter/jupyter_server_config.d",
- "jupyter-config/server-config", "jlab_ext_example.json"),
+"jupyter-config/server-config" = "etc/jupyter/jupyter_server_config.d"
 ```
 
 For backward compatibility with the classical notebook, the old version of that file is copied in
 (`etc/jupyter/jupyter_notebook_config.d`):
 
 ```py
-# setup.py#L31-L32
+# pyproject.toml#L52-L52
 
-("etc/jupyter/jupyter_notebook_config.d",
- "jupyter-config/nb-config", "jlab_ext_example.json"),
+"jupyter-config/nb-config" = "etc/jupyter/jupyter_notebook_config.d"
 ```
 
 ### JupyterLab Extension Manager
@@ -719,7 +729,7 @@ user about that dependency by adding the `discovery` metadata to your `package.j
 file:
 
 ```json5
-// package.json#L74-L84
+// package.json#L98-L108
 
 "jupyterlab": {
   "discovery": {
@@ -728,7 +738,7 @@ file:
         "pip"
       ],
       "base": {
-        "name": "jlab_ext_example"
+        "name": "jupyterlab_examples_server"
       }
     }
   },
@@ -737,7 +747,7 @@ file:
 In this example, the extension requires a `server` extension:
 
 ```json5
-// package.json#L75-L75
+// package.json#L99-L99
 
 "discovery": {
 ```
@@ -745,7 +755,7 @@ In this example, the extension requires a `server` extension:
 And that server extension is available through `pip`:
 
 ```json5
-// package.json#L76-L78
+// package.json#L100-L102
 
 "server": {
   "managers": [
@@ -761,7 +771,7 @@ With the packaging described above, installing the extension is done in one comm
 ```bash
 # Install the server extension and
 # copy the frontend extension where JupyterLab can find it
-pip install jlab_ext_example
+pip install jupyterlab_examples_server
 ```
 
 As developer, you might want to install the package in local editable mode.
@@ -774,7 +784,7 @@ pip install -e .
 # Link your development version of the extension with JupyterLab
 jupyter labextension develop . --overwrite
 # Enable the server extension
-jupyter server extension enable jlab_ext_example
+jupyter server extension enable jupyterlab_examples_server
 # Rebuild extension Typescript source after making changes
 jlpm run build
 ```

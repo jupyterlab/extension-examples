@@ -11,89 +11,126 @@
 ## The template folder structure
 
 Writing a JupyterLab extension usually starts from a configurable template. It
-can be downloaded with the [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/) tool and the following command:
+can be downloaded with the [`copier`](https://copier.readthedocs.io/) tool and the following command:
 
 ```bash
-cookiecutter https://github.com/jupyterlab/extension-cookiecutter-ts
+pip install copier jinja2-time
+mkdir my_extension
+cd my_extension
+copier https://github.com/jupyterlab/extension-template .
 ```
 
-`cookiecutter` asks for some basic information that could for example be setup
+You will be asked for some basic information that could for example be setup
 like this:
 
 ```bash
-author_name []: tuto
-author_email []: tuto@help.you
-labextension_name [myextension]: hello-world
-python_name [hello_world]:
-project_short_description [A JupyterLab extension.]: Minimal JupyterLab example
-has_settings [n]:
-has_server_extension [n]:
-has_binder [n]: y
-repository [https://github.com/github_username/hello-world]:
+🎤 What is your extension kind?
+   frontend
+🎤 Extension author name
+   tuto
+🎤 Extension author email
+   tuto@help.you
+🎤 JavaScript package name
+   hello-world
+🎤 Python package name
+   hello_world
+🎤 Extension short description
+   Minimal JupyterLab example.
+🎤 Does the extension have user settings?
+   No
+🎤 Do you want to set up Binder example?
+   Yes
+🎤 Do you want to set up tests for the extension?
+   Yes
+🎤 Git remote repository URL
+   https://github.com/github_username/hello-world
 ```
 
-> The python name should not contain `-`. It is nice for user to test your extension online, so the `has_binder` was set to _yes_.
+> The python name must be a valid Python module name (characters such `-`, `@` or `/` are not allowed).
+> It is nice for user to test your extension online, so the _set up Binder_ was set to _Yes_.
 
-The cookiecutter creates the directory `hello_world` [or your extension name]
+The template creates creates files in the current director
 that looks like this:
 
 ```bash
-hello_world/
-│   .eslintignore
-│   .eslintrc.js
-│   .gitignore
-│   .prettierignore
-│   .prettierrc
-│   install.json
-│   LICENSE
-│   MANIFEST.in
-│   package.json
-│   pyproject.toml
-│   README.md
-│   setup.py
-│   tsconfig.json
-│
-├───.github
-│   └───workflows
-│           build.yml
-│
-├───binder
-│       environment.yml
-│       postBuild
-│
-├───hello_world
-│       __init__.py
-│       _version.py
-│
-├───src
-│       index.ts
-│
-└───style
-        base.css
-        index.css
-        index.js
+.
+├── babel.config.js
+├── binder
+│   ├── environment.yml
+│   └── postBuild
+├── CHANGELOG.md
+├── .copier-answers.yml
+├── .github
+│   └── workflows
+│       ├── build.yml
+│       ├── check-release.yml
+│       ├── enforce-label.yml
+│       ├── prep-release.yml
+│       ├── publish-release.yml
+│       └── update-integration-tests.yml
+├── .gitignore
+├── hello_world
+│   └── __init__.py
+├── install.json
+├── jest.config.js
+├── LICENSE
+├── package.json
+├── .prettierignore
+├── pyproject.toml
+├── README.md
+├── RELEASE.md
+├── setup.py
+├── src
+│   ├── index.ts
+│   └── __tests__
+│       └── hello_world.spec.ts
+├── style
+│   ├── base.css
+│   ├── index.css
+│   └── index.js
+├── tsconfig.json
+├── tsconfig.test.json
+├── ui-tests
+│   ├── jupyter_server_test_config.py
+│   ├── package.json
+│   ├── playwright.config.js
+│   ├── README.md
+│   ├── tests
+│   │   └── hello_world.spec.ts
+│   └── yarn.lock
+└── .yarnrc.yml
 ```
 
-Those files can be separated in 4 groups:
+Those files can be separated in 5 groups:
 
-- Information about the extension:
-  - `README.md` contains some instructions
-  - `LICENSE` contains your extension code license; BSD-3 Clause by default (but you can change it).
 - Extension code (those files are mandatory):
-  - `package.json` contains information about the extension such as dependencies
-  - `tsconfig.json` contains information for the typescript compilation
   - `src/index.ts` _this contains the actual code of your extension_
-  - `style/` folder contains style elements that you can use
-- Validation:
-  - `.prettierrc` and `.prettierignore` specify the code formatter [`prettier`](https://prettier.io) configuration
-  - `.eslintrc.js` and `.eslintignore` specify the code linter [`eslint`](https://eslint.org) configuration
+  - `style/` folder contains style elements used by your extension
+- Information about the extension:
+  - `CHANGELOG.md` will be populated automatically by changes when using the suggested release tool.
+  - `.copier-answers.yml` contains the answers given when generating the directory from the extension template.
+  - `LICENSE` contains your extension code license; BSD-3 Clause by default (but you can change it).
+  - `package.json` contains the JavaScript package metadata and configuration.
+  - `README.md` contains some instructions to install and use the extension.
+  - `RELEASE.md` contains instructions to release the extension.
+- Configuration:
+  - `binder/` contains configuration to test online your extension using [Binder](https://mybinder.org/).
+  - `.gitignore` files to be ignored by Git (the recommended version control tool).
+  - `.prettierignore` files to be ignored by JavaScript code formatter [`prettier`](https://prettier.io).
+  - `package.json` contains the JavaScript configuration for the linters: [`eslint`](https://eslint.org), [`prettier`](https://prettier.io) and [`stylelint`](https://stylelint.io/).
+  - `tsconfig.json` contains the typescript compilation configuration.
+  - `.yarnrc.yml` contains the configuration of the JavaScript package manager `jlpm`.
+- Tests:
   - `.github/workflows/build.yml` sets the continuous integration tests of the code using [GitHub Actions](https://help.github.com/en/actions)
+  - `.github/workflows/update-integration-tests.yml` sets up a GitHub action to update integration test snapshots.
+  - `.github/workflows/<others>.yml` set GitHub actions to check and handle release of the extension.
+  - `jest.config.js`, `babel.config.js` and `tsconfig.test.json` configure the JavaScript test Framework [`jest`](https://jestjs.io/).
+  - `ui-tests/` sets up integration tests using [`playwright`](https://playwright.dev/).
 - Packaging as a Python package:
-  - `setup.py` contains information about the Python package such as what to package
-  - `pyproject.toml` contains the dependencies to create the Python package
-  - `MANIFEST.in` contains list of non-Python files to include in the Python package
+  - `pyproject.toml` contains the configuration to create the Python package (using [`hatch`](https://hatch.pypa.io/)) and to release it (using [`jupyter-releaser`](https://jupyter-releaser.readthedocs.io/)).
   - `install.json` contains information retrieved by JupyterLab to help users know how to manage the package
   - `hello_world/` folder contains the final code to be distributed
+  - `setup.py` is present for backward compatibility with tools not supporting `pyproject.toml`.
 
 The following sections will walk you through the extension code files.
 
@@ -108,7 +145,7 @@ logic of the extension. It begins with the following import section:
 
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 ```
 <!-- prettier-ignore-end -->
@@ -120,10 +157,10 @@ called `@jupyterlab/application`. The dependency of your extension on this
 package is declared in the file `package.json`:
 
 ```json5
-// package.json#L49-L51
+// package.json#L60-L62
 
 "dependencies": {
-  "@jupyterlab/application": "^3.1.0"
+  "@jupyterlab/application": "^4.0.0-beta.0"
 },
 ```
 
@@ -132,10 +169,11 @@ of the `JupyterFrontEndPlugin` class:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L9-L12
+// src/index.ts#L9-L13
 
 const plugin: JupyterFrontEndPlugin<void> = {
-  id: 'hello-world:plugin',
+  id: '@jupyterlab-examples/hello-world:plugin',
+  description: 'Minimal JupyterLab extension.',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
 ```
@@ -145,9 +183,9 @@ const plugin: JupyterFrontEndPlugin<void> = {
 ```
 
 ```ts
-// src/index.ts#L14-L17
+// src/index.ts#L15-L18
 
-  },
+  }
 };
 
 export default plugin;
@@ -212,10 +250,10 @@ show something like:
         @jupyterlab-examples/hello-world: [...]/hello-world
 ```
 
-Now let's check inside of JupyterLab if it works. Run [can take a while]:
+Now let's check inside of JupyterLab if it works. Run:
 
 ```bash
-jupyter lab --watch
+jupyter lab
 ```
 
 Your extension writes something to the browser console. In most web browsers you can
@@ -230,17 +268,16 @@ a bit. Simply replace the `activate` function with the following lines:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L12-L14
+// src/index.ts#L13-L15
 
 activate: (app: JupyterFrontEnd) => {
-  console.log('the JupyterLab main application:', app);
-},
+  console.log('The JupyterLab main application:', app);
+}
 ```
 <!-- prettier-ignore-end -->
 
 To update the module, simply go to the extension directory and run
-`jlpm build` again. Since you used the `--watch` option when starting
-JupyterLab, you just have to refresh the JupyterLab website in the browser
+`jlpm build` again. You have to refresh the JupyterLab website in the browser
 and should see in the browser console:
 
 ```
@@ -251,6 +288,10 @@ Object { _started: true, _pluginMap: {…}, _serviceMap: Map(...), _delegate: {�
 This is the main application JupyterLab object and you will see how to interact
 with it in the other examples.
 
+> If you wish to avoid running `jlpm run build` after each change, executes
+> `jlpm run watch` command from your extension directory. That command will
+> automatically compile the TypeScript files as they are changed and saved.
+
 Checkout how the core packages of JupyterLab are defined
 [on this page](https://github.com/jupyterlab/jupyterlab/tree/master/packages). Each package is
 structured similarly to the extension that you are writing. This modular
@@ -258,8 +299,8 @@ structure makes JupyterLab very adaptable.
 
 An overview of the classes and their attributes and methods can be found in the
 JupyterLab documentation. The `@jupyterlab/application` module documentation is
-[here](https://jupyterlab.readthedocs.io/en/3.6.x/api/modules/application.html)
-and here is the [JupyterFrontEnd class documentation](https://jupyterlab.readthedocs.io/en/3.6.x/api/classes/application.jupyterfrontend-1.html).
+[here](https://jupyterlab.readthedocs.io/en/latest/api/modules/application.html)
+and here is the [JupyterFrontEnd class documentation](https://jupyterlab.readthedocs.io/en/latest/api/modules/application.JupyterFrontEnd.html).
 
 ## Where to Go Next
 

@@ -8,28 +8,29 @@ This JupyterLab example extension is intended to demo one specific feature of `M
 
 > As background, `MainAreaWidget` is a high-level JupyterLab widget that conventionally is used to enclose the Launcher (shown above) or a notebook editor. The `contentHeader`, in turn, is a Lumino `BoxPanel` widget positioned at the very top of this main area. This makes the `contentHeader` potentially useful to extensions needing some place to put content that the user will _always see_.
 
-In code: after you get a `MainAreaWidget`, for example via
+In code: the command `jlab-examples:contentheader` creates a widget and check if it is an instance of `MainAreaWidget`. A specific text content is then added to this widget (here the current GMT time).
 
 ```ts
-// src/index.ts#L37-L37
+// src/index.ts#L33-L50
 
-const main = app.shell.currentWidget;
-```
+commands.addCommand(command, {
+  label: 'Populate content header (time example)',
+  caption: 'Populate content header (time example)',
+  execute: () => {
+    // Check to ensure this is a MainAreaWidget
+    const widget = app.shell.currentWidget;
 
-you can then create a widget of interest, for example as
+    if (widget instanceof MainAreaWidget) {
+      widget.addClass('example-extension-contentheader-widget');
+      widget.node.textContent = generateContent();
 
-```ts
-// src/index.ts#L40-L40
-
-const widget = new Widget();
-```
-
-before finally adding it to the JupyterLab main area's `contentHeader` real estate at its very top:
-
-```ts
-// src/index.ts#L45-L45
-
-main.contentHeader.addWidget(widget);
+      // Every so often, update the widget's contents
+      setInterval(() => {
+        widget.node.textContent = generateContent();
+      }, 1000);
+    }
+  }
+});
 ```
 
 ## Install
@@ -87,7 +88,7 @@ For full details see the body of the `execute` function in [`index.ts`](./src/in
 
 First, get a `MainAreaWidget`. The approach used here will likely be useful for many JupyterLab use cases: `JupyterFrontEnd.shell.currentWidget` will be a `MainAreaWidget` if your extension is being activated with a classic JupyterLab window, and you can ensure that by testing for `app.shell.currentWidget instanceof MainAreaWidget`.
 
-`MainAreaWidget.contentHeader` is a "top-to-bottom" vertical [Lumino BoxPanel](https://lumino.readthedocs.io/en/1.x/api/widgets/classes/boxpanel.html). You can call its `addWidget` and `insertWidget` methods to populate this space with your own custom widgets.
+`MainAreaWidget.contentHeader` is a "top-to-bottom" vertical [Lumino BoxPanel](https://lumino.readthedocs.io/en/stable/api/classes/widgets.BoxPanel-1.html). You can call its `addWidget` and `insertWidget` methods to populate this space with your own custom widgets.
 
 ## Background
 

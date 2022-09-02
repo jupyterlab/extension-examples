@@ -2,8 +2,6 @@ import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import { YDocument, DocumentChange } from '@jupyterlab/shared-models';
 
-import { IModelDB, ModelDB } from '@jupyterlab/observables';
-
 import { IChangedArgs } from '@jupyterlab/coreutils';
 
 import { PartialJSONObject, PartialJSONValue } from '@lumino/coreutils';
@@ -42,16 +40,20 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    */
   constructor(
     languagePreference?: string,
-    modelDB?: IModelDB,
+    sharedModel?: ExampleDoc,
     collaborationEnabled?: boolean
   ) {
-    this.modelDB = modelDB ?? new ModelDB();
+    this._collaborationEnabled = !!collaborationEnabled;
+    if (sharedModel) {
+      this.sharedModel = sharedModel;
+    } else {
+      this.sharedModel = ExampleDoc.create();
+    }
 
     // Listening for changes on the shared model to propagate them
     this.sharedModel.changed.connect(this._onSharedModelChanged);
     this.sharedModel.awareness.on('change', this._onClientChanged);
 
-    this._collaborationEnabled = !!collaborationEnabled;
   }
 
   /**
@@ -104,6 +106,12 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    */
   get isDisposed(): boolean {
     return this._isDisposed;
+  }
+
+  /*Whether the model is collaborative or not.
+   */
+  get collaborative(): boolean {
+    return this._collaborationEnabled;
   }
 
   /**
@@ -372,6 +380,8 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
     this._content = this.ydoc.getMap('content');
     this._content.observe(this._contentObserver);
   }
+
+  readonly version: string = '1.0.0';
 
   /**
    * Dispose of the resources.

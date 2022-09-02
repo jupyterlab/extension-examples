@@ -1,0 +1,19 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.0.2
+_src_path: /home/fcollonval/projects/extension-template
+author_email: ''
+author_name: Project Jupyter Contributors
+data_format: string
+file_extension: ''
+has_binder: false
+has_settings: false
+kind: frontend
+labextension_name: '@jupyterlab-examples/notifications'
+mimetype: ''
+mimetype_name: ''
+project_short_description: A JupyterLab extension example creating notifications.
+python_name: jupyterlab_examples_notifications
+repository: https://github.com/jupyterlab/extension-examples
+test: true
+viewer_name: ''
+

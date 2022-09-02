@@ -41,7 +41,7 @@ test('should check if the cube is loaded', async ({ page }) => {
   await page.click('text=View');
   await Promise.all([
     page.waitForSelector('#filebrowser', { state: 'hidden' }),
-    page.click('ul[role="menu"] >> text=Show Left Sidebar'),
+    page.click('ul[role="menu"] >> text=Show Left Sidebar')
   ]);
 
   await page.dragAndDrop(

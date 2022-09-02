@@ -1,8 +1,14 @@
-.jp-SignalExamplePanel {
-  background-color: AliceBlue;
+/*
+    See the JupyterLab Developer Guide for useful CSS Patterns:
+
+    https://jupyterlab.readthedocs.io/en/stable/developer/css.html
+*/
+
+.jp-signal-example-panel {
+  background-color: aliceblue;
 }
 
-.jp-ButtonWidget {
+.jp-button-widget {
   background-color: red;
   border-radius: 12px;
   border: none;

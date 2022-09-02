@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import { ICommandPalette } from '@jupyterlab/apputils';
@@ -10,6 +10,8 @@ import { ICommandPalette } from '@jupyterlab/apputils';
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'command-palette',
+  description:
+    'Minimal JupyterLab example adding a new command to the palette.',
   autoStart: true,
   requires: [ICommandPalette],
   activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {
@@ -25,13 +27,13 @@ const extension: JupyterFrontEndPlugin<void> = {
         console.log(
           `jlab-examples:command-palette has been called ${args['origin']}.`
         );
-      },
+      }
     });
 
     // Add the command to the command palette
     const category = 'Extension Examples';
     palette.addItem({ command, category, args: { origin: 'from palette' } });
-  },
+  }
 };
 
 export default extension;

@@ -7,6 +7,7 @@ node_modules/
 *.tsbuildinfo
 *.lock
 __pycache__
+.yarn/
 
 # Ensure embedme does not run ont node_modules README.md files.
 **/node_modules/**/README.md

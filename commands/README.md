@@ -15,15 +15,16 @@ It is quite common for an extension to define one or more such commands.
 
 In this extension, you are going to add a command to the application command registry.
 
-The registry has `CommandRegistry` type ([documentation](https://lumino.readthedocs.io/en/1.x/api/commands/classes/commandregistry.html)).
+The registry has `CommandRegistry` type ([documentation](https://lumino.readthedocs.io/en/stable/api/classes/commands.CommandRegistry-1.html)).
 
 To see how you can access the application command registry, open the file `src/index.ts`.
 
 ```ts
-// src/index.ts#L9-L37
+// src/index.ts#L9-L38
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'commands',
+  description: 'Minimal JupyterLab example creating a new command.',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
     const { commands } = app;
@@ -40,16 +41,16 @@ const extension: JupyterFrontEndPlugin<void> = {
         if (orig !== 'init') {
           window.alert(`jlab-examples:command has been called from ${orig}.`);
         }
-      },
+      }
     });
 
     // Call the command execution
-    commands.execute(command, { origin: 'init' }).catch((reason) => {
+    commands.execute(command, { origin: 'init' }).catch(reason => {
       console.error(
         `An error occurred during the execution of jlab-examples:command.\n${reason}`
       );
     });
-  },
+  }
 };
 ```
 
@@ -58,7 +59,7 @@ The CommandRegistry is an attribute of the main JupyterLab application
 adds your own function.
 
 That method takes two arguments: the unique command id
-and [options](https://lumino.readthedocs.io/en/1.x/api/commands/interfaces/commandregistry.icommandoptions.html) for the command.
+and [options](https://lumino.readthedocs.io/en/stable/api/interfaces/commands.CommandRegistry.ICommandOptions.html) for the command.
 
 The only mandatory option is `execute`, this takes the function to be called
 when the command is executed. It can optionally takes arguments (arbitrarily defined
@@ -69,14 +70,14 @@ part of the application. Then you will need to call the `execute` method of the 
 with the unique command id and optionally the arguments.
 
 ```ts
-// src/index.ts#L31-L36
+// src/index.ts#L32-L37
 
-  commands.execute(command, { origin: 'init' }).catch((reason) => {
+  commands.execute(command, { origin: 'init' }).catch(reason => {
     console.error(
       `An error occurred during the execution of jlab-examples:command.\n${reason}`
     );
   });
-},
+}
 ```
 
 When running JupyterLab with this extension, the following message should

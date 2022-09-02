@@ -1,16 +1,24 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
     "declaration": true,
-    "lib": ["es2015", "dom"],
-    "module": "commonjs",
+    "esModuleInterop": true,
+    "incremental": true,
+    "jsx": "react",
+    "module": "esnext",
     "moduleResolution": "node",
     "noEmitOnError": true,
+    "noImplicitAny": true,
     "noUnusedLocals": true,
-    "outDir": "./lib",
-    "target": "es2015",
+    "preserveWatchOutput": true,
+    "resolveJsonModule": true,
+    "outDir": "lib",
+    "rootDir": "src",
     "strict": true,
-    "types": [],
-    "skipLibCheck": true
+    "strictNullChecks": true,
+    "target": "ES2018",
+    "types": ["jest"]
   },
   "include": ["src/*"]
 }
