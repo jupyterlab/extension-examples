@@ -1,0 +1,46 @@
+{
+  "type": "object",
+  "title": "Metadata Form example",
+  "description": "Settings of the metadata form extension.",
+  "jupyter.lab.metadataforms": [
+    {
+      "label": "Extension metadata",
+      "metadataKeys": [
+        {
+          "metadataKey": ["my-extension", "active"],
+          "customWidget": "custom-checkbox",
+          "properties": {
+            "title": "Custom widget",
+            "description": "Active status",
+            "type": "boolean"
+          }
+        },
+        {
+          "metadataKey": ["my-extension", "name"],
+          "properties": {
+            "title": "name",
+            "description": "Unique name",
+            "type": "string"
+          }
+        },
+        {
+          "metadataKey": ["my-extension", "nested", "more_nested", "test"],
+          "properties": {
+            "title": "nested",
+            "description": "Nested metadata",
+            "type": "string"
+          }
+        },
+        {
+          "metadataKey": ["root-value"],
+          "properties": {
+            "title": "root",
+            "description": "Root metadata",
+            "type": "integer"
+          }
+        }
+      ]
+    }
+  ],
+  "additionalProperties": false
+}
