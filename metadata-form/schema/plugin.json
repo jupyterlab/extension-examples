@@ -36,7 +36,8 @@
           "properties": {
             "title": "root",
             "description": "Root metadata",
-            "type": "integer"
+            "type": "integer",
+            "default": 1
           }
         }
       ]

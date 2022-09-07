@@ -3,8 +3,6 @@ import {
   JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
-import { ICommandPalette } from '@jupyterlab/apputils';
-import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { IFormWidgetRegistry } from '@jupyterlab/ui-components';
 
 import { CustomCheckbox } from './customWidgets';
@@ -15,19 +13,20 @@ import { CustomCheckbox } from './customWidgets';
 const plugin: JupyterFrontEndPlugin<void> = {
   id: 'metadata_form:plugin',
   autoStart: true,
-  requires: [ISettingRegistry, ICommandPalette],
+  requires: [],
   optional: [IFormWidgetRegistry],
   activate: (
     app: JupyterFrontEnd,
-    editorRegistry: IFormWidgetRegistry | null
+    formRegistry: IFormWidgetRegistry | null
   ) => {
-    // Register the custom plugin
-    if (editorRegistry) {
-      editorRegistry.addRenderer('custom-checkbox', (props: any) => {
-        return CustomCheckbox(props);
+    // Register the custom widget
+    if (formRegistry) {
+      formRegistry.addFormWidget('custom-checkbox', {
+        renderer: (props: any) => {
+          return CustomCheckbox(props);
+        },
       });
     }
-
     console.log('Metadata form example activated');
   },
 };
