@@ -1,4 +1,7 @@
-import { JupyterFrontEndPlugin } from '@jupyterlab/application';
+import {
+  JupyterFrontEnd,
+  JupyterFrontEndPlugin,
+} from '@jupyterlab/application';
 
 import { ICommandPalette } from '@jupyterlab/apputils';
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -14,7 +17,10 @@ const plugin: JupyterFrontEndPlugin<void> = {
   autoStart: true,
   requires: [ISettingRegistry, ICommandPalette],
   optional: [IFormWidgetRegistry],
-  activate: (editorRegistry: IFormWidgetRegistry | null) => {
+  activate: (
+    app: JupyterFrontEnd,
+    editorRegistry: IFormWidgetRegistry | null
+  ) => {
     // Register the custom plugin
     if (editorRegistry) {
       editorRegistry.addRenderer('custom-checkbox', (props: any) => {
