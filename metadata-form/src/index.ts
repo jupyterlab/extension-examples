@@ -1,3 +1,4 @@
+import type { WidgetProps } from '@rjsf/core';
 import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
@@ -21,11 +22,11 @@ const plugin: JupyterFrontEndPlugin<void> = {
   ) => {
     // Register the custom widget
     if (formRegistry) {
-      formRegistry.addFormWidget('custom-checkbox', {
-        renderer: (props: any) => {
+      formRegistry.addRenderer('custom-checkbox',
+        (props: WidgetProps) => {
           return CustomCheckbox(props);
         },
-      });
+      );
     }
     console.log('Metadata form example activated');
   },

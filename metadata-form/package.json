@@ -51,7 +51,7 @@
     "@jupyterlab/apputils": "^4.0.0-alpha.8"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^4.0.0-alpha.11",
+    "@jupyterlab/builder": "^4.0.0-alpha.12",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
     "eslint": "^7.14.0",
