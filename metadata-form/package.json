@@ -47,11 +47,13 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^4.0.0-alpha.8",
-    "@jupyterlab/apputils": "^4.0.0-alpha.8"
+    "@jupyterlab/application": "^4.0.0-alpha.14",
+    "@jupyterlab/apputils": "^4.0.0-alpha.14",
+    "@jupyterlab/ui-components": "^4.0.0-alpha.14",
+    "@rjsf/core": "^4.2.0"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^4.0.0-alpha.12",
+    "@jupyterlab/builder": "^4.0.0-alpha.14",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
     "eslint": "^7.14.0",

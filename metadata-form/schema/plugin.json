@@ -4,43 +4,71 @@
   "description": "Settings of the metadata form extension.",
   "jupyter.lab.metadataforms": [
     {
+      "id": "Extension_metadata",
       "label": "Extension metadata",
-      "metadataKeys": [
-        {
-          "metadataKey": ["my-extension", "active"],
-          "customWidget": "custom-checkbox",
-          "properties": {
+      "metadataSchema": {
+        "type": "object",
+        "properties": {
+          "/my-extension/active": {
             "title": "Custom widget",
             "description": "Active status",
             "type": "boolean"
-          }
-        },
-        {
-          "metadataKey": ["my-extension", "name"],
-          "properties": {
+          },
+          "/my-extension/name": {
             "title": "name",
             "description": "Unique name",
             "type": "string"
-          }
-        },
-        {
-          "metadataKey": ["my-extension", "nested", "more_nested", "test"],
-          "properties": {
+          },
+          "/my-extension/nested/more_nested/test": {
             "title": "nested",
             "description": "Nested metadata",
             "type": "string"
-          }
-        },
-        {
-          "metadataKey": ["root-value"],
-          "properties": {
+          },
+          "/root-value": {
             "title": "root",
             "description": "Root metadata",
             "type": "integer",
             "default": 1
           }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "/my-extension/active": {
+                  "const": false
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "/my-extension/conditional" :{
+                  "title": "conditional field",
+                  "type": "string",
+                  "enum": ["condition1", "condition2", "condition3"]
+                }
+              }
+            }
+          }
+        ]
+      },
+      "uiSchema": {
+        "ui:order": [
+          "/my-extension/name",
+          "/my-extension/conditional",
+          "/my-extension/active",
+          "/my-extension/nested/more_nested/test",
+          "/root-value"
+        ]
+      },
+      "metadataOptions": {
+        "/my-extension/active": {
+          "customWidget": "custom-checkbox"
+        },
+        "/my-extension/name": {
+          "cellTypes": ["raw"]
         }
-      ]
+      }
     }
   ],
   "additionalProperties": false
