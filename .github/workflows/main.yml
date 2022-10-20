@@ -98,7 +98,7 @@ jobs:
       - name: Install the Python dependencies
         if: steps.filter.outputs.extension == 'true'
         run: |
-          python -m pip install --upgrade pip jupyterlab~=3.1
+          python -m pip install --upgrade hatch pip jupyterlab~=3.1
       - name: Install the NPM dependencies
         if: steps.filter.outputs.extension == 'true'
         run: jlpm
@@ -112,7 +112,7 @@ jobs:
           jupyter labextension list 2>&1 | tee labextension.list
           cat labextension.list | grep -ie "@jupyterlab-examples/*.*OK"
           python -m jupyterlab.browser_check
-          pip uninstall -y $(python setup.py --name)
+          pip uninstall -y $(python -m hatch project metadata name)
         shell: bash
 
       - name: Integration tests
