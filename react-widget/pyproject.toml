@@ -1,17 +1,74 @@
 [build-system]
-requires = ["jupyter_packaging~=0.10,<2", "jupyterlab~=3.1"]
-build-backend = "jupyter_packaging.build_api"
+requires = [
+    "hatchling",
+    "jupyterlab~=3.1",
+]
+build-backend = "hatchling.build"
 
-[tool.jupyter-packaging.options]
-skip-if-exists = ["jupyterlab_examples_react_widget/labextension/static/style.js"]
-ensured-targets = ["jupyterlab_examples_react_widget/labextension/static/style.js", "jupyterlab_examples_react_widget/labextension/package.json"]
+[project]
+name = "jupyterlab-examples-react-widget"
+description = "Example of using a React Widget in a Jupyterlab extension"
+readme = "README.md"
+license = "BSD-3-Clause"
+requires-python = ">=3.6"
+authors = [
+    { name = "Project Jupyter Contributors", email = "" },
+]
+keywords = [
+    "Jupyter",
+    "JupyterLab",
+    "JupyterLab3",
+]
+classifiers = [
+    "Framework :: Jupyter",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+]
+dependencies = []
+version = "0.1.0"
 
-[tool.jupyter-packaging.builder]
-factory = "jupyter_packaging.npm_builder"
+[project.urls]
+Homepage = "https://github.com/jupyterlab/extension-examples"
 
-[tool.jupyter-packaging.build-args]
+[tool.hatch.build.targets.wheel.shared-data]
+"install.json" = "share/jupyter/labextensions/@jupyterlab-examples/react-widget/install.json"
+"jupyterlab_examples_react_widget/labextension/package.json" = "share/jupyter/labextensions/@jupyterlab-examples/react-widget/package.json"
+"jupyterlab_examples_react_widget/labextension/static" = "share/jupyter/labextensions/@jupyterlab-examples/react-widget/static"
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    ".github",
+]
+
+[tool.hatch.build.hooks.jupyter-builder]
+dependencies = [
+    "hatch-jupyter-builder>=0.8.1",
+]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = [
+    "jupyterlab_examples_react_widget/labextension/static/style.js",
+    "jupyterlab_examples_react_widget/labextension/package.json",
+]
+skip-if-exists = [
+    "jupyterlab_examples_react_widget/labextension/static/style.js",
+]
+
+[tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
+build_dir = "jupyterlab_examples_react_widget/labextension"
+source_dir = "src"
+build_cmd = "install:extension"
+npm = [
+    "jlpm",
+]
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
-npm = ["jlpm"]
+npm = [
+    "jlpm",
+]
 
-[tool.check-manifest]
-ignore = ["jupyterlab_examples_react_widget/labextension/**", "yarn.lock", ".*", "package-lock.json"]
