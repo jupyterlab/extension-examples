@@ -1,3 +1,16 @@
+# Toolbar Item
+
+This example shows how to add a button to the notebook toolbar.
+
+![Toolbar button](Preview.gif)
+
+In this particular example, the button will clear all cell outputs
+
+To use it first you need to import the following packages:
+
+```ts
+// src/index.ts#L1-L16
+
 import { IDisposable, DisposableDelegate } from '@lumino/disposable';
 
 import {
@@ -14,19 +27,26 @@ import {
   NotebookPanel,
   INotebookModel,
 } from '@jupyterlab/notebook';
+```
 
-/**
- * The plugin registration information.
- */
+Firstly you have to register the plugin information. For that you have to pass a activate **function** and the plugin **id**.
+
+```ts
+// src/index.ts#L21-L25
+
 const plugin: JupyterFrontEndPlugin<void> = {
   activate,
-  id: 'toolbar-button',
+  id: 'toolbar-buttons',
   autoStart: true,
 };
+```
 
-/**
- * A notebook widget extension that adds a button to the toolbar.
- */
+New widgets can be added to a document widget by implementing the interface [DocumentRegistry.IWidgetExtension](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IWidgetExtension.html). In particular, you need to add your widget in the `createNew` method that is called when creating a new
+document widget; in this case a notebook panel.
+
+```ts
+// src/index.ts#L30-L59
+
 export class ButtonExtension
   implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel>
 {
@@ -57,17 +77,19 @@ export class ButtonExtension
     });
   }
 }
+```
 
-/**
- * Activate the extension.
- *
- * @param app Main application object
- */
+Finally you need to tell the document registry about your widget extension:
+
+```ts
+// src/index.ts#L66-L68
+
 function activate(app: JupyterFrontEnd): void {
   app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
 }
+```
 
-/**
- * Export the plugin as default.
- */
-export default plugin;
+## Where to Go Next
+
+This example uses a command to display the widget. Have a look a the
+[commands example](../commands/README.md) for more information about it.
