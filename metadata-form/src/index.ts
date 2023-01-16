@@ -4,7 +4,7 @@ import {
   JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
-import { IFormWidgetRegistry } from '@jupyterlab/ui-components';
+import { IFormComponentRegistry, IFormComponent } from '@jupyterlab/ui-components';
 
 import { CustomCheckbox } from './customWidgets';
 
@@ -12,21 +12,21 @@ import { CustomCheckbox } from './customWidgets';
  * Initialization data for the metadata_form extension.
  */
 const plugin: JupyterFrontEndPlugin<void> = {
-  id: 'metadata_form:plugin',
+  id: 'metadataform-example:plugin',
   autoStart: true,
-  requires: [],
-  optional: [IFormWidgetRegistry],
+  requires: [IFormComponentRegistry],
   activate: (
     app: JupyterFrontEnd,
-    formRegistry: IFormWidgetRegistry | null
+    formRegistry: IFormComponentRegistry | null
   ) => {
     // Register the custom widget
     if (formRegistry) {
-      formRegistry.addRenderer('custom-checkbox',
-        (props: WidgetProps) => {
-          return CustomCheckbox(props);
-        },
-      );
+      const component: IFormComponent = {
+        widgetRenderer: (props: WidgetProps) => {
+          return CustomCheckbox(props as WidgetProps);
+        }
+      }
+      formRegistry.addComponent('custom-checkbox', component);
     }
     console.log('Metadata form example activated');
   },

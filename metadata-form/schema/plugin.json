@@ -10,13 +10,13 @@
         "type": "object",
         "properties": {
           "/my-extension/active": {
-            "title": "Custom widget",
-            "description": "Active status",
+            "title": "Custom widget (1)",
+            "description": "Replace the default checkbox",
             "type": "boolean"
           },
-          "/my-extension/name": {
-            "title": "name",
-            "description": "Unique name",
+          "/my-extension/raw_cells": {
+            "title": "Cell type (2)",
+            "description": "Should exists only on raw cells",
             "type": "string"
           },
           "/my-extension/nested/more_nested/test": {
@@ -24,11 +24,16 @@
             "description": "Nested metadata",
             "type": "string"
           },
-          "/root-value": {
-            "title": "root",
-            "description": "Root metadata",
+          "/default-value": {
+            "title": "Value with default",
+            "description": "Should not be written in metadata if value is default",
             "type": "integer",
             "default": 1
+          },
+          "/notebook-level": {
+            "title": "Notebook level",
+            "description": "Should be written in Notebook metadata",
+            "type": "boolean"
           }
         },
         "allOf": [
@@ -54,19 +59,26 @@
       },
       "uiSchema": {
         "ui:order": [
-          "/my-extension/name",
-          "/my-extension/conditional",
+          "/notebook-level",
+          "/my-extension/raw_cells",
           "/my-extension/active",
-          "/my-extension/nested/more_nested/test",
-          "/root-value"
+          "/my-extension/conditional",
+          "/default-value",
+          "/my-extension/nested/more_nested/test"
         ]
       },
       "metadataOptions": {
         "/my-extension/active": {
-          "customWidget": "custom-checkbox"
+          "customComponent": "custom-checkbox"
         },
         "/my-extension/name": {
           "cellTypes": ["raw"]
+        },
+        "/default-value": {
+          "writeDefault": false
+        },
+        "/notebook-level": {
+          "metadataLevel": "notebook"
         }
       }
     }
