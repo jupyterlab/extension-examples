@@ -35,6 +35,7 @@ jobs:
           - widgets
           - completer
           - contentheader
+          - metadata-form
         os: [ubuntu-latest, macos-latest, windows-latest]
 
     defaults:
