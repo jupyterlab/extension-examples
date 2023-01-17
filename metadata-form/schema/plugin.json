@@ -10,12 +10,12 @@
         "type": "object",
         "properties": {
           "/my-extension/active": {
-            "title": "Custom widget (1)",
+            "title": "Custom widget",
             "description": "Replace the default checkbox",
             "type": "boolean"
           },
           "/my-extension/raw_cells": {
-            "title": "Cell type (2)",
+            "title": "Cell type",
             "description": "Should exists only on raw cells",
             "type": "string"
           },
@@ -34,6 +34,14 @@
             "title": "Notebook level",
             "description": "Should be written in Notebook metadata",
             "type": "boolean"
+          },
+          "/custom-array": {
+            "title": "Custom field (array)",
+            "description": "Build a custom field",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "allOf": [
@@ -41,14 +49,15 @@
             "if": {
               "properties": {
                 "/my-extension/active": {
-                  "const": false
+                  "const": true
                 }
               }
             },
             "then": {
               "properties": {
-                "/my-extension/conditional" :{
-                  "title": "conditional field",
+                "/my-extension/conditional": {
+                  "title": "Conditional field",
+                  "description": "Field depend on the value of the 'Custom widget'",
                   "type": "string",
                   "enum": ["condition1", "condition2", "condition3"]
                 }
@@ -64,7 +73,8 @@
           "/my-extension/active",
           "/my-extension/conditional",
           "/default-value",
-          "/my-extension/nested/more_nested/test"
+          "/my-extension/nested/more_nested/test",
+          "/custom-array"
         ]
       },
       "metadataOptions": {
@@ -79,6 +89,9 @@
         },
         "/notebook-level": {
           "metadataLevel": "notebook"
+        },
+        "/custom-array": {
+          "customComponent": "custom-field"
         }
       }
     }
