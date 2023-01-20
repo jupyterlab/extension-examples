@@ -79,7 +79,7 @@
       },
       "metadataOptions": {
         "/my-extension/active": {
-          "customComponent": "custom-checkbox"
+          "customComponent": "metadataform-example:plugin.custom-checkbox"
         },
         "/my-extension/name": {
           "cellTypes": ["raw"]
@@ -91,7 +91,7 @@
           "metadataLevel": "notebook"
         },
         "/custom-array": {
-          "customComponent": "custom-field"
+          "customComponent": "metadataform-example:plugin.custom-field"
         }
       }
     }

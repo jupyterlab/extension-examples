@@ -29,10 +29,10 @@ export class CustomField {
   };
 
   _addItem(value: string) {
-    const formData: string[] = this._props.formData;
+    const formData: string[] = this._props.formData || [];
     if (!formData.includes(value)) {
       formData.push(value);
-      this._props.formContext.metadataFormWidget.updateMetadata(
+      this._props.formContext.updateMetadata(
         { [this._props.name]: formData },
         true
       );
@@ -47,7 +47,7 @@ export class CustomField {
     const deleted: string = elem.querySelector('span').textContent;
     const index = formData.indexOf(deleted);
     if (index > -1) formData.splice(index, 1);
-    this._props.formContext.metadataFormWidget.updateMetadata(
+    this._props.formContext.updateMetadata(
       { [this._props.name]: formData },
       true
     );

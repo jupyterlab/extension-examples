@@ -30,14 +30,20 @@ const plugin: JupyterFrontEndPlugin<void> = {
           return CustomCheckbox(props);
         },
       };
-      formRegistry.addComponent('custom-checkbox', component);
+      formRegistry.addComponent(
+        'metadataform-example:plugin.custom-checkbox',
+        component
+      );
 
       const customField: IFormComponent = {
         fieldRenderer: (props: FieldProps) => {
           return new CustomField().render(props);
         },
       };
-      formRegistry.addComponent('custom-field', customField);
+      formRegistry.addComponent(
+        'metadataform-example:plugin.custom-field',
+        customField
+      );
     }
     console.log('Metadata form example activated');
   },
