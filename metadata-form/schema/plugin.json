@@ -4,7 +4,7 @@
   "description": "Settings of the metadata form extension.",
   "jupyter.lab.metadataforms": [
     {
-      "id": "Extension_metadata",
+      "id": "Extension-metadata",
       "label": "Extension metadata",
       "metadataSchema": {
         "type": "object",
@@ -14,12 +14,12 @@
             "description": "Replace the default checkbox",
             "type": "boolean"
           },
-          "/my-extension/raw_cells": {
+          "/my-extension/raw-cells": {
             "title": "Cell type",
             "description": "Should exists only on raw cells",
             "type": "string"
           },
-          "/my-extension/nested/more_nested/test": {
+          "/my-extension/nested/more-nested/test": {
             "title": "nested",
             "description": "Nested metadata",
             "type": "string"
@@ -69,19 +69,19 @@
       "uiSchema": {
         "ui:order": [
           "/notebook-level",
-          "/my-extension/raw_cells",
+          "/my-extension/raw-cells",
           "/my-extension/active",
           "/my-extension/conditional",
           "/default-value",
-          "/my-extension/nested/more_nested/test",
+          "/my-extension/nested/more-nested/test",
           "/custom-array"
         ]
       },
       "metadataOptions": {
         "/my-extension/active": {
-          "customComponent": "metadataform-example:plugin.custom-checkbox"
+          "customRenderer": "metadataform-example:plugin.custom-checkbox"
         },
-        "/my-extension/name": {
+        "/my-extension/raw-cells": {
           "cellTypes": ["raw"]
         },
         "/default-value": {
@@ -91,7 +91,7 @@
           "metadataLevel": "notebook"
         },
         "/custom-array": {
-          "customComponent": "metadataform-example:plugin.custom-field"
+          "customRenderer": "metadataform-example:plugin.custom-field"
         }
       }
     }

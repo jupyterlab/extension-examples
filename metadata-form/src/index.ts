@@ -5,8 +5,8 @@ import {
 } from '@jupyterlab/application';
 
 import {
-  IFormComponentRegistry,
-  IFormComponent,
+  IFormRendererRegistry,
+  IFormRenderer,
 } from '@jupyterlab/ui-components';
 
 import { CustomCheckbox } from './customWidget';
@@ -18,29 +18,30 @@ import { CustomField } from './customField';
 const plugin: JupyterFrontEndPlugin<void> = {
   id: 'metadataform-example:plugin',
   autoStart: true,
-  requires: [IFormComponentRegistry],
+  requires: [IFormRendererRegistry],
   activate: (
     app: JupyterFrontEnd,
-    formRegistry: IFormComponentRegistry | null
+    formRegistry: IFormRendererRegistry | null
   ) => {
+    console.log(formRegistry);
     // Register the custom widget
     if (formRegistry) {
-      const component: IFormComponent = {
+      const component: IFormRenderer = {
         widgetRenderer: (props: WidgetProps) => {
           return CustomCheckbox(props);
         },
       };
-      formRegistry.addComponent(
+      formRegistry.addRenderer(
         'metadataform-example:plugin.custom-checkbox',
         component
       );
 
-      const customField: IFormComponent = {
+      const customField: IFormRenderer = {
         fieldRenderer: (props: FieldProps) => {
           return new CustomField().render(props);
         },
       };
-      formRegistry.addComponent(
+      formRegistry.addRenderer(
         'metadataform-example:plugin.custom-field',
         customField
       );
