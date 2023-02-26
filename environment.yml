@@ -1,4 +1,4 @@
-name: jupyterlab-extension-examples
+name: jupyterlab-extension-examples2
 channels:
   - conda-forge
 dependencies:
