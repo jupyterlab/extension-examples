@@ -151,7 +151,7 @@ To sync content between clients, Yjs uses providers. Providers abstract Yjs from
 
 Another critical component of Yjs is Awareness. Every Yjs document has an `awareness` attribute that enables you to share user's information like its name, cursor, mouse pointer position, etc. The `awareness` attribute doesn't persist across sessions. Instead, Yjs uses a tiny state-based Awareness CRDT that propagates JSON objects to all users. When you go offline, your awareness state is automatically deleted and notifies all users that you went offline.
 
-After a short explanation of Yjs' features, now it's time to start with the implementation. You can create a new shared model by extending from `YDocument<T>`. [YDocument](https://jupyterlab.readthedocs.io/en/stable/api/classes/shared_models.ydocument.html) is a generic implementation of a shared model that handles the initialization of the `YDoc` and already implements some functionalities like the changes history.
+After a short explanation of Yjs' features, now it's time to start with the implementation. You can create a new shared model by extending from `YDocument<T>`. [YDocument](https://jupyter-ydoc.readthedocs.io/en/latest/api/classes/YDocument.html) is a generic implementation of a shared model that handles the initialization of the `YDoc` and already implements some functionalities like the changes history.
 
 To create a new shared object, you have to use the `ydoc`. The new attribute will be linked to the `ydoc` and sync between the different clients automatically. You can also listen to changes on the shared attributes to propagate them to the `DocumentWidget`.
 
