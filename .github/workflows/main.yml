@@ -85,7 +85,7 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         id: pip-cache
         run: |
-          echo "::set-output name=dir::$(pip cache dir)"
+          echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
         shell: bash
       - name: Cache pip
         if: steps.filter.outputs.extension == 'true'
@@ -186,7 +186,7 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         id: pip-cache
         run: |
-          echo "::set-output name=dir::$(pip cache dir)"
+          echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
         shell: bash
       - name: Cache pip
         if: steps.filter.outputs.extension == 'true'
@@ -299,7 +299,7 @@ jobs:
       - name: Get pip cache dir
         id: pip-cache
         run: |
-          echo "::set-output name=dir::$(pip cache dir)"
+          echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
         shell: bash
       - name: Cache pip
         uses: actions/cache@v3
