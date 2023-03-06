@@ -1,5 +1,7 @@
 import { test, expect } from '@jupyterlab/galata';
 
+test.use({ autoGoto: false });
+
 test('should store state between reloads', async ({ page }) => {
   await Promise.all([
     page.waitForRequest(
@@ -13,10 +15,9 @@ test('should store state between reloads', async ({ page }) => {
         request.method() === 'POST' &&
         request.postDataJSON()?.name === 'George'
     ),
-    page.goto(`${TARGET_URL}/lab`),
+    page.goto(),
   ]);
 
-  await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
   await page.waitForSelector('div[role="main"] >> text=Launcher');
 
   await page

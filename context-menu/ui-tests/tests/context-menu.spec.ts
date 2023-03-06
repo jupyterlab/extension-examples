@@ -1,12 +1,6 @@
 import { test, expect } from '@jupyterlab/galata';
 
 test('should have new context menu for example files', async ({ page }) => {
-  const logs: string[] = [];
-
-  page.on('console', (message) => {
-    logs.push(message.text());
-  });
-
   // Click li[role="menuitem"]:has-text("File")
   await page.click('li[role="menuitem"]:has-text("File")');
   // Click ul[role="menu"] >> text=New
