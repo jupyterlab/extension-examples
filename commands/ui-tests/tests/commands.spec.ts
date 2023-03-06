@@ -9,7 +9,7 @@ test('should emit console message', async ({ page }) => {
     logs.push(message.text());
   });
 
-  page.goto();
+  await page.goto();
 
   expect(
     logs.filter((s) => s === 'jlab-examples:command has been called from init.')

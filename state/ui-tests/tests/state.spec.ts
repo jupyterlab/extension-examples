@@ -1,5 +1,12 @@
 import { test, expect } from '@jupyterlab/galata';
 
+test.use({
+  waitForApplication: async (page) => {
+    await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
+    await page.waitForSelector('div[role="main"] >> text=Launcher');
+  },
+});
+
 test('should store state between reloads', async ({ page }) => {
   // Check select current value
   expect(

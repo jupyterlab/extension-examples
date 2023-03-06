@@ -10,7 +10,7 @@ test('should clear all outputs when clicked', async ({ page }) => {
   // Click button:has-text("Select")
   await page.click('button:has-text("Select")');
 
-  await page.waitForSelector('text=Idle');
+  await page.waitForSelector('text=| Idle');
 
   // Fill textarea
   await page.fill('textarea', 'print("Hello, JupyterLab")');

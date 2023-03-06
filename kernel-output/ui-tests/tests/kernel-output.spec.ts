@@ -8,7 +8,7 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
   await page.click('button:has-text("Select")');
 
   await page.fill(
-    'text=[ ]:xxxxxxxxxx ​ >> textarea',
+    '.jp-CodeConsole-input >> textarea',
     '!mamba install -qy pandas'
   );
   await page.click('text=Run');
@@ -29,7 +29,7 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
 
   // Click text=eyes
   await page.fill(
-    'text=[ ]: ​ >> textarea',
+    '.jp-Editor >> textarea',
     'import numpy\nimport pandas\ndf = pandas.DataFrame(numpy.eye(5))'
   );
 
