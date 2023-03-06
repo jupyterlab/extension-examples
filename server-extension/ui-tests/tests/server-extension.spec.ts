@@ -1,6 +1,4 @@
-import { test, expect } from '@playwright/test';
-
-const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
+import { test, expect } from '@jupyterlab/galata';
 
 test('should store state between reloads', async ({ page }) => {
   await Promise.all([
