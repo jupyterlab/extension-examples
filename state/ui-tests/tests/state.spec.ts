@@ -1,36 +1,22 @@
-import { test, expect } from '@jupyterlab/galata';
+import { test, expect } from '@playwright/test';
 
-test.use({
-  waitForApplication: async (page) => {
-    await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-    await page.waitForSelector('div[role="main"] >> text=Launcher');
-  },
-});
+const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
 
 test('should store state between reloads', async ({ page }) => {
+  await page.goto(`${TARGET_URL}/lab`);
+  await page.locator('#jupyterlab-splash').waitFor({ state: 'detached' });
+  await page.locator('div[role="main"] >> text=Launcher').waitFor();
+
+  const select = page.locator('.jp-Dialog-body >> select');
   // Check select current value
-  expect(
-    await page.$eval<string, HTMLSelectElement>(
-      'text=Pick an option to persist by the State Example extensiononetwothreeCancelOK >> select',
-      (s) => s.value
-    )
-  ).toEqual('one');
+  await expect.soft(select).toHaveValue('one');
 
   // Select two
-  await page.selectOption(
-    'text=Pick an option to persist by the State Example extensiononetwothreeCancelOK >> select',
-    'two'
-  );
+  await select.selectOption({ label: 'two' });
 
   // Check select current value
-  expect(
-    await page.$eval<string, HTMLSelectElement>(
-      'text=Pick an option to persist by the State Example extensiononetwothreeCancelOK >> select',
-      (s) => s.value
-    )
-  ).toEqual('two');
+  await expect.soft(select).toHaveValue('two');
 
-  // Click button:has-text("OK")
   await Promise.all([
     page.waitForRequest(
       (request) =>
@@ -39,15 +25,13 @@ test('should store state between reloads', async ({ page }) => {
         '@jupyterlab-examples/state:state-example' in
           request.postDataJSON()?.data
     ),
-    page.click('button:has-text("OK")'),
+    page.getByRole('button', { name: /ok/i }).click(),
   ]);
 
   // Reload page
+  await page.reload();
+  await page.locator('#jupyterlab-splash').waitFor({ state: 'detached' });
+  await page.locator('div[role="main"] >> text=Launcher').waitFor();
 
-  expect(
-    await page.$eval<string, HTMLSelectElement>(
-      'text=Pick an option to persist by the State Example extensiononetwothreeCancelOK >> select',
-      (s) => s.value
-    )
-  ).toEqual('two');
+  await expect(select).toHaveValue('two');
 });
