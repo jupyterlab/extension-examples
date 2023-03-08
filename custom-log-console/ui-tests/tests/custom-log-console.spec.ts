@@ -1,14 +1,8 @@
-import { test, expect } from '@playwright/test';
-
-const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
+import { test, expect } from '@jupyterlab/galata';
 
 test('should open a log panel and filter message depending on the log level.', async ({
   page,
 }) => {
-  await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-  await page.waitForSelector('div[role="main"] >> text=Launcher');
-
   // Click text=Log Console Example
   await page.click('text=Log Console Example');
 

@@ -1,12 +1,6 @@
-import { test, expect } from '@playwright/test';
-
-const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
+import { test, expect } from '@jupyterlab/galata';
 
 test('should clear all outputs when clicked', async ({ page }) => {
-  await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-  await page.waitForSelector('div[role="main"] >> text=Launcher');
-
   // Click text=File
   await page.click('text=File');
   // Click ul[role="menu"] >> text=New
@@ -16,26 +10,22 @@ test('should clear all outputs when clicked', async ({ page }) => {
   // Click button:has-text("Select")
   await page.click('button:has-text("Select")');
 
-  await page.waitForSelector('text=Idle');
+  await page.waitForSelector('text=| Idle');
 
   // Fill textarea
-  await page.fill('textarea', 'print("Hello, JupyterLab")');
+  await page.notebook.setCell(0, 'code', 'print("Hello, JupyterLab")');
   // Press Enter with modifiers
-  await page.press('textarea', 'Shift+Enter');
+  await page.keyboard.press('Shift+Enter');
 
   // Fill text=[ ]: ​ >> textarea
-  const secondCell = await page.waitForSelector('text=[ ]: ​ >> textarea');
-  await secondCell.fill('print("Welcome to JupyterLab")');
+  await page.notebook.setCell(1, 'code', 'print("Welcome to JupyterLab")');
   // Press Enter with modifiers
-  await secondCell.press('Shift+Enter');
+  await page.keyboard.press('Shift+Enter');
 
   // Click .lm-Widget.p-Widget.jp-RenderedText
   const OUTPUT =
     '.lm-Widget.p-Widget.jp-RenderedText >> text=Hello, JupyterLab';
   expect(await page.waitForSelector(OUTPUT)).toBeTruthy();
-
-  // Click :nth-match(:text("Hello, JupyterLab"), 2)
-  // await page.click(':nth-match(:text("Hello, JupyterLab"), 2)');
 
   // Click button:has-text("Clear All Outputs")
   await page.click('button:has-text("Clear All Outputs")');

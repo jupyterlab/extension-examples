@@ -10,9 +10,13 @@ services:
         'lab',
         # Set working directory as empty directory - no modified time displayed
         '--notebook-dir=./work',
+        '--ServerApp.port=8888',
+        '--ServerApp.port_retries=0',
+        '--ServerApp.open_browser=False',
         '--ServerApp.token=',
         '--ServerApp.password=',
         '--ServerApp.disable_check_xsrf=True',
+        '--LabApp.expose_app_in_browser=True',
         '--LabServerApp.extra_labextensions_path=/opt/labextension',
         # Workaround bug: https://github.com/ipython/traitlets/issues/668
         '--LabServerApp.extra_labextensions_path=/dev/null',
@@ -31,7 +35,7 @@ services:
 
   e2e:
     # docker must match playwright version in ui-tests/package.json
-    image: mcr.microsoft.com/playwright:v1.13.1-focal
+    image: mcr.microsoft.com/playwright:v1.31.2-focal
     entrypoint:
       [
         '/tmp/e2e-tests/prepare.sh',

@@ -1,6 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '@jupyterlab/galata';
 
-const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
+test.use({ autoGoto: false });
 
 test('should emit console message', async ({ page }) => {
   const logs: string[] = [];
@@ -9,67 +9,75 @@ test('should emit console message', async ({ page }) => {
     logs.push(message.text());
   });
 
-  await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-  await page.waitForSelector('div[role="main"] >> text=Launcher');
+  await page.goto();
 
-  expect(
-    logs.filter(
-      (s) =>
-        s ===
-        "Settings Example extension: Limit is set to '25' and flag to 'false'"
+  expect
+    .soft(
+      logs.filter(
+        (s) =>
+          s ===
+          "Settings Example extension: Limit is set to '25' and flag to 'false'"
+      )
     )
-  ).toHaveLength(1);
-
-  // Click :nth-match(:text("Settings"), 2)
-  await page.click(':nth-match(:text("Settings"), 2)');
-
-  // Click ul[role="menu"] >> text=Advanced Settings Editor
-  await page.click('ul[role="menu"] >> text=Advanced Settings Editor');
-
-  // Click span:has-text("Settings Example")
-  await page.click('span:has-text("Settings Example")');
-
-  // Click li[role="menuitem"]:has-text("Settings Example")
-  await page.click('li[role="menuitem"]:has-text("Settings Example")');
-
-  page.once('console', (message) => {
-    expect(message.text()).toEqual(
-      "Settings Example extension: Limit is set to '26' and flag to 'true'"
-    );
-  });
+    .toHaveLength(1);
 
   // Click text=Toggle Flag and Increment Limit
-  page.once('dialog', (dialog) => {
-    expect(dialog.message()).toEqual(
-      "Settings Example extension: Limit is set to '26' and flag to 'true'"
-    );
-    dialog.dismiss().catch(() => {});
-  });
-  await page.click('text=Toggle Flag and Increment Limit');
-
-  // Click li[role="menuitem"]:has-text("Settings Example")
-  await page.click('li[role="menuitem"]:has-text("Settings Example")');
-  expect(await page.waitForSelector('ul[role="menu"] svg')).toBeTruthy();
-
-  // Double click text=26
-  await page.dblclick('text=26');
-  // codemirror edition requires to go through keyboard event
-  await page.keyboard.type('27');
+  await page.getByRole('menuitem', { name: 'Settings Example' }).click();
 
   page.once('console', (message) => {
-    expect(message.text()).toEqual(
-      "Settings Example extension: Limit is set to '27' and flag to 'true'"
-    );
+    expect
+      .soft(message.text())
+      .toEqual(
+        "Settings Example extension: Limit is set to '26' and flag to 'true'"
+      );
   });
 
-  // Click text=Toggle Flag and Increment Limit
   page.once('dialog', (dialog) => {
-    expect(dialog.message()).toEqual(
-      "Settings Example extension: Limit is set to '27' and flag to 'true'"
-    );
+    expect
+      .soft(dialog.message())
+      .toEqual(
+        "Settings Example extension: Limit is set to '26' and flag to 'true'"
+      );
     dialog.dismiss().catch(() => {});
   });
-  // Click button:has-text("Save User Settings")
-  await page.click('button:has-text("Save User Settings")');
+  await Promise.all([
+    page.waitForEvent('console'),
+    page.waitForEvent('dialog'),
+    page
+      .getByRole('menuitem', { name: 'Toggle Flag and Increment Limit' })
+      .click(),
+  ]);
+
+  await page.getByRole('menuitem', { name: 'Settings Example' }).click();
+  await expect
+    .soft(
+      page.getByRole('menuitem', { name: 'Toggle Flag and Increment Limit' })
+    )
+    .toHaveClass(/lm-mod-toggled/);
+
+  await page.keyboard.press('Escape');
+
+  await page.getByRole('menuitem', { name: 'Settings', exact: true }).click();
+  await page
+    .getByRole('menuitem', { name: 'Advanced Settings Editor' })
+    .click();
+
+  await page.getByRole('tab', { name: 'Settings Example' }).click();
+
+  let msg = '';
+  page.once('console', (message) => {
+    msg = message.text();
+  });
+
+  await page
+    .locator(
+      '[id="jp-SettingsEditor-\\@jupyterlab-examples\\/settings\\:settings-example_limit"]'
+    )
+    .fill('27');
+
+  await page.waitForEvent('console');
+
+  expect(msg).toEqual(
+    "Settings Example extension: Limit is set to '27' and flag to 'true'"
+  );
 });

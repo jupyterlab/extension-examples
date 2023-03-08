@@ -1,53 +1,40 @@
-import { test, expect } from '@playwright/test';
-
-const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
+import { test, expect } from '@jupyterlab/galata';
 
 test('should have new context menu for example files', async ({ page }) => {
-  const logs: string[] = [];
+  await page.getByRole('menuitem', { name: 'File' }).click();
+  await page.getByRole('listitem').filter({ hasText: 'New' }).click();
+  await page.getByRole('menuitem', { name: 'Text File', exact: true }).click();
 
-  page.on('console', (message) => {
-    logs.push(message.text());
-  });
+  await page
+    .locator('[aria-label="File Browser Section"]')
+    .getByText('untitled.txt')
+    .click({
+      button: 'right',
+    });
 
-  await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-  await page.waitForSelector('div[role="main"] >> text=Launcher');
-
-  // Click li[role="menuitem"]:has-text("File")
-  await page.click('li[role="menuitem"]:has-text("File")');
-  // Click ul[role="menu"] >> text=New
-  await page.click('ul[role="menu"] >> text=New');
-  // Click #jp-mainmenu-file-new >> text=Text File
-  await page.click('#jp-mainmenu-file-new >> text=Text File');
-
-  // Click [aria-label="File Browser Section"] >> text=untitled.txt
-  await page.click('[aria-label="File Browser Section"] >> text=untitled.txt', {
-    button: 'right',
-  });
-
-  // Click text=Rename
-  await page.click('text=Rename');
+  await page.getByRole('menuitem', { name: 'Rename' }).click();
 
   // Fill file browser >> input
-  await page.fill('input.jp-DirListing-editor', 'test.example');
+  await page.locator('input.jp-DirListing-editor').fill('test.example');
 
   // Press Enter
-  await page.press('input.jp-DirListing-editor', 'Enter');
+  await page.locator('input.jp-DirListing-editor').press('Enter');
 
   // Wait for the data attribute to be set
   await page.waitForTimeout(200);
 
-  // Click [aria-label="File Browser Section"] >> text=test.example
-  await page.click('[aria-label="File Browser Section"] >> text=test.example', {
-    button: 'right',
-  });
+  await page
+    .locator('[aria-label="File Browser Section"]')
+    .getByText('test.example')
+    .click({
+      button: 'right',
+    });
 
-  // Click ul[role="menu"] >> text=Example
-  await page.click('ul[role="menu"] >> text=Example');
+  await page.getByRole('menuitem', { name: 'Example' }).click();
 
-  // Click text=Path: test.example
-  expect(await page.waitForSelector('text=Path: test.example')).toBeTruthy();
+  await expect(
+    page.getByText(/^Path: ([\w-]+\/)?test\.example$/)
+  ).toHaveCount(1);
 
-  // Click button:has-text("OK")
-  await page.click('button:has-text("OK")');
+  await page.getByRole('button', { name: /ok/i }).click();
 });

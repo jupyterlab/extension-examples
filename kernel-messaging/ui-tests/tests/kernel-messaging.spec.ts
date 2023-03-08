@@ -1,36 +1,30 @@
-import { test, expect } from '@playwright/test';
-
-const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
+import { test, expect } from '@jupyterlab/galata';
 
 test('should open a panel connected to a kernel', async ({ page }) => {
-  await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-  await page.waitForSelector('div[role="main"] >> text=Launcher');
+  await page.getByText('Kernel Messaging', { exact: true }).click();
 
-  // Click text=Kernel Messaging
-  await page.click('text=Kernel Messaging');
+  await page
+    .getByRole('menuitem', { name: 'Open the Kernel Messaging Panel' })
+    .click();
 
-  // Click ul[role="menu"] >> text=Open the Kernel Messaging Panel
-  await page.click('ul[role="menu"] >> text=Open the Kernel Messaging Panel');
+  await page.getByRole('button', { name: 'Select' }).click();
 
-  // Click button:has-text("Select")
-  await page.click('button:has-text("Select")');
+  // Trick to wait for the kenel
+  await page.waitForTimeout(200);
 
-  // Click text=Compute 3+5
-  await page.click('text=Compute 3+5');
+  await page.getByRole('button', { name: 'Compute 3+5' }).click();
 
-  // wait for text=/.*\{"data":\{"text/plain":"8"\},"metadata":\{\},"execution_count":1\}.*/
-  expect(
-    await page.waitForSelector(
-      'text=/.*"data":{"text/plain":"8"},"metadata":{}.*/'
+  await expect.soft(
+    page.getByText(
+      '{"data":{"text/plain":"8"},"metadata":{},"execution_count":1}'
     )
-  ).toBeTruthy();
+  ).toHaveCount(1);
 
   // Close filebrowser
-  await page.click('text=View');
+  await page.getByText('View', { exact: true }).click();
   await Promise.all([
     page.waitForSelector('#filebrowser', { state: 'hidden' }),
-    page.click('ul[role="menu"] >> text=Show Left Sidebar'),
+    page.getByRole('menuitem', { name: 'Show Left Sidebar Ctrl+B' }).click(),
   ]);
 
   // Compare screenshot with a stored reference.

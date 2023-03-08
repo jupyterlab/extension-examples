@@ -74,18 +74,18 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: "18.x"
       - name: Install Python
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.7"
+          python-version: "3.11"
           architecture: "x64"
       - name: Get pip cache dir
         if: steps.filter.outputs.extension == 'true'
         id: pip-cache
         run: |
-          echo "::set-output name=dir::$(pip cache dir)"
+          echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
         shell: bash
       - name: Cache pip
         if: steps.filter.outputs.extension == 'true'
@@ -166,7 +166,7 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: "18.x"
       - name: Check config files
         if: steps.filter.outputs.extension == 'true'
         run: |
@@ -178,15 +178,15 @@ jobs:
         shell: bash
       - name: Install Python
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.7"
+          python-version: "3.11"
           architecture: "x64"
       - name: Get pip cache dir
         if: steps.filter.outputs.extension == 'true'
         id: pip-cache
         run: |
-          echo "::set-output name=dir::$(pip cache dir)"
+          echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
         shell: bash
       - name: Cache pip
         if: steps.filter.outputs.extension == 'true'
@@ -290,16 +290,16 @@ jobs:
       - name: Install node
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: "18.x"
       - name: Install Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.7"
+          python-version: "3.11"
           architecture: "x64"
       - name: Get pip cache dir
         id: pip-cache
         run: |
-          echo "::set-output name=dir::$(pip cache dir)"
+          echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
         shell: bash
       - name: Cache pip
         uses: actions/cache@v3

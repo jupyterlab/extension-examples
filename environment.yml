@@ -4,7 +4,7 @@ channels:
 dependencies:
   - jupyter-packaging>=0.10.0,<2
   - jupyterlab=3
-  - nodejs=16
+  - nodejs=18
   - pytest
   - pytest-check-links
   - python=3

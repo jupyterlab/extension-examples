@@ -1,6 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '@jupyterlab/galata';
 
-const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
+test.use({ autoGoto: false });
 
 test('should emit console message', async ({ page }) => {
   const logs: string[] = [];
@@ -9,9 +9,7 @@ test('should emit console message', async ({ page }) => {
     logs.push(message.text());
   });
 
-  await page.goto(`${TARGET_URL}/lab`);
-  await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-  await page.waitForSelector('div[role="main"] >> text=Launcher');
+  await page.goto();
 
   expect(
     logs.filter((s) => s.startsWith('the JupyterLab main application'))

@@ -1,6 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '@jupyterlab/galata';
 
-const TARGET_URL = process.env.TARGET_URL ?? 'http://localhost:8888';
+test.use({ autoGoto: false });
 
 test('should store state between reloads', async ({ page }) => {
   await Promise.all([
@@ -15,10 +15,9 @@ test('should store state between reloads', async ({ page }) => {
         request.method() === 'POST' &&
         request.postDataJSON()?.name === 'George'
     ),
-    page.goto(`${TARGET_URL}/lab`),
+    page.goto(),
   ]);
 
-  await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
   await page.waitForSelector('div[role="main"] >> text=Launcher');
 
   await page

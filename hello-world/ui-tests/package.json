@@ -7,7 +7,8 @@
   "license": "BSD-3-Clause",
   "private": true,
   "devDependencies": {
-    "@playwright/test": "1.13.1",
+    "@jupyterlab/galata": "^4.5.1",
+    "@playwright/test": "1.31.2",
     "typescript": "~4.1.3"
   }
 }
