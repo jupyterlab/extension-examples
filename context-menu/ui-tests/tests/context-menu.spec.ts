@@ -32,9 +32,9 @@ test('should have new context menu for example files', async ({ page }) => {
 
   await page.getByRole('menuitem', { name: 'Example' }).click();
 
-  await expect(
-    page.getByText(/^Path: ([\w-]+\/)?test\.example$/)
-  ).toHaveCount(1);
+  await expect(page.getByText(/^Path: ([\w-]+\/)?test\.example$/)).toHaveCount(
+    1
+  );
 
   await page.getByRole('button', { name: /ok/i }).click();
 });
