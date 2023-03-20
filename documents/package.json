@@ -82,7 +82,13 @@
   ],
   "jupyterlab": {
     "extension": true,
-    "outputDir": "jupyterlab_examples_documents/labextension"
+    "outputDir": "jupyterlab_examples_documents/labextension",
+    "sharedPackages": {
+      "@jupyterlab/shared-models": {
+        "bundled": false,
+        "singleton": true
+      }
+    }
   },
   "styleModule": "style/index.js"
 }

@@ -1,6 +1,6 @@
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
-import { YDocument, MapChange } from '@jupyterlab/shared-models';
+import { YDocument, MapChange, DocumentChange } from '@jupyterlab/shared-models';
 
 import { IModelDB, ModelDB } from '@jupyterlab/observables';
 
@@ -328,7 +328,7 @@ export type ExampleDocChange = {
   contextChange?: MapChange;
   contentChange?: string;
   positionChange?: Position;
-};
+} & DocumentChange;
 
 /**
  * SharedModel, stores and shares the content between clients.
