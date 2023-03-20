@@ -1,6 +1,10 @@
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
-import { YDocument, MapChange, DocumentChange } from '@jupyterlab/shared-models';
+import {
+  YDocument,
+  MapChange,
+  DocumentChange,
+} from '@jupyterlab/shared-models';
 
 import { IModelDB, ModelDB } from '@jupyterlab/observables';
 
