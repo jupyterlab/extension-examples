@@ -4,7 +4,7 @@
 
 ![Documents example](./preview.gif)
 
-> ⚠ **This example only works on JupyterLab v3.1 or higher**
+> ⚠ **This example only works on JupyterLab v3.6 or higher**
 
 > Before starting this guide, it is strongly recommended to look at the documentation, precisely the section of [Documents](https://jupyterlab.readthedocs.io/en/stable/extension/documents.html#documents)
 
