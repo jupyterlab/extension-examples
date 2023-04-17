@@ -208,8 +208,8 @@ export class ExamplePanel extends Widget {
         const id = key.toString();
 
         if (client.mouse && this._clients[id]) {
-          this._clients[id].style.left = client.mouse.x + 'px';
-          this._clients[id].style.top = client.mouse.y + 'px';
+          this._clients[id]!.style.left = client.mouse.x + 'px';
+          this._clients[id]!.style.top = client.mouse.y + 'px';
         } else if (client.mouse && !this._clients[id]) {
           const el = document.createElement('div');
           el.className = 'jp-example-client';
@@ -220,7 +220,7 @@ export class ExamplePanel extends Widget {
           this._clients[id] = el;
           this.node.appendChild(el);
         } else if (!client.mouse && this._clients[id]) {
-          this.node.removeChild(this._clients[id]);
+          this.node.removeChild(this._clients[id]!);
           this._clients[id] = undefined;
         }
       }
@@ -233,6 +233,6 @@ export class ExamplePanel extends Widget {
   private _isDown: boolean;
   private _offset: Position;
   private _cube: HTMLElement;
-  private _clients: { [id: string]: HTMLElement };
+  private _clients: { [id: string]: HTMLElement | undefined };
   private _context: DocumentRegistry.IContext<ExampleDocModel>;
 }

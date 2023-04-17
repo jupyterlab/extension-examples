@@ -1,21 +1,9 @@
 import { test, expect } from '@jupyterlab/galata';
+import { ElementHandle } from '@playwright/test';
 
 test('should open a notebook and use the completer', async ({ page }) => {
-  // Go to http://localhost:8888/lab?
-
-  // Click text=File
-  await page.click('text=File');
-
-  // Click ul[role="menu"] >> text=New
-  await page.click('ul[role="menu"] >> text=New');
-
-  // Click #jp-mainmenu-file-new >> text=Notebook
-  await Promise.all([
-    page.waitForNavigation(/*{ url: 'http://localhost:8888/lab/tree/Untitled.ipynb' }*/),
-    page.click('#jp-mainmenu-file-new >> text=Notebook'),
-  ]);
-
-  // Click button:has-text("Select")
+  // Create a new Notebook
+  await page.menu.clickMenuItem('File>New>Notebook');
   await page.click('button:has-text("Select")');
 
   // Wait until kernel is ready
@@ -23,13 +11,11 @@ test('should open a notebook and use the completer', async ({ page }) => {
     '#jp-main-statusbar >> text=Python 3 (ipykernel) | Idle'
   );
 
-  // Click div[role="presentation"]:has-text("​")
-  await page.click('div[role="presentation"]:has-text("​")');
+  // Type 'y' in first cell
+  await page.notebook.enterCellEditingMode(0);
+  await page.keyboard.press('y');
 
-  // Fill textarea
-  await page.fill('textarea', 'y');
-
-  let suggestions = null;
+  let suggestions: ElementHandle<SVGElement | HTMLElement> | null = null;
   let counter = 20;
   while (suggestions === null && counter > 0) {
     // Press Tab
@@ -38,9 +24,10 @@ test('should open a notebook and use the completer', async ({ page }) => {
     // Wait for completion pop-up
     try {
       suggestions = await page.waitForSelector('code:has-text("yMagic")', {
-        timeout: 1000,
+        timeout: 1000
       });
     } catch {
+      await page.keyboard.press('Backspace');
     } finally {
       counter -= 1;
     }
@@ -49,7 +36,7 @@ test('should open a notebook and use the completer', async ({ page }) => {
   // Click on suggestions
   await Promise.all([
     page.waitForSelector('code:has-text("yMagic")', { state: 'hidden' }),
-    suggestions.click(),
+    suggestions!.click()
   ]);
 
   expect(

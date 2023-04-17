@@ -130,13 +130,13 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 
 <!-- prettier-ignore-start -->
 ```json5
-// package.json#L73-L77
+// package.json#L99-L103
 
 "jupyterlab": {
   "extension": true,
-  "schemaDir": "schema",
-  "outputDir": "jupyterlab_examples_settings/labextension"
-},
+  "outputDir": "jupyterlab_examples_settings/labextension",
+  "schemaDir": "schema"
+}
 ```
 <!-- prettier-ignore-end -->
 
@@ -147,8 +147,8 @@ And you should not forget to add it to the files of the package:
 
 "files": [
   "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
-  "schema/**/*.json",
-  "style/**/*.{css,eot,js,gif,html,jpg,json,png,svg,woff2,ttf}"
+  "style/**/*.{css,js,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
+  "schema/*.json"
 ],
 ```
 
@@ -200,7 +200,7 @@ const extension: JupyterFrontEndPlugin<void> = {
             // Programmatically change a setting
             Promise.all([
               setting.set('flag', !flag),
-              setting.set('limit', limit + 1),
+              setting.set('limit', limit + 1)
             ])
               .then(() => {
                 const newLimit = setting.get('limit').composite as number;
@@ -209,20 +209,20 @@ const extension: JupyterFrontEndPlugin<void> = {
                   `Settings Example extension: Limit is set to '${newLimit}' and flag to '${newFlag}'`
                 );
               })
-              .catch((reason) => {
+              .catch(reason => {
                 console.error(
                   `Something went wrong when changing the settings.\n${reason}`
                 );
               });
-          },
+          }
         });
       })
-      .catch((reason) => {
+      .catch(reason => {
         console.error(
           `Something went wrong when reading the settings.\n${reason}`
         );
       });
-  },
+  }
 };
 ```
 <!-- prettier-ignore-end -->
@@ -287,7 +287,7 @@ execute: () => {
   // Programmatically change a setting
   Promise.all([
     setting.set('flag', !flag),
-    setting.set('limit', limit + 1),
+    setting.set('limit', limit + 1)
   ])
     .then(() => {
       const newLimit = setting.get('limit').composite as number;
@@ -296,12 +296,12 @@ execute: () => {
         `Settings Example extension: Limit is set to '${newLimit}' and flag to '${newFlag}'`
       );
     })
-    .catch((reason) => {
+    .catch(reason => {
       console.error(
         `Something went wrong when changing the settings.\n${reason}`
       );
     });
-},
+}
 ```
 <!-- prettier-ignore-end -->
 
@@ -313,7 +313,7 @@ new value.
 // src/index.ts#L55-L56
 
 setting.set('flag', !flag),
-setting.set('limit', limit + 1),
+setting.set('limit', limit + 1)
 ```
 <!-- prettier-ignore-end -->
 

@@ -1,14 +1,15 @@
 {
-  "name": "@jupyterlab-examples/launcher-tests",
-  "version": "0.1.0",
-  "description": "Integration test for launcher example",
-  "repository": "https://github.com/jupyterlab/extension-examples",
-  "author": "Project Jupyter Contributors",
-  "license": "BSD-3-Clause",
+  "name": "@jupyterlab-examples/launcher-ui-tests",
+  "version": "1.0.0",
+  "description": "JupyterLab @jupyterlab-examples/launcher Integration Tests",
   "private": true,
+  "scripts": {
+    "start": "jupyter lab --config jupyter_server_test_config.py",
+    "test": "jlpm playwright test",
+    "test:update": "jlpm playwright test --update-snapshots"
+  },
   "devDependencies": {
-    "@jupyterlab/galata": "^4.5.1",
-    "@playwright/test": "1.31.2",
-    "typescript": "~4.1.3"
+    "@jupyterlab/galata": "^5.0.0-beta.0",
+    "@playwright/test": "^1.31.0"
   }
 }

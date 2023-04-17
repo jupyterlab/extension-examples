@@ -41,7 +41,7 @@ object ([see the documentation](https://jupyterlab.github.io/jupyterlab/classes/
 Here it is stored in the private `_sessionContext` variable:
 
 ```ts
-// src/panel.ts#L95-L95
+// src/panel.ts#L99-L99
 
 private _sessionContext: SessionContext;
 ```
@@ -55,7 +55,7 @@ the kernel) is started with these lines:
 this._sessionContext = new SessionContext({
   sessionManager: manager.sessions,
   specsManager: manager.kernelspecs,
-  name: 'Kernel Output',
+  name: 'Kernel Output'
 });
 ```
 
@@ -63,28 +63,38 @@ The private session variable is exposed as read-only for other users
 through a getter method:
 
 ```ts
-// src/panel.ts#L73-L75
+// src/panel.ts#L77-L79
 
 get session(): ISessionContext {
   return this._sessionContext;
 }
 ```
 
-Once you have created a session, the associated kernel can be initialized
-with this line:
+A session dialog is created:
+
+```ts
+// src/panel.ts#L57-L59
+
+this._sessionContextDialogs = new SessionContextDialogs({
+  translator: translator
+});
+```
+
+Once you have created a session and a session dialog, the associated kernel can
+be initialized with this lines:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/panel.ts#L59-L70
+// src/panel.ts#L63-L74
 
 void this._sessionContext
   .initialize()
-  .then(async (value) => {
+  .then(async value => {
     if (value) {
-      await sessionContextDialogs.selectKernel(this._sessionContext);
+      await this._sessionContextDialogs.selectKernel(this._sessionContext);
     }
   })
-  .catch((reason) => {
+  .catch(reason => {
     console.error(
       `Failed to initialize the session in ExamplePanel.\n${reason}`
     );
@@ -99,7 +109,7 @@ The following two methods ensure the clean disposal of the session
 when you close the panel.
 
 ```ts
-// src/panel.ts#L77-L80
+// src/panel.ts#L81-L84
 
 dispose(): void {
   this._sessionContext.dispose();
@@ -108,7 +118,7 @@ dispose(): void {
 ```
 
 ```ts
-// src/panel.ts#L90-L93
+// src/panel.ts#L94-L97
 
 protected onCloseRequest(msg: Message): void {
   super.onCloseRequest(msg);
@@ -129,7 +139,7 @@ the data to show:
 this._outputareamodel = new OutputAreaModel();
 this._outputarea = new SimplifiedOutputArea({
   model: this._outputareamodel,
-  rendermime: rendermime,
+  rendermime: rendermime
 });
 ```
 
@@ -138,14 +148,14 @@ some code to a kernel through a `ISessionContext` ([see documentation](https://j
 in the specific `SimplifiedOutputArea` object you created:
 
 ```ts
-// src/panel.ts#L82-L88
+// src/panel.ts#L86-L92
 
 execute(code: string): void {
   SimplifiedOutputArea.execute(code, this._outputarea, this._sessionContext)
-    .then((msg: KernelMessage.IExecuteReplyMsg) => {
+    .then((msg: KernelMessage.IExecuteReplyMsg | undefined) => {
       console.log(msg);
     })
-    .catch((reason) => console.error(reason));
+    .catch(reason => console.error(reason));
 }
 ```
 
@@ -158,7 +168,7 @@ To display the `SimplifiedOutputArea` Widget you need to add it to your
 panel with:
 
 ```ts
-// src/panel.ts#L57-L57
+// src/panel.ts#L61-L61
 
 this.addWidget(this._outputarea);
 ```
@@ -188,7 +198,7 @@ on a list:
 // src/index.ts#L99-L102
 
 // add items in command palette and menu
-[CommandIDs.create, CommandIDs.execute].forEach((command) => {
+[CommandIDs.create, CommandIDs.execute].forEach(command => {
   palette.addItem({ command, category });
 });
 ```
@@ -244,14 +254,14 @@ commands.addCommand(CommandIDs.execute, {
     const input = await InputDialog.getText({
       title: trans.__('Code to execute'),
       okLabel: trans.__('Execute'),
-      placeholder: trans.__('Statement to execute'),
+      placeholder: trans.__('Statement to execute')
     });
     // Execute the statement
     if (input.button.accept) {
-      const code = input.value;
+      const code = input.value || '';
       panel.execute(code);
     }
-  },
+  }
 });
 ```
 

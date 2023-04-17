@@ -3,16 +3,14 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:jsdoc/recommended',
-    'plugin:prettier/recommended',
-    'plugin:react/recommended',
+    'plugin:prettier/recommended'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: 'tsconfig.json',
-    sourceType: 'module',
+    sourceType: 'module'
   },
-  plugins: ['@typescript-eslint', 'jsdoc'],
+  plugins: ['@typescript-eslint'],
   rules: {
     '@typescript-eslint/naming-convention': [
       'error',
@@ -21,9 +19,9 @@ module.exports = {
         format: ['PascalCase'],
         custom: {
           regex: '^I[A-Z]',
-          match: true,
-        },
-      },
+          match: true
+        }
+      }
     ],
     '@typescript-eslint/no-unused-vars': ['warn', { args: 'none' }],
     '@typescript-eslint/no-explicit-any': 'off',
@@ -32,22 +30,10 @@ module.exports = {
     '@typescript-eslint/quotes': [
       'error',
       'single',
-      { avoidEscape: true, allowTemplateLiterals: false },
+      { avoidEscape: true, allowTemplateLiterals: false }
     ],
     curly: ['error', 'all'],
     eqeqeq: 'error',
-    'jsdoc/require-param-type': 'off',
-    'jsdoc/require-property-type': 'off',
-    'jsdoc/require-returns-type': 'off',
-    'jsdoc/no-types': 'warn',
-    'prefer-arrow-callback': 'error',
-  },
-  settings: {
-    jsdoc: {
-      mode: 'typescript',
-    },
-    react: {
-      version: 'detect',
-    },
-  },
+    'prefer-arrow-callback': 'error'
+  }
 };

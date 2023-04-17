@@ -21,7 +21,7 @@ First of all, you will start looking into the declaration of the extension:
 // src/index.ts#L9-L13
 
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'context-menu',
+  id: '@jupyterlab-examples/context-menu:plugin',
   autoStart: true,
   requires: [IFileBrowserFactory],
   activate: (app: JupyterFrontEnd, factory: IFileBrowserFactory) => {
@@ -34,21 +34,25 @@ The first step is to define the command that will be executed when clicking on t
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L14-L27
+// src/index.ts#L14-L31
 
 app.commands.addCommand('jlab-examples/context-menu:open', {
   label: 'Example',
   caption: "Example context menu button for file browser's items.",
   icon: buildIcon,
   execute: () => {
-    const file = factory.tracker.currentWidget.selectedItems().next();
+    const file = factory.tracker.currentWidget
+      ?.selectedItems()
+      .next().value;
 
-    showDialog({
-      title: file.name,
-      body: 'Path: ' + file.path,
-      buttons: [Dialog.okButton()],
-    }).catch((e) => console.log(e));
-  },
+    if (file) {
+      showDialog({
+        title: file.name,
+        body: 'Path: ' + file.path,
+        buttons: [Dialog.okButton()]
+      }).catch(e => console.log(e));
+    }
+  }
 });
 ```
 <!-- prettier-ignore-end -->

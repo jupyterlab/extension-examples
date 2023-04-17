@@ -1,13 +1,13 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
 import { showDialog, Dialog } from '@jupyterlab/apputils';
 import { buildIcon } from '@jupyterlab/ui-components';
 
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'context-menu',
+  id: '@jupyterlab-examples/context-menu:plugin',
   autoStart: true,
   requires: [IFileBrowserFactory],
   activate: (app: JupyterFrontEnd, factory: IFileBrowserFactory) => {
@@ -16,16 +16,20 @@ const extension: JupyterFrontEndPlugin<void> = {
       caption: "Example context menu button for file browser's items.",
       icon: buildIcon,
       execute: () => {
-        const file = factory.tracker.currentWidget.selectedItems().next();
+        const file = factory.tracker.currentWidget
+          ?.selectedItems()
+          .next().value;
 
-        showDialog({
-          title: file.name,
-          body: 'Path: ' + file.path,
-          buttons: [Dialog.okButton()],
-        }).catch((e) => console.log(e));
-      },
+        if (file) {
+          showDialog({
+            title: file.name,
+            body: 'Path: ' + file.path,
+            buttons: [Dialog.okButton()]
+          }).catch(e => console.log(e));
+        }
+      }
     });
-  },
+  }
 };
 
 export default extension;

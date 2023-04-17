@@ -8,13 +8,15 @@
         "items": [
           {
             "type": "submenu",
-            "id": "jp-mainmenu-file-new",
-            "items": [
-              {
-                "command": "jlab-examples:create-new-python-file",
-                "rank": 30
-              }
-            ]
+            "submenu": {
+              "id": "jp-mainmenu-file-new",
+              "items": [
+                {
+                  "command": "jlab-examples:create-new-python-file",
+                  "rank": 80
+                }
+              ]
+            }
           }
         ]
       }

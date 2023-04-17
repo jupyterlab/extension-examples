@@ -4,6 +4,6 @@ FROM jupyter/base-notebook
 USER root
 
 # Upgrade JupyterLab
-RUN python -m pip install --upgrade jupyterlab~=3.6
+RUN python -m pip install --upgrade jupyterlab~=4.0.0b0
 
 USER 1000

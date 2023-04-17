@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import { ICommandPalette } from '@jupyterlab/apputils';
@@ -8,7 +8,7 @@ import { ICommandPalette } from '@jupyterlab/apputils';
 import {
   ITranslator,
   nullTranslator,
-  TranslationBundle,
+  TranslationBundle
 } from '@jupyterlab/translation';
 
 import { DataGrid, DataModel } from '@lumino/datagrid';
@@ -19,7 +19,7 @@ import { StackedPanel } from '@lumino/widgets';
  * Initialization data for the extension1 extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'datagrid',
+  id: '@jupyterlab-examples/datagrid:plugin',
   autoStart: true,
   requires: [ICommandPalette, ITranslator],
   activate: (
@@ -37,10 +37,10 @@ const extension: JupyterFrontEndPlugin<void> = {
       execute: () => {
         const widget = new DataGridPanel();
         shell.add(widget, 'main');
-      },
+      }
     });
     palette.addItem({ command, category: 'Extension Examples' });
-  },
+  }
 };
 
 export default extension;

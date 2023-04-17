@@ -28,7 +28,7 @@ The easiest way of creating a new widget factory is extending from the `ABCWidge
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L33-L40
+// src/factory.ts#L31-L38
 
 protected createNewWidget(
   context: DocumentRegistry.IContext<ExampleDocModel>
@@ -45,7 +45,7 @@ On the other hand, to create a `ModelFactory`, you need to implement the interfa
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L46-L47
+// src/factory.ts#L44-L45
 
 export class ExampleDocModelFactory
   implements DocumentRegistry.IModelFactory<ExampleDocModel>
@@ -56,10 +56,16 @@ At the same time, you need to implement the method `createNew`. The `DocumentMan
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L109-L111
+// src/factory.ts#L109-L117
 
-createNew(languagePreference?: string, modelDB?: IModelDB): ExampleDocModel {
-  return new ExampleDocModel(languagePreference, modelDB);
+createNew(
+  options: DocumentRegistry.IModelOptions<ExampleDoc>
+): ExampleDocModel {
+  return new ExampleDocModel(
+    options.languagePreference,
+    options.sharedModel,
+    options.collaborationEnabled
+  );
 }
 ```
 <!-- prettier-ignore-end -->
@@ -151,13 +157,13 @@ To sync content between clients, Yjs uses providers. Providers abstract Yjs from
 
 Another critical component of Yjs is Awareness. Every Yjs document has an `awareness` attribute that enables you to share user's information like its name, cursor, mouse pointer position, etc. The `awareness` attribute doesn't persist across sessions. Instead, Yjs uses a tiny state-based Awareness CRDT that propagates JSON objects to all users. When you go offline, your awareness state is automatically deleted and notifies all users that you went offline.
 
-After a short explanation of Yjs' features, now it's time to start with the implementation. You can create a new shared model by extending from `YDocument<T>`. [YDocument](https://jupyter-ydoc.readthedocs.io/en/latest/api/classes/YDocument.html) is a generic implementation of a shared model that handles the initialization of the `YDoc` and already implements some functionalities like the changes history.
+After a short explanation of Yjs' features, now it's time to start with the implementation. You can create a new shared model by extending from `YDocument<T>`. [YDocument](https://jupyter-ydoc.readthedocs.io/en/latest/api/classes/YDocument-1.html) is a generic implementation of a shared model that handles the initialization of the `YDoc` and already implements some functionalities like the changes history.
 
 To create a new shared object, you have to use the `ydoc`. The new attribute will be linked to the `ydoc` and sync between the different clients automatically. You can also listen to changes on the shared attributes to propagate them to the `DocumentWidget`.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L340-L341
+// src/model.ts#L347-L348
 
 this._content = this.ydoc.getMap('content');
 this._content.observe(this._contentObserver);
@@ -168,7 +174,7 @@ To access the information about the different users connected, you can use the `
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L279-L279
+// src/model.ts#L285-L285
 
 this.sharedModel.awareness.setLocalStateField('mouse', pos);
 ```
@@ -176,7 +182,7 @@ this.sharedModel.awareness.setLocalStateField('mouse', pos);
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L302-L302
+// src/model.ts#L308-L308
 
 const clients = this.sharedModel.awareness.getStates();
 ```
@@ -184,7 +190,7 @@ const clients = this.sharedModel.awareness.getStates();
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L41-L41
+// src/model.ts#L48-L48
 
 this.sharedModel.awareness.on('change', this._onClientChanged);
 ```
@@ -194,7 +200,7 @@ Every time you modify a shared property, this property triggers an event in all 
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L183-L186
+// src/model.ts#L189-L192
 
 this.sharedModel.transact(() => {
   this.sharedModel.setContent('position', { x: obj.x, y: obj.y });

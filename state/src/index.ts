@@ -1,12 +1,9 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-
 import { InputDialog } from '@jupyterlab/apputils';
-
 import { IStateDB } from '@jupyterlab/statedb';
-
 import { ReadonlyJSONObject } from '@lumino/coreutils';
 
 const PLUGIN_ID = '@jupyterlab-examples/state:state-example';
@@ -25,7 +22,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     app.restored
       // Get the state object
       .then(() => state.fetch(PLUGIN_ID))
-      .then((value) => {
+      .then(value => {
         // Get the option attribute
         if (value) {
           option = (value as ReadonlyJSONObject)['option'] as string;
@@ -36,24 +33,25 @@ const extension: JupyterFrontEndPlugin<void> = {
         return InputDialog.getItem({
           title: 'Pick an option to persist by the State Example extension',
           items: options,
-          current: Math.max(0, options.indexOf(option)),
+          current: Math.max(0, options.indexOf(option))
         });
       })
-      .then((result) => {
+      .then(result => {
         // If the user click on the accept button of the dialog
         if (result.button.accept) {
           // Get the user option
-          option = result.value;
+          option = result.value || '';
+          console.log(`Option "${option}" selected.`);
           // Save the option in the state database
           return state.save(PLUGIN_ID, { option });
         }
       })
-      .catch((reason) => {
+      .catch(reason => {
         console.error(
           `Something went wrong when reading the state for ${PLUGIN_ID}.\n${reason}`
         );
       });
-  },
+  }
 };
 
 export default extension;

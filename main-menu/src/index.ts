@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import { ICommandPalette } from '@jupyterlab/apputils';
@@ -9,7 +9,7 @@ import { ICommandPalette } from '@jupyterlab/apputils';
  * Initialization data for the main menu example.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'main-menu',
+  id: '@jupyterlab-examples/main-menu:plugin',
   autoStart: true,
   requires: [ICommandPalette],
   activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {
@@ -27,7 +27,7 @@ const extension: JupyterFrontEndPlugin<void> = {
         window.alert(
           `jlab-examples:main-menu has been called ${args['origin']}.`
         );
-      },
+      }
     });
 
     // Add the command to the command palette
@@ -35,9 +35,9 @@ const extension: JupyterFrontEndPlugin<void> = {
     palette.addItem({
       command,
       category,
-      args: { origin: 'from the palette' },
+      args: { origin: 'from the palette' }
     });
-  },
+  }
 };
 
 export default extension;

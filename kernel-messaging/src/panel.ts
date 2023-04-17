@@ -1,13 +1,13 @@
 import {
   SessionContext,
   ISessionContext,
-  sessionContextDialogs,
+  SessionContextDialogs
 } from '@jupyterlab/apputils';
 
 import {
   ITranslator,
   nullTranslator,
-  TranslationBundle,
+  TranslationBundle
 } from '@jupyterlab/translation';
 
 import { ServiceManager } from '@jupyterlab/services';
@@ -41,21 +41,26 @@ export class ExamplePanel extends StackedPanel {
     this._sessionContext = new SessionContext({
       sessionManager: manager.sessions,
       specsManager: manager.kernelspecs,
-      name: 'Extension Examples',
+      name: 'Extension Examples'
     });
 
     this._model = new KernelModel(this._sessionContext);
     this._example = new KernelView(this._model);
 
     this.addWidget(this._example);
+
+    this._sessionContextDialogs = new SessionContextDialogs({
+      translator: translator
+    });
+
     void this._sessionContext
       .initialize()
-      .then(async (value) => {
+      .then(async value => {
         if (value) {
-          await sessionContextDialogs.selectKernel(this._sessionContext);
+          await this._sessionContextDialogs.selectKernel(this._sessionContext);
         }
       })
-      .catch((reason) => {
+      .catch(reason => {
         console.error(
           `Failed to initialize the session in ExamplePanel.\n${reason}`
         );
@@ -79,6 +84,7 @@ export class ExamplePanel extends StackedPanel {
   private _model: KernelModel;
   private _sessionContext: SessionContext;
   private _example: KernelView;
+  private _sessionContextDialogs: SessionContextDialogs;
 
   private _translator: ITranslator;
   private _trans: TranslationBundle;

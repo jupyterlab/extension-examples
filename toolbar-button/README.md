@@ -2,7 +2,7 @@
 
 This example shows how to add a button to the notebook toolbar.
 
-![Toolbar button](Preview.gif)
+![Toolbar button](preview.gif)
 
 In this particular example, the button will clear all cell outputs
 
@@ -15,7 +15,7 @@ import { IDisposable, DisposableDelegate } from '@lumino/disposable';
 
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import { ToolbarButton } from '@jupyterlab/apputils';
@@ -25,7 +25,7 @@ import { DocumentRegistry } from '@jupyterlab/docregistry';
 import {
   NotebookActions,
   NotebookPanel,
-  INotebookModel,
+  INotebookModel
 } from '@jupyterlab/notebook';
 ```
 
@@ -37,7 +37,7 @@ Firstly you have to register the plugin information. For that you have to pass a
 const plugin: JupyterFrontEndPlugin<void> = {
   activate,
   id: 'toolbar-button',
-  autoStart: true,
+  autoStart: true
 };
 ```
 
@@ -68,7 +68,7 @@ export class ButtonExtension
       className: 'clear-output-button',
       label: 'Clear All Outputs',
       onClick: clearOutput,
-      tooltip: 'Clear All Outputs',
+      tooltip: 'Clear All Outputs'
     });
 
     panel.toolbar.insertItem(10, 'clearOutputs', button);

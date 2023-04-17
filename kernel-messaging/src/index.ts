@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import { ICommandPalette } from '@jupyterlab/apputils';
@@ -22,11 +22,11 @@ namespace CommandIDs {
  * Initialization data for the extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'kernel-messaging',
+  id: '@jupyterlab-examples/kernel-messaging:plugin',
   autoStart: true,
   optional: [ILauncher],
   requires: [ICommandPalette, ITranslator],
-  activate: activate,
+  activate: activate
 };
 
 /**
@@ -52,7 +52,7 @@ function activate(
   if (launcher) {
     launcher.add({
       command: CommandIDs.create,
-      category: category,
+      category: category
     });
   }
 
@@ -71,7 +71,7 @@ function activate(
   commands.addCommand(CommandIDs.create, {
     label: trans.__('Open the Kernel Messaging Panel'),
     caption: trans.__('Open the Kernel Messaging Panel'),
-    execute: createPanel,
+    execute: createPanel
   });
 
   // add items in command palette and menu
