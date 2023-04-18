@@ -12,9 +12,11 @@ in [jupyter_server_test_config.py](./jupyter_server_test_config.py).
 
 The default configuration will produce video for failing tests and an HTML report.
 
+> There is a new experimental UI mode that you may fall in love with; see [that video](https://www.youtube.com/watch?v=jF0yA-JLQW0).
+
 ## Run the tests
 
-> All commands are assumed to be executed from the _datagrid_ directory
+> All commands are assumed to be executed from the _documents_ directory
 
 To run the tests, you need to:
 
@@ -50,7 +52,7 @@ for configuring that behavior.
 
 ## Update the tests snapshots
 
-> All commands are assumed to be executed from the _datagrid_ directory
+> All commands are assumed to be executed from the _documents_ directory
 
 If you are comparing snapshots to validate your tests, you may need to update
 the reference snapshots stored in the repository. To do that, you need to:
@@ -87,7 +89,7 @@ jlpm playwright test -u
 
 ## Create tests
 
-> All commands are assumed to be executed from the _datagrid_ directory
+> All commands are assumed to be executed from the _documents_ directory
 
 To create tests, the easiest way is to use the code generator tool of playwright:
 
@@ -109,7 +111,14 @@ jlpm playwright install
 cd ..
 ```
 
-3. Execute the [Playwright code generator](https://playwright.dev/docs/codegen):
+3. Start the server:
+
+```sh
+cd ./ui-tests
+jlpm start
+```
+
+4. Execute the [Playwright code generator](https://playwright.dev/docs/codegen) in **another terminal**:
 
 ```sh
 cd ./ui-tests
@@ -118,7 +127,7 @@ jlpm playwright codegen localhost:8888
 
 ## Debug tests
 
-> All commands are assumed to be executed from the _datagrid_ directory
+> All commands are assumed to be executed from the _documents_ directory
 
 To debug tests, a good way is to use the inspector tool of playwright:
 
@@ -144,5 +153,15 @@ cd ..
 
 ```sh
 cd ./ui-tests
-PWDEBUG=1 jlpm playwright test
+jlpm playwright test --debug
+```
+
+## Upgrade Playwright and the browsers
+
+To update the web browser versions, you must update the package `@playwright/test`:
+
+```sh
+cd ./ui-tests
+jlpm up "@playwright/test"
+jlpm playwright install
 ```

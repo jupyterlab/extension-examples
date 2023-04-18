@@ -10,12 +10,12 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
-    '!src/**/.ipynb_checkpoints/*',
+    '!src/**/.ipynb_checkpoints/*'
   ],
   coverageReporters: ['lcov', 'text'],
   testRegex: 'src/.*/.*.spec.ts[x]?$',
   transformIgnorePatterns: [
     ...baseConfig.transformIgnorePatterns,
-    `/node_modules/(?!${esModules}).+`,
-  ],
+    `/node_modules/(?!${esModules}).+`
+  ]
 };
