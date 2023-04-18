@@ -2,9 +2,8 @@ import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-import { ICommandPalette } from '@jupyterlab/apputils';
-/*import { Widget } from '@lumino/widgets';*/
-import { MainAreaWidget } from '@jupyterlab/apputils';
+
+import { ICommandPalette, MainAreaWidget } from '@jupyterlab/apputils';
 
 /**
  * Generate whatever content to render in `contentHeader`
@@ -12,7 +11,6 @@ import { MainAreaWidget } from '@jupyterlab/apputils';
  * @returns string
  */
 function generateContent(): string {
-  /*console.log('Time in GMT is: ' + new Date().toUTCString())*/
   return 'Time in GMT is: ' + new Date().toUTCString();
 }
 
@@ -23,7 +21,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
   id: 'contentheader:plugin',
   autoStart: true,
   optional: [ICommandPalette],
-  activate: (app: JupyterFrontEnd, pal?: ICommandPalette) => {
+  activate: (app: JupyterFrontEnd, palette?: ICommandPalette) => {
     console.log('JupyterLab extension contentheader is activated!');
     const command = 'jlab-examples:contentheader';
     const { commands } = app;
@@ -34,7 +32,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     commands.addCommand(command, {
       label: 'Populate content header (time example)',
       caption: 'Populate content header (time example)',
-      execute: (args: any) => {
+      execute: () => {
         // Check to ensure this is a MainAreaWidget
         const widget = app.shell.currentWidget;
 
@@ -51,8 +49,8 @@ const plugin: JupyterFrontEndPlugin<void> = {
     });
     // Create a command palette entry for easy access
     const category = 'Extension Examples';
-    if (pal) {
-      pal.addItem({ command, category, args: { origin: 'from palette' } });
+    if (palette) {
+      palette.addItem({ command, category });
     }
   }
 };
