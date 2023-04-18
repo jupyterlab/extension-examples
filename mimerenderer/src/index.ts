@@ -1,10 +1,6 @@
 import { IRenderMime } from '@jupyterlab/rendermime-interfaces';
 
-
-
 import { Widget } from '@lumino/widgets';
-
-import '../style/index.css';
 
 /**
  * The default mime type for the extension.
@@ -59,7 +55,8 @@ export const rendererFactory: IRenderMime.IRendererFactory = {
  * Extension definition.
  */
 const extension: IRenderMime.IExtension = {
-  id: 'jupyterlab-mp4:plugin',
+  id: '@jupyterlab-examples/mimerenderer:plugin',
+  // description: 'Adds MIME type renderer for mp4 content',
   rendererFactory,
   rank: 0,
   dataType: 'string',
@@ -73,7 +70,7 @@ const extension: IRenderMime.IExtension = {
     }
   ],
   documentWidgetFactoryOptions: {
-    name: 'JupyterLab mp4 viewer',
+    name: 'JupyterLab mp4 Viewer',
     primaryFileType: 'mp4',
     modelName: 'base64',
     fileTypes: ['mp4'],

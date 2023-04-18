@@ -1,0 +1,19 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.0.1
+_src_path: gh:jupyterlab/extension-template
+author_email: ''
+author_name: Project Jupyter Contributors
+data_format: string
+file_extension: .mp4
+has_binder: false
+has_settings: false
+kind: mimerenderer
+labextension_name: '@jupyterlab-examples/mimerenderer'
+mimetype: video/mp4
+mimetype_name: mp4
+project_short_description: A JupyterLab extension for rendering mp4 files.
+python_name: jupyterlab_examples_mimerenderer
+repository: https://github.com/jupyterlab/extension-examples
+test: true
+viewer_name: JupyterLab mp4 Viewer
+

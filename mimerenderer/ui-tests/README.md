@@ -16,7 +16,7 @@ The default configuration will produce video for failing tests and an HTML repor
 
 ## Run the tests
 
-> All commands are assumed to be executed from the _completer_ directory
+> All commands are assumed to be executed from the _mimerenderer_ directory
 
 To run the tests, you need to:
 
@@ -52,7 +52,7 @@ for configuring that behavior.
 
 ## Update the tests snapshots
 
-> All commands are assumed to be executed from the _completer_ directory
+> All commands are assumed to be executed from the _mimerenderer_ directory
 
 If you are comparing snapshots to validate your tests, you may need to update
 the reference snapshots stored in the repository. To do that, you need to:
@@ -89,7 +89,7 @@ jlpm playwright test -u
 
 ## Create tests
 
-> All commands are assumed to be executed from the _completer_ directory
+> All commands are assumed to be executed from the _mimerenderer_ directory
 
 To create tests, the easiest way is to use the code generator tool of playwright:
 
@@ -127,7 +127,7 @@ jlpm playwright codegen localhost:8888
 
 ## Debug tests
 
-> All commands are assumed to be executed from the _completer_ directory
+> All commands are assumed to be executed from the _mimerenderer_ directory
 
 To debug tests, a good way is to use the inspector tool of playwright:
 
