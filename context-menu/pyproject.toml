@@ -3,7 +3,7 @@ requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0b0,<5", "hatch-nodejs-version"
 build-backend = "hatchling.build"
 
 [project]
-name = "jupyter_examples_context_menu"
+name = "jupyterlab_examples_context_menu"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.8"
@@ -32,24 +32,24 @@ source = "nodejs"
 fields = ["description", "authors", "urls"]
 
 [tool.hatch.build.targets.sdist]
-artifacts = ["jupyter_examples_context_menu/labextension"]
+artifacts = ["jupyterlab_examples_context_menu/labextension"]
 exclude = [".github", "binder"]
 
 [tool.hatch.build.targets.wheel.shared-data]
-"jupyter_examples_context_menu/labextension" = "share/jupyter/labextensions/@jupyterlab-examples/context-menu"
+"jupyterlab_examples_context_menu/labextension" = "share/jupyter/labextensions/@jupyterlab-examples/context-menu"
 "install.json" = "share/jupyter/labextensions/@jupyterlab-examples/context-menu/install.json"
 
 [tool.hatch.build.hooks.version]
-path = "jupyter_examples_context_menu/_version.py"
+path = "jupyterlab_examples_context_menu/_version.py"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.5"]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
-    "jupyter_examples_context_menu/labextension/static/style.js",
-    "jupyter_examples_context_menu/labextension/package.json",
+    "jupyterlab_examples_context_menu/labextension/static/style.js",
+    "jupyterlab_examples_context_menu/labextension/package.json",
 ]
-skip-if-exists = ["jupyter_examples_context_menu/labextension/static/style.js"]
+skip-if-exists = ["jupyterlab_examples_context_menu/labextension/static/style.js"]
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
@@ -59,7 +59,7 @@ npm = ["jlpm"]
 build_cmd = "install:extension"
 npm = ["jlpm"]
 source_dir = "src"
-build_dir = "jupyter_examples_context_menu/labextension"
+build_dir = "jupyterlab_examples_context_menu/labextension"
 
 [tool.jupyter-releaser.options]
 version_cmd = "hatch version"

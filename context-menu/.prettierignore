@@ -3,4 +3,4 @@ node_modules
 **/lib
 **/package.json
 !/package.json
-jupyter_examples_context_menu
+jupyterlab_examples_context_menu
