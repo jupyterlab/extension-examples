@@ -1,4 +1,4 @@
-import { ReactWidget } from '@jupyterlab/apputils';
+import { ReactWidget } from '@jupyterlab/ui-components';
 
 import React, { useState } from 'react';
 
