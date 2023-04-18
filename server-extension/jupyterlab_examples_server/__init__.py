@@ -1,9 +1,13 @@
-from .handlers import setup_handlers
 from ._version import __version__
+from .handlers import setup_handlers
 
 
 def _jupyter_labextension_paths():
-    return [{"src": "labextension", "dest": "@jupyterlab-examples/server-extension"}]
+    return [{
+        "src": "labextension",
+        "dest": "@jupyterlab-examples/server-extension"
+    }]
+
 
 
 def _jupyter_server_extension_points():
