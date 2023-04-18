@@ -1,0 +1,8 @@
+{
+  "jupyter.lab.shortcuts": [],
+  "title": "@jupyterlab-examples/toolbar-button",
+  "description": "@jupyterlab-examples/toolbar-button settings.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}
