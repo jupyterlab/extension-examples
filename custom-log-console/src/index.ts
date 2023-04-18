@@ -16,12 +16,11 @@ import {
   ITextLog,
   IOutputLog
 } from '@jupyterlab/logconsole';
-import { addIcon, clearIcon, listIcon } from '@jupyterlab/ui-components';
-import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
-
 import * as nbformat from '@jupyterlab/nbformat';
+import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
+import { addIcon, clearIcon, listIcon } from '@jupyterlab/ui-components';
 
-import LogLevelSwitcher from './logLevelSwitcher';
+import { LogLevelSwitcher } from './logLevelSwitcher';
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/custom-log-console:plugin',
