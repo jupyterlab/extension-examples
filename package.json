@@ -4,7 +4,7 @@
   "scripts": {
     "build-ext": "lerna run build:all",
     "clean-ext": "lerna run clean",
-    "embedme": "embedme \"[!n]*/README.md\"",
+    "embedme": "embedme \"[!n]*/README.md\" \"notifications/README.md\"",
     "install-py": "lerna exec --concurrency 4 -- touch yarn.lock && lerna exec --concurrency 4 -- python -m pip install \".\"",
     "install-ext": "lerna run install:extension",
     "lint": "lerna run lint",
@@ -32,6 +32,7 @@
     "launcher",
     "log-messages",
     "main-menu",
+    "notifications",
     "react-widget",
     "server-extension",
     "settings",
