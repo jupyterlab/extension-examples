@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import { ICommandPalette } from '@jupyterlab/apputils';
@@ -11,7 +11,7 @@ import { Widget } from '@lumino/widgets';
  * Activate the widgets example extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'widgets-example',
+  id: '@jupyterlab-examples/widgets:plugin',
   autoStart: true,
   requires: [ICommandPalette],
   activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {
@@ -24,10 +24,10 @@ const extension: JupyterFrontEndPlugin<void> = {
       execute: () => {
         const widget = new ExampleWidget();
         shell.add(widget, 'main');
-      },
+      }
     });
     palette.addItem({ command, category: 'Extension Examples' });
-  },
+  }
 };
 
 export default extension;

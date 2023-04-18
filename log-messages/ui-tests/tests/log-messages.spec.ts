@@ -1,38 +1,35 @@
 import { test, expect } from '@jupyterlab/galata';
 
 test('should capture log messages in dedicated panel', async ({ page }) => {
-  // Click File menu
-  await page.click('text=File');
-  // Click ul[role="menu"] >> text=New
-  await page.click('ul[role="menu"] >> text=New');
-  // Click #jp-mainmenu-file-new >> text=Notebook
-  await page.click('#jp-mainmenu-file-new >> text=Notebook');
+  // Open a new Notebook
+  await page.menu.clickMenuItem('File>New>Notebook');
   // Click button:has-text("Select")
   await page.click('button:has-text("Select")');
 
-  // Click text=View
-  await page.click('text=View');
-  // Click ul[role="menu"] >> text=Show Log Console
-  await page.click('ul[role="menu"] >> text=Show Log Console');
+  // Open the console
+  await page.menu.clickMenuItem('View>Show Log Console');
 
   // Drag and drop the split to display a bigger log panel.
-  const splitHandle = await page.$('div.lm-SplitPanel-handle');
-  const splitHandleBBox = await splitHandle.boundingBox();
+  // const splitHandle = await page.$('div.lm-SplitPanel-handle');
+  const splitHandle = await page.$(
+    '#jp-main-split-panel > div.lm-SplitPanel-handle:not(.lm-mod-hidden)'
+  );
+  const splitHandleBBox = await splitHandle!.boundingBox();
   await page.mouse.move(
-    splitHandleBBox.x + 0.5 * splitHandleBBox.width,
-    splitHandleBBox.y + 0.5 + splitHandleBBox.height
+    splitHandleBBox!.x + 0.5 * splitHandleBBox!.width,
+    splitHandleBBox!.y + 0.5 + splitHandleBBox!.height
   );
   await page.mouse.down();
   await page.mouse.move(
-    splitHandleBBox.x + 0.5 * splitHandleBBox.width,
-    splitHandleBBox.y + 0.5 + splitHandleBBox.height - 200
+    splitHandleBBox!.x + 0.5 * splitHandleBBox!.width,
+    splitHandleBBox!.y + 0.5 + splitHandleBBox!.height - 200
   );
   await page.mouse.up();
 
-  // Click text=Log Messages Example
-  await page.click('text=Log Messages Example');
-  // Click text=Text log message
-  await page.click('text=Text log message');
+  await page.pause();
+
+  // Click the log message menu entry
+  await page.menu.clickMenuItem('Log Messages Example>Text log message');
 
   let failed = true;
   try {
@@ -45,10 +42,8 @@ test('should capture log messages in dedicated panel', async ({ page }) => {
 
   // Select debug
   await page.selectOption('[aria-label="Log level"]', 'debug');
-  // Click text=Log Messages Example
-  await page.click('text=Log Messages Example');
-  // Click text=Text log message
-  await page.click('text=Text log message');
+  // Click the log message menu entry
+  await page.menu.clickMenuItem('Log Messages Example>Text log message');
 
   expect(await page.waitForSelector('text=Hello world text!!')).toBeTruthy();
 

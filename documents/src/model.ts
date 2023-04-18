@@ -1,8 +1,6 @@
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
-import { YDocument, MapChange } from '@jupyterlab/shared-models';
-
-import { IModelDB, ModelDB } from '@jupyterlab/observables';
+import { YDocument, MapChange, DocumentChange } from '@jupyter/ydoc';
 
 import { IChangedArgs } from '@jupyterlab/coreutils';
 
@@ -33,8 +31,17 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * @param languagePreference Language
    * @param modelDB Document model database
    */
-  constructor(languagePreference?: string, modelDB?: IModelDB) {
-    this.modelDB = modelDB || new ModelDB();
+  constructor(
+    languagePreference?: string,
+    sharedModel?: ExampleDoc,
+    collaborationEnabled?: boolean
+  ) {
+    this._collaborationEnabled = collaborationEnabled ?? true;
+    if (sharedModel) {
+      this.sharedModel = sharedModel;
+    } else {
+      this.sharedModel = ExampleDoc.create();
+    }
 
     // Listening for changes on the shared model to propagate them
     this.sharedModel.changed.connect(this._onSharedModelChanged);
@@ -52,6 +59,12 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   }
   set dirty(value: boolean) {
     this._dirty = value;
+  }
+
+  /*Whether the model is collaborative or not.
+   */
+  get collaborative(): boolean {
+    return this._collaborationEnabled;
   }
 
   /**
@@ -127,21 +140,14 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * defaultKernelName and defaultKernelLanguage are only used by the Notebook widget
    * or documents that use kernels, and they store the name and the language of the kernel.
    */
-  readonly defaultKernelName: string;
-  readonly defaultKernelLanguage: string;
-
-  /**
-   * modelBD is the datastore for the content of the document.
-   * modelDB is not a shared datastore so we don't use it on this example since
-   * this example is a shared document.
-   */
-  readonly modelDB: IModelDB;
+  readonly defaultKernelName: string = '';
+  readonly defaultKernelLanguage: string = '';
 
   /**
    * New datastore introduced in JupyterLab v3.1 to store shared data and make notebooks
    * collaborative
    */
-  readonly sharedModel: ExampleDoc = ExampleDoc.create();
+  readonly sharedModel: ExampleDoc;
 
   /**
    * Dispose of the resources held by the model.
@@ -274,7 +280,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    *
    * @param pos Mouse position
    */
-  setClient(pos: Position): void {
+  setClient(pos: Position | undefined): void {
     // Adds the position of the mouse from the client to the shared state.
     this.sharedModel.awareness.setLocalStateField('mouse', pos);
   }
@@ -310,6 +316,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   private _stateChanged = new Signal<this, IChangedArgs<any>>(this);
   private _clientChanged = new Signal<this, Map<number, any>>(this);
   private _sharedModelChanged = new Signal<this, ExampleDocChange>(this);
+  private _collaborationEnabled: boolean;
 }
 
 /**
@@ -324,7 +331,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
  * This type represents the different changes that may happen and ready to use
  * for the widget.
  */
-export type ExampleDocChange = {
+export type ExampleDocChange = DocumentChange & {
   contextChange?: MapChange;
   contentChange?: string;
   positionChange?: Position;
@@ -340,6 +347,8 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
     this._content = this.ydoc.getMap('content');
     this._content.observe(this._contentObserver);
   }
+
+  readonly version: string = '1.0.0';
 
   /**
    * Dispose of the resources.

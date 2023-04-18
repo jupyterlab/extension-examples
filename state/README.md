@@ -19,7 +19,7 @@ jlpm add @jupyterlab/statedb
 Once this is done. You can import the interface in your code.
 
 ```ts
-// src/index.ts#L8-L8
+// src/index.ts#L6-L6
 
 import { IStateDB } from '@jupyterlab/statedb';
 ```
@@ -27,7 +27,7 @@ import { IStateDB } from '@jupyterlab/statedb';
 To see how you can access the state, let's have a look at `src/index.ts`.
 
 ```ts
-// src/index.ts#L17-L57
+// src/index.ts#L14-L55
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
@@ -40,7 +40,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     app.restored
       // Get the state object
       .then(() => state.fetch(PLUGIN_ID))
-      .then((value) => {
+      .then(value => {
         // Get the option attribute
         if (value) {
           option = (value as ReadonlyJSONObject)['option'] as string;
@@ -51,24 +51,25 @@ const extension: JupyterFrontEndPlugin<void> = {
         return InputDialog.getItem({
           title: 'Pick an option to persist by the State Example extension',
           items: options,
-          current: Math.max(0, options.indexOf(option)),
+          current: Math.max(0, options.indexOf(option))
         });
       })
-      .then((result) => {
+      .then(result => {
         // If the user click on the accept button of the dialog
         if (result.button.accept) {
           // Get the user option
-          option = result.value;
+          option = result.value || '';
+          console.log(`Option "${option}" selected.`);
           // Save the option in the state database
           return state.save(PLUGIN_ID, { option });
         }
       })
-      .catch((reason) => {
+      .catch(reason => {
         console.error(
           `Something went wrong when reading the state for ${PLUGIN_ID}.\n${reason}`
         );
       });
-  },
+  }
 };
 ```
 
@@ -85,7 +86,7 @@ loading the state data for your plugin:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L25-L27
+// src/index.ts#L22-L24
 
 app.restored
   // Get the state object
@@ -100,7 +101,7 @@ should be specifically set when accessing the value.
 For instance, in this example the variable `option` is of type `string`:
 
 ```ts
-// src/index.ts#L30-L33
+// src/index.ts#L27-L30
 
 if (value) {
   option = (value as ReadonlyJSONObject)['option'] as string;
@@ -116,12 +117,12 @@ In the example, once the state is read, the user is prompted to choose an option
 an item list with the default option being stored as a state variable.
 
 ```ts
-// src/index.ts#L36-L40
+// src/index.ts#L33-L37
 
 return InputDialog.getItem({
   title: 'Pick an option to persist by the State Example extension',
   items: options,
-  current: Math.max(0, options.indexOf(option)),
+  current: Math.max(0, options.indexOf(option))
 });
 ```
 
@@ -129,7 +130,7 @@ This implies to store the new option done by the user in the state. This is done
 using the `save` method of `IStateDB`:
 
 ```ts
-// src/index.ts#L48-L48
+// src/index.ts#L46-L46
 
 return state.save(PLUGIN_ID, { option });
 ```

@@ -1,12 +1,10 @@
 import { ABCWidgetFactory, DocumentRegistry } from '@jupyterlab/docregistry';
 
-import { IModelDB } from '@jupyterlab/observables';
-
 import { Contents } from '@jupyterlab/services';
 
 import { ExampleDocWidget, ExamplePanel } from './widget';
 
-import { ExampleDocModel } from './model';
+import { ExampleDoc, ExampleDocModel } from './model';
 
 /**
  * A widget factory to create new instances of ExampleDocWidget.
@@ -73,6 +71,8 @@ export class ExampleDocModelFactory
     return 'text';
   }
 
+  readonly collaborative: boolean = true;
+
   /**
    * Get whether the model factory has been disposed.
    *
@@ -106,8 +106,14 @@ export class ExampleDocModelFactory
    * @param modelDB Model database
    * @returns The model
    */
-  createNew(languagePreference?: string, modelDB?: IModelDB): ExampleDocModel {
-    return new ExampleDocModel(languagePreference, modelDB);
+  createNew(
+    options: DocumentRegistry.IModelOptions<ExampleDoc>
+  ): ExampleDocModel {
+    return new ExampleDocModel(
+      options.languagePreference,
+      options.sharedModel,
+      options.collaborationEnabled
+    );
   }
 
   private _disposed = false;

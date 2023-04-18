@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -53,7 +53,7 @@ const extension: JupyterFrontEndPlugin<void> = {
             // Programmatically change a setting
             Promise.all([
               setting.set('flag', !flag),
-              setting.set('limit', limit + 1),
+              setting.set('limit', limit + 1)
             ])
               .then(() => {
                 const newLimit = setting.get('limit').composite as number;
@@ -62,20 +62,20 @@ const extension: JupyterFrontEndPlugin<void> = {
                   `Settings Example extension: Limit is set to '${newLimit}' and flag to '${newFlag}'`
                 );
               })
-              .catch((reason) => {
+              .catch(reason => {
                 console.error(
                   `Something went wrong when changing the settings.\n${reason}`
                 );
               });
-          },
+          }
         });
       })
-      .catch((reason) => {
+      .catch(reason => {
         console.error(
           `Something went wrong when reading the settings.\n${reason}`
         );
       });
-  },
+  }
 };
 
 export default extension;

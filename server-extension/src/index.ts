@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import { ICommandPalette, IFrame } from '@jupyterlab/apputils';
@@ -22,7 +22,7 @@ namespace CommandIDs {
  * Initialization data for the server-extension-example extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'server-extension-example',
+  id: '@jupyterlab-examples/server-extension:plugin',
   autoStart: true,
   optional: [ILauncher],
   requires: [ICommandPalette],
@@ -31,14 +31,14 @@ const extension: JupyterFrontEndPlugin<void> = {
     palette: ICommandPalette,
     launcher: ILauncher | null
   ) => {
-    console.log('JupyterLab extension server-extension-example is activated!');
-
     // GET request
     try {
       const data = await requestAPI<any>('hello');
       console.log(data);
     } catch (reason) {
-      console.error(`Error on GET /jlab-ext-example/hello.\n${reason}`);
+      console.error(
+        `Error on GET /jupyterlab_examples_server/hello.\n${reason}`
+      );
     }
 
     // POST request
@@ -46,12 +46,12 @@ const extension: JupyterFrontEndPlugin<void> = {
     try {
       const reply = await requestAPI<any>('hello', {
         body: JSON.stringify(dataToSend),
-        method: 'POST',
+        method: 'POST'
       });
       console.log(reply);
     } catch (reason) {
       console.error(
-        `Error on POST /jlab-ext-example/hello ${dataToSend}.\n${reason}`
+        `Error on POST /jupyterlab_examples_server/hello ${dataToSend}.\n${reason}`
       );
     }
 
@@ -65,7 +65,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       execute: () => {
         const widget = new IFrameWidget();
         shell.add(widget, 'main');
-      },
+      }
     });
 
     palette.addItem({ command, category: category });
@@ -74,10 +74,14 @@ const extension: JupyterFrontEndPlugin<void> = {
       // Add launcher
       launcher.add({
         command: command,
-        category: category,
+        category: category
       });
     }
-  },
+
+    console.log(
+      'JupyterLab extension @jupyterlab-examples/server-extension:plugin is activated!'
+    );
+  }
 };
 
 export default extension;
@@ -86,7 +90,7 @@ class IFrameWidget extends IFrame {
   constructor() {
     super();
     const baseUrl = PageConfig.getBaseUrl();
-    this.url = baseUrl + 'jlab-ext-example/public/index.html';
+    this.url = baseUrl + 'jupyterlab_examples_server/public/index.html';
     this.id = 'doc-example';
     this.title.label = 'Server Doc';
     this.title.closable = true;

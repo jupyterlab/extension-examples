@@ -5,7 +5,7 @@ test.use({ autoGoto: false });
 test('should emit console message', async ({ page }) => {
   const logs: string[] = [];
 
-  page.on('console', (message) => {
+  page.on('console', message => {
     logs.push(message.text());
   });
 
@@ -14,7 +14,7 @@ test('should emit console message', async ({ page }) => {
   expect
     .soft(
       logs.filter(
-        (s) =>
+        s =>
           s ===
           "Settings Example extension: Limit is set to '25' and flag to 'false'"
       )
@@ -24,7 +24,7 @@ test('should emit console message', async ({ page }) => {
   // Click text=Toggle Flag and Increment Limit
   await page.getByRole('menuitem', { name: 'Settings Example' }).click();
 
-  page.once('console', (message) => {
+  page.once('console', message => {
     expect
       .soft(message.text())
       .toEqual(
@@ -32,7 +32,7 @@ test('should emit console message', async ({ page }) => {
       );
   });
 
-  page.once('dialog', (dialog) => {
+  page.once('dialog', dialog => {
     expect
       .soft(dialog.message())
       .toEqual(
@@ -43,29 +43,28 @@ test('should emit console message', async ({ page }) => {
   await Promise.all([
     page.waitForEvent('console'),
     page.waitForEvent('dialog'),
-    page
-      .getByRole('menuitem', { name: 'Toggle Flag and Increment Limit' })
-      .click(),
+    page.menu.clickMenuItem('Settings Example>Toggle Flag and Increment Limit')
   ]);
 
-  await page.getByRole('menuitem', { name: 'Settings Example' }).click();
+  await page.menu.open('Settings Example');
   await expect
     .soft(
-      page.getByRole('menuitem', { name: 'Toggle Flag and Increment Limit' })
+      page.locator(
+        'li[data-command="@jupyterlab-examples/settings:toggle-flag"]'
+      )
     )
     .toHaveClass(/lm-mod-toggled/);
 
   await page.keyboard.press('Escape');
 
-  await page.getByRole('menuitem', { name: 'Settings', exact: true }).click();
-  await page
-    .getByRole('menuitem', { name: 'Advanced Settings Editor' })
-    .click();
+  await page.menu.clickMenuItem('Settings>Settings Editor');
 
-  await page.getByRole('tab', { name: 'Settings Example' }).click();
+  await page.click(
+    '.jp-PluginList-entry[data-id="@jupyterlab-examples/settings:settings-example"]'
+  );
 
   let msg = '';
-  page.once('console', (message) => {
+  page.once('console', message => {
     msg = message.text();
   });
 

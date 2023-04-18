@@ -2,7 +2,7 @@ import { IDisposable, DisposableDelegate } from '@lumino/disposable';
 
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import { ToolbarButton } from '@jupyterlab/apputils';
@@ -12,7 +12,7 @@ import { DocumentRegistry } from '@jupyterlab/docregistry';
 import {
   NotebookActions,
   NotebookPanel,
-  INotebookModel,
+  INotebookModel
 } from '@jupyterlab/notebook';
 
 /**
@@ -21,7 +21,7 @@ import {
 const plugin: JupyterFrontEndPlugin<void> = {
   activate,
   id: 'toolbar-button',
-  autoStart: true,
+  autoStart: true
 };
 
 /**
@@ -48,7 +48,7 @@ export class ButtonExtension
       className: 'clear-output-button',
       label: 'Clear All Outputs',
       onClick: clearOutput,
-      tooltip: 'Clear All Outputs',
+      tooltip: 'Clear All Outputs'
     });
 
     panel.toolbar.insertItem(10, 'clearOutputs', button);

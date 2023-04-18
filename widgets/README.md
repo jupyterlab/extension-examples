@@ -49,7 +49,7 @@ in this example:
 execute: () => {
   const widget = new ExampleWidget();
   shell.add(widget, 'main');
-},
+}
 ```
 <!-- prettier-ignore-end -->
 
@@ -80,13 +80,12 @@ You can associate style properties to the custom CSS class in the file
 `style/base.css`:
 
 <!-- prettier-ignore-start -->
-<!-- embedme style/base.css -->
+<!-- embedme style/base.css#L7-L9 -->
 
 ```css
 .jp-example-view {
   background-color: AliceBlue;
 }
-
 ```
 <!-- prettier-ignore-end -->
 

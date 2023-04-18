@@ -1,14 +1,11 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-
 import { ICommandPalette } from '@jupyterlab/apputils';
-
 import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
-
 import { ILauncher } from '@jupyterlab/launcher';
-
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { LabIcon } from '@jupyterlab/ui-components';
 
 import pythonIconStr from '../style/Python-logo-notext.svg';
@@ -21,10 +18,10 @@ namespace CommandIDs {
 }
 
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'launcher',
+  id: '@jupyterlab-examples/launcher:plugin',
   autoStart: true,
   requires: [IFileBrowserFactory],
-  optional: [ILauncher, ICommandPalette],
+  optional: [ILauncher, ICommandPalette, ISettingRegistry],
   activate: (
     app: JupyterFrontEnd,
     browserFactory: IFileBrowserFactory,
@@ -35,32 +32,35 @@ const extension: JupyterFrontEndPlugin<void> = {
     const command = CommandIDs.createNew;
     const icon = new LabIcon({
       name: 'launcher:python-icon',
-      svgstr: pythonIconStr,
+      svgstr: pythonIconStr
     });
 
     commands.addCommand(command, {
-      label: (args) => (args['isPalette'] ? 'New Python File' : 'Python File'),
+      label: args =>
+        args['isPalette']
+          ? 'New Python File From Extension'
+          : 'Python File From Extension',
       caption: 'Create a new Python file',
-      icon: (args) => (args['isPalette'] ? null : icon),
-      execute: async (args) => {
+      icon: args => (args['isPalette'] ? undefined : icon),
+      execute: async args => {
         // Get the directory in which the Python file must be created;
         // otherwise take the current filebrowser directory
         const cwd =
-          args['cwd'] || browserFactory.tracker.currentWidget.model.path;
+          args['cwd'] || browserFactory.tracker.currentWidget?.model.path;
 
         // Create a new untitled python file
         const model = await commands.execute('docmanager:new-untitled', {
           path: cwd,
           type: 'file',
-          ext: 'py',
+          ext: 'py'
         });
 
         // Open the newly created file with the 'Editor'
         return commands.execute('docmanager:open', {
           path: model.path,
-          factory: FACTORY,
+          factory: FACTORY
         });
-      },
+      }
     });
 
     // Add the command to the launcher
@@ -68,7 +68,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       launcher.add({
         command,
         category: 'Extension Examples',
-        rank: 1,
+        rank: 1
       });
     }
 
@@ -77,10 +77,10 @@ const extension: JupyterFrontEndPlugin<void> = {
       palette.addItem({
         command,
         args: { isPalette: true },
-        category: PALETTE_CATEGORY,
+        category: PALETTE_CATEGORY
       });
     }
-  },
+  }
 };
 
 export default extension;

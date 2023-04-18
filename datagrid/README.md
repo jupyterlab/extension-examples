@@ -2,7 +2,7 @@
 
 > Display a Datagrid as a Lumino Widget.
 
-![Datagrid](preview.png)
+![Datagrid](preview.gif)
 
 JupyterLab is built on top of [Lumino](https://github.com/jupyterlab/lumino).
 That library defines `Widget` as the primary interface brick.
