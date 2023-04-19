@@ -4,92 +4,33 @@ This example shows how to add a button to the notebook toolbar.
 
 ![Toolbar button](preview.gif)
 
-In this particular example, the button will clear all cell outputs
+In this particular example, the button will clear all cell outputs.
 
-To use it first you need to import the following packages:
+If the wanted action is already defined as a command like in this case, you will
+not need to add any code. Otherwise you will need to add a new [command](../commands/README.md).
 
-```ts
-// src/index.ts#L1-L16
+> Actually you can do this by updating your user settings.
 
-import { IDisposable, DisposableDelegate } from '@lumino/disposable';
+To add a button triggering a command to the notebook toolbar, you must
+specified the following settings:
 
-import {
-  JupyterFrontEnd,
-  JupyterFrontEndPlugin
-} from '@jupyterlab/application';
+```json5
+// schema/plugin.json#L2-L9
 
-import { ToolbarButton } from '@jupyterlab/apputils';
-
-import { DocumentRegistry } from '@jupyterlab/docregistry';
-
-import {
-  NotebookActions,
-  NotebookPanel,
-  INotebookModel
-} from '@jupyterlab/notebook';
+"jupyter.lab.toolbars": {
+  "Notebook": [
+    {
+      "name": "clear-all-outputs",
+      "command": "notebook:clear-all-cell-outputs"
+    }
+  ]
+},
 ```
 
-Firstly you have to register the plugin information. For that you have to pass a activate **function** and the plugin **id**.
-
-```ts
-// src/index.ts#L21-L27
-
-const plugin: JupyterFrontEndPlugin<void> = {
-  activate,
-  id: '@jupyterlab-examples/toolbar-button',
-  description:
-    'A JupyterLab extension adding a button to the Notebook toolbar.',
-  autoStart: true
-};
-```
-
-New widgets can be added to a document widget by implementing the interface [DocumentRegistry.IWidgetExtension](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IWidgetExtension.html). In particular, you need to add your widget in the `createNew` method that is called when creating a new
-document widget; in this case a notebook panel.
-
-```ts
-// src/index.ts#L32-L61
-
-export class ButtonExtension
-  implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel>
-{
-  /**
-   * Create a new extension for the notebook panel widget.
-   *
-   * @param panel Notebook panel
-   * @param context Notebook context
-   * @returns Disposable on the added button
-   */
-  createNew(
-    panel: NotebookPanel,
-    context: DocumentRegistry.IContext<INotebookModel>
-  ): IDisposable {
-    const clearOutput = () => {
-      NotebookActions.clearAllOutputs(panel.content);
-    };
-    const button = new ToolbarButton({
-      className: 'clear-output-button',
-      label: 'Clear All Outputs',
-      onClick: clearOutput,
-      tooltip: 'Clear All Outputs'
-    });
-
-    panel.toolbar.insertItem(10, 'clearOutputs', button);
-    return new DisposableDelegate(() => {
-      button.dispose();
-    });
-  }
-}
-```
-
-Finally you need to tell the document registry about your widget extension:
-
-```ts
-// src/index.ts#L68-L70
-
-function activate(app: JupyterFrontEnd): void {
-  app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
-}
-```
+The key `Notebook` inform JupyterLab about which widget toolbar should be
+extended. The `name` should be an unique identifier for the widget toolbar
+items. The `command` is the unique command identifier. For JupyterLab core
+commands, you can look at that [list](https://jupyterlab.readthedocs.io/en/latest/user/commands.html#commands-list) to find it.
 
 ## Where to Go Next
 
