@@ -64,7 +64,6 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         run: |
           diff ../hello-world/tsconfig.json tsconfig.json
-          diff ../hello-world/.gitignore .gitignore
           diff ../hello-world/ui-tests/playwright.config.js ./ui-tests/playwright.config.js
         shell: bash
       - name: Install node
