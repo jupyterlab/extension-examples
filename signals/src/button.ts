@@ -5,7 +5,7 @@ export interface ICount {
   clickCount: number;
 }
 
-const BUTTON_WIDGET_CLASS = 'jp-ButtonWidget';
+const BUTTON_WIDGET_CLASS = 'jp-button-widget';
 
 export class ButtonWidget extends Widget {
   constructor(options = { node: document.createElement('button') }) {
@@ -14,7 +14,7 @@ export class ButtonWidget extends Widget {
     this.node.textContent = 'Click me';
 
     /**
-     * The class name, jp-ButtonWidget, follows the CSS class naming
+     * The class name, jp-button-widget, follows the CSS class naming
      * convention for classes that extend lumino.Widget.
      */
     this.addClass(BUTTON_WIDGET_CLASS);

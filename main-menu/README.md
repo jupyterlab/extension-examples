@@ -16,7 +16,7 @@ a command will first be described.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L16-L31
+// src/index.ts#L17-L32
 
 const { commands } = app;
 
@@ -40,7 +40,7 @@ commands.addCommand(command, {
 Now that the command is defined, you need to add the definition of the menu
 in the plugin settings file.
 
-> Tip: when using the cookiecutter template for JupyterLab extension, you can
+> Tip: when using the extension template for JupyterLab extension, you can
 > request initial settings to be created.
 
 The creation of a settings file is described in the [settings example](../settings/README.md). Here only the needed keys to add a menu will describe.
@@ -97,7 +97,7 @@ coded in Typescript; in this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L21-L21
+// src/index.ts#L22-L22
 
 label: 'Execute jlab-examples:main-menu Command',
 ```

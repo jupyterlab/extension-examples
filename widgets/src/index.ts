@@ -12,6 +12,7 @@ import { Widget } from '@lumino/widgets';
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/widgets:plugin',
+  description: 'A minimal JupyterLab extension opening a main area widget.',
   autoStart: true,
   requires: [ICommandPalette],
   activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {

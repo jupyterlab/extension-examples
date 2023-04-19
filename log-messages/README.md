@@ -25,11 +25,11 @@ First of all, you will start looking into the declaration of the extension:
 ```ts
 // src/index.ts#L8-L17
 
-
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/log-messages:plugin',
+  description: 'A minimal JupyterLab example to develop a custom log-messages.',
   autoStart: true,
-  requires: [ILoggerRegistry, INotebookTracker, ISettingRegistry],
+  requires: [ILoggerRegistry, INotebookTracker],
   activate: (
     app: JupyterFrontEnd,
     loggerRegistry: ILoggerRegistry,

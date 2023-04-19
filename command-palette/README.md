@@ -23,10 +23,12 @@ import { ICommandPalette } from '@jupyterlab/apputils';
 To see how you can add the command to the palette, let's have a look at `src/index.ts`.
 
 ```ts
-// src/index.ts#L11-L34
+// src/index.ts#L11-L36
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'command-palette',
+  description:
+    'Minimal JupyterLab example adding a new command to the palette.',
   autoStart: true,
   requires: [ICommandPalette],
   activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {
@@ -52,7 +54,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 ```
 
 The `ICommandPalette`
-([documentation](https://jupyterlab.github.io/jupyterlab/interfaces/_apputils_src_index_.icommandpalette.html))
+([documentation](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/apputils.ICommandPalette.html))
 is passed to the `activate` function as an argument (variable `palette`) in
 addition to the JupyterLab application (variable `app`).
 

@@ -10,6 +10,7 @@ import { ICommandPalette } from '@jupyterlab/apputils';
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/main-menu:plugin',
+  description: 'Minimal JupyterLab example adding a menu.',
   autoStart: true,
   requires: [ICommandPalette],
   activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {

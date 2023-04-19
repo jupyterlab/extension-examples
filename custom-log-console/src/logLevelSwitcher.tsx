@@ -1,7 +1,7 @@
 import { ReactWidget } from '@jupyterlab/apputils';
+import { IChangedArgs } from '@jupyterlab/coreutils';
 import { LogConsolePanel, LogLevel } from '@jupyterlab/logconsole';
 import { HTMLSelect } from '@jupyterlab/ui-components';
-import { IChangedArgs } from '@jupyterlab/coreutils';
 import { UUID } from '@lumino/coreutils';
 
 import React from 'react';
@@ -9,7 +9,7 @@ import React from 'react';
 /**
  * A toolbar widget that switches log levels.
  */
-export default class LogLevelSwitcher extends ReactWidget {
+export class LogLevelSwitcher extends ReactWidget {
   /**
    * Construct a new cell type switcher.
    *

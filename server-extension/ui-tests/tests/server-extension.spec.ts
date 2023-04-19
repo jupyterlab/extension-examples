@@ -6,12 +6,12 @@ test('should store state between reloads', async ({ page }) => {
   await Promise.all([
     page.waitForRequest(
       request =>
-        request.url().search('jupyterlab_examples_server/hello') >= 0 &&
+        request.url().search('jupyterlab-examples-server/hello') >= 0 &&
         request.method() === 'GET'
     ),
     page.waitForRequest(
       request =>
-        request.url().search('/jupyterlab_examples_server/hello') >= 0 &&
+        request.url().search('/jupyterlab-examples-server/hello') >= 0 &&
         request.method() === 'POST' &&
         request.postDataJSON()?.name === 'George'
     ),
@@ -32,7 +32,7 @@ test('should store state between reloads', async ({ page }) => {
 
   expect(
     await page
-      .frame({ url: '/jupyterlab_examples_server/public/index.html' })
+      .frame({ url: '/jupyterlab-examples-server/public/index.html' })
       ?.waitForSelector(
         'text=This content is served from the jupyterlab_examples_server extension.'
       )

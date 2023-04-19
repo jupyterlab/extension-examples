@@ -10,6 +10,8 @@ import { ICommandPalette } from '@jupyterlab/apputils';
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'command-palette',
+  description:
+    'Minimal JupyterLab example adding a new command to the palette.',
   autoStart: true,
   requires: [ICommandPalette],
   activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {

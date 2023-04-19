@@ -23,6 +23,7 @@ namespace CommandIDs {
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/kernel-messaging:plugin',
+  description: 'JupyterLab extension example for kernel messaging.',
   autoStart: true,
   optional: [ILauncher],
   requires: [ICommandPalette, ITranslator],

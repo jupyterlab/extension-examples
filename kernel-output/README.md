@@ -37,11 +37,11 @@ followed by the creation of the visual element.
 ## Initializing a Kernel Session
 
 To interact with a kernel, you can create a `SessionContext`
-object ([see the documentation](https://jupyterlab.github.io/jupyterlab/classes/_apputils_src_index_.sessioncontext.html)).
+object ([see the documentation](https://jupyterlab.readthedocs.io/en/latest/api/classes/apputils.SessionContext-1.html)).
 Here it is stored in the private `_sessionContext` variable:
 
 ```ts
-// src/panel.ts#L99-L99
+// src/panel.ts#L103-L103
 
 private _sessionContext: SessionContext;
 ```
@@ -50,7 +50,7 @@ A `SessionContext` handles a single kernel session. The session itself (not yet
 the kernel) is started with these lines:
 
 ```ts
-// src/panel.ts#L45-L49
+// src/panel.ts#L49-L53
 
 this._sessionContext = new SessionContext({
   sessionManager: manager.sessions,
@@ -63,7 +63,7 @@ The private session variable is exposed as read-only for other users
 through a getter method:
 
 ```ts
-// src/panel.ts#L77-L79
+// src/panel.ts#L81-L83
 
 get session(): ISessionContext {
   return this._sessionContext;
@@ -73,7 +73,7 @@ get session(): ISessionContext {
 A session dialog is created:
 
 ```ts
-// src/panel.ts#L57-L59
+// src/panel.ts#L61-L63
 
 this._sessionContextDialogs = new SessionContextDialogs({
   translator: translator
@@ -85,7 +85,7 @@ be initialized with this lines:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/panel.ts#L63-L74
+// src/panel.ts#L67-L78
 
 void this._sessionContext
   .initialize()
@@ -109,7 +109,7 @@ The following two methods ensure the clean disposal of the session
 when you close the panel.
 
 ```ts
-// src/panel.ts#L81-L84
+// src/panel.ts#L85-L88
 
 dispose(): void {
   this._sessionContext.dispose();
@@ -118,7 +118,7 @@ dispose(): void {
 ```
 
 ```ts
-// src/panel.ts#L94-L97
+// src/panel.ts#L98-L101
 
 protected onCloseRequest(msg: Message): void {
   super.onCloseRequest(msg);
@@ -134,7 +134,7 @@ You can instantiate it with a new `OutputAreaModel`; this class is containing
 the data to show:
 
 ```ts
-// src/panel.ts#L51-L55
+// src/panel.ts#L55-L59
 
 this._outputareamodel = new OutputAreaModel();
 this._outputarea = new SimplifiedOutputArea({
@@ -143,15 +143,15 @@ this._outputarea = new SimplifiedOutputArea({
 });
 ```
 
-`SimplifiedOutputArea` provides a static method `execute` that sends
-some code to a kernel through a `ISessionContext` ([see documentation](https://jupyterlab.github.io/jupyterlab/classes/_outputarea_src_index_.simplifiedoutputarea.html#execute)). And then it displays the result
+`OutputArea` provides a static method `execute` that sends
+some code to a kernel through a `ISessionContext` ([see documentation](https://jupyterlab.readthedocs.io/en/latest/api/functions/outputarea.OutputArea.execute.html)). And then it displays the result
 in the specific `SimplifiedOutputArea` object you created:
 
 ```ts
-// src/panel.ts#L86-L92
+// src/panel.ts#L90-L96
 
 execute(code: string): void {
-  SimplifiedOutputArea.execute(code, this._outputarea, this._sessionContext)
+  OutputArea.execute(code, this._outputarea, this._sessionContext)
     .then((msg: KernelMessage.IExecuteReplyMsg | undefined) => {
       console.log(msg);
     })
@@ -159,7 +159,7 @@ execute(code: string): void {
 }
 ```
 
-The `SimplifiedOutputArea.execute` function receives at some point a response
+The `OutputArea.execute` function receives at some point a response
 message from the kernel which says that the code was executed (this message
 does not contain the data that is displayed). When this message is received,
 `.then` is executed and prints this message to the console.
@@ -168,7 +168,7 @@ To display the `SimplifiedOutputArea` Widget you need to add it to your
 panel with:
 
 ```ts
-// src/panel.ts#L61-L61
+// src/panel.ts#L65-L65
 
 this.addWidget(this._outputarea);
 ```
@@ -195,7 +195,7 @@ You can then add the commands to the palette by iterating
 on a list:
 
 ```ts
-// src/index.ts#L99-L102
+// src/index.ts#L100-L103
 
 // add items in command palette and menu
 [CommandIDs.create, CommandIDs.execute].forEach(command => {
@@ -207,7 +207,7 @@ To create a new client session, the service manager must be obtained from
 the JupyterLab application:
 
 ```ts
-// src/index.ts#L52-L52
+// src/index.ts#L53-L53
 
 const manager = app.serviceManager;
 ```
@@ -217,7 +217,7 @@ ready. Then once the panel is created and its session is ready, it
 can be added to the JupyterLab main area:
 
 ```ts
-// src/index.ts#L57-L68
+// src/index.ts#L58-L69
 
 let panel: ExamplePanel;
 
@@ -240,7 +240,7 @@ to be executed by the kernel. Then you will send it to your panel for execution
 and display:
 
 ```ts
-// src/index.ts#L77-L97
+// src/index.ts#L78-L98
 
 commands.addCommand(CommandIDs.execute, {
   label: trans.__('Contact Kernel and Execute Code'),

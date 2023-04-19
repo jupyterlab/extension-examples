@@ -12,6 +12,7 @@ import { CustomCompleterProvider } from './customconnector';
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'completer',
+  description: 'Minimal JupyterLab extension setting up the completion.',
   autoStart: true,
   requires: [ICompletionProviderManager, INotebookTracker],
   activate: async (

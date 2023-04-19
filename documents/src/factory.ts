@@ -33,7 +33,7 @@ export class ExampleWidgetFactory extends ABCWidgetFactory<
   ): ExampleDocWidget {
     return new ExampleDocWidget({
       context,
-      content: new ExamplePanel(context),
+      content: new ExamplePanel(context)
     });
   }
 }

@@ -18,8 +18,8 @@
   },
   "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
-    "style/**/*.{css,eot,js,gif,html,jpg,json,png,svg,woff2,ttf}",
-    "schema/**/*.json"
+    "style/**/*.{css,js,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
+    "schema/*.json"
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -53,7 +53,6 @@
     "prettier:check": "jlpm prettier:base --check",
     "stylelint": "jlpm stylelint:check --fix",
     "stylelint:check": "stylelint --cache \"style/**/*.css\"",
-    "test": "jest --coverage",
     "watch": "run-p watch:src watch:labextension",
     "watch:src": "tsc -w",
     "watch:labextension": "jupyter labextension watch ."
@@ -61,13 +60,10 @@
   "dependencies": {
     "@jupyterlab/application": "^4.0.0-beta.0",
     "@jupyterlab/filebrowser": "^4.0.0-beta.0",
-    "@jupyterlab/launcher": "^4.0.0-beta.0",
-    "@jupyterlab/settingregistry": "^4.0.0-beta.0"
+    "@jupyterlab/launcher": "^4.0.0-beta.0"
   },
   "devDependencies": {
     "@jupyterlab/builder": "^4.0.0-beta.0",
-    "@jupyterlab/testutils": "^4.0.0-beta.0",
-    "@types/jest": "^29.2.0",
     "@types/json-schema": "^7.0.11",
     "@types/react": "^18.0.26",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
@@ -76,7 +72,6 @@
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "jest": "^29.2.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.7",
     "rimraf": "^4.4.1",
@@ -103,5 +98,86 @@
     "extension": true,
     "outputDir": "jupyterlab_examples_launcher/labextension",
     "schemaDir": "schema"
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "**/*.d.ts",
+    "tests",
+    "**/__tests__",
+    "ui-tests"
+  ],
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": "tsconfig.json",
+      "sourceType": "module"
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "@typescript-eslint/naming-convention": [
+        "error",
+        {
+          "selector": "interface",
+          "format": [
+            "PascalCase"
+          ],
+          "custom": {
+            "regex": "^I[A-Z]",
+            "match": true
+          }
+        }
+      ],
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          "args": "none"
+        }
+      ],
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-namespace": "off",
+      "@typescript-eslint/no-use-before-define": "off",
+      "@typescript-eslint/quotes": [
+        "error",
+        "single",
+        {
+          "avoidEscape": true,
+          "allowTemplateLiterals": false
+        }
+      ],
+      "curly": [
+        "error",
+        "all"
+      ],
+      "eqeqeq": "error",
+      "prefer-arrow-callback": "error"
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "none",
+    "arrowParens": "avoid",
+    "endOfLine": "auto"
+  },
+  "stylelint": {
+    "extends": [
+      "stylelint-config-recommended",
+      "stylelint-config-standard",
+      "stylelint-prettier/recommended"
+    ],
+    "rules": {
+      "property-no-vendor-prefix": null,
+      "selector-no-vendor-prefix": null,
+      "value-no-vendor-prefix": null
+    }
   }
 }

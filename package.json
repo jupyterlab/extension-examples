@@ -2,15 +2,13 @@
   "name": "@jupyterlab-examples/all",
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "install": "lerna bootstrap",
     "build-ext": "lerna run build:all",
     "clean-ext": "lerna run clean",
     "embedme": "embedme \"[!n]*/README.md\"",
-    "install-py": "lerna exec --concurrency 4 -- python -m pip install .",
+    "install-py": "lerna exec --concurrency 4 -- touch yarn.lock && lerna exec --concurrency 4 -- python -m pip install \".\"",
     "install-ext": "lerna run install:extension",
-    "lint": "jlpm && jlpm run prettier",
-    "lint:check": "jlpm run embedme --verify && jlpm run prettier:check",
+    "lint": "lerna run lint",
+    "lint:check": "jlpm run embedme --verify && lerna run lint:check",
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\""
   },
@@ -19,36 +17,34 @@
       "pre-commit": "lint-staged"
     }
   },
-  "workspaces": {
-    "packages": [
-      "command-palette",
-      "commands",
-      "completer",
-      "contentheader",
-      "context-menu",
-      "custom-log-console",
-      "datagrid",
-      "documents",
-      "hello-world",
-      "kernel-messaging",
-      "kernel-output",
-      "launcher",
-      "log-messages",
-      "main-menu",
-      "react-widget",
-      "server-extension",
-      "settings",
-      "signals",
-      "state",
-      "toolbar-button",
-      "widgets"
-    ]
-  },
+  "workspaces": [
+    "command-palette",
+    "commands",
+    "completer",
+    "contentheader",
+    "context-menu",
+    "custom-log-console",
+    "datagrid",
+    "documents",
+    "hello-world",
+    "kernel-messaging",
+    "kernel-output",
+    "launcher",
+    "log-messages",
+    "main-menu",
+    "react-widget",
+    "server-extension",
+    "settings",
+    "signals",
+    "state",
+    "toolbar-button",
+    "widgets"
+  ],
   "devDependencies": {
     "embedme": "^1.22.1",
     "husky": "^8.0.3",
-    "lerna": "^6.5.1",
-    "lint-staged": "^13.1.2",
-    "prettier": "^2.1.1"
+    "lerna": "^6.6.1",
+    "lint-staged": "^13.2.1",
+    "prettier": "^2.8.7"
   }
 }

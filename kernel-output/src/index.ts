@@ -27,6 +27,7 @@ namespace CommandIDs {
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/kernel-output:plugin',
+  description: 'Extension to interact with kernel and display output.',
   autoStart: true,
   optional: [ILauncher],
   requires: [ICommandPalette, IRenderMimeRegistry, ITranslator],

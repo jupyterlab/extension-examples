@@ -69,13 +69,14 @@ import { ILauncher } from '@jupyterlab/launcher';
 And finally you can add it to the list of dependencies:
 
 ```ts
-// src/index.ts#L20-L30
+// src/index.ts#L19-L30
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/launcher:plugin',
+  description: 'A minimal JupyterLab example using the launcher.',
   autoStart: true,
   requires: [IFileBrowserFactory],
-  optional: [ILauncher, ICommandPalette, ISettingRegistry],
+  optional: [ILauncher, ICommandPalette],
   activate: (
     app: JupyterFrontEnd,
     browserFactory: IFileBrowserFactory,

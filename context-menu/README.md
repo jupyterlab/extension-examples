@@ -18,10 +18,11 @@ First of all, you will start looking into the declaration of the extension:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L9-L13
+// src/index.ts#L9-L14
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/context-menu:plugin',
+  description: 'A minimal JupyterLab example to develop a context-menu.',
   autoStart: true,
   requires: [IFileBrowserFactory],
   activate: (app: JupyterFrontEnd, factory: IFileBrowserFactory) => {
@@ -34,7 +35,7 @@ The first step is to define the command that will be executed when clicking on t
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L14-L31
+// src/index.ts#L15-L32
 
 app.commands.addCommand('jlab-examples/context-menu:open', {
   label: 'Example',

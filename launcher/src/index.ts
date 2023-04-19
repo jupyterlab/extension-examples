@@ -5,7 +5,6 @@ import {
 import { ICommandPalette } from '@jupyterlab/apputils';
 import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
 import { ILauncher } from '@jupyterlab/launcher';
-import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { LabIcon } from '@jupyterlab/ui-components';
 
 import pythonIconStr from '../style/Python-logo-notext.svg';
@@ -19,9 +18,10 @@ namespace CommandIDs {
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/launcher:plugin',
+  description: 'A minimal JupyterLab example using the launcher.',
   autoStart: true,
   requires: [IFileBrowserFactory],
-  optional: [ILauncher, ICommandPalette, ISettingRegistry],
+  optional: [ILauncher, ICommandPalette],
   activate: (
     app: JupyterFrontEnd,
     browserFactory: IFileBrowserFactory,

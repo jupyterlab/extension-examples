@@ -1,7 +1,7 @@
 import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
-  ILayoutRestorer,
+  ILayoutRestorer
 } from '@jupyterlab/application';
 
 import { WidgetTracker, IWidgetTracker } from '@jupyterlab/apputils';
@@ -27,6 +27,7 @@ export const IExampleDocTracker = new Token<IWidgetTracker<ExampleDocWidget>>(
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'documents',
+  description: 'Minimal JupyterLab extension for a document widget.',
   autoStart: true,
   requires: [ILayoutRestorer],
   provides: IExampleDocTracker,
@@ -41,8 +42,8 @@ const extension: JupyterFrontEndPlugin<void> = {
       // When restoring the app, if the document was open, reopen it
       restorer.restore(tracker, {
         command: 'docmanager:open',
-        args: (widget) => ({ path: widget.context.path, factory: FACTORY }),
-        name: (widget) => widget.context.path,
+        args: widget => ({ path: widget.context.path, factory: FACTORY }),
+        name: widget => widget.context.path
       });
     }
 
@@ -52,7 +53,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       name: FACTORY,
       modelName: 'example-model',
       fileTypes: ['example'],
-      defaultFor: ['example'],
+      defaultFor: ['example']
     });
 
     // Add the widget to the tracker when it's created
@@ -77,9 +78,9 @@ const extension: JupyterFrontEndPlugin<void> = {
       mimeTypes: ['text/json', 'application/json'],
       extensions: ['.example'],
       fileFormat: 'text',
-      contentType: 'file',
+      contentType: 'file'
     });
-  },
+  }
 };
 
 export default extension;

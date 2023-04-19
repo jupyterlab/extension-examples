@@ -4,12 +4,12 @@ import {
 } from '@jupyterlab/application';
 import { ILoggerRegistry, ITextLog } from '@jupyterlab/logconsole';
 import { INotebookTracker } from '@jupyterlab/notebook';
-import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/log-messages:plugin',
+  description: 'A minimal JupyterLab example to develop a custom log-messages.',
   autoStart: true,
-  requires: [ILoggerRegistry, INotebookTracker, ISettingRegistry],
+  requires: [ILoggerRegistry, INotebookTracker],
   activate: (
     app: JupyterFrontEnd,
     loggerRegistry: ILoggerRegistry,
