@@ -19,78 +19,118 @@ example before diving into this one.
 ## The template folder structure
 
 Writing a JupyterLab extension usually starts from a configurable template. It
-can be downloaded with the [`cookiecutter`](https://cookiecutter.readthedocs.io/en/latest/) tool and the following command for an extension with a server part:
+can be downloaded with the [`copier`](https://copier.readthedocs.io/) tool and the following command for an extension with a server part:
 
 ```bash
-cookiecutter https://github.com/jupyterlab/extension-cookiecutter-ts
+pip install copier jinja2-time
+mkdir my_extension
+cd my_extension
+copier https://github.com/jupyterlab/extension-template .
 ```
 
-`cookiecutter` asks for some basic information that could for example be setup
-like this (be careful to set _has_server_extension_ to _y_):
+You will be asked for some basic information that could for example be setup
+like this (be careful to pick _server_ as _kind_):
 
 ```bash
-author_name []: tuto
-author_email []: tuto@help.you
-labextension_name [myextension]: jlab-ext-example
-python_name [jupyterlab_examples_server]:
-project_short_description [A JupyterLab extension.]: A minimal JupyterLab extension with backend and frontend parts.
-has_settings [n]:
-has_server_extension [n]: y
-has_binder [n]: y
-repository [https://github.com/github_username/jlab-ext-example]:
+🎤 What is your extension kind?
+   server
+🎤 Extension author name
+   tuto
+🎤 Extension author email
+   tuto@help.you
+🎤 JavaScript package name
+   jlab-ext-example
+🎤 Python package name
+   jlab_ext_example
+🎤 Extension short description
+   A minimal JupyterLab extension with backend and frontend parts.
+🎤 Does the extension have user settings?
+   No
+🎤 Do you want to set up Binder example?
+   Yes
+🎤 Do you want to set up tests for the extension?
+   Yes
+🎤 Git remote repository URL
+   https://github.com/github_username/jlab-ext-example
 ```
 
-> The python name should not contain `-`. It is nice for user to test your extension online, so the `has_binder` was set to _yes_.
+> The python name must be a valid Python module name (characters such `-`, `@` or `/` are not allowed).
+> It is nice for user to test your extension online, so the _set up Binder_ was set to _Yes_.
 
-The cookiecutter creates the directory `jupyterlab_examples_server` [or your extension name]
+The template creates creates files in the current director
 that looks like this:
 
 ```bash
-jupyterlab_examples_server/
-│  # Generic Files
-│   .gitignore
-│   install.json                # Information retrieved by JupyterLab to help users know how to manage the extension
-│   LICENSE                     # License of your code
-│   README.md                   # Instructions to install and build
+.
+├── CHANGELOG.md
+├── .gitignore
+├── LICENSE                    # License of your code
+├── README.md                  # Instructions to install and build
+├── RELEASE.md
+├── .copier-answers.yml        # Answers given when executing the extension template
 │
-├───.github
-│   └───workflows
-│           build.yml
+├── .github
+│   └── workflows
+│       ├── binder-on-pr.yml   # Test PR online
+│       ├── build.yml          # Test extension on GitHub CI
+│       ├── update-integration-tests.yml
+│       │  # Handle package release as GitHub actions
+│       ├── check-release.yml
+│       ├── enforce-label.yml
+│       ├── prep-release.yml
+│       └── publish-release.yml
 │
-├───binder
-│       environment.yml
-│       postBuild
-│  
-│  # Python Package Files
-│   MANIFEST.in                 # Help Python to list your source files
-│   pyproject.toml              # Define dependencies for building the package
-│   setup.py                    # Information about the package
+│  # Online extension demo
+├── binder
+│   ├── environment.yml
+│   └── postBuild
 │
 │  # Backend (server) Files
-├───jupyter-config
-│       jupyterlab_examples_server.json   # Server extension enabler
+├── conftest.py                # Python unit tests configuration
+├── install.json               # Information retrieved by JupyterLab to help users know how to manage the extension
+├── pyproject.toml             # Python package configuration
+├── setup.py                   # Optional - for backward compatibility if a tool does not support pyproject.toml
 │
-├───jupyterlab_examples_server
-│       handlers.py             # API handler (where things happen)
-│       _version.py             # Server extension version
-│       __init__.py             # Hook the extension in the server
-│  
-│  # Frontend Files
-│   .eslintignore               # Code linter configuration
-│   .eslintrc.js
-│   .prettierignore             # Code formatter configuration
-│   .prettierrc
-│   package.json                # Information about the frontend package
-│   tsconfig.json               # Typescript compilation configuration
-│  
-├───src
-│       index.ts                # Actual code of the extension
-│       handler.ts       # More code used by the extension
+├── jlab_ext_example
+│   ├── handlers.py            # API handler (where things happen)
+│   ├── __init__.py            # Hook the extension in the server
+│   └── tests                  # Python unit tests
+│       ├── __init__.py
+│       └── test_handlers.py
+├── jupyter-config             # Server extension auto-install
+│   ├── nb-config
+│   │   └── jlab_ext_example.json
+│   └── server-config
+│       └── jlab_ext_example.json
 │
-└───style
-        base.css               # CSS styling
-        index.css
-        index.js
+│  # Frontend Files
+├── babel.config.js
+├── jest.config.js
+├── package.json               # Information about the frontend package
+├── .prettierignore
+├── tsconfig.json              # Typescript compilation configuration
+├── tsconfig.test.json
+├── .yarnrc.yml
+│
+├── src                        # Actual code of the extension
+│   ├── handler.ts
+│   ├── index.ts
+│   └── __tests__              # JavaScript unit tests
+│       └── jlab_ext_example.spec.ts
+│
+├── style                      # CSS styling
+│   ├── base.css
+│   ├── index.css
+│   └── index.js
+│
+└── ui-tests                   # Integration tests
+    ├── jupyter_server_test_config.py
+    ├── package.json
+    ├── playwright.config.js
+    ├── README.md
+    ├── tests
+    │   └── jlab_ext_example.spec.ts
+    └── yarn.lock
 ```
 
 There are two major parts in the extension:
@@ -136,30 +176,10 @@ requestAPI<any>('hello')
 <!-- prettier-ignore-end -->
 
 As the server response is not instantaneous, the request is done asynchronously
-using the `await` keyword:
-
-<!-- prettier-ignore-start -->
-```ts
-// src/index.ts#L36-L36
-
-console.log(
-```
-<!-- prettier-ignore-end -->
-
-To use that `await` keyword, the function must be declared as asynchronous
-using the `async` keyword:
-
-<!-- prettier-ignore-start -->
-```ts
-// src/index.ts#L31-L35
-
-activate: (
-  app: JupyterFrontEnd,
-  palette: ICommandPalette,
-  launcher: ILauncher | null
-) => {
-```
-<!-- prettier-ignore-end -->
+using [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises).
+You could also use the keyword [`async`-`await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function).
+But it is not recommended in a plugin `activate` method as it may delay the application start
+up time.
 
 A GET request cannot carry data from the frontend to the server. To achieve that,
 you will need to execute a POST request. In this example, a POST request
@@ -167,7 +187,7 @@ is sent to the _/jlab-ext-example/hello_ endpoint with the data `{name: 'George'
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L53-L64
+// src/index.ts#L53-L65
 
 const dataToSend = { name: 'George' };
 requestAPI<any>('hello', {
@@ -181,6 +201,7 @@ requestAPI<any>('hello', {
     console.error(
       `Error on POST /jupyterlab-examples-server/hello ${dataToSend}.\n${reason}`
     );
+  });
 ```
 <!-- prettier-ignore-end -->
 
@@ -196,7 +217,7 @@ Its definition is :
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/handler.ts#L12-L45
+// src/handler.ts#L12-L46
 
 export async function requestAPI<T>(
   endPoint = '',
@@ -232,6 +253,7 @@ export async function requestAPI<T>(
   }
 
   return data;
+}
 ```
 <!-- prettier-ignore-end -->
 
@@ -361,7 +383,7 @@ an `IFrame` that will display static content fetched from the server extension.
 
 **Note**
 
-- If the response is not ok (i.e. status code not in range 200-299),
+- If the response is not ok (i.e. status code not in range 200-399),
   a `ResponseError` is thrown.
 - The response body is interpreted as JSON even in case the response is not
   ok. In JupyterLab, it is a good practice in case of error on the server
@@ -532,14 +554,12 @@ In the previous sections, the acting code has been described. But there are othe
 with the sole purpose of packaging the full extension nicely to help its distribution
 through package managers like `pip`.
 
-> Note: In particular, [`jupyter-packaging`](https://github.com/jupyter/jupyter-packaging) provides helpers to package and install JS files
-> with a Python package for Jupyter frontends (classical notebook,
-> JupyterLab,...).
-> As this package is a setup requirement, it needs to be specified in the `pyproject.toml` to be installed by `pip`.
-
 To deploy simultaneously the frontend and the backend,
 the frontend NPM package needs to be built and inserted in the Python package. This is
-done using a special a dedicated builder following [PEP 517](https://www.python.org/dev/peps/pep-0517) from package [jupyter-packaging](https://github.com/jupyter/jupyter-packaging). Its configuration is done in `pyproject.toml`:
+done using [hatch](https://hatch.pypa.io/) builder with some additional plugins: 
+- [hatch-nodejs-version](https://github.com/agoose77/hatch-nodejs-version): Get package metadata from `package.json` to align Python and JavaScript metadata.
+- [hatch-jupyter-builder](https://github.com/jupyterlab/hatch-jupyter-builder/): Builder plugin to build Jupyter JavaScript assets as part of the Python package.
+Its configuration is done in `pyproject.toml`:
 
 ```py
 # pyproject.toml

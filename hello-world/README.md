@@ -55,6 +55,9 @@ that looks like this:
 ```bash
 .
 ├── babel.config.js
+├── binder
+│   ├── environment.yml
+│   └── postBuild
 ├── CHANGELOG.md
 ├── .copier-answers.yml
 ├── .github
@@ -111,6 +114,7 @@ Those files can be separated in 5 groups:
   - `README.md` contains some instructions to install and use the extension.
   - `RELEASE.md` contains instructions to release the extension.
 - Configuration:
+  - `binder/` contains configuration to test online your extension using [Binder](https://mybinder.org/).
   - `.gitignore` files to be ignored by Git (the recommended version control tool).
   - `.prettierignore` files to be ignored by JavaScript code formatter [`prettier`](https://prettier.io).
   - `package.json` contains the JavaScript configuration for the linters: [`eslint`](https://eslint.org), [`prettier`](https://prettier.io) and [`stylelint`](https://stylelint.io/).
