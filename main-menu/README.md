@@ -40,7 +40,7 @@ commands.addCommand(command, {
 Now that the command is defined, you need to add the definition of the menu
 in the plugin settings file.
 
-> Tip: when using the cookiecutter template for JupyterLab extension, you can
+> Tip: when using the extension template for JupyterLab extension, you can
 > request initial settings to be created.
 
 The creation of a settings file is described in the [settings example](../settings/README.md). Here only the needed keys to add a menu will describe.

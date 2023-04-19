@@ -4,33 +4,36 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/extension-examples/master?urlpath=lab)
 
 1. [Goal](#tldr)
-2. [Develop by Examples](#develop-by-examples)
+1. [Develop by Examples](#develop-by-examples)
    1. [Commands](#commands)
-   2. [Command Palette](#command-palette)
-   3. Main Widget [Content Header](#main-widget-content-header)
-   4. [Context Menu](#context-menu)
-   5. [Custom Log Console](#custom-log-console)
-   6. [Datagrid](#datagrid)
-   7. _[Hello World](#hello-world)_
-   8. [Kernel Messaging](#kernel-messaging)
-   9. [Kernel Output](#kernel-output)
-   10. [Launcher](#launcher)
-   11. [Log Messages](#log-messages)
-   12. [Main Menu](#main-menu)
-   13. [React Widget](#react-widget)
-   14. _[Server Hello World](#server-hello-world)_
-   15. [Settings](#settings)
-   16. [Signals](#signals)
-   17. [State](#state)
-   18. [Toolbar Item](#toolbar-item)
-   19. [Widgets](#widgets)
-3. [Prerequisites](#prerequisites)
-4. [Develop and Use the Examples](#develop-and-use-the-examples)
-5. [Test the Examples](#test-the-examples)
-6. [Install a Published Extension](#install-a-published-extension)
-7. [About JupyterLab](#about-jupyterlab)
-8. [Credits](#credits)
-9. [Community Guidelines and Code of Conduct](#community-guidelines-and-code-of-conduct)
+   1. [Command Palette](#command-palette)
+   1. [Completer](#completer)
+   1. Main Widget [Content Header](#main-widget-content-header)
+   1. [Context Menu](#context-menu)
+   1. [Custom Log Console](#custom-log-console)
+   1. [Datagrid](#datagrid)
+   1. [Collaborative Document](#collaborative-document)
+   1. _[Hello World](#hello-world)_
+   1. [Kernel Messaging](#kernel-messaging)
+   1. [Kernel Output](#kernel-output)
+   1. [Launcher](#launcher)
+   1. [Log Messages](#log-messages)
+   1. [Main Menu](#main-menu)
+   1. [MIME Renderer](#mime-renderer)
+   1. [React Widget](#react-widget)
+   1. _[Server Hello World](#server-hello-world)_
+   1. [Settings](#settings)
+   1. [Signals](#signals)
+   1. [State](#state)
+   1. [Toolbar Item](#toolbar-item)
+   1. [Widgets](#widgets)
+1. [Prerequisites](#prerequisites)
+1. [Develop and Use the Examples](#develop-and-use-the-examples)
+1. [Test the Examples](#test-the-examples)
+1. [Install a Published Extension](#install-a-published-extension)
+1. [About JupyterLab](#about-jupyterlab)
+1. [Credits](#credits)
+1. [Community Guidelines and Code of Conduct](#community-guidelines-and-code-of-conduct)
 
 ## TL;DR
 
@@ -67,13 +70,15 @@ jlpm run build
 jupyter lab
 ```
 
-The examples currently target **JupyterLab 3.1 or later**.
+The examples currently target **JupyterLab 4.0 or later**.
+
+If you would like to use the examples with JupyterLab 3.x, check out the [3.x branch](https://github.com/jupyterlab/extension-examples/tree/3.x).
 
 If you would like to use the examples with JupyterLab 2.x, check out the [2.x branch](https://github.com/jupyterlab/extension-examples/tree/2.x).
 
 If you would like to use the examples with JupyterLab 1.x, check out the [1.x branch](https://github.com/jupyterlab/extension-examples/tree/1.x).
 
-Note that the `1.x` and `2.x` branches are not updated anymore.
+Note that the `1.x`, `2.x` and `3.x` branches are not updated anymore.
 
 ## Develop by Examples
 
@@ -88,13 +93,14 @@ Start with the [Hello World](hello-world) and then jump to the topic you are int
 - [Context Menu](context-menu)
 - [Custom Log Console](custom-log-console)
 - [Datagrid](datagrid)
-- [Documents](documents)
+- [Collaborative Document](documents)
 - [Hello World](hello-world)
 - [Kernel Messaging](kernel-messaging)
 - [Kernel Output](kernel-output)
 - [Launcher](launcher)
 - [Log Messages](log-messages)
 - [Main Menu](main-menu)
+- [MIME Renderer](mimerenderer)
 - [React Widget](react-widget)
 - [Server Hello World](server-extension)
 - [Settings](settings)
@@ -156,7 +162,7 @@ Display a Datagrid as a Lumino Widget.
 
 [![Datagrid](datagrid/preview.png)](datagrid)
 
-### [Documents](documents)
+### [Collaborative Document](documents)
 
 Create new documents and make them collaborative.
 
@@ -197,6 +203,12 @@ Send a log message to the log console.
 Add a Menu to the main app.
 
 [![Main Menu](main-menu/preview.png)](main-menu)
+
+## [MIME Renderer](mimerenderer)
+
+Add a MIME renderer for mp4 content to the application.
+
+[![MIME Renderer](mimerenderer/preview.png)](mimerenderer)
 
 ### [React Widget](react-widget)
 
@@ -257,7 +269,7 @@ conda env create && \
   conda activate jupyterlab-extension-examples
 ```
 
-> The previous command will use the [environment.yaml](https://github.com/jupyterlab/extension-examples/blob/master/environment.yml) file as requirements for the environment.
+> The previous command will use the [environment.yml](https://github.com/jupyterlab/extension-examples/blob/master/environment.yml) file as requirements for the environment.
 
 ## Develop and Use the Examples
 
@@ -288,6 +300,7 @@ jlpm clean-ext
 Go to the example directory you want to install, e.g. `cd ./hello-world`, and run the following commands:
 
 ```bash
+touch yarn.lock
 pip install -e .
 jupyter labextension develop . --overwrite
 ```
@@ -314,10 +327,10 @@ In terminal 1, go to the extension folder and run the following:
 jlpm watch
 ```
 
-Then in terminal 2, start JupyterLab with the watch flag:
+Then in terminal 2, start JupyterLab:
 
 ```bash
-jupyter lab --watch
+jupyter lab
 ```
 
 From there, you can change your extension source code, it will be recompiled,

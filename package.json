@@ -5,7 +5,7 @@
     "build-ext": "lerna run build:all",
     "clean-ext": "lerna run clean",
     "embedme": "embedme \"[!n]*/README.md\"",
-    "install-py": "lerna exec --concurrency 4 -- python -m pip install .",
+    "install-py": "lerna exec --concurrency 4 -- touch yarn.lock && lerna exec --concurrency 4 -- python -m pip install \".\"",
     "install-ext": "lerna run install:extension",
     "lint": "lerna run lint",
     "lint:check": "lerna run lint:check",

@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "jupyterlab_examples_widgets"
 readme = "README.md"
-license = { file = "LICENSE" }
+license = {text = "BSD-3-Clause License"}
 requires-python = ">=3.8"
 classifiers = [
     "Framework :: Jupyter",
