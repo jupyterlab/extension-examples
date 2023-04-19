@@ -5,6 +5,7 @@
 
 1. [Goal](#tldr)
 1. [Develop by Examples](#develop-by-examples)
+   1. [CodeMirror extension](#codemirror-extension)
    1. [Commands](#commands)
    1. [Command Palette](#command-palette)
    1. [Completer](#completer)
@@ -90,6 +91,7 @@ You may find it easier to learn how to create extensions _by examples_, instead 
 
 Start with the [Hello World](hello-world) and then jump to the topic you are interested in.
 
+- [CodeMirror extension](codemirror-extension)
 - [Commands](commands)
 - [Command Palette](command-palette)
 - [Completer](completer)
@@ -124,6 +126,12 @@ You can expect from each example:
 We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/extension/extension_points.html). Browse the previews below or skip them and [jump directly to the sections for developers](#prerequisites).
 
 You are welcome to open any [issue](https://github.com/jupyterlab/extension-examples/issues) or [pull request](https://github.com/jupyterlab/extension-examples/pulls).
+
+### [CodeMirror extension](codemirror-extension)
+
+Add a configurable CodeMirror extension.
+
+[![CodeMirror extension](codemirror-extension/preview.png)](codemirror-extension)
 
 ### [Commands](commands)
 

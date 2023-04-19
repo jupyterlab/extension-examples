@@ -18,6 +18,7 @@
     }
   },
   "workspaces": [
+    "codemirror-extension",
     "command-palette",
     "commands",
     "completer",
