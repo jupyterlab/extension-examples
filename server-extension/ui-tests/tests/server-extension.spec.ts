@@ -34,7 +34,7 @@ test('should store state between reloads', async ({ page }) => {
     await page
       .frame({ url: '/jupyterlab-examples-server/public/index.html' })
       ?.waitForSelector(
-        'text=This content is served from the jupyterlab-examples-server extension.'
+        'text=This content is served from the jupyterlab_examples_server extension.'
       )
   ).toBeTruthy();
 });

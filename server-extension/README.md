@@ -556,10 +556,11 @@ through package managers like `pip`.
 
 To deploy simultaneously the frontend and the backend,
 the frontend NPM package needs to be built and inserted in the Python package. This is
-done using [hatch](https://hatch.pypa.io/) builder with some additional plugins: 
+done using [hatch](https://hatch.pypa.io/) builder with some additional plugins:
+
 - [hatch-nodejs-version](https://github.com/agoose77/hatch-nodejs-version): Get package metadata from `package.json` to align Python and JavaScript metadata.
 - [hatch-jupyter-builder](https://github.com/jupyterlab/hatch-jupyter-builder/): Builder plugin to build Jupyter JavaScript assets as part of the Python package.
-Its configuration is done in `pyproject.toml`:
+  Its configuration is done in `pyproject.toml`:
 
 ```py
 # pyproject.toml

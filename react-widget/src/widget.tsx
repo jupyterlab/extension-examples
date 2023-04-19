@@ -33,7 +33,7 @@ export class CounterWidget extends ReactWidget {
    */
   constructor() {
     super();
-    this.addClass('jp-ReactWidget');
+    this.addClass('jp-react-widget');
   }
 
   render(): JSX.Element {

@@ -4,11 +4,11 @@
     https://jupyterlab.readthedocs.io/en/stable/developer/css.html
 */
 
-.jp-SignalExamplePanel {
-  background-color: AliceBlue;
+.jp-signal-example-panel {
+  background-color: aliceblue;
 }
 
-.jp-ButtonWidget {
+.jp-button-widget {
   background-color: red;
   border-radius: 12px;
   border: none;
