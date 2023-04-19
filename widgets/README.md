@@ -84,7 +84,7 @@ You can associate style properties to the custom CSS class in the file
 
 ```css
 .jp-example-view {
-  background-color: AliceBlue;
+  background-color: aliceblue;
 }
 ```
 <!-- prettier-ignore-end -->
