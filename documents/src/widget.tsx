@@ -60,7 +60,7 @@ export class ExamplePanel extends Widget {
     this._offset = { x: 0, y: 0 };
     this._clients = {};
 
-    this._context.ready.then((value) => {
+    this._context.ready.then(value => {
       this._context.model.sharedModelChanged.connect(this._onContentChanged);
       this._context.model.clientChanged.connect(this._onClientChanged);
 
@@ -136,7 +136,7 @@ export class ExamplePanel extends Widget {
           this._isDown = true;
           this._offset = {
             x: this._cube.offsetLeft - event.clientX,
-            y: this._cube.offsetTop - event.clientY,
+            y: this._cube.offsetTop - event.clientY
           };
           break;
         case 'mouseup':
@@ -154,7 +154,7 @@ export class ExamplePanel extends Widget {
           // to prevent apply changes triggered by the same client
           this._context.model.setClient({
             x: event.x - this.node.getBoundingClientRect().left,
-            y: event.y - this.node.getBoundingClientRect().top,
+            y: event.y - this.node.getBoundingClientRect().top
           });
 
           if (this._isDown) {
@@ -164,7 +164,7 @@ export class ExamplePanel extends Widget {
             this._cube.style.top = event.clientY + this._offset.y + 'px';
             this._context.model.setPosition({
               x: event.clientX + this._offset.x,
-              y: event.clientY + this._offset.y,
+              y: event.clientY + this._offset.y
             });
           }
           break;

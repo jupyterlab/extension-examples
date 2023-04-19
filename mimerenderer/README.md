@@ -20,8 +20,9 @@ Specifically, we will be adding the ability for Jupyter Lab to render mp4 videos
 We will initialize the project by using a [cookiecutter](https://github.com/audreyr/cookiecutter). Enter the following in your terminal:
 
 ```bash
-cookiecutter https://github.com/jupyterlab/mimerender-cookiecutter-ts.git 
+cookiecutter https://github.com/jupyterlab/mimerender-cookiecutter-ts.git
 ```
+
 This will copy the project template for a mimerenderer extension and
 prepopulate it with the answers you give in a series of questions.
 Answer the questions as follows (with appropriate choices for `<Your name>` and `<Your email>`):
@@ -41,6 +42,7 @@ Choose from 1, 2 [1]: 1
 ```
 
 We now want to check this new extension directory into version control:
+
 ```
 cd jupyterlab-mp4
 git init
@@ -69,7 +71,7 @@ jlpm run watch
 ```
 
 Now, open a second terminal and run this command to start a JupyterLab instance
-that will watch your *built* extension for changes, and incorporate them
+that will watch your _built_ extension for changes, and incorporate them
 into the application as it runs:
 
 ```bash
@@ -84,6 +86,7 @@ incorporates changes, you can refresh the page to see them take effect.
 
 Now let's take a look at the core code for this extension. Open `src/index.ts` to browse it.
 There are three main data structures here:
+
 1. The `OutputWidget` class. This is the class that takes the data of your MIME type and knows how to render it to an HTML DOM node. This contains most of the logic for the extension.
 2. The `rendererFactory` object. This object knows how to create new instances of the `OutputWidget` class for use in the application.
 3. The `extension` object. This is the main entry point for your extension. It describes the metadata necessary for JupyterLab to load and use the extension.
@@ -114,6 +117,7 @@ There are three main data structures here:
 ```
 
 Let's commit this change:
+
 ```bash
 git commit -a -m "Rename OutputWidget to VideoWidget"
 ```
@@ -125,7 +129,8 @@ Choose a `.mp4` from the internet, or use the one in the demo repository:
 
 ```bash
 wget https://raw.githubusercontent.com/jupyterlab/jupyterlab-mp4/master/keaton.mp4
-``` 
+```
+
 <video controls width=600 src="keaton.mp4"></video>
 
 ### 6. Set the model format
@@ -162,7 +167,9 @@ To do this, make the following changes to the `extension` object:
      defaultFor: ['mp4']
    }
 ```
+
 and commit them.
+
 ```bash
 git commit -a -m "Use base64 encoding for the file type"
 ```
@@ -190,23 +197,24 @@ Make the following edits to `src/index.ts`:
 +    this._video.setAttribute('controls', '');
 +    this.node.appendChild(this._video);
    }
- 
+
    /**
     * Render mp4 into this widget's node.
     */
    renderModel(model: IRenderMime.IMimeModel): Promise<void> {
--    
+-
      let data = model.data[this._mimeType] as string;
 -    this.node.textContent = data.slice(0, 16384);
 +    this._video.src = `data:${MIME_TYPE};base64,${data}`;
-     
+
      return Promise.resolve();
    }
- 
+
 +  private _video: HTMLVideoElement;
    private _mimeType: string;
  }
 ```
+
 and commit them.
 
 ```bash
@@ -240,7 +248,9 @@ the following to `style/index.css`:
 +  height: auto;
 +}
 ```
+
 and commit it:
+
 ```bash
 git commit -a -m "Make the video the full width of its container"
 ```
@@ -260,6 +270,7 @@ git add *.svg
 ```
 
 We can then add CSS classes for these icons:
+
 ```text/x-diff
 --- a/style/index.css
 +++ b/style/index.css
@@ -277,6 +288,7 @@ We can then add CSS classes for these icons:
 The `[data-jp-theme-light]` selectors allow you to use a different icon
 depending upon whether the overall JupyterLab theme is light or dark.
 We can now add this new CSS class to the `mp4` file type in the extension:
+
 ```text/x-diff
 --- a/src/index.ts
 +++ b/src/index.ts
@@ -289,6 +301,7 @@ We can now add this new CSS class to the `mp4` file type in the extension:
        mimeTypes: [MIME_TYPE],
        extensions: ['.mp4']
 ```
+
 Commit these changes, and we are done!
 
 ```bash

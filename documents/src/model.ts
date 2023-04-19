@@ -172,7 +172,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     const obj = {
       x: pos?.x || 10,
       y: pos?.y || 10,
-      content: this.sharedModel.getContent('content') || '',
+      content: this.sharedModel.getContent('content') || ''
     };
     return JSON.stringify(obj, null, 2);
   }
@@ -207,7 +207,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     const obj = {
       x: pos?.x || 10,
       y: pos?.y || 10,
-      content: this.sharedModel.getContent('content') || '',
+      content: this.sharedModel.getContent('content') || ''
     };
     return obj;
   }
@@ -252,7 +252,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     const obj = {
       x: pos?.x || 10,
       y: pos?.y || 10,
-      content: this.sharedModel.getContent('content') || '',
+      content: this.sharedModel.getContent('content') || ''
     };
     return obj;
   }

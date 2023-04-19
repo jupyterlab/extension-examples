@@ -27,7 +27,7 @@ test('should check if the cube is loaded', async ({ page }) => {
 
   // Click [aria-label="File Browser Section"] >> text=untitled.txt
   await page.click('[aria-label="File Browser Section"] >> text=untitled.txt', {
-    button: 'right',
+    button: 'right'
   });
 
   // Click text=Rename
@@ -55,7 +55,7 @@ test('should check if the cube is loaded', async ({ page }) => {
   await page.click('text=View');
   await Promise.all([
     page.waitForSelector('#filebrowser', { state: 'hidden' }),
-    page.click('ul[role="menu"] >> text=Show Left Sidebar'),
+    page.click('ul[role="menu"] >> text=Show Left Sidebar')
   ]);
 
   await page.dragAndDrop(
