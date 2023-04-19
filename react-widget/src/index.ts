@@ -19,6 +19,7 @@ namespace CommandIDs {
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'react-widget',
+  description: 'A minimal JupyterLab extension using a React Widget.',
   autoStart: true,
   optional: [ILauncher],
   activate: (app: JupyterFrontEnd, launcher: ILauncher) => {

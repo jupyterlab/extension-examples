@@ -13,6 +13,7 @@ const PLUGIN_ID = '@jupyterlab-examples/state:state-example';
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
+  description: 'A minimal JupyterLab example using state database (DB).',
   autoStart: true,
   requires: [IStateDB],
   activate: (app: JupyterFrontEnd, state: IStateDB) => {

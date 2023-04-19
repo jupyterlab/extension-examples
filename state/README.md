@@ -8,7 +8,7 @@ in a JupyterLab extension.
 ![state example](preview.gif)
 
 The core token required for handling the state database (DB) is
-`IStateDB` ([documentation](https://jupyterlab.github.io/jupyterlab/interfaces/_statedb_src_index_.istatedb.html)).
+`IStateDB` ([documentation](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/statedb.IStateDB.html)).
 
 To use it, you first need to install its npm package:
 
@@ -27,10 +27,11 @@ import { IStateDB } from '@jupyterlab/statedb';
 To see how you can access the state, let's have a look at `src/index.ts`.
 
 ```ts
-// src/index.ts#L14-L55
+// src/index.ts#L14-L56
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
+  description: 'A minimal JupyterLab example using state database (DB).',
   autoStart: true,
   requires: [IStateDB],
   activate: (app: JupyterFrontEnd, state: IStateDB) => {
@@ -86,7 +87,7 @@ loading the state data for your plugin:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L22-L24
+// src/index.ts#L23-L25
 
 app.restored
   // Get the state object
@@ -101,7 +102,7 @@ should be specifically set when accessing the value.
 For instance, in this example the variable `option` is of type `string`:
 
 ```ts
-// src/index.ts#L27-L30
+// src/index.ts#L28-L31
 
 if (value) {
   option = (value as ReadonlyJSONObject)['option'] as string;
@@ -117,7 +118,7 @@ In the example, once the state is read, the user is prompted to choose an option
 an item list with the default option being stored as a state variable.
 
 ```ts
-// src/index.ts#L33-L37
+// src/index.ts#L34-L38
 
 return InputDialog.getItem({
   title: 'Pick an option to persist by the State Example extension',
@@ -130,7 +131,7 @@ This implies to store the new option done by the user in the state. This is done
 using the `save` method of `IStateDB`:
 
 ```ts
-// src/index.ts#L46-L46
+// src/index.ts#L47-L47
 
 return state.save(PLUGIN_ID, { option });
 ```

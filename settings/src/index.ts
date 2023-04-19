@@ -14,6 +14,7 @@ const COMMAND_ID = '@jupyterlab-examples/settings:toggle-flag';
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
+  description: 'A JupyterLab minimal example using settings.',
   autoStart: true,
   requires: [ISettingRegistry],
   activate: (app: JupyterFrontEnd, settings: ISettingRegistry) => {

@@ -4,7 +4,11 @@ import {
   SessionContextDialogs
 } from '@jupyterlab/apputils';
 
-import { OutputAreaModel, SimplifiedOutputArea } from '@jupyterlab/outputarea';
+import {
+  OutputArea,
+  OutputAreaModel,
+  SimplifiedOutputArea
+} from '@jupyterlab/outputarea';
 
 import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 
@@ -84,7 +88,7 @@ export class ExamplePanel extends StackedPanel {
   }
 
   execute(code: string): void {
-    SimplifiedOutputArea.execute(code, this._outputarea, this._sessionContext)
+    OutputArea.execute(code, this._outputarea, this._sessionContext)
       .then((msg: KernelMessage.IExecuteReplyMsg | undefined) => {
         console.log(msg);
       })

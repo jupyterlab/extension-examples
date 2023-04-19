@@ -8,6 +8,7 @@ import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/log-messages:plugin',
+  description: 'A minimal JupyterLab example to develop a custom log-messages.',
   autoStart: true,
   requires: [ILoggerRegistry, INotebookTracker, ISettingRegistry],
   activate: (

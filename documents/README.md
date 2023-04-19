@@ -35,7 +35,7 @@ protected createNewWidget(
 ): ExampleDocWidget {
   return new ExampleDocWidget({
     context,
-    content: new ExamplePanel(context),
+    content: new ExamplePanel(context)
   });
 }
 ```
@@ -76,7 +76,7 @@ When registering a new document, first of all, you need to know for what file ty
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L73-L81
+// src/index.ts#L74-L82
 
 // register the filetype
 app.docRegistry.addFileType({
@@ -85,7 +85,7 @@ app.docRegistry.addFileType({
   mimeTypes: ['text/json', 'application/json'],
   extensions: ['.example'],
   fileFormat: 'text',
-  contentType: 'file',
+  contentType: 'file'
 });
 ```
 <!-- prettier-ignore-end -->
@@ -96,7 +96,7 @@ To register a new `DocumentModel` we can use the API `addModelFactory` from the 
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L70-L71
+// src/index.ts#L71-L72
 
 const modelFactory = new ExampleDocModelFactory();
 app.docRegistry.addModelFactory(modelFactory);
@@ -109,7 +109,7 @@ To register a new `DocumentWidget` we can use the API `addWidgetFactory` from th
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L49-L67
+// src/index.ts#L50-L68
 
 // Creating the widget factory to register it so the document manager knows about
 // our new DocumentWidget
@@ -117,7 +117,7 @@ const widgetFactory = new ExampleWidgetFactory({
   name: FACTORY,
   modelName: 'example-model',
   fileTypes: ['example'],
-  defaultFor: ['example'],
+  defaultFor: ['example']
 });
 
 // Add the widget to the tracker when it's created

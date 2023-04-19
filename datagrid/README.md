@@ -35,7 +35,7 @@ the main area of JupyterLab as seen in the above screenshot.
 With these three classes, you can create your own widget, called `DataGridPanel` :
 
 ```ts
-// src/index.ts#L48-L68
+// src/index.ts#L50-L70
 
 class DataGridPanel extends StackedPanel {
   constructor(translator?: ITranslator) {
@@ -71,7 +71,7 @@ Therefore in this example a class `LargeDataModel` is derived from it
 to implement its abstract methods:
 
 ```ts
-// src/index.ts#L70-L79
+// src/index.ts#L72-L81
 
 class LargeDataModel extends DataModel {
   rowCount(region: DataModel.RowRegion): number {
@@ -122,7 +122,7 @@ values of the datagrid. In this case it simply displays the row and
 column index in each cell, and adds a letter prefix in the header regions:
 
 ```ts
-// src/index.ts#L79-L90
+// src/index.ts#L81-L92
 
 data(region: DataModel.CellRegion, row: number, column: number): any {
   if (region === 'row-header') {

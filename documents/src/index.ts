@@ -27,6 +27,7 @@ export const IExampleDocTracker = new Token<IWidgetTracker<ExampleDocWidget>>(
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'documents',
+  description: 'Minimal JupyterLab extension for a document widget.',
   autoStart: true,
   requires: [ILayoutRestorer],
   provides: IExampleDocTracker,

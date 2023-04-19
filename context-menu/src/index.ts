@@ -8,6 +8,7 @@ import { buildIcon } from '@jupyterlab/ui-components';
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/context-menu:plugin',
+  description: 'A minimal JupyterLab example to develop a context-menu.',
   autoStart: true,
   requires: [IFileBrowserFactory],
   activate: (app: JupyterFrontEnd, factory: IFileBrowserFactory) => {

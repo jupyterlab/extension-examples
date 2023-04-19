@@ -20,6 +20,7 @@ namespace CommandIDs {
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/signals:plugin',
+  description: 'A minimal JupyterLab example using signals.',
   autoStart: true,
   optional: [ILauncher],
   requires: [ICommandPalette, ITranslator],

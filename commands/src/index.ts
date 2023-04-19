@@ -8,6 +8,7 @@ import {
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'commands',
+  description: 'Minimal JupyterLab example creating a new command.',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
     const { commands } = app;

@@ -20,10 +20,11 @@ The registry has `CommandRegistry` type ([documentation](https://lumino.readthed
 To see how you can access the application command registry, open the file `src/index.ts`.
 
 ```ts
-// src/index.ts#L9-L37
+// src/index.ts#L9-L38
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'commands',
+  description: 'Minimal JupyterLab example creating a new command.',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
     const { commands } = app;
@@ -69,7 +70,7 @@ part of the application. Then you will need to call the `execute` method of the 
 with the unique command id and optionally the arguments.
 
 ```ts
-// src/index.ts#L31-L36
+// src/index.ts#L32-L37
 
   commands.execute(command, { origin: 'init' }).catch(reason => {
     console.error(

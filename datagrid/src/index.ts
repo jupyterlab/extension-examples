@@ -20,6 +20,8 @@ import { StackedPanel } from '@lumino/widgets';
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/datagrid:plugin',
+  description:
+    'Minimal JupyterLab extension to display a datagrid as a Lumino widget.',
   autoStart: true,
   requires: [ICommandPalette, ITranslator],
   activate: (

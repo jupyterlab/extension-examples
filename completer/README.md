@@ -100,7 +100,7 @@ return {
 We add our new completer provider to it:
 
 ```ts
-// src/index.ts#L22-L22
+// src/index.ts#L23-L23
 
 completionManager.registerProvider(new CustomCompleterProvider());
 ```

@@ -28,13 +28,13 @@ jlpm add @lumino/widgets
 ```
 
 A Widget can be added to the main area through the
-[JupyterLab Shell](https://jupyterlab.github.io/jupyterlab/classes/_application_src_index_.labshell.html).
+[JupyterLab Shell](https://jupyterlab.readthedocs.io/en/latest/api/classes/application.LabShell.html).
 
 Inside of the `activate` function, you can obtain it through the `shell` attribute
 of the `app` object:
 
 ```ts
-// src/index.ts#L18-L18
+// src/index.ts#L19-L19
 
 const { commands, shell } = app;
 ```
@@ -44,7 +44,7 @@ in this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L24-L27
+// src/index.ts#L25-L28
 
 execute: () => {
   const widget = new ExampleWidget();
@@ -63,7 +63,7 @@ In this case, no specific behavior is defined for the widget. Only some properti
 - `title.closable`: Allow the widget tab to be closed
 
 ```ts
-// src/index.ts#L35-L43
+// src/index.ts#L36-L44
 
 class ExampleWidget extends Widget {
   constructor() {

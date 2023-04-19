@@ -19,6 +19,7 @@ function generateContent(): string {
  */
 const plugin: JupyterFrontEndPlugin<void> = {
   id: 'contentheader:plugin',
+  description: 'Minimal JupyterLab example using contentHeader.',
   autoStart: true,
   optional: [ICommandPalette],
   activate: (app: JupyterFrontEnd, palette?: ICommandPalette) => {

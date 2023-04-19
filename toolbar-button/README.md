@@ -32,11 +32,13 @@ import {
 Firstly you have to register the plugin information. For that you have to pass a activate **function** and the plugin **id**.
 
 ```ts
-// src/index.ts#L21-L25
+// src/index.ts#L21-L27
 
 const plugin: JupyterFrontEndPlugin<void> = {
   activate,
-  id: 'toolbar-button',
+  id: '@jupyterlab-examples/toolbar-button',
+  description:
+    'A JupyterLab extension adding a button to the Notebook toolbar.',
   autoStart: true
 };
 ```
@@ -45,7 +47,7 @@ New widgets can be added to a document widget by implementing the interface [Doc
 document widget; in this case a notebook panel.
 
 ```ts
-// src/index.ts#L30-L59
+// src/index.ts#L32-L61
 
 export class ButtonExtension
   implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel>
@@ -82,7 +84,7 @@ export class ButtonExtension
 Finally you need to tell the document registry about your widget extension:
 
 ```ts
-// src/index.ts#L66-L68
+// src/index.ts#L68-L70
 
 function activate(app: JupyterFrontEnd): void {
   app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());

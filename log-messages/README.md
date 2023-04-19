@@ -23,11 +23,12 @@ First of all, you will start looking into the declaration of the extension:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L8-L17
+// src/index.ts#L8-L18
 
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/log-messages:plugin',
+  description: 'A minimal JupyterLab example to develop a custom log-messages.',
   autoStart: true,
   requires: [ILoggerRegistry, INotebookTracker, ISettingRegistry],
   activate: (
@@ -44,7 +45,7 @@ The first step is to obtain the logger of the active notebook. You can use `logg
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L23-L25
+// src/index.ts#L24-L26
 
 const logger = loggerRegistry.getLogger(
   nbtracker.currentWidget?.context.path || ''
@@ -56,7 +57,7 @@ Finally, you can send log messages by calling the `log` method of the `logger` o
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L28-L34
+// src/index.ts#L29-L35
 
 const msg: ITextLog = {
   type: 'text',

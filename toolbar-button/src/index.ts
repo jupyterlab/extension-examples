@@ -20,7 +20,9 @@ import {
  */
 const plugin: JupyterFrontEndPlugin<void> = {
   activate,
-  id: 'toolbar-button',
+  id: '@jupyterlab-examples/toolbar-button',
+  description:
+    'A JupyterLab extension adding a button to the Notebook toolbar.',
   autoStart: true
 };
 

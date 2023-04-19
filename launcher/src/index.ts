@@ -18,6 +18,7 @@ namespace CommandIDs {
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/launcher:plugin',
+  description: 'A minimal JupyterLab example using the launcher.',
   autoStart: true,
   requires: [IFileBrowserFactory],
   optional: [ILauncher, ICommandPalette],

@@ -24,6 +24,7 @@ import { LogLevelSwitcher } from './logLevelSwitcher';
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/custom-log-console:plugin',
+  description: 'A minimal JupyterLab example to develop a custom log console.',
   autoStart: true,
   requires: [ICommandPalette, IRenderMimeRegistry, ILayoutRestorer],
   activate: (

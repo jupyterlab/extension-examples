@@ -8,7 +8,7 @@ in a JupyterLab extension.
 ![settings example](preview.gif)
 
 The core token required for handling the settings is
-`ISettingRegistry` ([documentation](https://jupyterlab.github.io/jupyterlab/modules/_settingregistry_src_index_.isettingregistry.html)). To use it,
+`ISettingRegistry` ([documentation](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/settingregistry.ISettingRegistry-1.html)). To use it,
 you first need to install its npm package:
 
 ```bash
@@ -29,10 +29,11 @@ To see how you can access the settings, let's have a look at
 `src/index.ts`.
 
 ```ts
-// src/index.ts#L15-L20
+// src/index.ts#L15-L21
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
+  description: 'A JupyterLab minimal example using settings.',
   autoStart: true,
   requires: [ISettingRegistry],
   activate: (app: JupyterFrontEnd, settings: ISettingRegistry) => {
@@ -130,13 +131,13 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 
 <!-- prettier-ignore-start -->
 ```json5
-// package.json#L99-L103
+// package.json#L95-L99
 
 "jupyterlab": {
   "extension": true,
   "outputDir": "jupyterlab_examples_settings/labextension",
   "schemaDir": "schema"
-}
+},
 ```
 <!-- prettier-ignore-end -->
 
@@ -157,10 +158,11 @@ use them inside your extension. Let's look at this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L15-L79
+// src/index.ts#L15-L80
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
+  description: 'A JupyterLab minimal example using settings.',
   autoStart: true,
   requires: [ISettingRegistry],
   activate: (app: JupyterFrontEnd, settings: ISettingRegistry) => {
@@ -232,7 +234,7 @@ your plugin settings to be loaded :
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L41-L41
+// src/index.ts#L42-L42
 
 Promise.all([app.restored, settings.load(PLUGIN_ID)])
 ```
@@ -247,7 +249,7 @@ to get its value and specify the type explicitly.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L29-L37
+// src/index.ts#L30-L38
 
 function loadSetting(setting: ISettingRegistry.ISettings): void {
   // Read the settings and convert to the correct type
@@ -270,7 +272,7 @@ To react at a setting change by the user, you should use the signal
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L47-L47
+// src/index.ts#L48-L48
 
 setting.changed.connect(loadSetting);
 ```
@@ -281,7 +283,7 @@ the `flag` and increment the `limit` settings is implemented.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L52-L70
+// src/index.ts#L53-L71
 
 execute: () => {
   // Programmatically change a setting
@@ -310,7 +312,7 @@ new value.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L55-L56
+// src/index.ts#L56-L57
 
 setting.set('flag', !flag),
 setting.set('limit', limit + 1)

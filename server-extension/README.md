@@ -121,18 +121,17 @@ is printed in the web browser console:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L33-L42
+// src/index.ts#L42-L50
 
-) => {
-  // GET request
-  try {
-    const data = await requestAPI<any>('hello');
+requestAPI<any>('hello')
+  .then(data => {
     console.log(data);
-  } catch (reason) {
+  })
+  .catch(reason => {
     console.error(
-      `Error on GET /jupyterlab_examples_server/hello.\n${reason}`
+      `The jupyterlab_examples_server server extension appears to be missing.\n${reason}`
     );
-  }
+  });
 ```
 <!-- prettier-ignore-end -->
 
@@ -143,7 +142,7 @@ using the `await` keyword:
 ```ts
 // src/index.ts#L36-L36
 
-const data = await requestAPI<any>('hello');
+console.log(
 ```
 <!-- prettier-ignore-end -->
 
@@ -152,9 +151,9 @@ using the `async` keyword:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L29-L33
+// src/index.ts#L31-L35
 
-activate: async (
+activate: (
   app: JupyterFrontEnd,
   palette: ICommandPalette,
   launcher: ILauncher | null
@@ -168,20 +167,20 @@ is sent to the _/jlab-ext-example/hello_ endpoint with the data `{name: 'George'
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L45-L56
+// src/index.ts#L53-L64
 
 const dataToSend = { name: 'George' };
-try {
-  const reply = await requestAPI<any>('hello', {
-    body: JSON.stringify(dataToSend),
-    method: 'POST'
-  });
-  console.log(reply);
-} catch (reason) {
-  console.error(
-    `Error on POST /jupyterlab_examples_server/hello ${dataToSend}.\n${reason}`
-  );
-}
+requestAPI<any>('hello', {
+  body: JSON.stringify(dataToSend),
+  method: 'POST'
+})
+  .then(reply => {
+    console.log(reply);
+  })
+  .catch(reason => {
+    console.error(
+      `Error on POST /jupyterlab-examples-server/hello ${dataToSend}.\n${reason}`
+    );
 ```
 <!-- prettier-ignore-end -->
 
@@ -207,7 +206,7 @@ export async function requestAPI<T>(
   const settings = ServerConnection.makeSettings();
   const requestUrl = URLExt.join(
     settings.baseUrl,
-    'jupyterlab_examples_server', // API Namespace
+    'jupyterlab-examples-server', // API Namespace
     endPoint
   );
 
@@ -270,7 +269,7 @@ The next step is to build the full request URL:
 
 const requestUrl = URLExt.join(
   settings.baseUrl,
-  'jupyterlab_examples_server', // API Namespace
+  'jupyterlab-examples-server', // API Namespace
   endPoint
 ```
 <!-- prettier-ignore-end -->
@@ -330,7 +329,7 @@ This example also showcases how you can serve static files from the server exten
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L58-L79
+// src/index.ts#L67-L88
 
 const { commands, shell } = app;
 const command = CommandIDs.get;
@@ -379,12 +378,16 @@ your extension needs to be defined as a proper Python package with some hook fun
 ```py
 # jupyterlab_examples_server/__init__.py
 
-from .handlers import setup_handlers
 from ._version import __version__
+from .handlers import setup_handlers
 
 
 def _jupyter_labextension_paths():
-    return [{"src": "labextension", "dest": "@jupyterlab-examples/server-extension"}]
+    return [{
+        "src": "labextension",
+        "dest": "@jupyterlab-examples/server-extension"
+    }]
+
 
 
 def _jupyter_server_extension_points():
@@ -416,7 +419,7 @@ to the server. But the most important one is `_load_jupyter_server_extension`
 that register new handlers.
 
 ```py
-# jupyterlab_examples_server/__init__.py#L23-L23
+# jupyterlab_examples_server/__init__.py#L27-L27
 
 setup_handlers(server_app.web_app)
 ```
@@ -425,13 +428,13 @@ A handler is registered in the web application by linking an url to a class. In 
 example the url is _base_server_url_`/jlab-ext-example/hello` and the class handler is `RouteHandler`:
 
 ```py
-# jupyterlab_examples_server/handlers.py#L28-L34
+# jupyterlab_examples_server/handlers.py#L29-L35
 
 host_pattern = ".*$"
-base_url = web_app.settings["base_url"]
 
+base_url = web_app.settings["base_url"]
 # Prepend the base_url so that it works in a JupyterHub setting
-route_pattern = url_path_join(base_url, "jupyterlab_examples_server", "hello")
+route_pattern = url_path_join(base_url, "jupyterlab-examples-server", "hello")
 handlers = [(route_pattern, RouteHandler)]
 web_app.add_handlers(host_pattern, handlers)
 ```
@@ -441,7 +444,7 @@ implement the wanted HTTP verbs. For example, here, `/jlab-ext-example/hello` ca
 by a _GET_ or a _POST_ request. They will call the `get` or `post` method respectively.
 
 ```py
-# jupyterlab_examples_server/handlers.py#L11-L24
+# jupyterlab_examples_server/handlers.py#L10-L25
 
 class RouteHandler(APIHandler):
     # The following decorator should be present on all verb methods (head, get, post,
@@ -449,7 +452,9 @@ class RouteHandler(APIHandler):
     # Jupyter server
     @tornado.web.authenticated
     def get(self):
-        self.finish(json.dumps({"data": "This is /jupyterlab_examples_server/hello endpoint!"}))
+        self.finish(json.dumps({
+            "data": "This is /jupyterlab-examples-server/hello endpoint!"
+        }))
 
     @tornado.web.authenticated
     def post(self):
@@ -470,10 +475,12 @@ by calling the `finish` method. That method can optionally take an argument that
 become the response body of the request in the frontend.
 
 ```py
-# jupyterlab_examples_server/handlers.py#L16-L17
+# jupyterlab_examples_server/handlers.py#L15-L18
 
 def get(self):
-    self.finish(json.dumps({"data": "This is /jupyterlab_examples_server/hello endpoint!"}))
+    self.finish(json.dumps({
+        "data": "This is /jupyterlab-examples-server/hello endpoint!"
+    }))
 ```
 
 In Jupyter, it is common to use JSON as format between the frontend and the backend.
@@ -485,7 +492,7 @@ sent by the frontend. When using JSON as communication format, you can directly 
 `get_json_body` helper method to convert the request body into a Python dictionary.
 
 ```py
-# jupyterlab_examples_server/handlers.py#L22-L23
+# jupyterlab_examples_server/handlers.py#L23-L24
 
 input_data = self.get_json_body()
 data = {"greetings": "Hello {}, enjoy JupyterLab!".format(input_data["name"])}
@@ -495,7 +502,7 @@ The part responsible to serve static content with a `StaticFileHandler` handler
 is the following:
 
 ```py
-# jupyterlab_examples_server/handlers.py#L37-L43
+# jupyterlab_examples_server/handlers.py#L38-L44
 
 doc_url = url_path_join(base_url, "jupyterlab_examples_server", "public")
 doc_dir = os.getenv(
@@ -702,7 +709,7 @@ user about that dependency by adding the `discovery` metadata to your `package.j
 file:
 
 ```json5
-// package.json#L101-L111
+// package.json#L98-L108
 
 "jupyterlab": {
   "discovery": {
@@ -720,7 +727,7 @@ file:
 In this example, the extension requires a `server` extension:
 
 ```json5
-// package.json#L102-L102
+// package.json#L99-L99
 
 "discovery": {
 ```
@@ -728,7 +735,7 @@ In this example, the extension requires a `server` extension:
 And that server extension is available through `pip`:
 
 ```json5
-// package.json#L103-L105
+// package.json#L100-L102
 
 "server": {
   "managers": [

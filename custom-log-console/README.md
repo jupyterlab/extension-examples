@@ -25,10 +25,11 @@ First of all, you will start by looking into the declaration of the extension:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L26-L35
+// src/index.ts#L25-L35
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/custom-log-console:plugin',
+  description: 'A minimal JupyterLab example to develop a custom log console.',
   autoStart: true,
   requires: [ICommandPalette, IRenderMimeRegistry, ILayoutRestorer],
   activate: (
