@@ -95,7 +95,7 @@ class IFrameWidget extends IFrame {
   constructor() {
     super();
     const baseUrl = PageConfig.getBaseUrl();
-    this.url = baseUrl + 'jupyterlab_examples_server/public/index.html';
+    this.url = baseUrl + 'jupyterlab-examples-server/public/index.html';
     this.id = 'doc-example';
     this.title.label = 'Server Doc';
     this.title.closable = true;

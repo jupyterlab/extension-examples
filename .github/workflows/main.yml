@@ -63,7 +63,10 @@ jobs:
       - name: Check config files
         if: steps.filter.outputs.extension == 'true'
         run: |
+          diff ../hello-world/setup.py setup.py
           diff ../hello-world/tsconfig.json tsconfig.json
+          diff ../hello-world/.yarnrc.yml .yarnrc.yml
+          diff ../hello-world/ui-tests/jupyter_server_test_config.py ./ui-tests/jupyter_server_test_config.py
           diff ../hello-world/ui-tests/playwright.config.js ./ui-tests/playwright.config.js
         shell: bash
       - name: Install node
@@ -170,7 +173,10 @@ jobs:
       - name: Check config files
         if: steps.filter.outputs.extension == 'true'
         run: |
+          diff hello-world/setup.py server-extension/setup.py
           diff hello-world/tsconfig.json server-extension/tsconfig.json
+          diff hello-world/.yarnrc.yml server-extension/.yarnrc.yml
+          diff hello-world/ui-tests/jupyter_server_test_config.py server-extension/ui-tests/jupyter_server_test_config.py
           diff hello-world/ui-tests/playwright.config.js server-extension/ui-tests/playwright.config.js
         shell: bash
       - name: Install Python

@@ -7,22 +7,16 @@ test('should clear all outputs when clicked', async ({ page }) => {
 
   await page.waitForSelector('text=| Idle');
 
-  // Fill textarea
   await page.notebook.setCell(0, 'code', 'print("Hello, JupyterLab")');
-  // Press Enter with modifiers
   await page.keyboard.press('Shift+Enter');
 
-  // Fill text=[ ]: ​ >> textarea
   await page.notebook.setCell(1, 'code', 'print("Welcome to JupyterLab")');
-  // Press Enter with modifiers
   await page.keyboard.press('Shift+Enter');
 
-  // Click .lm-Widget.p-Widget.jp-RenderedText
   const OUTPUT = '.lm-Widget.jp-RenderedText >> text=Hello, JupyterLab';
   expect(await page.waitForSelector(OUTPUT)).toBeTruthy();
 
-  // Click button:has-text("Clear All Outputs")
-  await page.click('button:has-text("Clear All Outputs")');
+  await page.click('button:has-text("Clear Outputs of All Cells")');
 
   let failed = true;
   try {

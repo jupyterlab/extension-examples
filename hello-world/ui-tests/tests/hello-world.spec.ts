@@ -12,6 +12,6 @@ test('should emit console message', async ({ page }) => {
   await page.goto();
 
   expect(
-    logs.filter(s => s.startsWith('the JupyterLab main application'))
+    logs.filter(s => s.startsWith('The JupyterLab main application'))
   ).toHaveLength(1);
 });
