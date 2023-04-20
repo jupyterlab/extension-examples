@@ -8,7 +8,7 @@ test('should emit an activation console message', async ({ page }) => {
     .first()
     .click();
 
-  await page.getByRole('tab', { name: 'Untitled.ipynb' }).waitFor();
+  await page.getByRole('region', { name: 'notebook content' }).getByRole('textbox').waitFor();
 
   // Fill the first cell
   await page.notebook.setCell(
