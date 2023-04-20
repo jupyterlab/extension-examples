@@ -27,6 +27,7 @@ jobs:
           - custom-log-console
           - log-messages
           - main-menu
+          - notifications
           - react-widget
           - settings
           - state

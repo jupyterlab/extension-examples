@@ -3,9 +3,9 @@ channels:
   - conda-forge
   - conda-forge/label/jupyterlab_beta
 dependencies:
-  - jupyterlab>=4.0.0b0
+  - jupyterlab >=4.0.0b0
   - nodejs=18
   - pytest
   - pytest-check-links
+  - pytest-jupyter >=0.6.0
   - python=3
-  - yarn

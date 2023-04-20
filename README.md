@@ -20,6 +20,7 @@
    1. [Log Messages](#log-messages)
    1. [Main Menu](#main-menu)
    1. [MIME Renderer](#mime-renderer)
+   1. [Notifications](#notifications)
    1. [React Widget](#react-widget)
    1. _[Server Hello World](#server-hello-world)_
    1. [Settings](#settings)
@@ -56,6 +57,9 @@ conda activate jupyterlab-extension-examples
 
 # go to the hello world example
 cd hello-world
+
+# Required to deal with Yarn 3 workspace rules
+touch yarn.lock
 
 # install the extension in editable mode
 python -m pip install -e .
@@ -101,6 +105,7 @@ Start with the [Hello World](hello-world) and then jump to the topic you are int
 - [Log Messages](log-messages)
 - [Main Menu](main-menu)
 - [MIME Renderer](mimerenderer)
+- [Notifications](notifications)
 - [React Widget](react-widget)
 - [Server Hello World](server-extension)
 - [Settings](settings)
@@ -209,6 +214,12 @@ Add a Menu to the main app.
 Add a MIME renderer for mp4 content to the application.
 
 [![MIME Renderer](mimerenderer/preview.png)](mimerenderer)
+
+### [Notifications](notifications)
+
+Emit notifications.
+
+[![Notifications](notifications/preview.gif)](notifications)
 
 ### [React Widget](react-widget)
 
