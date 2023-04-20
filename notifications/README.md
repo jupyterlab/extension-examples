@@ -14,7 +14,7 @@ import { Notification } from '@jupyterlab/apputils';
 
 It does not use the token system (aka the dependency injection system) to avoid to pass the notification object through your components tree.
 
-> Note: The user interface to display the notifications is a specific plugin 
+> Note: The user interface to display the notifications is a specific plugin
 > that can be disable or overridden by extensions.
 
 The [Notification]() namespace provides helpers to quickly display message
@@ -22,7 +22,7 @@ of a specific type like success, error, warning,... .
 
 In this example, three notifications are emitted.
 
-The first notification has type success. 
+The first notification has type success.
 
 ```ts
 // src/index.ts#L21-L22
@@ -37,6 +37,7 @@ be highlighted to inform the user a new notification is available.
 
 The second notification has a type error.
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L24-L30
 
@@ -48,6 +49,7 @@ Notification.error('Watch out something went wrong.', {
   autoClose: 3000
 });
 ```
+<!-- prettier-ignore-end -->
 
 It will be displayed but only
 for 3000ms. Then it will be automatically hidden. But the user will be able

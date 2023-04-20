@@ -44,7 +44,8 @@ const plugin: JupyterFrontEndPlugin<void> = {
           pending: { message: 'Waiting...', options: { autoClose: false } },
           // Message when the task finished successfully
           success: {
-            message: (result: any) => `Action successful after ${result.delay}ms.`
+            message: (result: any) =>
+              `Action successful after ${result.delay}ms.`
           },
           // Message when the task finished with errors
           error: { message: () => 'Action failed.' }
