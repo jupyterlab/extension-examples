@@ -36,12 +36,14 @@ const stripe = Decoration.line({
 
 // Create the range of lines requiring decorations
 function stripeDeco(view: EditorView) {
-  let step = view.state.facet(stepSize);
-  let builder = new RangeSetBuilder<Decoration>();
-  for (let { from, to } of view.visibleRanges) {
+  const step = view.state.facet(stepSize);
+  const builder = new RangeSetBuilder<Decoration>();
+  for (const { from, to } of view.visibleRanges) {
     for (let pos = from; pos <= to; ) {
-      let line = view.state.doc.lineAt(pos);
-      if (line.number % step == 0) builder.add(line.from, line.from, stripe);
+      const line = view.state.doc.lineAt(pos);
+      if (line.number % step === 0) {
+        builder.add(line.from, line.from, stripe);
+      }
       pos = line.to + 1;
     }
   }
@@ -65,8 +67,9 @@ const showStripes = ViewPlugin.fromClass(
         update.docChanged ||
         update.viewportChanged ||
         oldStep !== update.view.state.facet(stepSize)
-      )
+      ) {
         this.decorations = stripeDeco(update.view);
+      }
     }
   },
   {
@@ -78,7 +81,7 @@ const showStripes = ViewPlugin.fromClass(
 export function zebraStripes(options: { step?: number } = {}): Extension {
   return [
     baseTheme,
-    options.step == null ? [] : stepSize.of(options.step),
+    typeof options.step !== 'number' ? [] : stepSize.of(options.step),
     showStripes
   ];
 }

@@ -4,7 +4,7 @@ on:
   push:
     branches: master
   pull_request:
-    branches: "*"
+    branches: '*'
 
 jobs:
   build_extensions:
@@ -14,28 +14,29 @@ jobs:
       fail-fast: false
       matrix:
         example:
-          - kernel-messaging
-          - kernel-output
+          - codemirror-extension
+          - command-palette
+          - commands
+          - completer
+          - contentheader
+          - context-menu
+          - custom-log-console
           - datagrid
           - documents
           - hello-world
-          - signals
-          - command-palette
-          - commands
-          - context-menu
           - launcher
-          - custom-log-console
+          - kernel-messaging
+          - kernel-output
           - log-messages
           - main-menu
+          - metadata-form
           - notifications
           - react-widget
           - settings
+          - signals
           - state
           - toolbar-button
           - widgets
-          - completer
-          - contentheader
-          - metadata-form
         os: [ubuntu-latest, macos-latest, windows-latest]
 
     defaults:
@@ -75,13 +76,13 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         uses: actions/setup-node@v3
         with:
-          node-version: "18.x"
+          node-version: '18.x'
       - name: Install Python
         if: steps.filter.outputs.extension == 'true'
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
-          architecture: "x64"
+          python-version: '3.11'
+          architecture: 'x64'
       - name: Get pip cache dir
         if: steps.filter.outputs.extension == 'true'
         id: pip-cache
@@ -171,7 +172,7 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         uses: actions/setup-node@v3
         with:
-          node-version: "18.x"
+          node-version: '18.x'
       - name: Check config files
         if: steps.filter.outputs.extension == 'true'
         run: |
@@ -185,8 +186,8 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
-          architecture: "x64"
+          python-version: '3.11'
+          architecture: 'x64'
       - name: Get pip cache dir
         if: steps.filter.outputs.extension == 'true'
         id: pip-cache
@@ -295,12 +296,12 @@ jobs:
       - name: Install node
         uses: actions/setup-node@v3
         with:
-          node-version: "18.x"
+          node-version: '18.x'
       - name: Install Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
-          architecture: "x64"
+          python-version: '3.11'
+          architecture: 'x64'
       - name: Get pip cache dir
         id: pip-cache
         run: |

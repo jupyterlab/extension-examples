@@ -20,7 +20,7 @@ To add a new CodeMirror extension, your JupyterLab extension must request
 the token [`IEditorExtensionRegistry`]() from `@jupyterlab/codemirror`:
 
 ```ts
-// src/index.ts#L89-L94
+// src/index.ts#L92-L97
 
 const plugin: JupyterFrontEndPlugin<void> = {
   id: '@jupyterlab-examples/codemirror-extension:plugin',
@@ -32,8 +32,9 @@ const plugin: JupyterFrontEndPlugin<void> = {
 
 Then you can use that registry to add your extension:
 
+<!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L96-L114
+// src/index.ts#L99-L117
 
 extensions.addExtension(
   Object.freeze({
@@ -55,6 +56,7 @@ extensions.addExtension(
   })
 );
 ```
+<!-- prettier-ignore-end -->
 
 The registration requires an unique identifier `name` and
 a `factory`. That factory will be called every time a new
@@ -74,12 +76,12 @@ Here are some comments on the CodeMirror extension. It is composed of
 three elemental extensions:
 
 ```ts
-// src/index.ts#L78-L84
+// src/index.ts#L81-L87
 
 export function zebraStripes(options: { step?: number } = {}): Extension {
   return [
     baseTheme,
-    options.step == null ? [] : stepSize.of(options.step),
+    typeof options.step !== 'number' ? [] : stepSize.of(options.step),
     showStripes
   ];
 }
