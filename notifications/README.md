@@ -61,8 +61,9 @@ The last notification will displayed a in-progress message that
 will be updated to a success or error message depending on the
 result of the tracked promise.
 
+<!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L32-L51
+// src/index.ts#L32-L52
 
 // Create a notification waiting for an asynchronous task
 const delegate = new PromiseDelegate<ReadonlyJSONValue>();
@@ -79,12 +80,14 @@ Notification.promise(delegate.promise, {
   pending: { message: 'Waiting...', options: { autoClose: false } },
   // Message when the task finished successfully
   success: {
-    message: (result: any) => `Action successful after ${result.delay}ms.`
+    message: (result: any) =>
+      `Action successful after ${result.delay}ms.`
   },
   // Message when the task finished with errors
   error: { message: () => 'Action failed.' }
 });
 ```
+<!-- prettier-ignore-end -->
 
 The task promise can return an object that will be passed to the message
 function to construct the success and the error message.
