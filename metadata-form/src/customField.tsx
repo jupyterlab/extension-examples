@@ -46,7 +46,9 @@ export class CustomField {
     );
     const deleted: string = elem?.querySelector('span')?.textContent || '';
     const index = formData.indexOf(deleted);
-    if (index > -1) formData.splice(index, 1);
+    if (index > -1) {
+      formData.splice(index, 1);
+    }
     this._props.formContext.updateMetadata(
       { [this._props.name]: formData },
       true
@@ -80,7 +82,7 @@ export class CustomField {
             </tbody>
           </table>
           <div
-            key={`metadataform-example-custom-field_add`}
+            key={'metadataform-example-custom-field_add'}
             className={'metadataform-example-custom-field-add'}
           >
             <input
