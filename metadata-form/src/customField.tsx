@@ -1,10 +1,10 @@
 import React from 'react';
-import { FieldProps } from '@rjsf/core';
+import { FieldProps } from '@rjsf/utils';
 import { addIcon, closeIcon } from '@jupyterlab/ui-components';
 
 export class CustomField {
   _onAddClicked = (e: React.MouseEvent) => {
-    const elem: HTMLInputElement = document.querySelector(
+    const elem: HTMLInputElement | null = document.querySelector(
       '#metadataform-example-custom-field-add-input'
     );
     if (elem) {
@@ -41,10 +41,10 @@ export class CustomField {
 
   _onRemoveItem = (e: React.MouseEvent) => {
     const formData: string[] = this._props.formData;
-    const elem: HTMLDivElement = (e.target as HTMLSpanElement).closest(
+    const elem: HTMLDivElement | null = (e.target as HTMLSpanElement).closest(
       'tr.metadataform-example-custom-field-item'
     );
-    const deleted: string = elem.querySelector('span').textContent;
+    const deleted: string = elem?.querySelector('span')?.textContent || '';
     const index = formData.indexOf(deleted);
     if (index > -1) formData.splice(index, 1);
     this._props.formContext.updateMetadata(
@@ -55,7 +55,6 @@ export class CustomField {
 
   render(props: FieldProps): JSX.Element {
     this._props = props;
-    console.log(props);
     return (
       <div id="metadataform-example-custom-field">
         <div className="jp-FormGroup-fieldLabel">{props.schema.title}</div>
@@ -100,5 +99,5 @@ export class CustomField {
     );
   }
 
-  private _props: FieldProps = null;
+  private _props: any = {};
 }

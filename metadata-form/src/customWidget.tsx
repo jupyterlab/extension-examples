@@ -1,5 +1,5 @@
 import React from 'react';
-import { WidgetProps } from '@rjsf/core';
+import { WidgetProps } from '@rjsf/utils';
 import { checkIcon, closeIcon } from '@jupyterlab/ui-components';
 
 export const CustomCheckbox = function (props: WidgetProps) {
@@ -7,7 +7,9 @@ export const CustomCheckbox = function (props: WidgetProps) {
     <span
       id="metadataform-example-custom-widget"
       style={{ display: 'flex', fontSize: '16px' }}
-      className={props.value ? 'checked' : 'unchecked'}
+      className={`metadata-form-example-custom-checkbox ${
+        props.value ? 'checked' : 'unchecked'
+      }`}
       onClick={() => props.onChange(!props.value)}
     >
       {props.value && <checkIcon.react />}
