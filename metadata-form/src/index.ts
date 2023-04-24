@@ -12,10 +12,21 @@ import { CustomCheckbox } from './customWidget';
 import { CustomField } from './customField';
 
 /**
- * Initialization data for the metadata_form extension.
+ * Initialization of a simple metadata form plugin.
  */
-const plugin: JupyterFrontEndPlugin<void> = {
-  id: '@jupyterlab-examples/metadata-form:plugin',
+const simple: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-examples/metadata-form:simple',
+  autoStart: true,
+  activate: (app: JupyterFrontEnd) => {
+    console.log('Simple metadata-form example activated');
+  }
+};
+
+/**
+ * Initialization of an advanced metadata form plugin.
+ */
+const advanced: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-examples/metadata-form:advanced',
   autoStart: true,
   requires: [IFormRendererRegistry],
   activate: (
@@ -30,7 +41,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         }
       };
       formRegistry.addRenderer(
-        '@jupyterlab-examples/metadata-form:plugin.custom-checkbox',
+        '@jupyterlab-examples/metadata-form:advanced.custom-checkbox',
         component
       );
 
@@ -40,12 +51,12 @@ const plugin: JupyterFrontEndPlugin<void> = {
         }
       };
       formRegistry.addRenderer(
-        '@jupyterlab-examples/metadata-form:plugin.custom-field',
+        '@jupyterlab-examples/metadata-form:advanced.custom-field',
         customField
       );
     }
-    console.log('Metadata form example activated');
+    console.log('Advanced metadata-form example activated');
   }
 };
 
-export default plugin;
+export default [advanced, simple];
