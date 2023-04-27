@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "title": "Metadata Form example",
+  "description": "Settings of the metadata form extension.",
+  "jupyter.lab.metadataforms": [
+    {
+      "id": "@jupyterlab-examples/metadata-form:simple",
+      "label": "Simple example",
+      "metadataSchema": {
+        "type": "object",
+        "properties": {
+          "/my-extension/simple-integer": {
+            "title": "Integer",
+            "description": "An integer field",
+            "type": "integer"
+          },
+          "/my-extension/simple-string": {
+            "title": "Text",
+            "description": "A text field",
+            "type": "string"
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

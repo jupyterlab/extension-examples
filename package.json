@@ -32,6 +32,7 @@
     "launcher",
     "log-messages",
     "main-menu",
+    "metadata-form",
     "notifications",
     "react-widget",
     "server-extension",
