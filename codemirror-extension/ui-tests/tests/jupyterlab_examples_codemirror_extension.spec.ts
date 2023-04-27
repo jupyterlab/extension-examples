@@ -8,7 +8,10 @@ test('should emit an activation console message', async ({ page }) => {
     .first()
     .click();
 
-  await page.getByRole('region', { name: 'notebook content' }).getByRole('textbox').waitFor();
+  await page
+    .getByRole('region', { name: 'notebook content' })
+    .getByRole('textbox')
+    .waitFor();
 
   // Fill the first cell
   await page.notebook.setCell(
@@ -34,6 +37,10 @@ test('should emit an activation console message', async ({ page }) => {
   await page.waitForTimeout(1000);
 
   await page.getByRole('tab', { name: 'Untitled.ipynb' }).click();
+
+  await page
+    .locator('.jp-Notebook-ExecutionIndicator[data-status="idle"]')
+    .waitFor();
 
   const notebook = await page.activity.getPanel();
 
