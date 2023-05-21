@@ -1,4 +1,6 @@
-// Copyright 2018 Wolf Vollprecht
+// Copyright 2023 Project Jupyter Contributors
+//
+// Original version has copyright 2018 Wolf Vollprecht and is licensed
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +22,7 @@ import { Message } from '@lumino/messaging';
 
 import { Signal } from '@lumino/signaling';
 
-import { ExampleDocModel, ExampleDocChange, Position } from './model';
+import { ExampleDocModel, Position } from './model';
 
 /**
  * DocumentWidget: widget that represents the view or editor for a file type.
@@ -55,29 +57,23 @@ export class ExamplePanel extends Widget {
     super();
     this.addClass('jp-example-canvas');
 
-    this._context = context;
+    this._model = context.model;
     this._isDown = false;
     this._offset = { x: 0, y: 0 };
-    this._clients = {};
+    this._clients = new Map<string, HTMLElement>();
 
-    this._context.ready.then((value) => {
-      this._context.model.sharedModelChanged.connect(this._onContentChanged);
-      this._context.model.clientChanged.connect(this._onClientChanged);
+    context.ready.then((value) => {
+      this._model.contentChanged.connect(this._onContentChanged);
+      this._model.clientChanged.connect(this._onClientChanged);
 
-      const obj = this._context.model.getSharedObject();
-      this._cube.style.left = obj.x + 'px';
-      this._cube.style.top = obj.y + 'px';
-      this._cube.innerText = obj.content;
+      this._onContentChanged();
 
       this.update();
     });
 
-    const obj = this._context.model.getSharedObject();
     this._cube = document.createElement('div');
     this._cube.className = 'jp-example-cube';
-    this._cube.style.left = obj.x + 'px';
-    this._cube.style.top = obj.y + 'px';
-    this._cube.innerText = obj.content;
+    this._onContentChanged();
     this.node.appendChild(this._cube);
   }
 
@@ -88,7 +84,7 @@ export class ExamplePanel extends Widget {
     if (this.isDisposed) {
       return;
     }
-    this._context.model.sharedModelChanged.disconnect(this._onContentChanged);
+    this._model.contentChanged.disconnect(this._onContentChanged);
     Signal.clearData(this);
     super.dispose();
   }
@@ -113,12 +109,12 @@ export class ExamplePanel extends Widget {
    * @param msg Widget layout message
    */
   protected onBeforeDetach(msg: Message): void {
-    super.onBeforeDetach(msg);
     this._cube.removeEventListener('mousedown', this, true);
     this._cube.removeEventListener('mouseup', this, true);
     this.node.removeEventListener('mouseenter', this, true);
     this.node.removeEventListener('mouseleave', this, true);
     this.node.removeEventListener('mousemove', this, true);
+    super.onBeforeDetach(msg);
   }
 
   /**
@@ -126,46 +122,47 @@ export class ExamplePanel extends Widget {
    *
    * @param event Event on the widget
    */
-  public handleEvent(event: MouseEvent): void {
+  handleEvent(event: MouseEvent): void {
     event.preventDefault();
     event.stopPropagation();
 
     if (event.type) {
       switch (event.type) {
         case 'mousedown':
-          this._isDown = true;
-          this._offset = {
-            x: this._cube.offsetLeft - event.clientX,
-            y: this._cube.offsetTop - event.clientY,
-          };
+          if (event.button == 0) {
+            this._isDown = true;
+            this._offset = {
+              x: this._model.position.x - event.clientX,
+              y: this._model.position.y - event.clientY,
+            };
+          }
           break;
         case 'mouseup':
-          this._isDown = false;
+          if (event.button == 0) {
+            this._isDown = false;
+          }
           break;
         case 'mouseenter':
           break;
         case 'mouseleave':
           // Wrapping the modifications to the shared model into a flag
           // to prevent apply changes triggered by the same client
-          this._context.model.setClient(undefined);
+          this._model.setCursor(undefined);
           break;
         case 'mousemove':
+          const bbox = this.node.getBoundingClientRect();
           // Wrapping the modifications to the shared model into a flag
           // to prevent apply changes triggered by the same client
-          this._context.model.setClient({
-            x: event.x - this.node.getBoundingClientRect().left,
-            y: event.y - this.node.getBoundingClientRect().top,
+          this._model.setCursor({
+            x: event.x - bbox.left,
+            y: event.y - bbox.top,
           });
 
           if (this._isDown) {
-            // Wrapping the modifications to the shared model into a flag
-            // to prevent apply changes triggered by the same client
-            this._cube.style.left = event.clientX + this._offset.x + 'px';
-            this._cube.style.top = event.clientY + this._offset.y + 'px';
-            this._context.model.setPosition({
+            this._model.position = {
               x: event.clientX + this._offset.x,
               y: event.clientY + this._offset.y,
-            });
+            };
           }
           break;
       }
@@ -179,17 +176,11 @@ export class ExamplePanel extends Widget {
    * @param sender The DocumentModel that triggers the changes.
    * @param change The changes on the model
    */
-  private _onContentChanged = (
-    sender: ExampleDocModel,
-    change: ExampleDocChange
-  ): void => {
-    // Wrapping the updates into a flag to prevent apply changes triggered by the same client
-    if (change.positionChange) {
-      this._cube.style.left = change.positionChange.x + 'px';
-      this._cube.style.top = change.positionChange.y + 'px';
-      // updating the widgets to re-render it
-      this.update();
-    }
+  private _onContentChanged = (): void => {
+    this._cube.style.left = this._model.position.x + 'px';
+    this._cube.style.top = this._model.position.y + 'px';
+
+    this._cube.innerText = this._model.content;
   };
 
   /**
@@ -204,35 +195,35 @@ export class ExamplePanel extends Widget {
     clients: Map<number, any>
   ): void => {
     clients.forEach((client, key) => {
-      if (this._context.model.getClientId() !== key) {
+      if (this._model.clientId !== key) {
         const id = key.toString();
 
-        if (client.mouse && this._clients[id]) {
-          this._clients[id].style.left = client.mouse.x + 'px';
-          this._clients[id].style.top = client.mouse.y + 'px';
-        } else if (client.mouse && !this._clients[id]) {
-          const el = document.createElement('div');
-          el.className = 'jp-example-client';
-          el.style.left = client.mouse.x + 'px';
-          el.style.top = client.mouse.y + 'px';
-          el.style.backgroundColor = client.user.color;
-          el.innerText = client.user.name;
-          this._clients[id] = el;
-          this.node.appendChild(el);
-        } else if (!client.mouse && this._clients[id]) {
-          this.node.removeChild(this._clients[id]);
-          this._clients[id] = undefined;
+        if (client.mouse) {
+          if (this._clients.has(id)) {
+            const elt = this._clients.get(id);
+            elt.style.left = client.mouse.x + 'px';
+            elt.style.top = client.mouse.y + 'px';
+          } else {
+            const el = document.createElement('div');
+            el.className = 'jp-example-client';
+            el.style.left = client.mouse.x + 'px';
+            el.style.top = client.mouse.y + 'px';
+            el.style.backgroundColor = client.user.color;
+            el.innerText = client.user.name;
+            this._clients.set(id, el);
+            this.node.appendChild(el);
+          }
+        } else if (this._clients.has(id)) {
+          this.node.removeChild(this._clients.get(id));
+          this._clients.delete(id);
         }
       }
     });
-
-    // updating the widgets to re-render it
-    this.update();
   };
 
   private _isDown: boolean;
   private _offset: Position;
   private _cube: HTMLElement;
-  private _clients: { [id: string]: HTMLElement };
-  private _context: DocumentRegistry.IContext<ExampleDocModel>;
+  private _clients: Map<string, HTMLElement>;
+  private _model: ExampleDocModel;
 }

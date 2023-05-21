@@ -77,7 +77,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       mimeTypes: ['text/json', 'application/json'],
       extensions: ['.example'],
       fileFormat: 'text',
-      contentType: 'file',
+      contentType: 'exampledoc' as any,
     });
   },
 };

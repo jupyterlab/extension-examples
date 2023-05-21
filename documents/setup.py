@@ -43,7 +43,14 @@ setup_args = dict(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
-    install_requires=[],
+    install_requires=[
+        "jupyter_ydoc~=0.2.4"
+    ],
+    entry_points={
+        'jupyter_ydoc': [
+            'exampledoc = jupyterlab_examples_documents.document:YExampleDoc',
+        ]
+    },
     zip_safe=False,
     include_package_data=True,
     python_requires=">=3.6",
