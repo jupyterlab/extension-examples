@@ -1,7 +1,6 @@
 import json
 
 from jupyter_ydoc.ydoc import YBaseDoc
-import y_py as Y
 
 
 class YExampleDoc(YBaseDoc):
@@ -46,6 +45,7 @@ class YExampleDoc(YBaseDoc):
 
             self._content.set(t, "position", json.dumps({"x": value["x"], "y": value["y"]}))
             self._content.set(t, "content", value["content"])
+    #
 
     def observe(self, callback: "Callable[Any, None]") -> None:
         """
@@ -56,3 +56,4 @@ class YExampleDoc(YBaseDoc):
         self.unobserve()
         self._subscriptions[self._ystate] = self._ystate.observe(callback)
         self._subscriptions[self._content] = self._content.observe(callback)
+    #

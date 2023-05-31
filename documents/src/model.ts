@@ -150,20 +150,20 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * Shared object content
    */
   get content(): string {
-    return this.sharedModel.getContent('content');
+    return this.sharedModel.get('content');
   }
   set content(v: string) {
-    this.sharedModel.setContent('content', v);
+    this.sharedModel.set('content', v);
   }
 
   /**
    * Shared object position
    */
   get position(): Position {
-    return this.sharedModel.getContent('position');
+    return this.sharedModel.get('position');
   }
   set position(v: Position) {
-    this.sharedModel.setContent('position', v);
+    this.sharedModel.set('position', v);
   }
 
   /**
@@ -225,11 +225,11 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * @returns The data
    */
   toString(): string {
-    const pos = this.sharedModel.getContent('position');
+    const pos = this.sharedModel.get('position');
     const obj = {
       x: pos?.x ?? 10,
       y: pos?.y ?? 10,
-      content: this.sharedModel.getContent('content') ?? '',
+      content: this.sharedModel.get('content') ?? '',
     };
     return JSON.stringify(obj, null, 2);
   }
@@ -244,8 +244,8 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   fromString(data: string): void {
     const obj = JSON.parse(data);
     this.sharedModel.transact(() => {
-      this.sharedModel.setContent('position', { x: obj.x, y: obj.y });
-      this.sharedModel.setContent('content', obj.content);
+      this.sharedModel.set('position', { x: obj.x, y: obj.y });
+      this.sharedModel.set('content', obj.content);
     });
   }
 
@@ -398,9 +398,9 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
    * @param key The key of the object.
    * @returns The content
    */
-  getContent(key: 'content'): string;
-  getContent(key: 'position'): Position;
-  getContent(key: string): any {
+  get(key: 'content'): string;
+  get(key: 'position'): Position;
+  get(key: string): any {
     const data = this._content.get(key);
     return key == 'position'
       ? data
@@ -415,9 +415,9 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
    * @param key The key of the object.
    * @param value New object.
    */
-  setContent(key: 'content', value: string): void;
-  setContent(key: 'position', value: PartialJSONObject): void;
-  setContent(key: string, value: any): void {
+  set(key: 'content', value: string): void;
+  set(key: 'position', value: PartialJSONObject): void;
+  set(key: string, value: any): void {
     this._content.set(key, key == 'position' ? JSON.stringify(value) : value);
   }
 
