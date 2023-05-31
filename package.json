@@ -49,5 +49,8 @@
     "lerna": "^6.5.1",
     "lint-staged": "^13.1.2",
     "prettier": "^2.1.1"
+  },
+  "resolutions": {
+    "@jupyterlab/rendermime-interfaces": "~3.6.0"
   }
 }

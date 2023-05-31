@@ -1,6 +1,4 @@
 import json
-from functools import partial
-from logging import getLogger
 
 from jupyter_ydoc.ydoc import YBaseDoc
 import y_py as Y
@@ -15,26 +13,28 @@ class YExampleDoc(YBaseDoc):
     def version(self) -> str:
         return '0.1.0'
 
-    def get(self) -> dict:
+    def get(self) -> str:
         """
-        Returns the content of the document.
+        Returns the content of the document as saved by the contents manager.
 
         :return: Document's content.
-        :rtype: Any
         """
-        getLogger("LabApp").warning("%s %s", type(self._content.to_json()), self._content.to_json())
         data = self._content.to_json()
-        return {
-            "x": data["position"]["x"],
-            "y": data["position"]["y"],
-            "content": data["content"]}
+        position = json.loads(data["position"])
+        return json.dumps(
+            {
+                "x": position["x"],
+                "y": position["y"],
+                "content": data["content"]
+            },
+            indent=2
+        )
 
     def set(self, raw_value: str) -> None:
         """
-        Sets the content of the document.
+        Sets the content of the document from the contents manager read content.
 
-        :param value: The content of the document.
-        :type value: Any
+        :param raw_value: The content of the document.
         """
         value = json.loads(raw_value)
         with self._ydoc.begin_transaction() as t:
@@ -47,14 +47,12 @@ class YExampleDoc(YBaseDoc):
             self._content.set(t, "position", json.dumps({"x": value["x"], "y": value["y"]}))
             self._content.set(t, "content", value["content"])
 
-
-    def observe(self, callback: "Callable[[str, Any], None]") -> None:
+    def observe(self, callback: "Callable[Any, None]") -> None:
         """
         Subscribes to document changes.
 
         :param callback: Callback that will be called when the document changes.
-        :type callback: Callable[[str, Any], None]
         """
         self.unobserve()
-        self._subscriptions[self._ystate] = self._ystate.observe(partial(callback, "state"))
-        self._subscriptions[self._content] = self._content.observe(partial(callback, "content"))
+        self._subscriptions[self._ystate] = self._ystate.observe(callback)
+        self._subscriptions[self._content] = self._content.observe(callback)
