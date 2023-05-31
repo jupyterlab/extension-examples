@@ -198,13 +198,13 @@ Another critical component of Yjs is Awareness. Every Yjs document has an `aware
 
 After a short explanation of Yjs' features, now it's time to start with the implementation.
 
-First you need to define your document data structure. For a text file, it is as 
+First you need to define your document data structure. For a text file, it is as
 simple as a single string. But as mentioned earlier, it could be more complex. Here
 the document represents a cube by its position and text content. It is stored as a JSON with two keys: a _position_ and a _content_.  
 Although the position is also a dictionary with keys _x_ and _y_, we decided to store
 both information as string (i.e. position will require parsing to be converted as a dictionary).  
-That choice is purely at the discretion of the developer. Using a stringified 
-dictionary is fine if most of the dictionary changes every time. But if most of 
+That choice is purely at the discretion of the developer. Using a stringified
+dictionary is fine if most of the dictionary changes every time. But if most of
 the dictionary stay constant (especially if the all dictionary is large), it would
 be more performant to use a shared dictionary instead of a shared string.
 
@@ -280,7 +280,7 @@ const clients = this.sharedModel.awareness.getStates();
 ```
 <!-- prettier-ignore-end -->
 
- To listen for changes on the state of the users, you can use the method `on('change', () => {})`.
+To listen for changes on the state of the users, you can use the method `on('change', () => {})`.
 
 <!-- prettier-ignore-start -->
 ```ts

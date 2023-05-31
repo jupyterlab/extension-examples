@@ -129,7 +129,7 @@ export class ExamplePanel extends Widget {
     if (event.type) {
       switch (event.type) {
         case 'mousedown':
-          if (event.button == 0) {
+          if (event.button === 0) {
             this._isDown = true;
             this._offset = {
               x: this._model.position.x - event.clientX,
@@ -138,7 +138,7 @@ export class ExamplePanel extends Widget {
           }
           break;
         case 'mouseup':
-          if (event.button == 0) {
+          if (event.button === 0) {
             this._isDown = false;
           }
           break;
@@ -149,7 +149,7 @@ export class ExamplePanel extends Widget {
           // to prevent apply changes triggered by the same client
           this._model.setCursor(undefined);
           break;
-        case 'mousemove':
+        case 'mousemove': {
           const bbox = this.node.getBoundingClientRect();
           // Wrapping the modifications to the shared model into a flag
           // to prevent apply changes triggered by the same client
@@ -165,6 +165,7 @@ export class ExamplePanel extends Widget {
             };
           }
           break;
+        }
       }
     }
   }
@@ -172,9 +173,6 @@ export class ExamplePanel extends Widget {
   /**
    * Callback to listen for changes on the model. This callback listens
    * to changes on shared model's content.
-   *
-   * @param sender The DocumentModel that triggers the changes.
-   * @param change The changes on the model
    */
   private _onContentChanged = (): void => {
     this._cube.style.left = this._model.position.x + 'px';

@@ -38,6 +38,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    *
    * @param languagePreference Language
    * @param modelDB Document model database
+   * @param collaborationEnabled Whether collaboration is enabled at the application level or not
    */
   constructor(
     languagePreference?: string,
@@ -402,7 +403,7 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
   get(key: 'position'): Position;
   get(key: string): any {
     const data = this._content.get(key);
-    return key == 'position'
+    return key === 'position'
       ? data
         ? JSON.parse(data)
         : { x: 0, y: 0 }
@@ -417,8 +418,8 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
    */
   set(key: 'content', value: string): void;
   set(key: 'position', value: PartialJSONObject): void;
-  set(key: string, value: any): void {
-    this._content.set(key, key == 'position' ? JSON.stringify(value) : value);
+  set(key: string, value: string | PartialJSONObject): void {
+    this._content.set(key, key === 'position' ? JSON.stringify(value) : value);
   }
 
   /**
