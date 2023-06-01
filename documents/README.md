@@ -214,7 +214,7 @@ In this extension, we created:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L367-L367
+// src/model.ts#L368-L368
 
 export class ExampleDoc extends YDocument<ExampleDocChange> {
 ```
@@ -224,7 +224,7 @@ To create a new shared object, you have to use the `ydoc`. The new attribute wil
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L371-L372
+// src/model.ts#L372-L373
 
 this._content = this.ydoc.getMap('content');
 this._content.observe(this._contentObserver);
@@ -237,13 +237,13 @@ we provide helpers `get` and `set` to hide the complexity of `position` being st
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L401-L410
+// src/model.ts#L402-L411
 
 get(key: 'content'): string;
 get(key: 'position'): Position;
 get(key: string): any {
   const data = this._content.get(key);
-  return key == 'position'
+  return key === 'position'
     ? data
       ? JSON.parse(data)
       : { x: 0, y: 0 }
@@ -252,12 +252,12 @@ get(key: string): any {
 ```
 
 ```ts
-// src/model.ts#L418-L422
+// src/model.ts#L419-L423
 
 set(key: 'content', value: string): void;
 set(key: 'position', value: PartialJSONObject): void;
-set(key: string, value: any): void {
-  this._content.set(key, key == 'position' ? JSON.stringify(value) : value);
+set(key: string, value: string | PartialJSONObject): void {
+  this._content.set(key, key === 'position' ? JSON.stringify(value) : value);
 }
 ```
 <!-- prettier-ignore-end -->
@@ -268,13 +268,13 @@ You could add new information to the user's state by using the method `setLocalS
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L217-L217
+// src/model.ts#L218-L218
 
 this.sharedModel.awareness.setLocalStateField('mouse', pos);
 ```
 
 ```ts
-// src/model.ts#L302-L302
+// src/model.ts#L303-L303
 
 const clients = this.sharedModel.awareness.getStates();
 ```
@@ -284,7 +284,7 @@ To listen for changes on the state of the users, you can use the method `on('cha
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L51-L51
+// src/model.ts#L52-L52
 
 this.sharedModel.awareness.on('change', this._onClientChanged);
 ```
@@ -294,7 +294,7 @@ Every time you modify a shared property, this property triggers an event in all 
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L246-L249
+// src/model.ts#L247-L250
 
 this.sharedModel.transact(() => {
   this.sharedModel.set('position', { x: obj.x, y: obj.y });
