@@ -10,5 +10,8 @@
     "@jupyterlab/galata": "^4.5.1",
     "@playwright/test": "^1.31.2",
     "typescript": "~4.1.3"
+  },
+  "resolutions": {
+    "@playwright/test": "1.34.3"
   }
 }
