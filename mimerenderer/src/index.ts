@@ -50,7 +50,7 @@ export class VideoWidget extends Widget implements IRenderMime.IRenderer {
 export const rendererFactory: IRenderMime.IRendererFactory = {
   safe: true,
   mimeTypes: [MIME_TYPE],
-  createRenderer: (options) => new VideoWidget(options),
+  createRenderer: options => new VideoWidget(options)
 };
 
 /**
@@ -79,8 +79,8 @@ const extension: IRenderMime.IExtension = {
     primaryFileType: 'mp4',
     modelName: 'base64',
     fileTypes: ['mp4'],
-    defaultFor: ['mp4'],
-  },
+    defaultFor: ['mp4']
+  }
 };
 
 export default extension;

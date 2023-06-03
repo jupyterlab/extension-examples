@@ -18,7 +18,7 @@ Specifically, you will be adding the ability for Jupyter Lab to render mp4 video
 ![preview](./preview.png)
 
 > It is strongly recommended to read the [basic hello-world](../hello-world)
-example before diving into this one.
+> example before diving into this one.
 
 ## The template folder structure
 
@@ -201,7 +201,6 @@ style rules are added:
 
 ```css
 /* style/base.css#L7-L14 */
-
 ```
 
 ## Where to Go Next

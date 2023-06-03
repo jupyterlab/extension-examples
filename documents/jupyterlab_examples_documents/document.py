@@ -1,5 +1,4 @@
 import json
-import logging
 from functools import partial
 
 from jupyter_ydoc.ybasedoc import YBaseDoc
