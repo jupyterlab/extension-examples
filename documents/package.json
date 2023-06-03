@@ -58,12 +58,12 @@
   },
   "dependencies": {
     "@jupyter/ydoc": "^1.0.0",
-    "@jupyterlab/application": "^4.0.0-beta.0",
-    "@jupyterlab/apputils": "^4.0.0-beta.0",
-    "@jupyterlab/coreutils": "^6.0.0-beta.0",
-    "@jupyterlab/docregistry": "^4.0.0-beta.0",
-    "@jupyterlab/observables": "^4.0.0-beta.0",
-    "@jupyterlab/services": "^7.0.0-beta.0",
+    "@jupyterlab/application": "^4.0.0",
+    "@jupyterlab/apputils": "^4.0.0",
+    "@jupyterlab/coreutils": "^6.0.0",
+    "@jupyterlab/docregistry": "^4.0.0",
+    "@jupyterlab/observables": "^4.0.0",
+    "@jupyterlab/services": "^7.0.0",
     "@lumino/coreutils": "^2.0.0",
     "@lumino/signaling": "^2.0.0",
     "fast-xml-parser": "^3.19.0",
@@ -73,7 +73,7 @@
     "yjs": "^13.5.6"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^4.0.0-beta.0",
+    "@jupyterlab/builder": "^4.0.0",
     "@types/json-schema": "^7.0.11",
     "@types/react": "^18.0.26",
     "@typescript-eslint/eslint-plugin": "^5.55.0",

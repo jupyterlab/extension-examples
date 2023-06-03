@@ -58,11 +58,11 @@
     "watch:labextension": "jupyter labextension watch ."
   },
   "dependencies": {
-    "@jupyterlab/application": "^4.0.0-beta.0"
+    "@jupyterlab/application": "^4.0.0"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^4.0.0-beta.0",
-    "@jupyterlab/testutils": "^4.0.0-beta.0",
+    "@jupyterlab/builder": "^4.0.0",
+    "@jupyterlab/testutils": "^4.0.0",
     "@types/jest": "^29.2.0",
     "@types/json-schema": "^7.0.11",
     "@types/react": "^18.0.26",

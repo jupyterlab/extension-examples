@@ -160,7 +160,7 @@ package is declared in the file `package.json`:
 // package.json#L60-L62
 
 "dependencies": {
-  "@jupyterlab/application": "^4.0.0-beta.0"
+  "@jupyterlab/application": "^4.0.0"
 },
 ```
 
