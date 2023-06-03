@@ -20,27 +20,13 @@ test('should check if the cube is loaded', async ({ page }) => {
   // Press s with modifiers
   await page.keyboard.press('Control+s');
 
+  await page.getByPlaceholder('File name').fill('untitled.example');
+  await page.getByRole('button', { name: 'Rename' }).click();
+
   // Close file
   await page.click('text=File');
   // Click ul[role="menu"] >> text=New
   await page.click('ul[role="menu"] >> text=Close Tab');
-
-  // Click [aria-label="File Browser Section"] >> text=untitled.txt
-  await page.click('[aria-label="File Browser Section"] >> text=untitled.txt', {
-    button: 'right',
-  });
-
-  // Click text=Rename
-  await page.click('text=Rename');
-
-  // Click input jp-DirListing-editor
-  await page.click('input[class="jp-DirListing-editor"]');
-
-  // Fill input
-  await page.fill('input[class="jp-DirListing-editor"]', 'untitled.example');
-
-  // Press s with modifiers
-  await page.keyboard.press('Enter');
 
   expect(await page.waitForSelector('text=untitled.example')).toBeTruthy();
 
