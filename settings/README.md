@@ -8,7 +8,7 @@ in a JupyterLab extension.
 ![settings example](preview.gif)
 
 The core token required for handling the settings is
-`ISettingRegistry` ([documentation](https://jupyterlab.github.io/jupyterlab/modules/_settingregistry_src_index_.isettingregistry.html)). To use it,
+`ISettingRegistry` ([documentation](https://jupyterlab.readthedocs.io/en/3.6.x/api/modules/settingregistry.isettingregistry.html)). To use it,
 you first need to install its npm package:
 
 ```bash

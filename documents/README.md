@@ -208,7 +208,7 @@ dictionary is fine if most of the dictionary changes every time. But if most of
 the dictionary stay constant (especially if the all dictionary is large), it would
 be more performant to use a shared dictionary instead of a shared string.
 
-You can create a new shared model by extending from `YDocument<T>`. [YDocument](https://jupyter-ydoc.readthedocs.io/en/latest/api/classes/YDocument.html) is a generic implementation of a shared model that handles the initialization of the `YDoc` and already implements some functionalities like the changes history.
+You can create a new shared model by extending from `YDocument<T>`. [YDocument](https://jupyter-ydoc.readthedocs.io/en/latest/api/classes/YDocument-1.html) is a generic implementation of a shared model that handles the initialization of the `YDoc` and already implements some functionalities like the changes history.
 
 In this extension, we created:
 

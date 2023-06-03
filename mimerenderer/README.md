@@ -9,7 +9,7 @@ JupyterLab (and Project Jupyter as a whole) make
 of MIME types to decide how to render data.
 
 This tutorial will teach you how to make a
-[mimerenderer extension](https://jupyterlab.readthedocs.io/en/latest/developer/extension_dev.html#mime-renderer-extensions)
+[mimerenderer extension](https://jupyterlab.readthedocs.io/en/3.6.x/extension/extension_dev.html#mime-renderer-plugins)
 for JupyterLab.
 These extensions are simpler to write than full-fledged JupyterLab extensions,
 and are focused around adding the ability to render new MIME types to the application.

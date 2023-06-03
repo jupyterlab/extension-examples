@@ -52,7 +52,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 ```
 
 The `ICommandPalette`
-([documentation](https://jupyterlab.github.io/jupyterlab/interfaces/_apputils_src_index_.icommandpalette.html))
+([documentation](https://jupyterlab.readthedocs.io/en/3.6.x/api/interfaces/apputils.icommandpalette.html))
 is passed to the `activate` function as an argument (variable `palette`) in
 addition to the JupyterLab application (variable `app`).
 

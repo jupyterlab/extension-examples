@@ -28,7 +28,7 @@ jlpm add @lumino/widgets
 ```
 
 A Widget can be added to the main area through the
-[JupyterLab Shell](https://jupyterlab.github.io/jupyterlab/classes/_application_src_index_.labshell.html).
+[JupyterLab Shell](https://jupyterlab.readthedocs.io/en/3.6.x/api/classes/application.labshell.html).
 
 Inside of the `activate` function, you can obtain it through the `shell` attribute
 of the `app` object:

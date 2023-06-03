@@ -32,7 +32,7 @@ execution result.
 ## Initializing and managing a Kernel Session (`panel.ts`)
 
 Jupyterlab provides a class `SessionContext`
-([see the documentation](https://jupyterlab.github.io/jupyterlab/classes/_apputils_src_index_.sessioncontext.html))
+([see the documentation](https://jupyterlab.readthedocs.io/en/3.6.x/api/classes/apputils.sessioncontext-1.html))
 that manages a single kernel session. Here is the code to initialize such session:
 
 ```ts
