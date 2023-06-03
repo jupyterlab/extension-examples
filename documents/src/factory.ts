@@ -111,11 +111,7 @@ export class ExampleDocModelFactory
   createNew(
     options: DocumentRegistry.IModelOptions<ExampleDoc>
   ): ExampleDocModel {
-    return new ExampleDocModel(
-      options.languagePreference,
-      options.sharedModel,
-      options.collaborationEnabled
-    );
+    return new ExampleDocModel(options);
   }
 
   private _disposed = false;

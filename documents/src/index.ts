@@ -1,3 +1,5 @@
+import { ICollaborativeDrive } from '@jupyter/docprovider';
+
 import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
@@ -9,7 +11,7 @@ import { WidgetTracker, IWidgetTracker } from '@jupyterlab/apputils';
 import { Token } from '@lumino/coreutils';
 
 import { ExampleWidgetFactory, ExampleDocModelFactory } from './factory';
-
+import { ExampleDoc } from './model';
 import { ExampleDocWidget } from './widget';
 
 /**
@@ -27,11 +29,11 @@ export const IExampleDocTracker = new Token<IWidgetTracker<ExampleDocWidget>>(
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'documents',
-  description: 'Minimal JupyterLab extension for a document widget.',
+  description: 'Minimal JupyterLab extension for a collaborative document widget.',
   autoStart: true,
-  requires: [ILayoutRestorer],
+  requires: [ILayoutRestorer, ICollaborativeDrive],
   provides: IExampleDocTracker,
-  activate: (app: JupyterFrontEnd, restorer: ILayoutRestorer) => {
+  activate: (app: JupyterFrontEnd, restorer: ILayoutRestorer, drive: ICollaborativeDrive) => {
     // Namespace for the tracker
     const namespace = 'documents-example';
     // Creating the tracker for the document
@@ -56,6 +58,12 @@ const extension: JupyterFrontEndPlugin<void> = {
       fileFormat: 'text',
       contentType: 'exampledoc' as any,
     });
+
+    // Creating and registering the shared model factory
+    const sharedExampleFactory = () => {
+      return ExampleDoc.create();
+    };
+    drive.sharedModelFactory.registerDocumentFactory('exampledoc', sharedExampleFactory);
 
     // Creating and registering the model factory for our custom DocumentModel
     const modelFactory = new ExampleDocModelFactory();

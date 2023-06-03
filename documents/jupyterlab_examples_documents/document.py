@@ -1,6 +1,8 @@
 import json
+import logging
+from functools import partial
 
-from jupyter_ydoc.ydoc import YBaseDoc
+from jupyter_ydoc.ybasedoc import YBaseDoc
 
 
 class YExampleDoc(YBaseDoc):
@@ -18,7 +20,7 @@ class YExampleDoc(YBaseDoc):
 
         :return: Document's content.
         """
-        data = self._content.to_json()
+        data = json.loads(self._content.to_json())
         position = json.loads(data["position"])
         return json.dumps(
             {
@@ -47,13 +49,13 @@ class YExampleDoc(YBaseDoc):
             self._content.set(t, "content", value["content"])
     #
 
-    def observe(self, callback: "Callable[Any, None]") -> None:
+    def observe(self, callback: "Callable[[str, Any], None]") -> None:
         """
         Subscribes to document changes.
 
         :param callback: Callback that will be called when the document changes.
         """
         self.unobserve()
-        self._subscriptions[self._ystate] = self._ystate.observe(callback)
-        self._subscriptions[self._content] = self._content.observe(callback)
+        self._subscriptions[self._ystate] = self._ystate.observe(partial(callback, "state"))
+        self._subscriptions[self._content] = self._content.observe(partial(callback, "content"))
     #

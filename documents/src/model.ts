@@ -1,8 +1,8 @@
-import { DocumentRegistry } from '@jupyterlab/docregistry';
-
-import { YDocument, DocumentChange } from '@jupyterlab/shared-models';
+import { YDocument, DocumentChange } from '@jupyter/ydoc';
 
 import { IChangedArgs } from '@jupyterlab/coreutils';
+
+import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import { PartialJSONObject, PartialJSONValue } from '@lumino/coreutils';
 
@@ -34,15 +34,10 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   /**
    * Construct a new ExampleDocModel.
    *
-   * @param languagePreference Language
-   * @param modelDB Document model database
-   * @param collaborationEnabled Whether collaboration is enabled at the application level or not
+   * @param options The options used to create a document model.
    */
-  constructor(
-    languagePreference?: string,
-    sharedModel?: ExampleDoc,
-    collaborationEnabled?: boolean
-  ) {
+  constructor(options: DocumentRegistry.IModelOptions<ExampleDoc>) {
+    const { collaborationEnabled, sharedModel } = options;
     this._collaborationEnabled = !!collaborationEnabled;
     if (sharedModel) {
       this.sharedModel = sharedModel;
@@ -53,7 +48,6 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     // Listening for changes on the shared model to propagate them
     this.sharedModel.changed.connect(this._onSharedModelChanged);
     this.sharedModel.awareness.on('change', this._onClientChanged);
-
   }
 
   /**
@@ -97,7 +91,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     this.triggerStateChange({
       name: 'dirty',
       oldValue,
-      newValue,
+      newValue
     });
   }
 
@@ -107,22 +101,6 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   get isDisposed(): boolean {
     return this._isDisposed;
   }
-
-  /*Whether the model is collaborative or not.
-   */
-  get collaborative(): boolean {
-    return this._collaborationEnabled;
-  }
-
-  /**
-   * modelBD is the datastore for the content of the document.
-   * modelDB is not a shared datastore so we don't use it on this example since
-   * this example is a shared document.
-   *
-   * ### Notes
-   * It will be removed in JupyterLab 4
-   */
-  readonly modelDB: IModelDB;
 
   /**
    * The read only state of the document.
@@ -221,7 +199,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    *
    * @param pos Mouse position
    */
-  setCursor(pos: Position): void {
+  setCursor(pos: Position | null): void {
     // Adds the position of the mouse from the client to the shared state.
     this.sharedModel.awareness.setLocalStateField('mouse', pos);
   }
@@ -238,7 +216,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     const obj = {
       x: pos?.x ?? 10,
       y: pos?.y ?? 10,
-      content: this.sharedModel.get('content') ?? '',
+      content: this.sharedModel.get('content') ?? ''
     };
     return JSON.stringify(obj, null, 2);
   }
@@ -327,7 +305,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
       this.triggerContentChange();
     }
     if (changes.stateChange) {
-      changes.stateChange.forEach((value) => {
+      changes.stateChange.forEach(value => {
         if (value.name === 'dirty') {
           // Setting `dirty` will trigger the state change.
           // We always set `dirty` because the shared model state
@@ -337,7 +315,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
           this.triggerStateChange({
             newValue: undefined,
             oldValue: undefined,
-            ...value,
+            ...value
           });
         }
       });

@@ -22,8 +22,12 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 dependencies = [
+    "jupyter_ydoc>=1.0.1,<2.0.0"
 ]
 dynamic = ["version", "description", "authors", "urls", "keywords"]
+
+[project.entry-points.jupyter_ydoc]
+exampledoc = "jupyterlab_examples_documents.document:YExampleDoc"
 
 [tool.hatch.version]
 source = "nodejs"

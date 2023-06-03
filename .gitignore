@@ -16,3 +16,4 @@ static
 labextension
 **/test-results/
 
+.jupyter_ystore.db

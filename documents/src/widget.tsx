@@ -147,7 +147,7 @@ export class ExamplePanel extends Widget {
         case 'mouseleave':
           // Wrapping the modifications to the shared model into a flag
           // to prevent apply changes triggered by the same client
-          this._model.setCursor(undefined);
+          this._model.setCursor(null);
           break;
         case 'mousemove': {
           const bbox = this.node.getBoundingClientRect();
@@ -198,7 +198,7 @@ export class ExamplePanel extends Widget {
 
         if (client.mouse) {
           if (this._clients.has(id)) {
-            const elt = this._clients.get(id);
+            const elt = this._clients.get(id)!;
             elt.style.left = client.mouse.x + 'px';
             elt.style.top = client.mouse.y + 'px';
           } else {
@@ -212,7 +212,7 @@ export class ExamplePanel extends Widget {
             this.node.appendChild(el);
           }
         } else if (this._clients.has(id)) {
-          this.node.removeChild(this._clients.get(id));
+          this.node.removeChild(this._clients.get(id)!);
           this._clients.delete(id);
         }
       }
