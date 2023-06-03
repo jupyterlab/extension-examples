@@ -1,7 +1,5 @@
 import { IRenderMime } from '@jupyterlab/rendermime-interfaces';
 
-
-
 import { Widget } from '@lumino/widgets';
 
 import '../style/index.css';
@@ -38,7 +36,7 @@ export class VideoWidget extends Widget implements IRenderMime.IRenderer {
   renderModel(model: IRenderMime.IMimeModel): Promise<void> {
     let data = model.data[this._mimeType] as string;
     this._video.src = `data:${MIME_TYPE};base64,${data}`;
-    
+
     return Promise.resolve();
   }
 
@@ -52,7 +50,7 @@ export class VideoWidget extends Widget implements IRenderMime.IRenderer {
 export const rendererFactory: IRenderMime.IRendererFactory = {
   safe: true,
   mimeTypes: [MIME_TYPE],
-  createRenderer: options => new VideoWidget(options)
+  createRenderer: (options) => new VideoWidget(options),
 };
 
 /**
@@ -69,16 +67,16 @@ const extension: IRenderMime.IExtension = {
       iconClass: 'jp-MaterialIcon mimerenderer-mp4-icon',
       fileFormat: 'base64',
       mimeTypes: [MIME_TYPE],
-      extensions: ['.mp4']
-    }
+      extensions: ['.mp4'],
+    },
   ],
   documentWidgetFactoryOptions: {
     name: 'JupyterLab mp4 viewer',
     primaryFileType: 'mp4',
     modelName: 'base64',
     fileTypes: ['mp4'],
-    defaultFor: ['mp4']
-  }
+    defaultFor: ['mp4'],
+  },
 };
 
 export default extension;

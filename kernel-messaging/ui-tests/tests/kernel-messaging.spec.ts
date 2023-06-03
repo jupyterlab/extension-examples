@@ -14,11 +14,13 @@ test('should open a panel connected to a kernel', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Compute 3+5' }).click();
 
-  await expect.soft(
-    page.getByText(
-      '{"data":{"text/plain":"8"},"metadata":{},"execution_count":1}'
+  await expect
+    .soft(
+      page.getByText(
+        '{"data":{"text/plain":"8"},"metadata":{},"execution_count":1}'
+      )
     )
-  ).toHaveCount(1);
+    .toHaveCount(1);
 
   // Close filebrowser
   await page.getByText('View', { exact: true }).click();

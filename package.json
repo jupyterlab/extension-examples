@@ -6,7 +6,7 @@
     "install": "lerna bootstrap",
     "build-ext": "lerna run build:all",
     "clean-ext": "lerna run clean",
-    "embedme": "embedme \"[!n]*/**/README.md\"",
+    "embedme": "embedme \"[!n]*/README.md\"",
     "install-py": "lerna exec --concurrency 4 -- python -m pip install .",
     "install-ext": "lerna run install:extension",
     "lint": "jlpm && jlpm run prettier",
@@ -49,5 +49,8 @@
     "lerna": "^6.5.1",
     "lint-staged": "^13.1.2",
     "prettier": "^2.1.1"
+  },
+  "resolutions": {
+    "@jupyterlab/rendermime-interfaces": "~3.6.0"
   }
 }

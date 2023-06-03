@@ -46,6 +46,20 @@ const extension: JupyterFrontEndPlugin<void> = {
       });
     }
 
+    // register the filetype
+    app.docRegistry.addFileType({
+      name: 'example',
+      displayName: 'Example',
+      mimeTypes: ['text/json', 'application/json'],
+      extensions: ['.example'],
+      fileFormat: 'text',
+      contentType: 'exampledoc' as any,
+    });
+
+    // Creating and registering the model factory for our custom DocumentModel
+    const modelFactory = new ExampleDocModelFactory();
+    app.docRegistry.addModelFactory(modelFactory);
+
     // Creating the widget factory to register it so the document manager knows about
     // our new DocumentWidget
     const widgetFactory = new ExampleWidgetFactory({
@@ -63,22 +77,9 @@ const extension: JupyterFrontEndPlugin<void> = {
       });
       tracker.add(widget);
     });
+
     // Registering the widget factory
     app.docRegistry.addWidgetFactory(widgetFactory);
-
-    // Creating and registering the model factory for our custom DocumentModel
-    const modelFactory = new ExampleDocModelFactory();
-    app.docRegistry.addModelFactory(modelFactory);
-
-    // register the filetype
-    app.docRegistry.addFileType({
-      name: 'example',
-      displayName: 'Example',
-      mimeTypes: ['text/json', 'application/json'],
-      extensions: ['.example'],
-      fileFormat: 'text',
-      contentType: 'file',
-    });
   },
 };
 

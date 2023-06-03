@@ -53,7 +53,6 @@
     "@jupyterlab/docregistry": "^3.1.0",
     "@jupyterlab/observables": "^4.1.0",
     "@jupyterlab/services": "^6.1.0",
-    "@jupyterlab/shared-models": "^3.1.0",
     "@lumino/coreutils": "^1.5.3",
     "@lumino/signaling": "^1.4.3",
     "fast-xml-parser": "^3.19.0",
@@ -63,6 +62,7 @@
     "yjs": "^13.5.6"
   },
   "devDependencies": {
+    "@jupyterlab/shared-models": "^3.1.0",
     "@jupyterlab/builder": "^3.1.0",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",

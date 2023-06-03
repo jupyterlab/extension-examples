@@ -53,6 +53,9 @@
   "dependencies": {
     "@jupyterlab/application": "^3.1.0"
   },
+  "resolutions": {
+    "@jupyterlab/rendermime-interfaces": "~3.6.0"
+  },
   "devDependencies": {
     "@jupyterlab/builder": "^3.1.0",
     "@typescript-eslint/eslint-plugin": "^4.8.1",

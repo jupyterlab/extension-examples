@@ -37,7 +37,7 @@ followed by the creation of the visual element.
 ## Initializing a Kernel Session
 
 To interact with a kernel, you can create a `SessionContext`
-object ([see the documentation](https://jupyterlab.github.io/jupyterlab/classes/_apputils_src_index_.sessioncontext.html)).
+object ([see the documentation](https://jupyterlab.readthedocs.io/en/3.6.x/api/classes/apputils.sessioncontext-1.html)).
 Here it is stored in the private `_sessionContext` variable:
 
 ```ts
@@ -134,7 +134,7 @@ this._outputarea = new SimplifiedOutputArea({
 ```
 
 `SimplifiedOutputArea` provides a static method `execute` that sends
-some code to a kernel through a `ISessionContext` ([see documentation](https://jupyterlab.github.io/jupyterlab/classes/_outputarea_src_index_.simplifiedoutputarea.html#execute)). And then it displays the result
+some code to a kernel through a `ISessionContext` ([see documentation](https://jupyterlab.readthedocs.io/en/3.6.x/api/modules/outputarea.outputarea-1.html#execute)). And then it displays the result
 in the specific `SimplifiedOutputArea` object you created:
 
 ```ts

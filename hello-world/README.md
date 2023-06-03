@@ -258,8 +258,8 @@ structure makes JupyterLab very adaptable.
 
 An overview of the classes and their attributes and methods can be found in the
 JupyterLab documentation. The `@jupyterlab/application` module documentation is
-[here](https://jupyterlab.github.io/jupyterlab/modules/_application_src_index_.html)
-and here is the [JupyterFrontEnd class documentation](https://jupyterlab.github.io/jupyterlab/classes/_application_src_index_.jupyterfrontend.html).
+[here](https://jupyterlab.readthedocs.io/en/3.6.x/api/modules/application.html)
+and here is the [JupyterFrontEnd class documentation](https://jupyterlab.readthedocs.io/en/3.6.x/api/classes/application.jupyterfrontend-1.html).
 
 ## Where to Go Next
 

@@ -314,8 +314,8 @@ jobs:
         run: jlpm
       - name: Build all the extensions
         run: |
-          jlpm build-ext
           jlpm lint:check
+          jlpm build-ext
           jlpm install-ext
           # Check links as last step as new tutorial may set links not yet valid (like file not yet in master)
           pytest --check-links

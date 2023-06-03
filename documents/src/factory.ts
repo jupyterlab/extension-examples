@@ -61,7 +61,7 @@ export class ExampleDocModelFactory
    * @returns The content type
    */
   get contentType(): Contents.ContentType {
-    return 'file';
+    return 'exampledoc' as any;
   }
 
   /**
@@ -104,10 +104,21 @@ export class ExampleDocModelFactory
    *
    * @param languagePreference Language
    * @param modelDB Model database
+   * @param isInitialized - Whether the model is initialized or not.
+   * @param collaborationEnabled - Whether collaboration is enabled at the application level or not (default `false`).
    * @returns The model
    */
-  createNew(languagePreference?: string, modelDB?: IModelDB): ExampleDocModel {
-    return new ExampleDocModel(languagePreference, modelDB);
+  createNew(
+    languagePreference?: string,
+    modelDB?: IModelDB,
+    isInitialized?: boolean,
+    collaborationEnabled?: boolean
+  ): ExampleDocModel {
+    return new ExampleDocModel(
+      languagePreference,
+      modelDB,
+      collaborationEnabled
+    );
   }
 
   private _disposed = false;
