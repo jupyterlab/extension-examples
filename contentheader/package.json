@@ -53,7 +53,7 @@
     "stylelint": "jlpm stylelint:check --fix",
     "stylelint:check": "stylelint --cache \"style/**/*.css\"",
     "watch": "run-p watch:src watch:labextension",
-    "watch:src": "tsc -w",
+    "watch:src": "tsc -w --sourceMap",
     "watch:labextension": "jupyter labextension watch ."
   },
   "dependencies": {

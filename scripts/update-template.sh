@@ -1,5 +1,10 @@
 #!/bin/bash
 # To be executed in the examples root folder
+
+# Ensure to have the template dependencies
+pip install copier jinja2-time
+
+# Create dummy commit as we cannot update template on dirty HEAD
 git commit -am "Update extension template"
 
 for directory in ./*/
