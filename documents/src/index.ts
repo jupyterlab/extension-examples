@@ -32,12 +32,13 @@ const extension: JupyterFrontEndPlugin<void> = {
   description:
     'Minimal JupyterLab extension for a collaborative document widget.',
   autoStart: true,
-  requires: [ILayoutRestorer, ICollaborativeDrive],
+  requires: [ILayoutRestorer],
+  optional: [ICollaborativeDrive],
   provides: IExampleDocTracker,
   activate: (
     app: JupyterFrontEnd,
     restorer: ILayoutRestorer,
-    drive: ICollaborativeDrive
+    drive: ICollaborativeDrive | null
   ) => {
     // Namespace for the tracker
     const namespace = 'documents-example';
@@ -65,13 +66,17 @@ const extension: JupyterFrontEndPlugin<void> = {
     });
 
     // Creating and registering the shared model factory
-    const sharedExampleFactory = () => {
-      return ExampleDoc.create();
-    };
-    drive.sharedModelFactory.registerDocumentFactory(
-      'exampledoc',
-      sharedExampleFactory
-    );
+    // As the third-party jupyter-collaboration package is not part of JupyterLab core,
+    // we should support collaboration feature absence.
+    if (drive) {
+      const sharedExampleFactory = () => {
+        return ExampleDoc.create();
+      };
+      drive.sharedModelFactory.registerDocumentFactory(
+        'exampledoc',
+        sharedExampleFactory
+      );
+    }
 
     // Creating and registering the model factory for our custom DocumentModel
     const modelFactory = new ExampleDocModelFactory();

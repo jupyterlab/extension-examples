@@ -139,7 +139,7 @@ When registering a new document, first of all, you need to know the file type of
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L58-L65
+// src/index.ts#L59-L66
 
 app.docRegistry.addFileType({
   name: 'example',
@@ -156,17 +156,24 @@ Once the file type is registered, you can register the shared model in the colla
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L68-L74
+// src/index.ts#L71-L79
 
-const sharedExampleFactory = () => {
-  return ExampleDoc.create();
-};
-drive.sharedModelFactory.registerDocumentFactory(
-  'exampledoc',
-  sharedExampleFactory
-);
+if (drive) {
+  const sharedExampleFactory = () => {
+    return ExampleDoc.create();
+  };
+  drive.sharedModelFactory.registerDocumentFactory(
+    'exampledoc',
+    sharedExampleFactory
+  );
+}
 ```
 <!-- prettier-ignore-end -->
+
+The token `ICollaborativeDrive` (named above `drive`) must be optional as it is provided by the optional
+extension `jupyter-collaboration`. In order for the new document type to be viewed in non-collaborative
+JupyterLab instance, you should support missing `ICollaborativeDrive` token; the file will still be viewable
+and editable but no collaboration will be enabled.
 
 Then you need to register the model (`DocumentModel`) for the new file type. The `DocumentModel` represents the content of the file. For example, JupyterLab has two models registered for the notebook. When you open a notebook with the Notebook editor, the `DocumentManager` creates an instance of the `NotebookModel` that loads the notebook as a JSON object and offers a complex API to manage cells and metadata independently (treats the content of the notebook as a structured data). When opening a notebook with the plain text editor the `DocumentManager` creates an instance of the base `DocumentModel` class which treats the content of the notebook as a string. Note that you can register multiple models for the same file type. Still, these models are not in sync when the user opens two editors for the same file that use different models (like opening a notebook with the notebook editor and the plain text editor). These editors are not in sync because they use different models. At some point, they will show different content.
 
@@ -174,7 +181,7 @@ To register a new `DocumentModel` we can use the API `addModelFactory` from the 
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L77-L78
+// src/index.ts#L82-L83
 
 const modelFactory = new ExampleDocModelFactory();
 app.docRegistry.addModelFactory(modelFactory);
@@ -187,7 +194,7 @@ To register a new `DocumentWidget` we can use the API `addWidgetFactory` from th
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L82-L87
+// src/index.ts#L87-L92
 
 const widgetFactory = new ExampleWidgetFactory({
   name: FACTORY,
@@ -198,7 +205,7 @@ const widgetFactory = new ExampleWidgetFactory({
 ```
 
 ```ts
-// src/index.ts#L99-L99
+// src/index.ts#L104-L104
 
 app.docRegistry.addWidgetFactory(widgetFactory);
 ```

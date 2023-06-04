@@ -561,11 +561,11 @@ done using [hatch](https://hatch.pypa.io/) builder with some additional plugins:
 - [hatch-jupyter-builder](https://github.com/jupyterlab/hatch-jupyter-builder/): Builder plugin to build Jupyter JavaScript assets as part of the Python package.
   Its configuration is done in `pyproject.toml`:
 
-```py
+```
 # pyproject.toml
 
 [build-system]
-requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0b0,<5", "hatch-nodejs-version"]
+requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-nodejs-version"]
 build-backend = "hatchling.build"
 
 [project]
@@ -644,7 +644,7 @@ version_cmd = "hatch version"
 
 [tool.jupyter-releaser.hooks]
 before-build-npm = [
-    "python -m pip install 'jupyterlab>=4.0.0b0,<5'",
+    "python -m pip install 'jupyterlab>=4.0.0,<5'",
     "jlpm",
     "jlpm build:prod"
 ]
