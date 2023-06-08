@@ -1,6 +1,6 @@
 import { expect, test } from '@jupyterlab/galata';
 
-test('should emit an activation console message', async ({ page }) => {
+test('should display zebra stripes in cell editors', async ({ page }) => {
   // Create a notebook
   await page
     .getByRole('main')

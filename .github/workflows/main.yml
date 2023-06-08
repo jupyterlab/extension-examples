@@ -120,7 +120,7 @@ jobs:
           cat labextension.list | grep -ie "@jupyterlab-examples/*.*OK"
           # There is a JavaScript warning as jupyter-collaboration is not
           # installed. And therefore @jupyter/docprovider is not available.
-          if [ "${{ matrix.example }}" = "documents" ]; then
+          if [ "${{ matrix.example }}" != "documents" ]; then
             python -m jupyterlab.browser_check
           fi
         shell: bash
