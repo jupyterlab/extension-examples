@@ -13,6 +13,8 @@ test('should emit an activation console message', async ({ page }) => {
     .getByRole('textbox')
     .waitFor();
 
+  await page.locator('.jp-Cell .cm-editor').first().waitFor();
+
   // Fill the first cell
   await page.notebook.setCell(
     0,

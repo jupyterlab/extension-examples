@@ -31,7 +31,7 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
     label: 'Untitled.ipynb'
   });
 
-  await page.getByRole('button', { name: 'Select', exact: true }).click();
+  await page.getByRole('button', { name: 'Select Kernel' }).click();
 
   // Emulate drag and drop to place the panel next to the notebook
   const viewerHandle = await page.$(
