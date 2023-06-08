@@ -131,6 +131,17 @@ jobs:
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
         run: jlpm install
+      - name: Set up browser cache
+        if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux')
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ github.workspace }}/pw-browsers
+          key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+      - name: Install browser
+        if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux')
+        run: jlpm playwright install chromium
+        working-directory: ${{ matrix.example }}/ui-tests
       - name: Install kernel-output dependencies
         if: steps.filter.outputs.extension == 'true' && matrix.example == 'kernel-output'
         run: pip install numpy pandas
@@ -214,7 +225,7 @@ jobs:
       - name: Install the Python dependencies
         if: steps.filter.outputs.extension == 'true'
         run: |
-          python -m pip install --upgrade pip jupyterlab~=4.0.0b0 build twine hatch
+          python -m pip install --upgrade pip jupyterlab~=4.0.0 build twine hatch
       - name: Install the NPM dependencies
         if: steps.filter.outputs.extension == 'true'
         run: |
@@ -267,6 +278,17 @@ jobs:
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
         run: jlpm install
+      - name: Set up browser cache
+        if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux')
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ github.workspace }}/pw-browsers
+          key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+      - name: Install browser
+        if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux')
+        run: jlpm playwright install chromium
+        working-directory: server-extension/ui-tests
       - name: Integration tests
         if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux')
         working-directory: server-extension/ui-tests
@@ -324,7 +346,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install the Python dependencies
-        run: python -m pip install jupyterlab~=4.0.0b0 pytest pytest-check-links "pytest-jupyter[server]>=0.6.0"
+        run: python -m pip install jupyterlab~=4.0.0 pytest pytest-check-links "pytest-jupyter[server]>=0.6.0"
       - name: Bootstrap the jlpm deps
         run: jlpm
       - name: Build all the extensions
