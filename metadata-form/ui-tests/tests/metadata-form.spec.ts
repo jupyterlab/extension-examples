@@ -30,6 +30,7 @@ async function activatePropertyInspector(page: IJupyterLabPageFixture) {
 
 test('should create the two example forms', async ({ page }) => {
   page.notebook.createNew('metadata-form');
+  await page.getByRole('button', { name: 'Select Kernel' }).click();
 
   await activatePropertyInspector(page);
 
