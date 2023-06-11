@@ -59,9 +59,6 @@
   "dependencies": {
     "@jupyterlab/application": "^4.0.0"
   },
-  "resolutions": {
-    "@jupyterlab/rendermime-interfaces": "~3.6.0"
-  },
   "devDependencies": {
     "@jupyterlab/builder": "^4.0.0",
     "@types/json-schema": "^7.0.11",

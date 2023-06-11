@@ -30,17 +30,17 @@ For that you will need to access the [`DocumentRegistry`](https://jupyterlab.rea
 
 The shared model needs to be registered only if your file must be collaborative. For that you will need to register it in the [`ICollaborativeDrive`](https://jupyterlab-realtime-collaboration.readthedocs.io/en/latest/api/interfaces/docprovider.ICollaborativeDrive.html) token provided by the `@jupyter/docprovider` package.
 
-> Packaging note: when using a token from an external extension (here
-> `jupyter-collaboration` providing `@jupyter/docprovider`). You need to
-> tell JupyterLab to not include that package in the current extension by
-> adding the following configuration in `package.json`:
+> Packaging note: when using an optional external extension (here
+> `@jupyter/docprovider` from `jupyter-collaboration`), you must
+> tell JupyterLab to include that package in the current extension by
+> adding the following configuration in `package.json`.:
 
 ```json5
 // package.json#L108-L113
 
 "sharedPackages": {
   "@jupyter/docprovider": {
-    "bundled": false,
+    "bundled": true,
     "singleton": true
   }
 }

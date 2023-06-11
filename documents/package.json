@@ -107,7 +107,7 @@
     "outputDir": "jupyterlab_examples_documents/labextension",
     "sharedPackages": {
       "@jupyter/docprovider": {
-        "bundled": false,
+        "bundled": true,
         "singleton": true
       }
     }
