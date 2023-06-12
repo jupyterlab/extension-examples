@@ -15,5 +15,6 @@ __pycache__
 static
 labextension
 **/test-results/
+_version.py
 
 .jupyter_ystore.db
