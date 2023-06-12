@@ -30,6 +30,9 @@ async function activatePropertyInspector(page: IJupyterLabPageFixture) {
 
 test('should create the two example forms', async ({ page }) => {
   page.notebook.createNew('metadata-form');
+  await page
+    .locator('.jp-Notebook-ExecutionIndicator[data-status="idle"]')
+    .waitFor();
 
   await activatePropertyInspector(page);
 
@@ -50,12 +53,6 @@ test('should create the two example forms', async ({ page }) => {
   );
 
   await expect.soft(simpleFormGroup).toHaveCount(2);
-  if ((await page.locator('.jp-Dialog').count()) > 0) {
-    await Promise.all([
-      page.locator('.jp-Dialog').waitFor({ state: 'hidden' }),
-      page.getByRole('button', { name: 'Cancel' }).click()
-    ]);
-  }
   expect.soft(await simpleForm.screenshot()).toMatchSnapshot('simple-form.png');
 
   // Collapse the simple example form.

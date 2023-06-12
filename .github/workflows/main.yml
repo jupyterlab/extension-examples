@@ -350,7 +350,8 @@ jobs:
       - name: Build all the extensions
         run: |
           jlpm lint:check
-          jlpm build-ext
-          jlpm install-ext
+          lerna exec --concurrency 4 -- "touch yarn.lock"
+          # Needed to generate the _version.py files
+          jlpm run lerna exec --concurrency 4 -- "pip install -e ."
           # Check links as last step as new tutorial may set links not yet valid (like file not yet in master)
           jlpm run lerna exec --concurrency 4 -- "pytest --check-links"

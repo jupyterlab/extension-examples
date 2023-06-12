@@ -44,9 +44,7 @@ test('should display zebra stripes in cell editors', async ({ page }) => {
     .locator('.jp-Notebook-ExecutionIndicator[data-status="idle"]')
     .waitFor();
 
-  const notebook = await page.activity.getPanel();
-
-  expect(await notebook!.screenshot()).toMatchSnapshot(
+  expect(await page.locator('.jp-Cell').first().screenshot()).toMatchSnapshot(
     'codemirror-extension.png'
   );
 });
