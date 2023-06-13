@@ -62,7 +62,7 @@ export class ExamplePanel extends Widget {
     this._offset = { x: 0, y: 0 };
     this._clients = new Map<string, HTMLElement>();
 
-    context.ready.then((value) => {
+    context.ready.then(value => {
       this._model.contentChanged.connect(this._onContentChanged);
       this._model.clientChanged.connect(this._onClientChanged);
 
@@ -133,7 +133,7 @@ export class ExamplePanel extends Widget {
             this._isDown = true;
             this._offset = {
               x: this._model.position.x - event.clientX,
-              y: this._model.position.y - event.clientY,
+              y: this._model.position.y - event.clientY
             };
           }
           break;
@@ -147,7 +147,7 @@ export class ExamplePanel extends Widget {
         case 'mouseleave':
           // Wrapping the modifications to the shared model into a flag
           // to prevent apply changes triggered by the same client
-          this._model.setCursor(undefined);
+          this._model.setCursor(null);
           break;
         case 'mousemove': {
           const bbox = this.node.getBoundingClientRect();
@@ -155,13 +155,13 @@ export class ExamplePanel extends Widget {
           // to prevent apply changes triggered by the same client
           this._model.setCursor({
             x: event.x - bbox.left,
-            y: event.y - bbox.top,
+            y: event.y - bbox.top
           });
 
           if (this._isDown) {
             this._model.position = {
               x: event.clientX + this._offset.x,
-              y: event.clientY + this._offset.y,
+              y: event.clientY + this._offset.y
             };
           }
           break;
@@ -198,7 +198,7 @@ export class ExamplePanel extends Widget {
 
         if (client.mouse) {
           if (this._clients.has(id)) {
-            const elt = this._clients.get(id);
+            const elt = this._clients.get(id)!;
             elt.style.left = client.mouse.x + 'px';
             elt.style.top = client.mouse.y + 'px';
           } else {
@@ -212,7 +212,7 @@ export class ExamplePanel extends Widget {
             this.node.appendChild(el);
           }
         } else if (this._clients.has(id)) {
-          this.node.removeChild(this._clients.get(id));
+          this.node.removeChild(this._clients.get(id)!);
           this._clients.delete(id);
         }
       }

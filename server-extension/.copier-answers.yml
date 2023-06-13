@@ -1,0 +1,20 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.0.5
+_src_path: gh:jupyterlab/extension-template
+author_email: ''
+author_name: Project Jupyter Contributors
+data_format: string
+file_extension: ''
+has_binder: false
+has_settings: false
+kind: server
+labextension_name: '@jupyterlab-examples/server-extension'
+mimetype: ''
+mimetype_name: ''
+project_short_description: A minimal JupyterLab extension with backend and frontend
+    parts.
+python_name: jupyterlab_examples_server
+repository: https://github.com/jupyterlab/extension-examples
+test: true
+viewer_name: ''
+

@@ -1,11 +1,9 @@
 import { test, expect } from '@jupyterlab/galata';
 
 test('should open a panel connected to a kernel', async ({ page }) => {
-  await page.getByText('Kernel Messaging', { exact: true }).click();
-
-  await page
-    .getByRole('menuitem', { name: 'Open the Kernel Messaging Panel' })
-    .click();
+  await page.menu.clickMenuItem(
+    'Kernel Messaging>Open the Kernel Messaging Panel'
+  );
 
   await page.getByRole('button', { name: 'Select' }).click();
 
@@ -23,10 +21,9 @@ test('should open a panel connected to a kernel', async ({ page }) => {
     .toHaveCount(1);
 
   // Close filebrowser
-  await page.getByText('View', { exact: true }).click();
   await Promise.all([
     page.waitForSelector('#filebrowser', { state: 'hidden' }),
-    page.getByRole('menuitem', { name: 'Show Left Sidebar Ctrl+B' }).click(),
+    page.menu.clickMenuItem('View>File Browser')
   ]);
 
   // Compare screenshot with a stored reference.

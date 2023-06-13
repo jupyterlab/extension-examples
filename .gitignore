@@ -7,6 +7,7 @@ node_modules/
 *.tsbuildinfo
 *.lock
 __pycache__
+.yarn/
 
 # Ensure embedme does not run ont node_modules README.md files.
 **/node_modules/**/README.md
@@ -14,4 +15,6 @@ __pycache__
 static
 labextension
 **/test-results/
+_version.py
 
+.jupyter_ystore.db

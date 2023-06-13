@@ -3,11 +3,11 @@ import { test, expect } from '@jupyterlab/galata';
 test.use({ autoGoto: false });
 
 test('should emit console message when called from palette', async ({
-  page,
+  page
 }) => {
   const logs: string[] = [];
 
-  page.on('console', (message) => {
+  page.on('console', message => {
     logs.push(message.text());
   });
 
@@ -26,7 +26,7 @@ test('should emit console message when called from palette', async ({
   await page.click('text=Execute jlab-examples:command-palette Command');
 
   expect(
-    logs.filter((s) =>
+    logs.filter(s =>
       s.startsWith('jlab-examples:command-palette has been called from palette')
     )
   ).toHaveLength(1);

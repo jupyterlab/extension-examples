@@ -1,14 +1,14 @@
 import {
   ITranslator,
   nullTranslator,
-  TranslationBundle,
+  TranslationBundle
 } from '@jupyterlab/translation';
 
 import { Panel } from '@lumino/widgets';
 
 import { ButtonWidget, ICount } from './button';
 
-const PANEL_CLASS = 'jp-SignalExamplePanel';
+const PANEL_CLASS = 'jp-signal-example-panel';
 
 /**
  * A panel which contains a ButtonWidget and the ability to add other children.

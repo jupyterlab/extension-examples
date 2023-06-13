@@ -1,12 +1,9 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-
 import { ICommandPalette } from '@jupyterlab/apputils';
-
 import { ILauncher } from '@jupyterlab/launcher';
-
 import { ITranslator } from '@jupyterlab/translation';
 
 import { SignalExamplePanel } from './panel';
@@ -22,11 +19,12 @@ namespace CommandIDs {
  * Initialization data for the extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'signals',
+  id: '@jupyterlab-examples/signals:plugin',
+  description: 'A minimal JupyterLab example using signals.',
   autoStart: true,
   optional: [ILauncher],
   requires: [ICommandPalette, ITranslator],
-  activate,
+  activate
 };
 
 /**
@@ -52,7 +50,7 @@ function activate(
   if (launcher) {
     launcher.add({
       command: CommandIDs.create,
-      category: category,
+      category: category
     });
   }
 
@@ -74,7 +72,7 @@ function activate(
   commands.addCommand(CommandIDs.create, {
     label: trans.__('Open the Signal Example Panel'),
     caption: trans.__('Open the Signal Example Panel'),
-    execute: createPanel,
+    execute: createPanel
   });
 
   // Add items in command palette and menu

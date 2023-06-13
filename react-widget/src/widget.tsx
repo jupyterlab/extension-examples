@@ -1,4 +1,4 @@
-import { ReactWidget } from '@jupyterlab/apputils';
+import { ReactWidget } from '@jupyterlab/ui-components';
 
 import React, { useState } from 'react';
 
@@ -33,7 +33,7 @@ export class CounterWidget extends ReactWidget {
    */
   constructor() {
     super();
-    this.addClass('jp-ReactWidget');
+    this.addClass('jp-react-widget');
   }
 
   render(): JSX.Element {

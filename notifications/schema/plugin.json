@@ -1,0 +1,20 @@
+{
+  "title": "Notification Example",
+  "description": "Notification Example settings.",
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-example-notifications",
+        "label": "Notification Example",
+        "rank": 80,
+        "items": [
+          {
+            "command": "examples-notifications:notify"
+          }
+        ]
+      }
+    ]
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

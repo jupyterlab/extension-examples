@@ -1,17 +1,15 @@
 {
-  "name": "@jupyterlab-examples/kernel-output-tests",
-  "version": "0.1.0",
-  "description": "Integration test for kernel-output example",
-  "repository": "https://github.com/jupyterlab/extension-examples",
-  "author": "Project Jupyter Contributors",
-  "license": "BSD-3-Clause",
+  "name": "@jupyterlab-examples/kernel-output-ui-tests",
+  "version": "1.0.0",
+  "description": "JupyterLab @jupyterlab-examples/kernel-output Integration Tests",
   "private": true,
-  "devDependencies": {
-    "@jupyterlab/galata": "^4.5.1",
-    "@playwright/test": "^1.31.2",
-    "typescript": "~4.1.3"
+  "scripts": {
+    "start": "jupyter lab --config jupyter_server_test_config.py",
+    "test": "jlpm playwright test",
+    "test:update": "jlpm playwright test --update-snapshots"
   },
-  "resolutions": {
-    "@playwright/test": "1.34.3"
+  "devDependencies": {
+    "@jupyterlab/galata": "^5.0.0",
+    "@playwright/test": "^1.32.0"
   }
 }

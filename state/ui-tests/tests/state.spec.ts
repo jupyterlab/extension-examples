@@ -19,13 +19,13 @@ test('should store state between reloads', async ({ page }) => {
 
   await Promise.all([
     page.waitForRequest(
-      (request) =>
+      request =>
         request.url().search(/\/api\/workspaces\/default/) >= 0 &&
         request.method() === 'PUT' &&
         '@jupyterlab-examples/state:state-example' in
           request.postDataJSON()?.data
     ),
-    page.getByRole('button', { name: /ok/i }).click(),
+    page.getByRole('button', { name: /ok/i }).click()
   ]);
 
   // Reload page

@@ -16,7 +16,7 @@ In this extension, a simple HTML button will be added to print something to the 
 
 JupyterLab's Lumino engine uses the `ISignal` interface and the
 `Signal` class that implements this interface for communication
-(read more on the [documentation](https://lumino.readthedocs.io/en/1.x/api/signaling/index.html) page).
+(read more on the [documentation](https://lumino.readthedocs.io/en/stable/api/modules/signaling.html) page).
 
 The basic concept is as follows:
 
@@ -81,7 +81,7 @@ constructor(options = { node: document.createElement('button') }) {
 // src/button.ts#L28-L30
 
 private _count: ICount = {
-  clickCount: 0,
+  clickCount: 0
 };
 ```
 

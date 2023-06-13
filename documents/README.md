@@ -18,28 +18,53 @@
 
 ## Introduction to documents
 
-In JupyterLab, we refer to a _document_ a type of file stored on disk. These files are represented in the frontend by a [`Context`](https://jupyterlab.readthedocs.io/en/3.6.x/api/classes/docregistry.context-1.html) which is the bridge between the file metadata (like the file path) and its model (the actual document content). Document [`IModel`](https://jupyterlab.readthedocs.io/en/3.6.x/api/interfaces/docregistry.documentregistry.imodel.html) represents the file content while [`IDocumentWidget`](https://jupyterlab.readthedocs.io/en/3.6.x/api/interfaces/docregistry.idocumentwidget.html) is a view of the model.  
-Developers can provide new extensions to support additional documents (or replace existing implementation). For that you will need to access the [`DocumentRegistry`](https://jupyterlab.readthedocs.io/en/3.6.x/api/classes/docregistry.documentregistry-1.html) to register new `FileType`s, models and views. This way, when opening a new file, the [`DocumentManager`](https://jupyterlab.readthedocs.io/en/3.6.x/api/classes/docmanager.documentmanager-1.html) will look into the file metadata and create an instance of `Context` with the right model for this file. To register new documents, you can create factories, either a [`IModelFactory`](https://jupyterlab.readthedocs.io/en/3.6.x/api/interfaces/docregistry.documentregistry.imodelfactory.html) for the model and/or a [`IWidgetFactory`](https://jupyterlab.readthedocs.io/en/3.6.x/api/interfaces/docregistry.documentregistry.iwidgetfactory.html) for the view.
+In JupyterLab, we refer to a _document_ a type of file stored on disk. These files are represented in the frontend by a [`Context`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docregistry.Context-1.html) which is the bridge between the file metadata (like the file path) and its model (the actual document content). Document [`IModel`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IModel.html) represents the file content while [`IDocumentWidget`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.IDocumentWidget.html) is a view of the model.  
+Developers can provide new extensions to support additional documents (or replace existing implementation). A document is defined by three elements:
+
+- A model: it contains and handles the document content. It should implement the [`IModel` interface](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IModel.html). And in particular it should contain the document content in a [`sharedModel`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IModel.html#sharedModel) - so you will need to define two new model classes.
+- A view: it defines a Widget to be included in the frontend for the user to view and interact with the document.
+- A file type: this is a dictionary of attributes allowing JupyterLab to map a file or a content with a mimetype to available model(s) and view(s).
+
+The model, the shared model and the view will be provided through new factories and the file type will be registered directly.
+For that you will need to access the [`DocumentRegistry`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docregistry.DocumentRegistry-1.html) to register new [`FileType`s](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/rendermime_interfaces.IRenderMime.IFileType.html), models and views. This way, when opening a new file, the [`DocumentManager`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docmanager.DocumentManager-1.html) will look into the file metadata and create an instance of `Context` with the right model for this file. To register new documents, you can create factories, either a [`IModelFactory`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IModelFactory.html) for the model and/or a [`IWidgetFactory`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IWidgetFactory.html) for the view.
+
+The shared model needs to be registered only if your file must be collaborative. For that you will need to register it in the [`ICollaborativeDrive`](https://jupyterlab-realtime-collaboration.readthedocs.io/en/latest/api/interfaces/docprovider.ICollaborativeDrive.html) token provided by the `@jupyter/docprovider` package.
+
+> Packaging note: when using an optional external extension (here
+> `@jupyter/docprovider` from `jupyter-collaboration`), you must
+> tell JupyterLab to include that package in the current extension by
+> adding the following configuration in `package.json`.:
+
+```json5
+// package.json#L108-L113
+
+"sharedPackages": {
+  "@jupyter/docprovider": {
+    "bundled": true,
+    "singleton": true
+  }
+}
+```
 
 ## Factories
 
 Factories are objects meant to create instances of the suitable widget/model given a file. For example, when the `DocumentManager` detects that the file is a notebook, it uses the notebook widget factory to create a new instance of `NotebookPanel`. On the other hand, if you want to make a new `IModel` (model) or `IDocumentWidget` (view) for a specific file type, you have to create a factory and register it to the `DocumentRegister`. When registering a factory, you tell the `DocumentManager` that you added a new model or widget for a specific file type. Then, the `DocumentManager` will use those factories to create instances of the new model or view.
 
-The easiest way of creating a new widget factory is extending from the [`ABCWidgetFactory<T, U>`](https://jupyterlab.readthedocs.io/en/3.6.x/api/classes/docregistry.abcwidgetfactory.html) and overwrite its method [`createNewWidget`](https://jupyterlab.readthedocs.io/en/3.6.x/api/classes/docregistry.abcwidgetfactory.html#createnewwidget). `createNewWidget` is called to create a new `IDocumentWidget` for a given file; usually by extending [`DocumentWidget`](https://jupyterlab.readthedocs.io/en/3.6.x/api/classes/docregistry.documentwidget-1.html).
+The easiest way of creating a new widget factory is extending from the [`ABCWidgetFactory<T, U>`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docregistry.ABCWidgetFactory.html) and overwrite its method [`createNewWidget`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docregistry.ABCWidgetFactory.html#createnewwidget). `createNewWidget` is called to create a new `IDocumentWidget` for a given file; usually by extending [`DocumentWidget`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docregistry.DocumentWidget-1.html).
 If you inherits from `DocumentWidget`, it needs the document context and a widget - `content`. The content is the main sub widget of the `DocumentWidget` (you can find more information on the section for the [Document Widget](#document-widget)).
 
 For example, in this extension:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L33-L40
+// src/factory.ts#L31-L38
 
 protected createNewWidget(
   context: DocumentRegistry.IContext<ExampleDocModel>
 ): ExampleDocWidget {
   return new ExampleDocWidget({
     context,
-    content: new ExamplePanel(context),
+    content: new ExamplePanel(context)
   });
 }
 ```
@@ -51,7 +76,7 @@ For example, in this extension, we define `ExampleDocModelFactory`:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L46-L47
+// src/factory.ts#L44-L45
 
 export class ExampleDocModelFactory
   implements DocumentRegistry.IModelFactory<ExampleDocModel>
@@ -62,7 +87,7 @@ with name:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L54-L56
+// src/factory.ts#L52-L54
 
 get name(): string {
   return 'example-model';
@@ -74,7 +99,7 @@ content type:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L63-L65
+// src/factory.ts#L61-L63
 
 get contentType(): Contents.ContentType {
   return 'exampledoc' as any;
@@ -86,7 +111,7 @@ and format:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L72-L74
+// src/factory.ts#L70-L72
 
 get fileFormat(): Contents.FileFormat {
   return 'text';
@@ -98,19 +123,12 @@ At the same time, you need to implement the method `createNew`. The `DocumentMan
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L111-L122
+// src/factory.ts#L111-L115
 
 createNew(
-  languagePreference?: string,
-  modelDB?: IModelDB,
-  isInitialized?: boolean,
-  collaborationEnabled?: boolean
+  options: DocumentRegistry.IModelOptions<ExampleDoc>
 ): ExampleDocModel {
-  return new ExampleDocModel(
-    languagePreference,
-    modelDB,
-    collaborationEnabled
-  );
+  return new ExampleDocModel(options);
 }
 ```
 <!-- prettier-ignore-end -->
@@ -121,7 +139,7 @@ When registering a new document, first of all, you need to know the file type of
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L50-L57
+// src/index.ts#L59-L66
 
 app.docRegistry.addFileType({
   name: 'example',
@@ -129,18 +147,41 @@ app.docRegistry.addFileType({
   mimeTypes: ['text/json', 'application/json'],
   extensions: ['.example'],
   fileFormat: 'text',
-  contentType: 'exampledoc' as any,
+  contentType: 'exampledoc' as any
 });
 ```
 <!-- prettier-ignore-end -->
 
-Once the file type is registered, you can register a model (`DocumentModel`) for a specific file type. The `DocumentModel` represents the content of the file. For example, JupyterLab has two models registered for the notebook. When you open a notebook with the Notebook editor, the `DocumentManager` creates an instance of the `NotebookModel` that loads the notebook as a JSON object and offers a complex API to manage cells and metadata independently (treats the content of the notebook as a structured data). When opening a notebook with the plain text editor the `DocumentManager` creates an instance of the base `DocumentModel` class which treats the content of the notebook as a string. Note that you can register multiple models for the same file type. Still, these models are not in sync when the user opens two editors for the same file that use different models (like opening a notebook with the notebook editor and the plain text editor). These editors are not in sync because they use different models. At some point, they will show different content.
+Once the file type is registered, you can register the shared model in the collaborative drive:
+
+<!-- prettier-ignore-start -->
+```ts
+// src/index.ts#L71-L79
+
+if (drive) {
+  const sharedExampleFactory = () => {
+    return ExampleDoc.create();
+  };
+  drive.sharedModelFactory.registerDocumentFactory(
+    'exampledoc',
+    sharedExampleFactory
+  );
+}
+```
+<!-- prettier-ignore-end -->
+
+The token `ICollaborativeDrive` (named above `drive`) must be optional as it is provided by the optional
+extension `jupyter-collaboration`. In order for the new document type to be viewed in non-collaborative
+JupyterLab instance, you should support missing `ICollaborativeDrive` token; the file will still be viewable
+and editable but no collaboration will be enabled.
+
+Then you need to register the model (`DocumentModel`) for the new file type. The `DocumentModel` represents the content of the file. For example, JupyterLab has two models registered for the notebook. When you open a notebook with the Notebook editor, the `DocumentManager` creates an instance of the `NotebookModel` that loads the notebook as a JSON object and offers a complex API to manage cells and metadata independently (treats the content of the notebook as a structured data). When opening a notebook with the plain text editor the `DocumentManager` creates an instance of the base `DocumentModel` class which treats the content of the notebook as a string. Note that you can register multiple models for the same file type. Still, these models are not in sync when the user opens two editors for the same file that use different models (like opening a notebook with the notebook editor and the plain text editor). These editors are not in sync because they use different models. At some point, they will show different content.
 
 To register a new `DocumentModel` we can use the API `addModelFactory` from the `DocumentRegistry`. In this case, we created the model factory without arguments, but you can add the argument that you need.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L60-L61
+// src/index.ts#L82-L83
 
 const modelFactory = new ExampleDocModelFactory();
 app.docRegistry.addModelFactory(modelFactory);
@@ -153,18 +194,18 @@ To register a new `DocumentWidget` we can use the API `addWidgetFactory` from th
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L65-L70
+// src/index.ts#L87-L92
 
 const widgetFactory = new ExampleWidgetFactory({
   name: FACTORY,
   modelName: 'example-model',
   fileTypes: ['example'],
-  defaultFor: ['example'],
+  defaultFor: ['example']
 });
 ```
 
 ```ts
-// src/index.ts#L82-L82
+// src/index.ts#L104-L104
 
 app.docRegistry.addWidgetFactory(widgetFactory);
 ```
@@ -214,7 +255,7 @@ In this extension, we created:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L368-L368
+// src/model.ts#L354-L354
 
 export class ExampleDoc extends YDocument<ExampleDocChange> {
 ```
@@ -224,7 +265,7 @@ To create a new shared object, you have to use the `ydoc`. The new attribute wil
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L372-L373
+// src/model.ts#L358-L359
 
 this._content = this.ydoc.getMap('content');
 this._content.observe(this._contentObserver);
@@ -237,7 +278,7 @@ we provide helpers `get` and `set` to hide the complexity of `position` being st
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L402-L411
+// src/model.ts#L390-L399
 
 get(key: 'content'): string;
 get(key: 'position'): Position;
@@ -252,7 +293,7 @@ get(key: string): any {
 ```
 
 ```ts
-// src/model.ts#L419-L423
+// src/model.ts#L407-L411
 
 set(key: 'content', value: string): void;
 set(key: 'position', value: PartialJSONObject): void;
@@ -268,13 +309,13 @@ You could add new information to the user's state by using the method `setLocalS
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L218-L218
+// src/model.ts#L204-L204
 
 this.sharedModel.awareness.setLocalStateField('mouse', pos);
 ```
 
 ```ts
-// src/model.ts#L303-L303
+// src/model.ts#L289-L289
 
 const clients = this.sharedModel.awareness.getStates();
 ```
@@ -284,7 +325,7 @@ To listen for changes on the state of the users, you can use the method `on('cha
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L52-L52
+// src/model.ts#L50-L50
 
 this.sharedModel.awareness.on('change', this._onClientChanged);
 ```
@@ -294,7 +335,7 @@ Every time you modify a shared property, this property triggers an event in all 
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L247-L250
+// src/model.ts#L233-L236
 
 this.sharedModel.transact(() => {
   this.sharedModel.set('position', { x: obj.x, y: obj.y });
@@ -315,9 +356,9 @@ provide [`jupyter-ydoc`](https://github.com/jupyter-server/jupyter_ydoc) helpers
 A shared model must inherit from `YBaseDoc`, here:
 
 ```py
-# jupyterlab_examples_documents/document.py#L3-L6
+# jupyterlab_examples_documents/document.py#L4-L7
 
-from jupyter_ydoc.ydoc import YBaseDoc
+from jupyter_ydoc.ybasedoc import YBaseDoc
 
 
 class YExampleDoc(YBaseDoc):
@@ -327,7 +368,7 @@ The shared map is added to the model like this:
 
 <!-- prettier-ignore-start -->
 ```py
-# jupyterlab_examples_documents/document.py#L9-L9
+# jupyterlab_examples_documents/document.py#L10-L10
 
 self._content = self._ydoc.get_map('content')
 ```
@@ -338,7 +379,7 @@ must be defined:
 
 <!-- prettier-ignore-start -->
 ```py
-# jupyterlab_examples_documents/document.py#L15-L48
+# jupyterlab_examples_documents/document.py#L16-L49
 
 def get(self) -> str:
     """
@@ -346,7 +387,7 @@ def get(self) -> str:
 
     :return: Document's content.
     """
-    data = self._content.to_json()
+    data = json.loads(self._content.to_json())
     position = json.loads(data["position"])
     return json.dumps(
         {
@@ -382,17 +423,17 @@ reacting to a document changes:
 
 <!-- prettier-ignore-start -->
 ```py
-# jupyterlab_examples_documents/document.py#L50-L59
+# jupyterlab_examples_documents/document.py#L51-L60
 
-def observe(self, callback: "Callable[Any, None]") -> None:
+def observe(self, callback: "Callable[[str, Any], None]") -> None:
     """
     Subscribes to document changes.
 
     :param callback: Callback that will be called when the document changes.
     """
     self.unobserve()
-    self._subscriptions[self._ystate] = self._ystate.observe(callback)
-    self._subscriptions[self._content] = self._content.observe(callback)
+    self._subscriptions[self._ystate] = self._ystate.observe(partial(callback, "state"))
+    self._subscriptions[self._content] = self._content.observe(partial(callback, "content"))
 #
 ```
 <!-- prettier-ignore-end -->
@@ -405,13 +446,10 @@ of the Python shared model (similarly to the registration of the model in the
 frontend). This is done by adding a Python package entry point:
 
 <!-- prettier-ignore-start -->
-```py
-# setup.py#L49-L53
+```
+# pyproject.toml#L29-L30
 
-entry_points={
-    'jupyter_ydoc': [
-        'exampledoc = jupyterlab_examples_documents.document:YExampleDoc',
-    ]
-},
+[project.entry-points.jupyter_ydoc]
+exampledoc = "jupyterlab_examples_documents.document:YExampleDoc"
 ```
 <!-- prettier-ignore-end -->

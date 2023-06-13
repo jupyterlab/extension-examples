@@ -25,10 +25,11 @@ First of all, you will start by looking into the declaration of the extension:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L26-L35
+// src/index.ts#L25-L35
 
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'custom-log-console',
+  id: '@jupyterlab-examples/custom-log-console:plugin',
+  description: 'A minimal JupyterLab example to develop a custom log console.',
   autoStart: true,
   requires: [ICommandPalette, IRenderMimeRegistry, ILayoutRestorer],
   activate: (
@@ -48,8 +49,8 @@ In the `activate` function, the first step is to declare `logConsolePanel` and `
 ```ts
 // src/index.ts#L38-L39
 
-let logConsolePanel: LogConsolePanel = null;
-let logConsoleWidget: MainAreaWidget<LogConsolePanel> = null;
+let logConsolePanel: LogConsolePanel | null = null;
+let logConsoleWidget: MainAreaWidget<LogConsolePanel> | null = null;
 ```
 <!-- prettier-ignore-end -->
 
@@ -72,7 +73,7 @@ To initialize a new `LogConsoleWidget` you have to create a `LogConsolePanel` to
 logConsolePanel = new LogConsolePanel(
   new LoggerRegistry({
     defaultRendermime: rendermime,
-    maxLength: 1000,
+    maxLength: 1000
   })
 );
 ```
@@ -95,7 +96,7 @@ Now you are ready to initialize a new `MainAreaWidget` passing the `logConsolePa
 // src/index.ts#L82-L84
 
 logConsoleWidget = new MainAreaWidget<LogConsolePanel>({
-  content: logConsolePanel,
+  content: logConsolePanel
 });
 ```
 <!-- prettier-ignore-end -->
@@ -131,7 +132,7 @@ commands.addCommand('jlab-examples/custom-log-console:open', {
     } else {
       createLogConsoleWidget();
     }
-  },
+  }
 });
 ```
 
@@ -145,7 +146,7 @@ Finally, you can send log messages calling `log` method present on the `logger` 
 const msg: IHtmlLog = {
   type: 'html',
   level: 'debug',
-  data: '<div>Hello world HTML!!</div>',
+  data: '<div>Hello world HTML!!</div>'
 };
 
 logConsolePanel?.logger?.log(msg);
@@ -161,7 +162,7 @@ logConsolePanel?.logger?.log(msg);
 const msg: ITextLog = {
   type: 'text',
   level: 'info',
-  data: 'Hello world text!!',
+  data: 'Hello world text!!'
 };
 
 logConsolePanel?.logger?.log(msg);
@@ -178,14 +179,14 @@ logConsolePanel?.logger?.log(msg);
 const data: nbformat.IOutput = {
   output_type: 'display_data',
   data: {
-    'text/plain': 'Hello world nbformat!!',
-  },
+    'text/plain': 'Hello world nbformat!!'
+  }
 };
 
 const msg: IOutputLog = {
   type: 'output',
   level: 'warning',
-  data,
+  data
 };
 
 logConsolePanel?.logger?.log(msg);

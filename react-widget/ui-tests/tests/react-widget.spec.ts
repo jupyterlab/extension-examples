@@ -20,10 +20,9 @@ test('should open a new panel with a react component', async ({ page }) => {
   expect(await page.waitForSelector('text=You clicked 4 times!')).toBeTruthy();
 
   // Close filebrowser
-  await page.click('text=View');
   await Promise.all([
     page.waitForSelector('#filebrowser', { state: 'hidden' }),
-    page.click('ul[role="menu"] >> text=Show Left Sidebar'),
+    page.menu.clickMenuItem('View>File Browser')
   ]);
 
   expect(await page.screenshot()).toMatchSnapshot('react-widget-example.png');

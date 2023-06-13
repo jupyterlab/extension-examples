@@ -2,7 +2,7 @@ import { IRenderMime } from '@jupyterlab/rendermime-interfaces';
 
 import { Widget } from '@lumino/widgets';
 
-import '../style/index.css';
+import movieIcon from '../style/movie.svg';
 
 /**
  * The default mime type for the extension.
@@ -50,33 +50,37 @@ export class VideoWidget extends Widget implements IRenderMime.IRenderer {
 export const rendererFactory: IRenderMime.IRendererFactory = {
   safe: true,
   mimeTypes: [MIME_TYPE],
-  createRenderer: (options) => new VideoWidget(options),
+  createRenderer: options => new VideoWidget(options)
 };
 
 /**
  * Extension definition.
  */
 const extension: IRenderMime.IExtension = {
-  id: 'jupyterlab-mp4:plugin',
+  id: '@jupyterlab-examples/mimerenderer:plugin',
+  // description: 'Adds MIME type renderer for mp4 content',
   rendererFactory,
   rank: 0,
   dataType: 'string',
   fileTypes: [
     {
       name: 'mp4',
-      iconClass: 'jp-MaterialIcon mimerenderer-mp4-icon',
-      fileFormat: 'base64',
-      mimeTypes: [MIME_TYPE],
       extensions: ['.mp4'],
-    },
+      fileFormat: 'base64',
+      icon: {
+        name: '@jupyterlab-examples/mimerenderer:video',
+        svgstr: movieIcon
+      },
+      mimeTypes: [MIME_TYPE]
+    }
   ],
   documentWidgetFactoryOptions: {
-    name: 'JupyterLab mp4 viewer',
+    name: 'JupyterLab mp4 Viewer',
     primaryFileType: 'mp4',
     modelName: 'base64',
     fileTypes: ['mp4'],
-    defaultFor: ['mp4'],
-  },
+    defaultFor: ['mp4']
+  }
 };
 
 export default extension;

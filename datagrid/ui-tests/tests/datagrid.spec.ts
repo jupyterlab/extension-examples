@@ -2,16 +2,11 @@ import { test, expect } from '@jupyterlab/galata';
 
 test('should open a datagrid panel', async ({ page }) => {
   // Close filebrowser
-  await page.click('text=View');
-  await Promise.all([
-    page.waitForSelector('#filebrowser', { state: 'hidden' }),
-    page.click('ul[role="menu"] >> text=Show Left Sidebar'),
-  ]);
 
-  // Click text=DataGrid Example
-  await page.click('text=DataGrid Example');
-  // Click ul[role="menu"] >> text=Open a Datagrid
-  await page.click('ul[role="menu"] >> text=Open a Datagrid');
+  // Click on DataGrid Example
+  await page.getByText('DataGrid Example').click();
+  // Click on Open a Datagrid
+  await page.getByRole('menuitem', { name: 'Open a Datagrid' }).click();
 
   expect(
     await page.waitForSelector('div[role="main"] >> text=Datagrid Example View')
