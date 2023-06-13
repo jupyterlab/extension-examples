@@ -29,7 +29,7 @@ async function activatePropertyInspector(page: IJupyterLabPageFixture) {
 }
 
 test('should create the two example forms', async ({ page }) => {
-  page.notebook.createNew('metadata-form');
+  await page.notebook.createNew('metadata-form');
   await page
     .locator('.jp-Notebook-ExecutionIndicator[data-status="idle"]')
     .waitFor();

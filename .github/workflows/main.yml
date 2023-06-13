@@ -94,7 +94,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('environment.yml') }}
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install the Python dependencies
@@ -217,7 +217,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('environment.yml') }}
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install the Python dependencies
@@ -340,7 +340,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/environment.yml') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('environment.yml') }}
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install the Python dependencies
