@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: master
+    branches: main
   pull_request:
     branches: '*'
 
@@ -57,12 +57,9 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         uses: actions/cache@v3
         with:
-          path: |
-            node_modules
-            */*/node_modules
+          path: '**/node_modules'
           key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-lerna-
+          restore-keys: ${{ runner.os }}-lerna-
       - name: Check config files
         if: steps.filter.outputs.extension == 'true'
         run: |
@@ -180,12 +177,9 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         uses: actions/cache@v3
         with:
-          path: |
-            node_modules
-            */*/node_modules
+          path: '**/node_modules'
           key: ${{ runner.os }}-lerna-${{ hashFiles('server-extension/package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-lerna-
+          restore-keys: ${{ runner.os }}-lerna-
       - name: Install node
         if: steps.filter.outputs.extension == 'true'
         uses: actions/setup-node@v3
@@ -316,12 +310,9 @@ jobs:
       - name: Cache lerna
         uses: actions/cache@v3
         with:
-          path: |
-            node_modules
-            */*/node_modules
+          path: '**/node_modules'
           key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-lerna-
+          restore-keys: ${{ runner.os }}-lerna-
       - name: Install node
         uses: actions/setup-node@v3
         with:
@@ -350,7 +341,7 @@ jobs:
       - name: Build all the extensions
         run: |
           jlpm lint:check
-          lerna exec --concurrency 4 -- "touch yarn.lock"
+          jlpm run lerna exec --concurrency 4 -- "touch yarn.lock"
           # Needed to generate the _version.py files
           jlpm run lerna exec --concurrency 4 -- "pip install -e ."
           # Check links as last step as new tutorial may set links not yet valid (like file not yet in master)
