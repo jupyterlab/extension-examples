@@ -10,7 +10,7 @@ dependencies to JupyterLab features.
 > Credit: This example is copied from Jeremy Tuloup [Python file extension](https://github.com/jtpio/jupyterlab-python-file).
 
 This example allows to create an empty Python file. To do so,
-your extension will use two commands defined by the [documents manager](https://github.com/jupyterlab/jupyterlab/blob/master/packages/docmanager-extension/src/index.tsx#L52-L82) of JupyterLab:
+your extension will use two commands defined by the [documents manager](https://github.com/jupyterlab/jupyterlab/blob/main/packages/docmanager-extension/src/index.tsx#L52-L82) of JupyterLab:
 
 - `'docmanager:new-untitled'`: Create new untitled document
 - `'docmanager:open'`: Open a document

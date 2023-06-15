@@ -293,7 +293,7 @@ with it in the other examples.
 > automatically compile the TypeScript files as they are changed and saved.
 
 Checkout how the core packages of JupyterLab are defined
-[on this page](https://github.com/jupyterlab/jupyterlab/tree/master/packages). Each package is
+[on this page](https://github.com/jupyterlab/jupyterlab/tree/main/packages). Each package is
 structured similarly to the extension that you are writing. This modular
 structure makes JupyterLab very adaptable.
 
