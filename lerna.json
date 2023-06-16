@@ -1,5 +1,4 @@
 {
   "npmClient": "jlpm",
-  "useWorkspaces": true,
   "version": "independent"
 }
