@@ -1,7 +1,7 @@
 # JupyterLab Extensions by Examples
 
 [![Github Actions Status](https://github.com/jupyterlab/extension-examples/workflows/CI/badge.svg)](https://github.com/jupyterlab/extension-examples/actions?query=workflow%3ACI)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/extension-examples/master?urlpath=lab)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/extension-examples/main?urlpath=lab)
 
 1. [Goal](#tldr)
 1. [Develop by Examples](#develop-by-examples)
@@ -296,7 +296,7 @@ conda env create && \
   conda activate jupyterlab-extension-examples
 ```
 
-> The previous command will use the [environment.yml](https://github.com/jupyterlab/extension-examples/blob/master/environment.yml) file as requirements for the environment.
+> The previous command will use the [environment.yml](https://github.com/jupyterlab/extension-examples/blob/main/environment.yml) file as requirements for the environment.
 
 ## Develop and Use the Examples
 

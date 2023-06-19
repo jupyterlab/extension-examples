@@ -8,7 +8,7 @@ This is a basic example to show how to add a new entry to an existent context me
 
 In JupyterLab plugins can expose context menus to offer an easy way to execute commands and perform actions. In this example, you will learn how to add a new entry to the file browser context menu to be displayed on files with extension `.example`.
 
-> It is strongly recommended to read [commands](https://github.com/jupyterlab/extension-examples/tree/master/commands) example before diving into this one.
+> It is strongly recommended to read [commands](https://github.com/jupyterlab/extension-examples/tree/main/commands) example before diving into this one.
 
 To implement this example you need to install the `@jupyterlab/filebrowser`, where you can find the interface `IFileBrowserFactory` necessary to require the file browser instance of JupyterLab.
 

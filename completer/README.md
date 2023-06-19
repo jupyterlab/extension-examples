@@ -96,7 +96,7 @@ return {
 
 ## Aggregating connector responses
 
-[_JupyterLab_'s `CompletionManager`](https://github.com/jupyterlab/jupyterlab/blob/master/packages/completer/src/manager.ts) fetches and merges completion responses from `KernelConnector` and `ContextConnector` (https://github.com/jupyterlab/jupyterlab/blob/b279092d88de650ea36460689257e1b8e8a418bf/packages/completer-extension/src/index.ts#L29).
+[_JupyterLab_'s `CompletionManager`](https://github.com/jupyterlab/jupyterlab/blob/main/packages/completer/src/manager.ts) fetches and merges completion responses from `KernelConnector` and `ContextConnector` (https://github.com/jupyterlab/jupyterlab/blob/b279092d88de650ea36460689257e1b8e8a418bf/packages/completer-extension/src/index.ts#L29).
 We add our new completer provider to it:
 
 ```ts

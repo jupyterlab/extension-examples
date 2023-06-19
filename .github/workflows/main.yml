@@ -344,5 +344,5 @@ jobs:
           jlpm run lerna exec --concurrency 4 -- "touch yarn.lock"
           # Needed to generate the _version.py files
           jlpm run lerna exec --concurrency 4 -- "pip install -e ."
-          # Check links as last step as new tutorial may set links not yet valid (like file not yet in master)
+          # Check links as last step as new tutorial may set links not yet valid (like file not yet in main)
           jlpm run lerna exec --concurrency 4 -- "pytest --check-links"

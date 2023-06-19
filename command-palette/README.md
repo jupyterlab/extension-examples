@@ -6,7 +6,7 @@
 
 One major concept of the Lumino library on which JupyterLab is built is
 the notion of _Commands_ as explained in the
-[commands example](https://github.com/jupyterlab/extension-examples/blob/master/commands/README.md).
+[commands example](https://github.com/jupyterlab/extension-examples/blob/main/commands/README.md).
 
 Commands can be used from the command palette.
 
