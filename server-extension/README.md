@@ -57,7 +57,7 @@ like this (be careful to pick _server_ as _kind_):
 > The python name must be a valid Python module name (characters such `-`, `@` or `/` are not allowed).
 > It is nice for user to test your extension online, so the _set up Binder_ was set to _Yes_.
 
-The template creates creates files in the current director
+The template creates files in the current director
 that looks like this:
 
 ```bash
@@ -110,13 +110,13 @@ that looks like this:
 ├── .prettierignore
 ├── tsconfig.json              # Typescript compilation configuration
 ├── tsconfig.test.json
-├── .yarnrc.yml
+├── .yarnrc.yml                # Yarn package manager configuration
 │
 ├── src                        # Actual code of the extension
 │   ├── handler.ts
 │   ├── index.ts
 │   └── __tests__              # JavaScript unit tests
-│       └── jlab_ext_example.spec.ts
+│       └── jupyterlab_examples_server.spec.ts
 │
 ├── style                      # CSS styling
 │   ├── base.css
@@ -129,7 +129,7 @@ that looks like this:
     ├── playwright.config.js
     ├── README.md
     ├── tests
-    │   └── jlab_ext_example.spec.ts
+    │   └── jupyterlab_examples_server.spec.ts
     └── yarn.lock
 ```
 
