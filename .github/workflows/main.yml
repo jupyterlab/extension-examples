@@ -103,22 +103,23 @@ jobs:
       # - if: steps.filter.outputs.extension == 'true' && matrix.example == 'documents'
       #   run: |
       #     python -m pip install jupyter-collaboration
-      - name: Install the NPM dependencies
-        if: steps.filter.outputs.extension == 'true'
-        run: jlpm
-      - name: Lint the files
-        if: steps.filter.outputs.extension == 'true'
-        run: jlpm run eslint:check
-      - name: Build and check by extension
+      - name: Build the extension
         if: steps.filter.outputs.extension == 'true'
         run: |
-          pip install . -v
+          # Same commands as in TL;DR to ensure it works
+          touch yarn.lock
+          pip install -e . -v
+          jupyter labextension develop . --overwrite
+        shell: bash
+      - name: Lint the files
+        if: steps.filter.outputs.extension == 'true'
+        run: jlpm run lint:check
+      - name: Check extension installation
+        if: steps.filter.outputs.extension == 'true'
+        run: |
           jupyter labextension list 2>&1 | tee labextension.list
           cat labextension.list | grep -ie "@jupyterlab-examples/*.*OK"
-          # There is a JavaScript warning as jupyter-collaboration is not
-          # installed. And therefore @jupyter/docprovider is not available.
           python -m jupyterlab.browser_check
-        shell: bash
 
       - name: Install galata
         if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux')
@@ -217,7 +218,7 @@ jobs:
       - name: Install the Python dependencies
         if: steps.filter.outputs.extension == 'true'
         run: |
-          python -m pip install --upgrade pip jupyterlab~=4.0.0 build twine hatch
+          python -m pip install --upgrade pip jupyterlab~=4.0.0 build
       - name: Install the NPM dependencies
         if: steps.filter.outputs.extension == 'true'
         run: |
@@ -227,7 +228,7 @@ jobs:
         if: steps.filter.outputs.extension == 'true'
         run: |
           cd server-extension
-          jlpm run eslint:check
+          jlpm run lint:check
       - name: Build extension as user
         if: steps.filter.outputs.extension == 'true'
         # Force the usage of the source distribution (good practice)
@@ -340,9 +341,7 @@ jobs:
         run: jlpm
       - name: Build all the extensions
         run: |
+          # Check embedded snippets
           jlpm lint:check
-          jlpm run lerna exec --concurrency 4 -- "touch yarn.lock"
-          # Needed to generate the _version.py files
-          jlpm run lerna exec --concurrency 4 -- "pip install -e ."
           # Check links as last step as new tutorial may set links not yet valid (like file not yet in main)
           jlpm run lerna exec --concurrency 4 -- "pytest --check-links"

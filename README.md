@@ -271,7 +271,7 @@ Use State persistence in an extension.
 
 Add a new button to the notebook toolbar.
 
-[![Toolbar button](toolbar-button/Preview.gif)](toolbar-button)
+[![Toolbar button](toolbar-button/preview.gif)](toolbar-button)
 
 ### [Widgets](widgets)
 
