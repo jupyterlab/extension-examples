@@ -1,6 +1,6 @@
 # Kernel Output
 
-> Render kernel messages in an _OuputArea_.
+> Render kernel messages in an _OutputArea_.
 
 - [Code structure](#code-structure)
 - [Initializing a Kernel Session](#initializing-a-kernel-session)

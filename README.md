@@ -139,13 +139,13 @@ Add a configurable CodeMirror extension.
 
 Extend the main app with a Command.
 
-[![Commmand example](commands/preview.png)](commands)
+[![Command example](commands/preview.png)](commands)
 
 ### [Command Palette](command-palette)
 
 Register commands in the Command Palette.
 
-[![Commmand Palette](command-palette/preview.png)](command-palette)
+[![Command Palette](command-palette/preview.png)](command-palette)
 
 ### [Completer](completer)
 
@@ -197,7 +197,7 @@ Interact with a kernel from an extension.
 
 ### [Kernel Output](kernel-output)
 
-Render kernel messages in an OuputArea.
+Render kernel messages in an OutputArea.
 
 [![OutputArea class](kernel-output/preview.gif)](kernel-output)
 
