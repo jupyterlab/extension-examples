@@ -29,6 +29,7 @@
    1. [Signals](#signals)
    1. [State](#state)
    1. [Toolbar Item](#toolbar-item)
+   1. [Top Area Text Widget](toparea-text-widget)
    1. [Widgets](#widgets)
 1. [Prerequisites](#prerequisites)
 1. [Develop and Use the Examples](#develop-and-use-the-examples)
@@ -116,6 +117,7 @@ Start with the [Hello World](hello-world) and then jump to the topic you are int
 - [Signals](signals)
 - [State](state)
 - [Toolbar item](toolbar-button)
+- [Top Area Text Widget](toparea-text-widget)
 - [Widgets](widgets)
 
 You can expect from each example:
