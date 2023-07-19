@@ -273,6 +273,12 @@ Add a new button to the notebook toolbar.
 
 [![Toolbar button](toolbar-button/preview.gif)](toolbar-button)
 
+### [Top Area Text Widget](toparea_text_widget)
+
+Adds a text widget to the top area.
+
+[![Top Area Text Widget](toparea-text-widget/preview.jpg)](toparea-text-widget)
+
 ### [Widgets](widgets)
 
 Add a new Widget element to the main window.
