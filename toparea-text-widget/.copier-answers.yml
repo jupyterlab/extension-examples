@@ -1,0 +1,14 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.0.9
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: ''
+author_name: ''
+has_binder: true
+has_settings: false
+kind: frontend
+labextension_name: jupyterlab-toparea-text
+project_short_description: A JupyterLab extension to add text in the top area.
+python_name: jupyterlab_toparea_text
+repository: ''
+test: false
+
