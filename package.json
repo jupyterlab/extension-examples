@@ -41,6 +41,7 @@
     "signals",
     "state",
     "toolbar-button",
+    "toparea-text-widget",
     "widgets"
   ],
   "devDependencies": {
