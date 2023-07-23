@@ -1,0 +1,108 @@
+.google-auth-gis-head {
+  margin-top: 5px;
+  text-align: center;
+}
+
+.google-auth-gis-box {
+  text-align: left;
+  width: 800px;
+}
+
+.google-auth-gis-logo {
+  height: 50px;
+  pointer-events: none;
+}
+
+.google-auth-gis-link {
+  margin-left: 5px;
+  color: var(--jp-cell-inprompt-font-color);
+}
+
+.google-auth-config {
+  display: flex;
+  flex-direction: column;
+}
+
+.google-auth-config-1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.google-auth-config-2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.google-auth-block-title {
+  font-weight: var(--jp-content-heading-font-weight);
+}
+
+.google-auth-config-label {
+  width: 70px;
+}
+
+.google-auth-state {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding: 5px;
+  border: 1px solid lightgray;
+}
+
+.google-auth-state pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.button {
+  background-color: darkgray;
+  border: none;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 15px 25px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #7e7ecc;
+}
+
+.button.disabled {
+  background-color: lightgray;
+  pointer-events: none;
+}
+
+.buttons {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.google-auth-config-form {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding: 5px;
+  border: 1px solid lightgray;
+}
+
+.config-client-id {
+  width: 700px;
+  margin: 10px;
+}
+
+.config-scope {
+  width: 700px;
+  height: 80px;
+  margin: 10px;
+}
+
+label textarea {
+  vertical-align: middle;
+}

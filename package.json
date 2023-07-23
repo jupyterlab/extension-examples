@@ -36,6 +36,7 @@
     "metadata-form",
     "notifications",
     "react-widget",
+    "react-auth-google",
     "server-extension",
     "settings",
     "signals",
