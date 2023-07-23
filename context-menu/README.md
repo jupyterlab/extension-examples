@@ -8,7 +8,7 @@ This is a basic example to show how to add a new entry to an existent context me
 
 In JupyterLab plugins can expose context menus to offer an easy way to execute commands and perform actions. In this example, you will learn how to add a new entry to the file browser context menu to be displayed on files with extension `.example`.
 
-> It is strongly recommended to read [commands](https://github.com/jupyterlab/extension-examples/tree/master/commands) example before diving into this one.
+> It is strongly recommended to read [commands](https://github.com/jupyterlab/extension-examples/tree/main/commands) example before diving into this one.
 
 To implement this example you need to install the `@jupyterlab/filebrowser`, where you can find the interface `IFileBrowserFactory` necessary to require the file browser instance of JupyterLab.
 
@@ -18,10 +18,11 @@ First of all, you will start looking into the declaration of the extension:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L9-L13
+// src/index.ts#L9-L14
 
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'context-menu',
+  id: '@jupyterlab-examples/context-menu:plugin',
+  description: 'A minimal JupyterLab example to develop a context-menu.',
   autoStart: true,
   requires: [IFileBrowserFactory],
   activate: (app: JupyterFrontEnd, factory: IFileBrowserFactory) => {
@@ -34,21 +35,25 @@ The first step is to define the command that will be executed when clicking on t
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L14-L27
+// src/index.ts#L15-L32
 
 app.commands.addCommand('jlab-examples/context-menu:open', {
   label: 'Example',
   caption: "Example context menu button for file browser's items.",
   icon: buildIcon,
   execute: () => {
-    const file = factory.tracker.currentWidget.selectedItems().next();
+    const file = factory.tracker.currentWidget
+      ?.selectedItems()
+      .next().value;
 
-    showDialog({
-      title: file.name,
-      body: 'Path: ' + file.path,
-      buttons: [Dialog.okButton()],
-    }).catch((e) => console.log(e));
-  },
+    if (file) {
+      showDialog({
+        title: file.name,
+        body: 'Path: ' + file.path,
+        buttons: [Dialog.okButton()]
+      }).catch(e => console.log(e));
+    }
+  }
 });
 ```
 <!-- prettier-ignore-end -->

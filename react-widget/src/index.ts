@@ -1,14 +1,10 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-
 import { MainAreaWidget } from '@jupyterlab/apputils';
-
 import { ILauncher } from '@jupyterlab/launcher';
-
 import { reactIcon } from '@jupyterlab/ui-components';
-
 import { CounterWidget } from './widget';
 
 /**
@@ -23,6 +19,7 @@ namespace CommandIDs {
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'react-widget',
+  description: 'A minimal JupyterLab extension using a React Widget.',
   autoStart: true,
   optional: [ILauncher],
   activate: (app: JupyterFrontEnd, launcher: ILauncher) => {
@@ -32,22 +29,22 @@ const extension: JupyterFrontEndPlugin<void> = {
     commands.addCommand(command, {
       caption: 'Create a new React Widget',
       label: 'React Widget',
-      icon: (args) => (args['isPalette'] ? null : reactIcon),
+      icon: args => (args['isPalette'] ? undefined : reactIcon),
       execute: () => {
         const content = new CounterWidget();
         const widget = new MainAreaWidget<CounterWidget>({ content });
         widget.title.label = 'React Widget';
         widget.title.icon = reactIcon;
         app.shell.add(widget, 'main');
-      },
+      }
     });
 
     if (launcher) {
       launcher.add({
-        command,
+        command
       });
     }
-  },
+  }
 };
 
 export default extension;

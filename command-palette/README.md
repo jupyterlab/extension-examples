@@ -6,7 +6,7 @@
 
 One major concept of the Lumino library on which JupyterLab is built is
 the notion of _Commands_ as explained in the
-[commands example](https://github.com/jupyterlab/extension-examples/blob/master/commands/README.md).
+[commands example](https://github.com/jupyterlab/extension-examples/blob/main/commands/README.md).
 
 Commands can be used from the command palette.
 
@@ -23,10 +23,12 @@ import { ICommandPalette } from '@jupyterlab/apputils';
 To see how you can add the command to the palette, let's have a look at `src/index.ts`.
 
 ```ts
-// src/index.ts#L11-L34
+// src/index.ts#L11-L36
 
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'command-palette',
+  description:
+    'Minimal JupyterLab example adding a new command to the palette.',
   autoStart: true,
   requires: [ICommandPalette],
   activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {
@@ -42,17 +44,17 @@ const extension: JupyterFrontEndPlugin<void> = {
         console.log(
           `jlab-examples:command-palette has been called ${args['origin']}.`
         );
-      },
+      }
     });
 
     // Add the command to the command palette
     const category = 'Extension Examples';
     palette.addItem({ command, category, args: { origin: 'from palette' } });
-  },
+  }
 ```
 
 The `ICommandPalette`
-([documentation](https://jupyterlab.github.io/jupyterlab/interfaces/_apputils_src_index_.icommandpalette.html))
+([documentation](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/apputils.ICommandPalette.html))
 is passed to the `activate` function as an argument (variable `palette`) in
 addition to the JupyterLab application (variable `app`).
 

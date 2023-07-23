@@ -1,7 +1,9 @@
+import { ICollaborativeDrive } from '@jupyter/docprovider';
+
 import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
-  ILayoutRestorer,
+  ILayoutRestorer
 } from '@jupyterlab/application';
 
 import { WidgetTracker, IWidgetTracker } from '@jupyterlab/apputils';
@@ -9,7 +11,7 @@ import { WidgetTracker, IWidgetTracker } from '@jupyterlab/apputils';
 import { Token } from '@lumino/coreutils';
 
 import { ExampleWidgetFactory, ExampleDocModelFactory } from './factory';
-
+import { ExampleDoc } from './model';
 import { ExampleDocWidget } from './widget';
 
 /**
@@ -27,10 +29,17 @@ export const IExampleDocTracker = new Token<IWidgetTracker<ExampleDocWidget>>(
  */
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'documents',
+  description:
+    'Minimal JupyterLab extension for a collaborative document widget.',
   autoStart: true,
   requires: [ILayoutRestorer],
+  optional: [ICollaborativeDrive],
   provides: IExampleDocTracker,
-  activate: (app: JupyterFrontEnd, restorer: ILayoutRestorer) => {
+  activate: (
+    app: JupyterFrontEnd,
+    restorer: ILayoutRestorer,
+    drive: ICollaborativeDrive | null
+  ) => {
     // Namespace for the tracker
     const namespace = 'documents-example';
     // Creating the tracker for the document
@@ -41,10 +50,37 @@ const extension: JupyterFrontEndPlugin<void> = {
       // When restoring the app, if the document was open, reopen it
       restorer.restore(tracker, {
         command: 'docmanager:open',
-        args: (widget) => ({ path: widget.context.path, factory: FACTORY }),
-        name: (widget) => widget.context.path,
+        args: widget => ({ path: widget.context.path, factory: FACTORY }),
+        name: widget => widget.context.path
       });
     }
+
+    // register the filetype
+    app.docRegistry.addFileType({
+      name: 'example',
+      displayName: 'Example',
+      mimeTypes: ['text/json', 'application/json'],
+      extensions: ['.example'],
+      fileFormat: 'text',
+      contentType: 'exampledoc' as any
+    });
+
+    // Creating and registering the shared model factory
+    // As the third-party jupyter-collaboration package is not part of JupyterLab core,
+    // we should support collaboration feature absence.
+    if (drive) {
+      const sharedExampleFactory = () => {
+        return ExampleDoc.create();
+      };
+      drive.sharedModelFactory.registerDocumentFactory(
+        'exampledoc',
+        sharedExampleFactory
+      );
+    }
+
+    // Creating and registering the model factory for our custom DocumentModel
+    const modelFactory = new ExampleDocModelFactory();
+    app.docRegistry.addModelFactory(modelFactory);
 
     // Creating the widget factory to register it so the document manager knows about
     // our new DocumentWidget
@@ -52,7 +88,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       name: FACTORY,
       modelName: 'example-model',
       fileTypes: ['example'],
-      defaultFor: ['example'],
+      defaultFor: ['example']
     });
 
     // Add the widget to the tracker when it's created
@@ -63,23 +99,10 @@ const extension: JupyterFrontEndPlugin<void> = {
       });
       tracker.add(widget);
     });
+
     // Registering the widget factory
     app.docRegistry.addWidgetFactory(widgetFactory);
-
-    // Creating and registering the model factory for our custom DocumentModel
-    const modelFactory = new ExampleDocModelFactory();
-    app.docRegistry.addModelFactory(modelFactory);
-
-    // register the filetype
-    app.docRegistry.addFileType({
-      name: 'example',
-      displayName: 'Example',
-      mimeTypes: ['text/json', 'application/json'],
-      extensions: ['.example'],
-      fileFormat: 'text',
-      contentType: 'file',
-    });
-  },
+  }
 };
 
 export default extension;

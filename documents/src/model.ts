@@ -1,23 +1,27 @@
-import { DocumentRegistry } from '@jupyterlab/docregistry';
-
-import { YDocument, MapChange } from '@jupyterlab/shared-models';
-
-import { IModelDB, ModelDB } from '@jupyterlab/observables';
+import { YDocument, DocumentChange } from '@jupyter/ydoc';
 
 import { IChangedArgs } from '@jupyterlab/coreutils';
 
-import { PartialJSONObject } from '@lumino/coreutils';
+import { DocumentRegistry } from '@jupyterlab/docregistry';
+
+import { PartialJSONObject, PartialJSONValue } from '@lumino/coreutils';
 
 import { ISignal, Signal } from '@lumino/signaling';
 
 import * as Y from 'yjs';
 
+/**
+ * Document structure
+ */
 export type SharedObject = {
   x: number;
   y: number;
   content: string;
 };
 
+/**
+ * Position
+ */
 export type Position = {
   x: number;
   y: number;
@@ -30,11 +34,16 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   /**
    * Construct a new ExampleDocModel.
    *
-   * @param languagePreference Language
-   * @param modelDB Document model database
+   * @param options The options used to create a document model.
    */
-  constructor(languagePreference?: string, modelDB?: IModelDB) {
-    this.modelDB = modelDB || new ModelDB();
+  constructor(options: DocumentRegistry.IModelOptions<ExampleDoc>) {
+    const { collaborationEnabled, sharedModel } = options;
+    this._collaborationEnabled = !!collaborationEnabled;
+    if (sharedModel) {
+      this.sharedModel = sharedModel;
+    } else {
+      this.sharedModel = ExampleDoc.create();
+    }
 
     // Listening for changes on the shared model to propagate them
     this.sharedModel.changed.connect(this._onSharedModelChanged);
@@ -42,75 +51,106 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   }
 
   /**
-   * get/set the dirty attribute to know when the
-   * content in the document differs from disk
+   * Whether the model is collaborative or not.
+   */
+  get collaborative(): boolean {
+    return this._collaborationEnabled;
+  }
+
+  /**
+   * The default kernel name of the document.
    *
-   * @returns dirty attribute
+   * #### Notes
+   * Only used if a document has associated kernel.
+   */
+  readonly defaultKernelName = '';
+
+  /**
+   * The default kernel language of the document.
+   *
+   * #### Notes
+   * Only used if a document has associated kernel.
+   */
+  readonly defaultKernelLanguage = '';
+
+  /**
+   * The dirty state of the document.
+   *
+   * A document is dirty when its content differs from
+   * the content saved on disk.
    */
   get dirty(): boolean {
     return this._dirty;
   }
-  set dirty(value: boolean) {
-    this._dirty = value;
+  set dirty(newValue: boolean) {
+    const oldValue = this._dirty;
+    if (newValue === oldValue) {
+      return;
+    }
+    this._dirty = newValue;
+    this.triggerStateChange({
+      name: 'dirty',
+      oldValue,
+      newValue
+    });
   }
 
   /**
-   * get/set the readOnly attribute to know whether this model
-   * is read only or not
-   *
-   * @returns readOnly attribute
-   */
-  get readOnly(): boolean {
-    return this._readOnly;
-  }
-  set readOnly(value: boolean) {
-    this._readOnly = value;
-  }
-
-  /**
-   * get the isDisposed attribute to know whether this model
-   * has been disposed or not
-   *
-   * @returns Model status
+   * Whether the model is disposed.
    */
   get isDisposed(): boolean {
     return this._isDisposed;
   }
 
   /**
-   * get the signal contentChange to listen for changes on the content
-   * of the model.
-   *
-   * NOTE: The content refers to de data stored in the model while the state refers
-   * to the metadata or attributes of the model.
-   *
-   * @returns The signal
+   * The read only state of the document.
    */
-  get contentChanged(): ISignal<this, void> {
-    return this._contentChanged;
+  get readOnly(): boolean {
+    return this._readOnly;
+  }
+  set readOnly(newValue: boolean) {
+    if (newValue === this._readOnly) {
+      return;
+    }
+    const oldValue = this._readOnly;
+    this._readOnly = newValue;
+    this.triggerStateChange({ name: 'readOnly', oldValue, newValue });
   }
 
   /**
-   * get the signal stateChanged to listen for changes on the state
-   * of the model.
-   *
-   * NOTE: The content refers to de data stored in the model while the state refers
-   * to the metadata or attributes of the model.
-   *
-   * @returns The signal
+   * The shared document model.
    */
-  get stateChanged(): ISignal<this, IChangedArgs<any, any, string>> {
-    return this._stateChanged;
+  readonly sharedModel: ExampleDoc = ExampleDoc.create();
+
+  /**
+   * The client ID from the document
+   *
+   * ### Notes
+   * Each browser sharing the document will get an unique ID.
+   * Its is defined per document not globally.
+   */
+  get clientId(): number {
+    return this.sharedModel.awareness.clientID;
   }
 
   /**
-   * get the signal sharedModelChanged to listen for changes on the content
-   * of the shared model.
-   *
-   * @returns The signal
+   * Shared object content
    */
-  get sharedModelChanged(): ISignal<this, ExampleDocChange> {
-    return this._sharedModelChanged;
+  get content(): string {
+    return this.sharedModel.get('content');
+  }
+  set content(v: string) {
+    this.sharedModel.set('content', v);
+  }
+
+  /**
+   * Shared object position
+   */
+  get position(): Position {
+    return this.sharedModel.get('position');
+  }
+  set position(v: Position) {
+    this.sharedModel.set('position', v);
   }
 
   /**
@@ -124,24 +164,24 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   }
 
   /**
-   * defaultKernelName and defaultKernelLanguage are only used by the Notebook widget
-   * or documents that use kernels, and they store the name and the language of the kernel.
+   * A signal emitted when the document content changes.
+   *
+   * ### Notes
+   * The content refers to the data stored in the model
    */
-  readonly defaultKernelName: string;
-  readonly defaultKernelLanguage: string;
+  get contentChanged(): ISignal<this, void> {
+    return this._contentChanged;
+  }
 
   /**
-   * modelBD is the datastore for the content of the document.
-   * modelDB is not a shared datastore so we don't use it on this example since
-   * this example is a shared document.
+   * A signal emitted when the document state changes.
+   *
+   * ### Notes
+   * The state refers to the metadata and attributes of the model.
    */
-  readonly modelDB: IModelDB;
-
-  /**
-   * New datastore introduced in JupyterLab v3.1 to store shared data and make notebooks
-   * collaborative
-   */
-  readonly sharedModel: ExampleDoc = ExampleDoc.create();
+  get stateChanged(): ISignal<this, IChangedArgs<any>> {
+    return this._stateChanged;
+  }
 
   /**
    * Dispose of the resources held by the model.
@@ -155,6 +195,16 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   }
 
   /**
+   * Sets the mouse's position of the client
+   *
+   * @param pos Mouse position
+   */
+  setCursor(pos: Position | null): void {
+    // Adds the position of the mouse from the client to the shared state.
+    this.sharedModel.awareness.setLocalStateField('mouse', pos);
+  }
+
+  /**
    * Should return the data that you need to store in disk as a string.
    * The context will call this method to get the file's content and save it
    * to disk
@@ -162,11 +212,11 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * @returns The data
    */
   toString(): string {
-    const pos = this.sharedModel.getContent('position');
+    const pos = this.sharedModel.get('position');
     const obj = {
-      x: pos?.x || 10,
-      y: pos?.y || 10,
-      content: this.sharedModel.getContent('content') || '',
+      x: pos?.x ?? 10,
+      y: pos?.y ?? 10,
+      content: this.sharedModel.get('content') ?? ''
     };
     return JSON.stringify(obj, null, 2);
   }
@@ -181,103 +231,64 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
   fromString(data: string): void {
     const obj = JSON.parse(data);
     this.sharedModel.transact(() => {
-      this.sharedModel.setContent('position', { x: obj.x, y: obj.y });
-      this.sharedModel.setContent('content', obj.content);
+      this.sharedModel.set('position', { x: obj.x, y: obj.y });
+      this.sharedModel.set('content', obj.content);
     });
   }
 
   /**
-   * Should return the data that you need to store in disk as a JSON object.
-   * The context will call this method to get the file's content and save it
-   * to disk.
+   * Serialize the model to JSON.
    *
-   * NOTE: This method is only used by the context of the notebook, every other
+   * #### Notes
+   * This method is only used if a document model as format 'json', every other
    * document will load/save the data through toString/fromString.
-   *
-   * @returns Model JSON representation
    */
-  toJSON(): PartialJSONObject {
-    const pos = this.sharedModel.getContent('position');
-    const obj = {
-      x: pos?.x || 10,
-      y: pos?.y || 10,
-      content: this.sharedModel.getContent('content') || '',
-    };
-    return obj;
+  toJSON(): PartialJSONValue {
+    return JSON.parse(this.toString() || 'null');
   }
 
   /**
-   * The context will call this method when loading data from disk.
-   * This method should implement the logic to parse the data and store it
-   * on the datastore.
+   * Deserialize the model from JSON.
    *
-   * NOTE: This method is only used by the context of the notebook, every other
+   * #### Notes
+   * This method is only used if a document model as format 'json', every other
    * document will load/save the data through toString/fromString.
-   *
-   * @param data Serialized model
    */
-  fromJSON(data: PartialJSONObject): void {
-    this.sharedModel.transact(() => {
-      this.sharedModel.setContent('position', { x: data.x, y: data.y });
-      this.sharedModel.setContent('content', data.content);
-    });
+  fromJSON(value: PartialJSONValue): void {
+    this.fromString(JSON.stringify(value));
   }
 
+  /**
+   * Initialize the model with its current state.
+   */
   initialize(): void {
-    // nothing to do
+    return;
   }
 
   /**
-   * Returns the Id of the client from the YDoc
-   *
-   * @returns client id
+   * Trigger a state change signal.
    */
-  getClientId(): number {
-    return this.sharedModel.awareness.clientID;
+  protected triggerStateChange(args: IChangedArgs<any>): void {
+    this._stateChanged.emit(args);
   }
 
   /**
-   * Returns the SharedObject
-   *
-   * @returns SharedObject
+   * Trigger a content changed signal.
    */
-  getSharedObject(): SharedObject {
-    const pos = this.sharedModel.getContent('position');
-    const obj = {
-      x: pos?.x || 10,
-      y: pos?.y || 10,
-      content: this.sharedModel.getContent('content') || '',
-    };
-    return obj;
+  protected triggerContentChange(): void {
+    this._contentChanged.emit(void 0);
+    this.dirty = true;
   }
 
   /**
-   * Sets the position of the SharedObject
-   *
-   * @param pos Position
+   * Callback to listen for changes on the sharedModel. This callback listens
+   * to changes on the different clients sharing the document and propagates
+   * them to the DocumentWidget.
    */
-  setPosition(pos: Position): void {
-    this.sharedModel.setContent('position', pos);
-  }
-
-  /**
-   * Sets the text inside the SharedObject
-   *
-   * @param content Text
-   */
-  setContent(content: string): void {
-    this.sharedModel.setContent('content', content);
-  }
-
-  /**
-   * Sets the mouse's position of the client
-   *
-   * @param pos Mouse position
-   */
-  setClient(pos: Position): void {
-    // Adds the position of the mouse from the client to the shared state.
-    this.sharedModel.awareness.setLocalStateField('mouse', pos);
-  }
+  private _onClientChanged = () => {
+    const clients = this.sharedModel.awareness.getStates();
+    this._clientChanged.emit(clients);
+  };
 
   /**
    * Callback to listen for changes on the sharedModel. This callback listens
@@ -290,26 +301,34 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
     sender: ExampleDoc,
     changes: ExampleDocChange
   ): void => {
-    this._sharedModelChanged.emit(changes);
-  };
-
-  /**
-   * Callback to listen for changes on the sharedModel. This callback listens
-   * to changes on the different clients sharing the document and propagates
-   * them to the DocumentWidget.
-   */
-  private _onClientChanged = () => {
-    const clients = this.sharedModel.awareness.getStates();
-    this._clientChanged.emit(clients);
+    if (changes.contentChange || changes.positionChange) {
+      this.triggerContentChange();
+    }
+    if (changes.stateChange) {
+      changes.stateChange.forEach(value => {
+        if (value.name === 'dirty') {
+          // Setting `dirty` will trigger the state change.
+          // We always set `dirty` because the shared model state
+          // and the local attribute are synchronized one way shared model -> _dirty
+          this.dirty = value.newValue;
+        } else if (value.oldValue !== value.newValue) {
+          this.triggerStateChange({
+            newValue: undefined,
+            oldValue: undefined,
+            ...value
+          });
+        }
+      });
+    }
   };
 
   private _dirty = false;
-  private _readOnly = false;
   private _isDisposed = false;
-  private _contentChanged = new Signal<this, void>(this);
-  private _stateChanged = new Signal<this, IChangedArgs<any>>(this);
+  private _readOnly = false;
   private _clientChanged = new Signal<this, Map<number, any>>(this);
-  private _sharedModelChanged = new Signal<this, ExampleDocChange>(this);
+  private _contentChanged = new Signal<this, void>(this);
+  private _collaborationEnabled: boolean;
+  private _stateChanged = new Signal<this, IChangedArgs<any>>(this);
 }
 
 /**
@@ -325,10 +344,9 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
  * for the widget.
  */
 export type ExampleDocChange = {
-  contextChange?: MapChange;
   contentChange?: string;
   positionChange?: Position;
-};
+} & DocumentChange;
 
 /**
  * SharedModel, stores and shares the content between clients.
@@ -341,11 +359,17 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
     this._content.observe(this._contentObserver);
   }
 
+  readonly version: string = '1.0.0';
+
   /**
    * Dispose of the resources.
    */
   dispose(): void {
+    if (this.isDisposed) {
+      return;
+    }
     this._content.unobserve(this._contentObserver);
+    super.dispose();
   }
 
   /**
@@ -353,7 +377,7 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
    *
    * @returns The sharedModel instance
    */
-  public static create(): ExampleDoc {
+  static create(): ExampleDoc {
     return new ExampleDoc();
   }
 
@@ -363,8 +387,15 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
    * @param key The key of the object.
    * @returns The content
    */
-  public getContent(key: string): any {
-    return this._content.get(key);
+  get(key: 'content'): string;
+  get(key: 'position'): Position;
+  get(key: string): any {
+    const data = this._content.get(key);
+    return key === 'position'
+      ? data
+        ? JSON.parse(data)
+        : { x: 0, y: 0 }
+      : data ?? '';
   }
 
   /**
@@ -373,8 +404,10 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
    * @param key The key of the object.
    * @param value New object.
    */
-  public setContent(key: string, value: any): void {
-    this._content.set(key, value);
+  set(key: 'content', value: string): void;
+  set(key: 'position', value: PartialJSONObject): void;
+  set(key: string, value: string | PartialJSONObject): void {
+    this._content.set(key, key === 'position' ? JSON.stringify(value) : value);
   }
 
   /**
@@ -387,7 +420,7 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
 
     // Checks which object changed and propagates them.
     if (event.keysChanged.has('position')) {
-      changes.positionChange = this._content.get('position');
+      changes.positionChange = JSON.parse(this._content.get('position'));
     }
 
     if (event.keysChanged.has('content')) {

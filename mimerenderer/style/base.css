@@ -1,0 +1,14 @@
+/*
+    See the JupyterLab Developer Guide for useful CSS Patterns:
+
+    https://jupyterlab.readthedocs.io/en/stable/developer/css.html
+*/
+
+.mimerenderer-mp4 {
+  overflow: auto;
+}
+
+.mimerenderer-mp4 video {
+  width: 100%;
+  height: auto;
+}

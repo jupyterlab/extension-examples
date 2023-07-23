@@ -1,27 +1,4 @@
 {
-  "packages": [
-    "command-palette",
-    "commands",
-    "completer",
-    "context-menu",
-    "custom-log-console",
-    "datagrid",
-    "documents",
-    "hello-world",
-    "kernel-messaging",
-    "kernel-output",
-    "launcher",
-    "log-messages",
-    "main-menu",
-    "react-widget",
-    "server-extension",
-    "settings",
-    "signals",
-    "state",
-    "toolbar-button",
-    "widgets"
-  ],
   "npmClient": "jlpm",
-  "useWorkspaces": true,
   "version": "independent"
 }

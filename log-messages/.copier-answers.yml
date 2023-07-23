@@ -1,0 +1,19 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.0.5
+_src_path: gh:jupyterlab/extension-template
+author_email: ''
+author_name: Project Jupyter Contributors
+data_format: string
+file_extension: ''
+has_binder: false
+has_settings: true
+kind: frontend
+labextension_name: '@jupyterlab-examples/log-messages'
+mimetype: ''
+mimetype_name: ''
+project_short_description: A minimal JupyterLab example to develop a custom log-messages.
+python_name: jupyterlab_examples_log_messages
+repository: https://github.com/jupyterlab/extension-examples
+test: true
+viewer_name: ''
+

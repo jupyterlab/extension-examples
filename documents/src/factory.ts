@@ -1,12 +1,10 @@
 import { ABCWidgetFactory, DocumentRegistry } from '@jupyterlab/docregistry';
 
-import { IModelDB } from '@jupyterlab/observables';
-
 import { Contents } from '@jupyterlab/services';
 
 import { ExampleDocWidget, ExamplePanel } from './widget';
 
-import { ExampleDocModel } from './model';
+import { ExampleDoc, ExampleDocModel } from './model';
 
 /**
  * A widget factory to create new instances of ExampleDocWidget.
@@ -35,7 +33,7 @@ export class ExampleWidgetFactory extends ABCWidgetFactory<
   ): ExampleDocWidget {
     return new ExampleDocWidget({
       context,
-      content: new ExamplePanel(context),
+      content: new ExamplePanel(context)
     });
   }
 }
@@ -61,7 +59,7 @@ export class ExampleDocModelFactory
    * @returns The content type
    */
   get contentType(): Contents.ContentType {
-    return 'file';
+    return 'exampledoc' as any;
   }
 
   /**
@@ -72,6 +70,8 @@ export class ExampleDocModelFactory
   get fileFormat(): Contents.FileFormat {
     return 'text';
   }
+
+  readonly collaborative: boolean = true;
 
   /**
    * Get whether the model factory has been disposed.
@@ -104,10 +104,14 @@ export class ExampleDocModelFactory
    *
    * @param languagePreference Language
    * @param modelDB Model database
+   * @param isInitialized - Whether the model is initialized or not.
+   * @param collaborationEnabled - Whether collaboration is enabled at the application level or not (default `false`).
    * @returns The model
    */
-  createNew(languagePreference?: string, modelDB?: IModelDB): ExampleDocModel {
-    return new ExampleDocModel(languagePreference, modelDB);
+  createNew(
+    options: DocumentRegistry.IModelOptions<ExampleDoc>
+  ): ExampleDocModel {
+    return new ExampleDocModel(options);
   }
 
   private _disposed = false;

@@ -16,7 +16,7 @@ a command will first be described.
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L16-L31
+// src/index.ts#L17-L32
 
 const { commands } = app;
 
@@ -32,7 +32,7 @@ commands.addCommand(command, {
     window.alert(
       `jlab-examples:main-menu has been called ${args['origin']}.`
     );
-  },
+  }
 });
 ```
 <!-- prettier-ignore-end -->
@@ -40,7 +40,7 @@ commands.addCommand(command, {
 Now that the command is defined, you need to add the definition of the menu
 in the plugin settings file.
 
-> Tip: when using the cookiecutter template for JupyterLab extension, you can
+> Tip: when using the extension template for JupyterLab extension, you can
 > request initial settings to be created.
 
 The creation of a settings file is described in the [settings example](../settings/README.md). Here only the needed keys to add a menu will describe.
@@ -71,7 +71,7 @@ The creation of a settings file is described in the [settings example](../settin
 
 <!-- prettier-ignore-start -->
 
-Main menu can be added and edited through the `main` property of the special 
+Main menu can be added and edited through the `main` property of the special
 key `jupyter.lab.menus`. That property accepts a list of menus; each item will
 have an entry in the main menu bar.
 
@@ -97,7 +97,7 @@ coded in Typescript; in this example:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L21-L21
+// src/index.ts#L22-L22
 
 label: 'Execute jlab-examples:main-menu Command',
 ```
@@ -110,6 +110,19 @@ An example to add an item to the _New_ submenu of the _File_ menu is available i
 The list of default menu `id`s is available in the [documentation](https://jupyterlab.readthedocs.io/en/stable/extension/extension_points.html#settings-defined-menu).
 
 > See also the [documentation](https://jupyterlab.readthedocs.io/en/stable/extension/extension_points.html#settings-defined-menu).
+
+**WARNING** The extension id must contain the package name and the schema file name:
+
+<!-- prettier-ignore-start -->
+```ts
+// src/index.ts#L12-L12
+
+id: '@jupyterlab-examples/main-menu:plugin',
+```
+<!-- prettier-ignore-end -->
+
+- `@jupyterlab-examples/main-menu` is the package name in `package.json` file
+- `:plugin` come from the schema file `schema/plugin.json`
 
 With this extension installed, a new menu _Main Menu Example_ should be present. And when
 clicking on the menu item _jlab-examples:main-menu_, the following text should appear

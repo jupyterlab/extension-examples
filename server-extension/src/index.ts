@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import { ICommandPalette, IFrame } from '@jupyterlab/apputils';
@@ -19,41 +19,50 @@ namespace CommandIDs {
 }
 
 /**
- * Initialization data for the server-extension-example extension.
+ * Initialization data for the @jupyterlab-examples/server-extension extension.
  */
-const extension: JupyterFrontEndPlugin<void> = {
-  id: 'server-extension-example',
+const plugin: JupyterFrontEndPlugin<void> = {
+  id: '@jupyterlab-examples/server-extension:plugin',
+  description:
+    'A minimal JupyterLab extension with backend and frontend parts.',
   autoStart: true,
   optional: [ILauncher],
   requires: [ICommandPalette],
-  activate: async (
+  activate: (
     app: JupyterFrontEnd,
     palette: ICommandPalette,
     launcher: ILauncher | null
   ) => {
-    console.log('JupyterLab extension server-extension-example is activated!');
+    console.log(
+      'JupyterLab extension @jupyterlab-examples/server-extension is activated!'
+    );
 
-    // GET request
-    try {
-      const data = await requestAPI<any>('hello');
-      console.log(data);
-    } catch (reason) {
-      console.error(`Error on GET /jlab-ext-example/hello.\n${reason}`);
-    }
+    // Try avoiding awaiting in the activate function because
+    // it will delay the application start up time.
+    requestAPI<any>('hello')
+      .then(data => {
+        console.log(data);
+      })
+      .catch(reason => {
+        console.error(
+          `The jupyterlab_examples_server server extension appears to be missing.\n${reason}`
+        );
+      });
 
     // POST request
     const dataToSend = { name: 'George' };
-    try {
-      const reply = await requestAPI<any>('hello', {
-        body: JSON.stringify(dataToSend),
-        method: 'POST',
+    requestAPI<any>('hello', {
+      body: JSON.stringify(dataToSend),
+      method: 'POST'
+    })
+      .then(reply => {
+        console.log(reply);
+      })
+      .catch(reason => {
+        console.error(
+          `Error on POST /jupyterlab-examples-server/hello ${dataToSend}.\n${reason}`
+        );
       });
-      console.log(reply);
-    } catch (reason) {
-      console.error(
-        `Error on POST /jlab-ext-example/hello ${dataToSend}.\n${reason}`
-      );
-    }
 
     const { commands, shell } = app;
     const command = CommandIDs.get;
@@ -65,7 +74,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       execute: () => {
         const widget = new IFrameWidget();
         shell.add(widget, 'main');
-      },
+      }
     });
 
     palette.addItem({ command, category: category });
@@ -74,19 +83,19 @@ const extension: JupyterFrontEndPlugin<void> = {
       // Add launcher
       launcher.add({
         command: command,
-        category: category,
+        category: category
       });
     }
-  },
+  }
 };
 
-export default extension;
+export default plugin;
 
 class IFrameWidget extends IFrame {
   constructor() {
     super();
     const baseUrl = PageConfig.getBaseUrl();
-    this.url = baseUrl + 'jlab-ext-example/public/index.html';
+    this.url = baseUrl + 'jupyterlab-examples-server/public/index.html';
     this.id = 'doc-example';
     this.title.label = 'Server Doc';
     this.title.closable = true;

@@ -1,7 +1,7 @@
 import { ReactWidget } from '@jupyterlab/apputils';
+import { IChangedArgs } from '@jupyterlab/coreutils';
 import { LogConsolePanel, LogLevel } from '@jupyterlab/logconsole';
 import { HTMLSelect } from '@jupyterlab/ui-components';
-import { IChangedArgs } from '@jupyterlab/coreutils';
 import { UUID } from '@lumino/coreutils';
 
 import React from 'react';
@@ -9,7 +9,7 @@ import React from 'react';
 /**
  * A toolbar widget that switches log levels.
  */
-export default class LogLevelSwitcher extends ReactWidget {
+export class LogLevelSwitcher extends ReactWidget {
   /**
    * Construct a new cell type switcher.
    *
@@ -19,7 +19,7 @@ export default class LogLevelSwitcher extends ReactWidget {
     super();
     this.addClass('jp-LogConsole-toolbarLogLevel');
     this._logConsole = widget;
-    this._logConsole.logger.level = 'debug';
+    this._logConsole.logger!.level = 'debug';
     if (widget.source) {
       this.update();
     }
@@ -91,7 +91,7 @@ export default class LogLevelSwitcher extends ReactWidget {
             logger === null
               ? []
               : ['Critical', 'Error', 'Warning', 'Info', 'Debug'].map(
-                  (label) => ({ label, value: label.toLowerCase() })
+                  label => ({ label, value: label.toLowerCase() })
                 )
           }
         />

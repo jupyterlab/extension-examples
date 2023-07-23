@@ -1,0 +1,34 @@
+/*
+    See the JupyterLab Developer Guide for useful CSS Patterns:
+
+    https://jupyterlab.readthedocs.io/en/stable/developer/css.html
+*/
+
+.metadataform-example-custom-field-content {
+  border: solid 1px;
+}
+
+#metadataform-example-custom-field-elem {
+  display: flex;
+}
+
+.metadataform-example-custom-field-add .jp-icon3 {
+  fill: var(--jp-success-color1);
+}
+
+.metadataform-example-custom-field-item .jp-icon3 {
+  fill: var(--jp-error-color1);
+}
+
+#metadataform-example-custom-field-add-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.metadata-form-example-custom-checkbox.checked .jp-icon3 {
+  fill: var(--jp-success-color1);
+}
+
+.metadata-form-example-custom-checkbox.unchecked .jp-icon3 {
+  fill: var(--jp-error-color1);
+}
