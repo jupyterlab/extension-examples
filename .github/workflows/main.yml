@@ -33,6 +33,7 @@ jobs:
           - notifications
           - react-widget
           - settings
+          - shout-button-message
           - signals
           - state
           - toolbar-button
