@@ -38,6 +38,7 @@
     "react-widget",
     "server-extension",
     "settings",
+    "shout-button-message",
     "signals",
     "state",
     "toolbar-button",

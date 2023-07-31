@@ -13,6 +13,7 @@
    1. [Context Menu](#context-menu)
    1. [Custom Log Console](#custom-log-console)
    1. [Datagrid](#datagrid)
+   1. [Dual Compatibility Shout Button](#shout-button-message)
    1. [Collaborative Document](#collaborative-document)
    1. _[Hello World](#hello-world)_
    1. [Kernel Messaging](#kernel-messaging)
@@ -178,6 +179,12 @@ Create a new log console.
 Display a Datagrid as a Lumino Widget.
 
 [![Datagrid](datagrid/preview.png)](datagrid)
+
+### [Dual Compatibility Shout Button](shout-button-message)
+
+Make an extension that is compatible with both JupyterLab and Jupyter Notebook by using optional features. Adds a shout button to the right sidebar, and if running in JupyterLab, also adds a status bar widget.
+
+[![Dual compatibility shout button](shout-button-message/preview.jpg)](shout-button-message)
 
 ### [Collaborative Document](documents)
 
