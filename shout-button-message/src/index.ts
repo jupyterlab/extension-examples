@@ -60,6 +60,11 @@ class ShoutWidget extends Widget {
 
     // Check if the status bar is available, and if so, make
     // a status bar widget to hold some information
+    // ............................................
+    // Note: In a real extension, it would be better to
+    // avoid holding a reference to this widget and instead
+    // create it in the activate function, then use Lumino
+    // signals to connect it to the shout function
     this.statusBarWidget = null;
     if (statusBar) {
       this.statusBarWidget = new ShoutStatusBarSummary();
