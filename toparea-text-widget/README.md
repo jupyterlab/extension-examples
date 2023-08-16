@@ -1,7 +1,7 @@
 # jupyterlab_toparea_text
 
 [![Github Actions Status](/workflows/Build/badge.svg)](/actions/workflows/build.yml)[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh//main?urlpath=lab)
-A JupyterLab extension to add text in the top area.
+A JupyterLab extension to add a text widget in the top area.
 
 ## Requirements
 
