@@ -13,7 +13,10 @@
    1. [Context Menu](#context-menu)
    1. [Custom Log Console](#custom-log-console)
    1. [Datagrid](#datagrid)
-   1. [Dual Compatibility Shout Button](#dual-compatibility-shout-button)
+   1. [Dual Compatibility](#dual-compatibility)
+      1. [Top Area Text Widget](#top-area-text-widget)
+      1. [Shout Button](#shout-button)
+      1. [Clap Button](#clap-button-message)
    1. [Collaborative Document](#collaborative-document)
    1. _[Hello World](#hello-world)_
    1. [Kernel Messaging](#kernel-messaging)
@@ -30,7 +33,6 @@
    1. [Signals](#signals)
    1. [State](#state)
    1. [Toolbar Item](#toolbar-item)
-   1. [Top Area Text Widget](#top-area-text-widget)
    1. [Widgets](#widgets)
 1. [Prerequisites](#prerequisites)
 1. [Develop and Use the Examples](#develop-and-use-the-examples)
@@ -181,7 +183,26 @@ Display a Datagrid as a Lumino Widget.
 
 [![Datagrid](datagrid/preview.png)](datagrid)
 
-### [Dual Compatibility Shout Button](shout-button-message)
+### Dual Compatibility
+
+The dual compatibility examples demonstrates how to design an extension that can be
+integrated similtaneously in JupyterLab and Jupyter Notebook v7+.
+
+They are listed from the simplest to the most advanced case:
+
+- [Top Area Text Widget](#top-area-text-widget): Example working right away in both frontends.
+- [Shout Button](#shout-button): Example with a part only available in JupyterLab
+- [Clap Button](#clap-button-message): Example with elements added differently depending on
+  the frontends used.
+
+#### [Top Area Text Widget](toparea-text-widget)
+
+A very simple example that adds a basic text widget to the top area. See [related video.](https://www.youtube.com/watch?v=mqotG1MkHa4).
+This example is part of the [Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
+
+[![Top Area Text Widget](toparea-text-widget/preview.jpg)](toparea-text-widget)
+
+#### [Shout Button](shout-button-message)
 
 This example shows dual compatibility: Make an extension that is compatible
 with both JupyterLab and Jupyter Notebook by using optional features. Adds
@@ -190,6 +211,13 @@ a status bar widget. This example is part of the [Extension Dual Compatibility G
 Read more about this example on that page.
 
 [![Dual compatibility shout button](shout-button-message/preview.jpg)](shout-button-message)
+
+#### [Clap Button](clap-button-message)
+
+Make an extension that is compatible with both JupyterLab and Jupyter Notebook by using required features. Adds a clap button to the top area (in JupyterLab) or the right sidebar (Jupyter Notebook). This
+example is part of the [Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
+
+[![Dual Compatibility Clap Button](clap-button-message/preview.jpg)](clap-button-message)
 
 ### [Collaborative Document](documents)
 
@@ -286,13 +314,6 @@ Use State persistence in an extension.
 Add a new button to the notebook toolbar.
 
 [![Toolbar button](toolbar-button/preview.gif)](toolbar-button)
-
-### [Top Area Text Widget](toparea-text-widget)
-
-A very simple example that adds a basic text widget to the top area. See [related video.](https://www.youtube.com/watch?v=mqotG1MkHa4).
-This example is part of the [Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
-
-[![Top Area Text Widget](toparea-text-widget/preview.jpg)](toparea-text-widget)
 
 ### [Widgets](widgets)
 
