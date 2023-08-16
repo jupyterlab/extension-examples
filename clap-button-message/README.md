@@ -1,7 +1,7 @@
 # clap_button
 
 [![Github Actions Status](/workflows/Build/badge.svg)](/actions/workflows/build.yml)
-Adds a clap button to the status bar (JupyterLab) or top area (Jupyter Notebook 7)
+Adds a clap button to the top area (JupyterLab) or right area (Jupyter Notebook 7)
 
 ## Requirements
 

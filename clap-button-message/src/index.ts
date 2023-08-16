@@ -45,7 +45,7 @@ const pluginJupyterLab: JupyterFrontEndPlugin<void> = {
 
     // Create a ClapWidget and add it to the interface in the top area
     const clapWidget: ClapWidget = new ClapWidget();
-    clapWidget.id = 'JupyterLabClapWidget';  // Widgets need an id
+    clapWidget.id = 'JupyterLabClapWidgetLab';  // Widgets need an id
     app.shell.add(clapWidget, 'top');
   }
 };
@@ -63,7 +63,7 @@ const pluginJupyterNotebook: JupyterFrontEndPlugin<void> = {
 
     // Create a ClapWidget and add it to the interface in the right area
     const clapWidget: ClapWidget = new ClapWidget();
-    clapWidget.id = 'JupyterNotebookClapWidget';  // Widgets need an id
+    clapWidget.id = 'JupyterNotebookClapWidgetNotebook';  // Widgets need an id
     app.shell.add(clapWidget, 'right');
   }
 };
