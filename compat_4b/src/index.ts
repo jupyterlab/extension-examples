@@ -41,7 +41,7 @@ class StepCounterWidget extends Widget {
   }
 
   updateStepCountDisplay() {
-    this.stepCountLabel.innerText = 'Step Count: ' + this.counter.stepCount;
+    this.stepCountLabel.innerText = 'Step Count: ' + this.counter.getStepCount();
   }
 
   takeStep() {
