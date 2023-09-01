@@ -7,8 +7,8 @@ has_binder: false
 has_settings: false
 kind: frontend
 labextension_name: step_counter_extension
-project_short_description: Adds a step counter/button, and a step increment provider
-    (1 of 3 related examples). This extension holds the UI/plugin implementation.
+project_short_description: Adds a step counter/button (1 of 3 related examples).
+    This extension holds the UI/interface.
 python_name: step_counter_extension
 repository: ''
 test: true

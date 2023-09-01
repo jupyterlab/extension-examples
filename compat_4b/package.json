@@ -1,7 +1,7 @@
 {
     "name": "step_counter_extension",
     "version": "0.1.0",
-    "description": "Adds a step counter/button, and a step increment provider (1 of 3 related examples). This extension holds the UI/plugin implementation.",
+    "description": "Adds a step counter/button (1 of 3 related examples). This extension holds the UI/interface.",
     "keywords": [
         "jupyter",
         "jupyterlab",
