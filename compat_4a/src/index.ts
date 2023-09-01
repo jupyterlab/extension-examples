@@ -4,7 +4,7 @@
 // make up the complete example are:
 //
 //   1. (*) The step_counter package (this one). This holds a token, a
-//      class and interface that make up a stock implementation of
+//      class + an interface that make up a stock implementation of
 //      the "step_counter" service, and a provider plugin that
 //      makes an instance of the Counter available to JupyterLab
 //      as a service object.
