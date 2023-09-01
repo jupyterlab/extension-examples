@@ -18,7 +18,7 @@
 //      plugin that also requests/consumes the step_counter service
 //      object. The leap_counter_extension package demonstrates how
 //      an unrelated plugin can depend on and reuse features from
-//      an existing plugin. Users can add install either the
+//      an existing plugin. Users can install either the
 //      step_counter_extension, the leap_counter_extension or both
 //      to get whichever features they prefer (with both reusing
 //      the step_counter service object).
