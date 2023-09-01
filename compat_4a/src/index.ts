@@ -88,7 +88,7 @@ const plugin: JupyterFrontEndPlugin<StepCounterItem> = {
   provides: StepCounter,
   // The activate function here will be called by JupyterLab when the plugin loads
   activate: (app: JupyterFrontEnd) => {
-    console.log('JupyterLab X1 extension step_counter\'s provider plugin is activated!');
+    console.log('JupyterLab extension (step_counter/provider plugin) is activated!');
     const counter = new Counter();
 
     // Since this plugin "provides" the "StepCounter" service, make sure to

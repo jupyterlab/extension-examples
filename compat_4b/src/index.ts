@@ -89,7 +89,7 @@ class StepCounterWidget extends Widget {
 // add an argument to your plugin's "activate" function.
 const plugin: JupyterFrontEndPlugin<void> = {
   id: 'step_counter_extension:plugin',
-  description: 'Adds a step counter/button, and a step increment provider (1 of 3 related examples). This extension holds the UI/plugin implementation.',
+  description: 'Adds a step counter/button (1 of 3 related examples). This extension holds the UI/interface',
   autoStart: true,
   requires: [StepCounter],
   // The activate function here will be called by JupyterLab when the plugin loads.

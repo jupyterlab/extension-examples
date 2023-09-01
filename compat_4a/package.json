@@ -1,7 +1,7 @@
 {
     "name": "step_counter",
     "version": "0.1.0",
-    "description": "Adds a step counter/button, and a step increment provider (1 of 3 related examples). This extension holds a provider token.",
+    "description": "Adds a step_counter service token and a stock implementation (1 of 3 related examples).",
     "keywords": [
         "jupyter",
         "jupyterlab",
