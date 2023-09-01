@@ -13,7 +13,7 @@
 //      connects with/consumes the step_counter service object via a
 //      consumer plugin.
 //   3. The leap_counter_extension package, that holds an alternate
-//      way for users to count leaps. Like the step_counter_extension
+//      way for users to count steps (a leap is 5 steps). Like the step_counter_extension
 //      package, this holds a UI/interface in JupyterLab, and a consumer
 //      plugin that also requests/consumes the step_counter service
 //      object. The leap_counter_extension package demonstrates how
