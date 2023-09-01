@@ -81,14 +81,6 @@ class StepCounterWidget extends Widget {
   }
 }
 
-// This plugin is a "provider" in JupyterLab's provider-consumer pattern.
-// For a plugin to become a provider, it must list the token it wants to
-// provide a service object for in its "provides" list, and then it has
-// to return that object (in this case, an instance of the example Counter
-// class defined above) from the function supplied as its activate property.
-// It also needs to supply the interface (the one the service object
-// implements) to JupyterFrontEndPlugin when it's defined.
-
 // This plugin is a "consumer" in JupyterLab's provider-consumer pattern.
 // The "requires" property of this plugin lists the StepCounter token, which
 // requests the service-object associated with that token from JupyterLab,
