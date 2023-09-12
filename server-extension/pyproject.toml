@@ -49,7 +49,6 @@ exclude = [".github", "binder"]
 "jupyterlab_examples_server/labextension" = "share/jupyter/labextensions/@jupyterlab-examples/server-extension"
 "install.json" = "share/jupyter/labextensions/@jupyterlab-examples/server-extension/install.json"
 "jupyter-config/server-config" = "etc/jupyter/jupyter_server_config.d"
-"jupyter-config/nb-config" = "etc/jupyter/jupyter_notebook_config.d"
 
 [tool.hatch.build.hooks.version]
 path = "jupyterlab_examples_server/_version.py"
