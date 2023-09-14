@@ -615,7 +615,6 @@ exclude = [".github", "binder"]
 "jupyterlab_examples_server/labextension" = "share/jupyter/labextensions/@jupyterlab-examples/server-extension"
 "install.json" = "share/jupyter/labextensions/@jupyterlab-examples/server-extension/install.json"
 "jupyter-config/server-config" = "etc/jupyter/jupyter_server_config.d"
-"jupyter-config/nb-config" = "etc/jupyter/jupyter_notebook_config.d"
 
 [tool.hatch.build.hooks.version]
 path = "jupyterlab_examples_server/_version.py"
@@ -659,7 +658,7 @@ It will build the frontend NPM package through its _factory_, and will ensure on
 generated files is `jupyterlab_examples_server/labextension/package.json`:
 
 ```py
-# pyproject.toml#L57-L68
+# pyproject.toml#L56-L67
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.5"]
@@ -709,15 +708,6 @@ in the appropriate jupyter folder (`etc/jupyter/jupyter_server_config.d`):
 # pyproject.toml#L51-L51
 
 "jupyter-config/server-config" = "etc/jupyter/jupyter_server_config.d"
-```
-
-For backward compatibility with the classical notebook, the old version of that file is copied in
-(`etc/jupyter/jupyter_notebook_config.d`):
-
-```py
-# pyproject.toml#L52-L52
-
-"jupyter-config/nb-config" = "etc/jupyter/jupyter_notebook_config.d"
 ```
 
 ### JupyterLab Extension Manager
