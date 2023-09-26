@@ -47,6 +47,7 @@ class StepCounterWidget extends Widget {
     super();
 
     this.counter = counter;
+    this.counter.countChanged.connect(this.updateStepCountDisplay, this);
 
     // Add styling by using a CSS class
     this.node.classList.add('jp-step-container');

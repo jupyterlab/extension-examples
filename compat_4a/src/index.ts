@@ -28,6 +28,7 @@ import {
 } from '@jupyterlab/application';
 
 import { Token } from '@lumino/coreutils';
+import { Signal } from '@lumino/signaling';
 
 // The StepCounterItem interface is used as part of JupyterLab's
 // provider-consumer pattern. This interface is supplied to the
@@ -39,6 +40,7 @@ interface StepCounterItem {
   // registerStatusItem(id: string, statusItem: IStatusBar.IItem): IDisposable;
   getStepCount(): number;
   incrementStepCount(count: number): void;
+  countChanged: Signal<any, number>;
 }
 
 // The token is used to identify a particular "service" in
@@ -60,13 +62,16 @@ const StepCounter = new Token<StepCounterItem>(
 class Counter implements StepCounterItem {
 
   _stepCount: number;
+  countChanged: Signal<any, number>;
 
   constructor() {
     this._stepCount = 0;
+    this.countChanged = new Signal<this, number>(this);
   }
 
   incrementStepCount(count: number) {
     this._stepCount += count;
+    this.countChanged.emit(this._stepCount);
   }
 
   getStepCount() {
