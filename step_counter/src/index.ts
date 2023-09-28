@@ -104,5 +104,26 @@ const plugin: JupyterFrontEndPlugin<StepCounterItem> = {
   }
 };
 
+// The Counter class here should be marked as a singleton in this project's
+// package.json according to the Jupyter extension documentation, both in
+// this provider extension and in the consumer extensions. Under the
+// "Jupyterlab" key you should have a "singleton" key set to true.
+// 
+// "jupyterlab": {
+//   "extension": true,
+//   "outputDir": "step_counter/labextension",
+//   "sharedPackages": {
+//       "step_counter": {
+//           "bundled": false,
+//           "singleton": true
+//       }
+//   }
+// },
+//
+// Read more about that here:
+// https://jupyterlab.readthedocs.io/en/latest/extension/extension_dev.html#providing-a-service
+// https://jupyterlab.readthedocs.io/en/latest/extension/extension_dev.html#requiring-a-service
+// https://jupyterlab.readthedocs.io/en/latest/extension/extension_dev.html#optionally-using-a-service
+
 export { StepCounter, StepCounterItem };
 export default plugin;
