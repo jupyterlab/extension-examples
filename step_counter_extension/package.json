@@ -60,7 +60,7 @@
     "dependencies": {
         "@jupyterlab/application": "^4.0.0",
         "@lumino/widgets": "^2.0.0",
-        "step_counter": "file:./../compat_4a"
+        "step_counter": "file:./../step_counter"
     },
     "devDependencies": {
         "@jupyterlab/builder": "^4.0.0",
