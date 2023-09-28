@@ -105,6 +105,7 @@ Start with the [Hello World](hello-world) and then jump to the topic you are int
 - [Kernel Messaging](kernel-messaging)
 - [Kernel Output](kernel-output)
 - [Launcher](launcher)
+- [Leap Counter](leap_counter_extension)
 - [Log Messages](log-messages)
 - [Main Menu](main-menu)
 - [Metadata Form](metadata-form)
@@ -114,6 +115,8 @@ Start with the [Hello World](hello-world) and then jump to the topic you are int
 - [Server Hello World](server-extension)
 - [Settings](settings)
 - [Signals](signals)
+- [Step Counter](step_counter)
+- [Step Counter](step_counter_extension)
 - [State](state)
 - [Toolbar item](toolbar-button)
 - [Widgets](widgets)
@@ -207,6 +210,17 @@ Start your extension from the Launcher.
 
 [![Launcher](launcher/preview.gif)](launcher)
 
+### [Leap Counter Extension](leap_counter_extension)
+
+Create your own reusable plugin components with Jupyter's "Provider-
+Consumer Pattern". This is one of three related extension examples
+that demonstrate JupyterLab's provider-consumer pattern, where plugins
+can depend on and reuse features from one another. The three packages
+that make up the complete example are "step_counter", "step_counter_extension",
+and "leap_counter_extension".
+
+[![Leap counter extension](step_counter/preview.png)](leap_counter_extension)
+
 ### [Log Messages](log-messages)
 
 Send a log message to the log console.
@@ -260,6 +274,28 @@ Create and use new Settings for your extension.
 Use Signals to allow Widgets communicate with each others.
 
 [![Button with Signal](signals/preview.png)](signals)
+
+### [Step Counter](step_counter)
+
+Create your own reusable plugin components with Jupyter's "Provider-
+Consumer Pattern". This is one of three related extension examples
+that demonstrate JupyterLab's provider-consumer pattern, where plugins
+can depend on and reuse features from one another. The three packages
+that make up the complete example are "step_counter", "step_counter_extension",
+and "leap_counter_extension".
+
+[![Step counter](step_counter/preview.png)](step_counter)
+
+### [Step Counter Extension](step_counter_extension)
+
+Create your own reusable plugin components with Jupyter's "Provider-
+Consumer Pattern". This is one of three related extension examples
+that demonstrate JupyterLab's provider-consumer pattern, where plugins
+can depend on and reuse features from one another. The three packages
+that make up the complete example are "step_counter", "step_counter_extension",
+and "leap_counter_extension".
+
+[![Step counter extension](step_counter/preview.png)](step_counter_extension)
 
 ### [State](state)
 
