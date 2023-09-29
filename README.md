@@ -29,7 +29,7 @@
    1. [Signals](#signals)
    1. [State](#state)
    1. [Toolbar Item](#toolbar-item)
-   1. [Top Area Text Widget](toparea-text-widget)
+   1. [Top Area Text Widget](#top-area-text-widget)
    1. [Widgets](#widgets)
 1. [Prerequisites](#prerequisites)
 1. [Develop and Use the Examples](#develop-and-use-the-examples)
@@ -275,7 +275,7 @@ Add a new button to the notebook toolbar.
 
 [![Toolbar button](toolbar-button/preview.gif)](toolbar-button)
 
-### [Top Area Text Widget](toparea_text_widget)
+### [Top Area Text Widget](toparea-text-widget)
 
 A very simple example that adds a basic text widget to the top area. See [related video.](https://www.youtube.com/watch?v=mqotG1MkHa4).
 This example is part of the [Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
