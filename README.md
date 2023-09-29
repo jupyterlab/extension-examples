@@ -104,7 +104,10 @@ Start with the [Hello World](hello-world) and then jump to the topic you are int
 - [Context Menu](context-menu)
 - [Custom Log Console](custom-log-console)
 - [Datagrid](datagrid)
-- [Dual Compatibility Shout Button](shout-button-message)
+- Dual Compatibility
+  - [Top Area Text Widget](toparea-text-widget)
+  - [Shout Button](shout-button-message)
+  - [Clap Button](clap-button-message)
 - [Collaborative Document](documents)
 - [Hello World](hello-world)
 - [Kernel Messaging](kernel-messaging)
@@ -121,7 +124,6 @@ Start with the [Hello World](hello-world) and then jump to the topic you are int
 - [Signals](signals)
 - [State](state)
 - [Toolbar item](toolbar-button)
-- [Top Area Text Widget](toparea-text-widget)
 - [Widgets](widgets)
 
 You can expect from each example:
@@ -214,10 +216,12 @@ Read more about this example on that page.
 
 #### [Clap Button](clap-button-message)
 
-Make an extension that is compatible with both JupyterLab and Jupyter Notebook by exporting
+This example shows an alternate method for achieving dual compatibility: Make an
+extension that is compatible with both JupyterLab and Jupyter Notebook by exporting
 multiple plugins and using "required" features to select different behaviors. Adds a clap button to
 the top area (in JupyterLab) or the right sidebar (Jupyter Notebook). This example is part
 of the [Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
+Read more about this example on that page.
 
 [![Dual Compatibility Clap Button](clap-button-message/preview.jpg)](clap-button-message)
 
