@@ -18,13 +18,14 @@
    1. [Kernel Messaging](#kernel-messaging)
    1. [Kernel Output](#kernel-output)
    1. [Launcher](#launcher)
+   1. [Leap Counter (Reusability 1C)](#leap-counter-reusability-1c)
    1. [Log Messages](#log-messages)
    1. [Main Menu](#main-menu)
    1. [Metadata Form](#metadata-form)
    1. [MIME Renderer](#mime-renderer)
    1. [Notifications](#notifications)
-   1. [Step Counter](#step-counter)
-   1. [Step Counter Extension](#step-counter-extension)
+   1. [Step Counter (Reusability 1A)](#step-counter-reusability-1a)
+   1. [Step Counter Extension (Reusability 1B)](#step-counter-extension-reusability-1b)
    1. [React Widget](#react-widget)
    1. _[Server Hello World](#server-hello-world)_
    1. [Settings](#settings)
@@ -212,7 +213,7 @@ Start your extension from the Launcher.
 
 [![Launcher](launcher/preview.gif)](launcher)
 
-### [Leap Counter Extension](leap_counter_extension)
+### [Leap Counter (Reusability 1C)](leap_counter_extension)
 
 Create your own reusable plugin components with Jupyter's "Provider-
 Consumer Pattern". This is one of three related extension examples
@@ -277,7 +278,7 @@ Use Signals to allow Widgets communicate with each others.
 
 [![Button with Signal](signals/preview.png)](signals)
 
-### [Step Counter](step_counter)
+### [Step Counter (Reusability 1A)](step_counter)
 
 Create your own reusable plugin components with Jupyter's "Provider-
 Consumer Pattern". This is one of three related extension examples
@@ -288,7 +289,7 @@ and "leap_counter_extension".
 
 [![Step counter](step_counter/preview.png)](step_counter)
 
-### [Step Counter Extension](step_counter_extension)
+### [Step Counter Extension (Reusability 1B)](step_counter_extension)
 
 Create your own reusable plugin components with Jupyter's "Provider-
 Consumer Pattern". This is one of three related extension examples

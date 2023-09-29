@@ -1,4 +1,4 @@
-# leap_counter_extension
+# leap_counter_extension (Reusability 1C)
 
 This multi-part example comes from the [Jupyter Plugin System guide](https://jupyterlab.readthedocs.io/en/latest/extension/plugin_system.html),
 and demonstrates Jupyter's provider/consumer pattern. You can find
