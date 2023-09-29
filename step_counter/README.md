@@ -1,4 +1,4 @@
-# step_counter (Reusability 1A)
+# Step Counter (Reusability 1A) (step_counter)
 
 This multi-part example comes from the [Jupyter Plugin System guide](https://jupyterlab.readthedocs.io/en/latest/extension/plugin_system.html),
 and demonstrates Jupyter's provider/consumer pattern. You can find
