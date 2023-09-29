@@ -1,4 +1,4 @@
-# clap_button
+# Dual Compatibility Clap Button (clap_button_message)
 
 This example shows an alternate method for achieving dual compatibility: Make an
 extension that is compatible with both JupyterLab and Jupyter Notebook by exporting
