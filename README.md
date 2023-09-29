@@ -277,8 +277,9 @@ Add a new button to the notebook toolbar.
 
 ### [Top Area Text Widget](toparea_text_widget)
 
-Adds a text widget to the top area. See [related video.](https://www.youtube.com/watch?v=mqotG1MkHa4). This
-example is part of the [Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
+A very simple example that adds a basic text widget to the top area. See [related video.](https://www.youtube.com/watch?v=mqotG1MkHa4).
+This example is part of the [Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
+You can find details about this example on that page.
 
 [![Top Area Text Widget](toparea-text-widget/preview.jpg)](toparea-text-widget)
 
