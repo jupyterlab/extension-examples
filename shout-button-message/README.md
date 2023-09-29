@@ -1,4 +1,4 @@
-# shout_button_message
+# Dual Compatibility shout_button_message
 
 This example shows dual compatibility: Make an extension that is compatible
 with both JupyterLab and Jupyter Notebook by using optional features. Adds
