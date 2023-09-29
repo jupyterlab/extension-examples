@@ -13,7 +13,7 @@
    1. [Context Menu](#context-menu)
    1. [Custom Log Console](#custom-log-console)
    1. [Datagrid](#datagrid)
-   1. [Dual Compatibility Shout Button](#shout-button-message)
+   1. [Dual Compatibility Shout Button](#dual-compatibility-shout-button)
    1. [Collaborative Document](#collaborative-document)
    1. _[Hello World](#hello-world)_
    1. [Kernel Messaging](#kernel-messaging)
