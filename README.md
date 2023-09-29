@@ -23,6 +23,8 @@
    1. [Metadata Form](#metadata-form)
    1. [MIME Renderer](#mime-renderer)
    1. [Notifications](#notifications)
+   1. [Step Counter](#step-counter)
+   1. [Step Counter Extension](#step-counter-extension)
    1. [React Widget](#react-widget)
    1. _[Server Hello World](#server-hello-world)_
    1. [Settings](#settings)
@@ -116,7 +118,7 @@ Start with the [Hello World](hello-world) and then jump to the topic you are int
 - [Settings](settings)
 - [Signals](signals)
 - [Step Counter](step_counter)
-- [Step Counter](step_counter_extension)
+- [Step Counter Extension](step_counter_extension)
 - [State](state)
 - [Toolbar item](toolbar-button)
 - [Widgets](widgets)
