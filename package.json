@@ -18,6 +18,7 @@
     }
   },
   "workspaces": [
+    "clap-button-message",
     "codemirror-extension",
     "command-palette",
     "commands",
