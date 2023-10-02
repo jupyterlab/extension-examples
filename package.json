@@ -31,6 +31,7 @@
     "kernel-messaging",
     "kernel-output",
     "launcher",
+    "leap_counter_extension",
     "log-messages",
     "main-menu",
     "metadata-form",
@@ -40,6 +41,8 @@
     "settings",
     "signals",
     "state",
+    "step_counter",
+    "step_counter_extension",
     "toolbar-button",
     "widgets"
   ],
