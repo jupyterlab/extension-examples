@@ -33,7 +33,7 @@ class ClapWidget extends Widget {
 }
 
 /**
- * Initialization data for the clap_button extension.
+ * Initialization data for the clap_button JupyterLab extension.
  */
 const pluginJupyterLab: JupyterFrontEndPlugin<void> = {
   id: 'clap_button:pluginLab',
@@ -51,7 +51,7 @@ const pluginJupyterLab: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * Initialization data for the clap_button extension.
+ * Initialization data for the clap_button Jupyter Notebook extension.
  */
 const pluginJupyterNotebook: JupyterFrontEndPlugin<void> = {
   id: 'clap_button:pluginNotebook',
