@@ -4,6 +4,7 @@
     https://jupyterlab.readthedocs.io/en/stable/developer/css.html
 */
 
+/* stylelint-disable-next-line selector-class-pattern */
 .jp-ToolbarButtonComponent.lm-mod-hidden {
   display: none;
 }

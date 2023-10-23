@@ -15,6 +15,7 @@ jobs:
       matrix:
         example:
           - clap-button-message
+          - cell-toolbar
           - codemirror-extension
           - command-palette
           - commands

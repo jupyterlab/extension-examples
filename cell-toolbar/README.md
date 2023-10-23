@@ -35,7 +35,7 @@ The key `Cell` inform JupyterLab about which widget toolbar should be
 extended. The `name` should be an unique identifier for the widget toolbar
 items. The `command` is the unique command identifier.
 
-The commands name are defined in the *src/index.ts* file:
+The commands name are defined in the _src/index.ts_ file:
 
 ```ts
 // src/index.ts#L8-L17
@@ -49,7 +49,7 @@ const CommandIds = {
    * Command to run a code cell.
    */
   runCodeCell: 'toolbar-button:run-code-cell'
-}
+};
 ```
 
 And the commands are created when the extension is activated:
@@ -81,14 +81,16 @@ commands.addCommand(CommandIds.renderMarkdownCell, {
 The following line will add the class `lm-mod-hidden` to the button if the active cell
 is not a code cell:
 
+<!-- prettier-ignore-start -->
 ```ts
 // src/index.ts#L37-L37
 
 isVisible: () => tracker.activeCell?.model.type === 'code'
 ```
+<!-- prettier-ignore-end -->
 
 To hide the button, we need to add a CSS rule on the class `lm-mod-hidden` in the file
-*style/base.css*:
+_style/base.css_:
 
 <!-- prettier-ignore-start -->
 <!-- embedme style/base.css#L7-L9 -->

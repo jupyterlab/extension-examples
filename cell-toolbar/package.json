@@ -25,6 +25,9 @@
         "type": "git",
         "url": "https://github.com/jupyterlab/extension-examples.git.git"
     },
+    "workspaces": [
+        "ui-tests"
+    ],
     "scripts": {
         "build": "jlpm build:lib && jlpm build:labextension:dev",
         "build:prod": "jlpm clean && jlpm build:lib:prod && jlpm build:labextension",

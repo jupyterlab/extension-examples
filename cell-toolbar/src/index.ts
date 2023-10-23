@@ -14,7 +14,7 @@ const CommandIds = {
    * Command to run a code cell.
    */
   runCodeCell: 'toolbar-button:run-code-cell'
-}
+};
 
 /**
  * Initialization data for the @jupyterlab-examples/cell-toolbar extension.
@@ -25,7 +25,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
   autoStart: true,
   requires: [INotebookTracker],
   activate: (app: JupyterFrontEnd, tracker: INotebookTracker) => {
-    const { commands }= app;
+    const { commands } = app;
 
     /* Adds a command enabled only on code cell */
     commands.addCommand(CommandIds.runCodeCell, {
