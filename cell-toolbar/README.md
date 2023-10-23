@@ -93,7 +93,7 @@ To hide the button, we need to add a CSS rule on the class `lm-mod-hidden` in th
 _style/base.css_:
 
 <!-- prettier-ignore-start -->
-<!-- embedme style/base.css#L7-L9 -->
+<!-- embedme style/base.css#L8-L10 -->
 
 ```css
 .jp-ToolbarButtonComponent.lm-mod-hidden {
