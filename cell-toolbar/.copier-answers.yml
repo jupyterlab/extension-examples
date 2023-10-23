@@ -1,0 +1,19 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.2.2
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: ''
+author_name: Project Jupyter Contributors
+data_format: string
+file_extension: ''
+has_binder: false
+has_settings: true
+kind: frontend
+labextension_name: '@jupyterlab-examples/cell-toolbar'
+mimetype: ''
+mimetype_name: ''
+project_short_description: A JupyterLab extension to add cell toolbar buttons.
+python_name: jupyterlab_examples_cell_toolbar
+repository: https://github.com/jupyterlab/extension-examples.git
+test: true
+viewer_name: ''
+
