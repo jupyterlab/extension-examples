@@ -6,7 +6,13 @@ import { INotebookTracker } from '@jupyterlab/notebook';
 import { markdownIcon, runIcon } from '@jupyterlab/ui-components';
 
 const CommandIds = {
+  /**
+   * Command to render a markdown cell.
+   */
   renderMarkdownCell: 'toolbar-button:render-markdown-cell',
+  /**
+   * Command to run a code cell.
+   */
   runCodeCell: 'toolbar-button:run-code-cell'
 }
 

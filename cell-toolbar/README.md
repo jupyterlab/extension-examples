@@ -1,96 +1,106 @@
-# jupyterlab_examples_cell_toolbar
+# Cell Toolbar Button
 
-[![Github Actions Status](https://github.com/jupyterlab/extension-examples.git/workflows/Build/badge.svg)](https://github.com/jupyterlab/extension-examples.git/actions/workflows/build.yml)
-A JupyterLab extension to add cell toolbar buttons.
+This example shows how to add buttons to the cell toolbar.
+The buttons are displayed or not, depending on the cell type.
 
-## Requirements
+![Cell toolbar button](preview.gif)
 
-- JupyterLab >= 4.0.0
+In this particular example, the buttons will execute a code cell, or render a markdown
+cell.
 
-## Install
+The command to run is already defined (`notebook:run-cell`), but we need
+to create new commands to display or not the button, depending on the cell type.
 
-To install the extension, execute:
+To add a button triggering a command to the cell toolbar, you must
+specified the following settings:
 
-```bash
-pip install jupyterlab_examples_cell_toolbar
+```json5
+// schema/plugin.json#L8-L19
+
+"jupyter.lab.toolbars": {
+  "Cell": [
+    {
+      "name": "run-code-cell",
+      "command": "toolbar-button:run-code-cell"
+    },
+    {
+      "name": "render-markdows-cell",
+      "command": "toolbar-button:render-markdown-cell"
+    }
+  ]
+}
 ```
 
-## Uninstall
+The key `Cell` inform JupyterLab about which widget toolbar should be
+extended. The `name` should be an unique identifier for the widget toolbar
+items. The `command` is the unique command identifier.
 
-To remove the extension, execute:
+The commands name are defined in the *src/index.ts* file:
 
-```bash
-pip uninstall jupyterlab_examples_cell_toolbar
+```ts
+// src/index.ts#L8-L17
+
+const CommandIds = {
+  /**
+   * Command to render a markdown cell.
+   */
+  renderMarkdownCell: 'toolbar-button:render-markdown-cell',
+  /**
+   * Command to run a code cell.
+   */
+  runCodeCell: 'toolbar-button:run-code-cell'
+}
 ```
 
-## Contributing
+And the commands are created when the extension is activated:
 
-### Development install
+```ts
+// src/index.ts#L30-L48
 
-Note: You will need NodeJS to build the extension package.
+/* Adds a command enabled only on code cell */
+commands.addCommand(CommandIds.runCodeCell, {
+  icon: runIcon,
+  caption: 'Run a code cell',
+  execute: () => {
+    commands.execute('notebook:run-cell');
+  },
+  isVisible: () => tracker.activeCell?.model.type === 'code'
+});
 
-The `jlpm` command is JupyterLab's pinned version of
-[yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
-`yarn` or `npm` in lieu of `jlpm` below.
-
-```bash
-# Clone the repo to your local environment
-# Change directory to the jupyterlab_examples_cell_toolbar directory
-# Install package in development mode
-pip install -e "."
-# Link your development version of the extension with JupyterLab
-jupyter labextension develop . --overwrite
-# Rebuild extension Typescript source after making changes
-jlpm build
+/* Adds a command enabled only on markdown cell */
+commands.addCommand(CommandIds.renderMarkdownCell, {
+  icon: markdownIcon,
+  caption: 'Render a markdown cell',
+  execute: () => {
+    commands.execute('notebook:run-cell');
+  },
+  isVisible: () => tracker.activeCell?.model.type === 'markdown'
+});
 ```
 
-You can watch the source directory and run JupyterLab at the same time in different terminals to watch for changes in the extension's source and automatically rebuild the extension.
+The following line will add the class `lm-mod-hidden` to the button if the active cell
+is not a code cell:
 
-```bash
-# Watch the source directory in one terminal, automatically rebuilding when needed
-jlpm watch
-# Run JupyterLab in another terminal
-jupyter lab
+```ts
+// src/index.ts#L37-L37
+
+isVisible: () => tracker.activeCell?.model.type === 'code'
 ```
 
-With the watch command running, every saved change will immediately be built locally and available in your running JupyterLab. Refresh JupyterLab to load the change in your browser (you may need to wait several seconds for the extension to be rebuilt).
+To hide the button, we need to add a CSS rule on the class `lm-mod-hidden` in the file
+*style/base.css*:
 
-By default, the `jlpm build` command generates the source maps for this extension to make it easier to debug using the browser dev tools. To also generate source maps for the JupyterLab core extensions, you can run the following command:
+<!-- prettier-ignore-start -->
+<!-- embedme style/base.css#L7-L9 -->
 
-```bash
-jupyter lab build --minimize=False
+```css
+.jp-ToolbarButtonComponent.lm-mod-hidden {
+  display: none;
+}
 ```
+<!-- prettier-ignore-end -->
 
-### Development uninstall
+## Where to Go Next
 
-```bash
-pip uninstall jupyterlab_examples_cell_toolbar
-```
-
-In development mode, you will also need to remove the symlink created by `jupyter labextension develop`
-command. To find its location, you can run `jupyter labextension list` to figure out where the `labextensions`
-folder is located. Then you can remove the symlink named `@jupyterlab-examples/cell-toolbar` within that folder.
-
-### Testing the extension
-
-#### Frontend tests
-
-This extension is using [Jest](https://jestjs.io/) for JavaScript code testing.
-
-To execute them, execute:
-
-```sh
-jlpm
-jlpm test
-```
-
-#### Integration tests
-
-This extension uses [Playwright](https://playwright.dev/docs/intro) for the integration tests (aka user level tests).
-More precisely, the JupyterLab helper [Galata](https://github.com/jupyterlab/jupyterlab/tree/master/galata) is used to handle testing the extension in JupyterLab.
-
-More information are provided within the [ui-tests](./ui-tests/README.md) README.
-
-### Packaging the extension
-
-See [RELEASE](RELEASE.md)
+This example uses a command to display the widget. Have a look a the
+[commands example](../commands/README.md) for more information about it.
