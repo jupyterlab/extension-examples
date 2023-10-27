@@ -3,7 +3,7 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { DOMUtils } from "@jupyterlab/apputils";
+import { DOMUtils } from '@jupyterlab/apputils';
 
 import { Widget } from '@lumino/widgets';
 
@@ -25,7 +25,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     const widget = new Widget({ node });
     widget.id = DOMUtils.createDomID();
     widget.addClass(TOP_AREA_CSS_CLASS);
-    app.shell.add(widget, 'top', { rank: 1000 })
+    app.shell.add(widget, 'top', { rank: 1000 });
   }
 };
 

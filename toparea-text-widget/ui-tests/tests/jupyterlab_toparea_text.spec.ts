@@ -1,4 +1,3 @@
-
 import { test, expect } from '@jupyterlab/galata';
 
 test('should add a top area text', async ({ page }) => {
