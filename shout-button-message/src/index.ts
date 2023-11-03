@@ -3,9 +3,7 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import {
-  IStatusBar
-} from '@jupyterlab/statusbar';
+import { IStatusBar } from '@jupyterlab/statusbar';
 
 import { Widget } from '@lumino/widgets';
 
@@ -14,7 +12,6 @@ import { Widget } from '@lumino/widgets';
  * when the JupyterLab status bar is available.
  */
 class ShoutStatusBarSummary extends Widget {
-
   statusBarSummary: HTMLElement;
 
   constructor() {
@@ -38,7 +35,6 @@ class ShoutStatusBarSummary extends Widget {
  * status bar is available.
  */
 class ShoutWidget extends Widget {
-
   shoutButton: HTMLElement;
   lastShoutTime: Date | null;
   statusBarWidget: ShoutStatusBarSummary | null;
@@ -68,7 +64,9 @@ class ShoutWidget extends Widget {
     this.statusBarWidget = null;
     if (statusBar) {
       this.statusBarWidget = new ShoutStatusBarSummary();
-      statusBar.registerStatusItem('shoutStatusBarSummary', {item: this.statusBarWidget});
+      statusBar.registerStatusItem('shoutStatusBarSummary', {
+        item: this.statusBarWidget
+      });
     }
   }
 
@@ -79,7 +77,9 @@ class ShoutWidget extends Widget {
 
     // Update the status bar widget if available
     if (this.statusBarWidget) {
-      this.statusBarWidget.setSummary('Last Shout: ' + this.lastShoutTime.toString());
+      this.statusBarWidget.setSummary(
+        'Last Shout: ' + this.lastShoutTime.toString()
+      );
     }
   }
 }
@@ -92,7 +92,8 @@ class ShoutWidget extends Widget {
  */
 const plugin: JupyterFrontEndPlugin<void> = {
   id: 'shout_button_message:plugin',
-  description: 'An extension that adds a button and message to the right toolbar, with optional status bar widget in JupyterLab.',
+  description:
+    'An extension that adds a button and message to the right toolbar, with optional status bar widget in JupyterLab.',
   autoStart: true,
   // The IStatusBar is marked optional here. If it's available, it will
   // be provided to the plugin as an argument to the activate function
@@ -106,7 +107,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
 
     // Create a ShoutWidget and add it to the interface in the right sidebar
     const shoutWidget: ShoutWidget = new ShoutWidget(statusBar);
-    shoutWidget.id = 'JupyterShoutWidget';  // Widgets need an id
+    shoutWidget.id = 'JupyterShoutWidget'; // Widgets need an id
     app.shell.add(shoutWidget, 'right');
   }
 };
