@@ -1,4 +1,3 @@
-
 import { test, expect } from '@jupyterlab/galata';
 
 test('should add a shout button', async ({ page }) => {
