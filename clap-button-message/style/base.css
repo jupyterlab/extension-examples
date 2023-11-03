@@ -5,12 +5,12 @@
 */
 
 .jp-clap-button {
-    width: 75px;
-    margin: 4px;
-    padding: 2px;
-    text-align: center;
-    vertical-align: middle;
-    border-radius: 2px;
-    background-color: #ff0000;
-    color: #212121;
-  }
+  width: 75px;
+  margin: 4px;
+  padding: 2px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 2px;
+  background-color: #ff0000;
+  color: #212121;
+}

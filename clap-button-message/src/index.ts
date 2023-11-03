@@ -4,14 +4,11 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import {
-  INotebookShell
-} from '@jupyter-notebook/application';
+import { INotebookShell } from '@jupyter-notebook/application';
 
 import { Widget } from '@lumino/widgets';
 
 class ClapWidget extends Widget {
-
   clapButton: HTMLElement;
 
   constructor() {
@@ -45,7 +42,7 @@ const pluginJupyterLab: JupyterFrontEndPlugin<void> = {
 
     // Create a ClapWidget and add it to the interface in the top area
     const clapWidget: ClapWidget = new ClapWidget();
-    clapWidget.id = 'JupyterLabClapWidgetLab';  // Widgets need an id
+    clapWidget.id = 'JupyterLabClapWidgetLab'; // Widgets need an id
     app.shell.add(clapWidget, 'top');
   }
 };
@@ -63,11 +60,14 @@ const pluginJupyterNotebook: JupyterFrontEndPlugin<void> = {
 
     // Create a ClapWidget and add it to the interface in the right area
     const clapWidget: ClapWidget = new ClapWidget();
-    clapWidget.id = 'JupyterNotebookClapWidgetNotebook';  // Widgets need an id
+    clapWidget.id = 'JupyterNotebookClapWidgetNotebook'; // Widgets need an id
     app.shell.add(clapWidget, 'right');
   }
 };
 
-const plugins: JupyterFrontEndPlugin<void>[] = [pluginJupyterLab, pluginJupyterNotebook];
+const plugins: JupyterFrontEndPlugin<void>[] = [
+  pluginJupyterLab,
+  pluginJupyterNotebook
+];
 
 export default plugins;
