@@ -131,12 +131,12 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 
 <!-- prettier-ignore-start -->
 ```json5
-// package.json#L95-L99
+// package.json#L94-L98
 
 "jupyterlab": {
-  "extension": true,
-  "outputDir": "jupyterlab_examples_settings/labextension",
-  "schemaDir": "schema"
+    "extension": true,
+    "outputDir": "jupyterlab_examples_settings/labextension",
+    "schemaDir": "schema"
 },
 ```
 <!-- prettier-ignore-end -->
@@ -144,12 +144,12 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 And you should not forget to add it to the files of the package:
 
 ```json5
-// package.json#L19-L23
+// package.json#L16-L20
 
 "files": [
-  "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
-  "style/**/*.{css,js,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
-  "schema/*.json"
+    "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
+    "style/**/*.{css,js,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
+    "schema/*.json"
 ],
 ```
 

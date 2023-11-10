@@ -12,6 +12,7 @@ do
     if [ "${directory}" != "./scripts" ]; then
         pushd ${directory}
         copier update -o inline
+        rm -rf RELEASE.md .github/
         git add --all .
         git commit --amend -m "Update extension template"
         popd

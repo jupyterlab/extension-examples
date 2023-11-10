@@ -10,6 +10,9 @@ test('should display mp4 data file', async ({ page, tmpPath }) => {
     `${tmpPath}/${filename}`
   );
 
+  // Close file opened as editor
+  await page.activity.closePanel('test.my_type');
+
   await page.filebrowser.open(filename);
 
   const view = page.getByRole('main').locator('.mimerenderer-mp4');

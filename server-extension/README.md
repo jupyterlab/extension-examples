@@ -400,7 +400,15 @@ your extension needs to be defined as a proper Python package with some hook fun
 ```py
 # jupyterlab_examples_server/__init__.py
 
-from ._version import __version__
+try:
+    from ._version import __version__
+except ImportError:
+    # Fallback when using the package in dev mode without installing
+    # in editable mode with pip. It is highly recommended to install
+    # the package from a stable release or in editable mode: https://pip.pypa.io/en/stable/topics/local-project-installs/#editable-installs
+    import warnings
+    warnings.warn("Importing 'jupyterlab_examples_server' outside a proper installation.")
+    __version__ = "dev"
 from .handlers import setup_handlers
 
 
@@ -429,10 +437,6 @@ def _load_jupyter_server_extension(server_app):
     name = "jupyterlab_examples_server"
     server_app.log.info(f"Registered {name} server extension")
 
-
-# For backward compatibility with notebook server - useful for Binder/JupyterHub
-load_jupyter_server_extension = _load_jupyter_server_extension
-
 ```
 
 The `_jupyter_server_extension_points` provides the Python package name
@@ -440,7 +444,7 @@ to the server. But the most important one is `_load_jupyter_server_extension`
 that register new handlers.
 
 ```py
-# jupyterlab_examples_server/__init__.py#L26-L26
+# jupyterlab_examples_server/__init__.py#L34-L34
 
 setup_handlers(server_app.web_app)
 ```
@@ -658,7 +662,7 @@ It will build the frontend NPM package through its _factory_, and will ensure on
 generated files is `jupyterlab_examples_server/labextension/package.json`:
 
 ```py
-# pyproject.toml#L56-L67
+# pyproject.toml#L57-L68
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.5"]
@@ -678,7 +682,7 @@ It will copy the NPM package in the Python package and force it to be copied in 
 JupyterLab is looking for frontend extensions when the Python package is installed:
 
 ```py
-# pyproject.toml#L48-L49
+# pyproject.toml#L49-L50
 
 [tool.hatch.build.targets.wheel.shared-data]
 "jupyterlab_examples_server/labextension" = "share/jupyter/labextensions/@jupyterlab-examples/server-extension"
@@ -705,7 +709,7 @@ done by copying the following JSON file:
 in the appropriate jupyter folder (`etc/jupyter/jupyter_server_config.d`):
 
 ```py
-# pyproject.toml#L51-L51
+# pyproject.toml#L52-L52
 
 "jupyter-config/server-config" = "etc/jupyter/jupyter_server_config.d"
 ```
@@ -719,25 +723,25 @@ user about that dependency by adding the `discovery` metadata to your `package.j
 file:
 
 ```json5
-// package.json#L98-L108
+// package.json#L97-L107
 
 "jupyterlab": {
-  "discovery": {
-    "server": {
-      "managers": [
-        "pip"
-      ],
-      "base": {
-        "name": "jupyterlab_examples_server"
-      }
-    }
-  },
+    "discovery": {
+        "server": {
+            "managers": [
+                "pip"
+            ],
+            "base": {
+                "name": "jupyterlab_examples_server"
+            }
+        }
+    },
 ```
 
 In this example, the extension requires a `server` extension:
 
 ```json5
-// package.json#L99-L99
+// package.json#L98-L98
 
 "discovery": {
 ```
@@ -745,11 +749,11 @@ In this example, the extension requires a `server` extension:
 And that server extension is available through `pip`:
 
 ```json5
-// package.json#L100-L102
+// package.json#L99-L101
 
 "server": {
-  "managers": [
-    "pip"
+    "managers": [
+        "pip"
 ```
 
 For more information on the `discovery` metadata, please refer to the [documentation](https://jupyterlab.readthedocs.io/en/stable/extension/extension_dev.html#ext-author-companion-packages).

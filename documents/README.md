@@ -39,10 +39,10 @@ The shared model needs to be registered only if your file must be collaborative.
 // package.json#L108-L113
 
 "sharedPackages": {
-  "@jupyter/docprovider": {
-    "bundled": true,
-    "singleton": true
-  }
+    "@jupyter/docprovider": {
+        "bundled": true,
+        "singleton": true
+    }
 }
 ```
 
