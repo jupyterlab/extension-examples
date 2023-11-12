@@ -546,8 +546,8 @@ web_app.add_handlers(host_pattern, handlers)
 **Note**
 
 > Server extensions can be used for different frontends (like
-> JupyterLab and the classical Jupyter Notebook). Some additional
-> documentation is available in the [Notebook documentation](https://jupyter-notebook.readthedocs.io/en/stable/extending/handlers.html)
+> JupyterLab and Jupyter Notebook). Some additional
+> documentation is available in the [Jupyter Server documentation](https://jupyter-server.readthedocs.io/en/latest/developers/extensions.html#adding-extension-endpoints)
 
 ## Packaging the Extension
 
