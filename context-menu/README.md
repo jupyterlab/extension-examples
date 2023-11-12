@@ -35,16 +35,15 @@ The first step is to define the command that will be executed when clicking on t
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/index.ts#L15-L32
+// src/index.ts#L15-L31
 
 app.commands.addCommand('jlab-examples/context-menu:open', {
   label: 'Example',
   caption: "Example context menu button for file browser's items.",
   icon: buildIcon,
   execute: () => {
-    const file = factory.tracker.currentWidget
-      ?.selectedItems()
-      .next().value;
+    const file = factory.tracker.currentWidget?.selectedItems().next()
+      .value;
 
     if (file) {
       showDialog({

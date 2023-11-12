@@ -1,6 +1,6 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: v4.0.2
-_src_path: /home/fcollonval/projects/extension-template
+_commit: v4.2.4
+_src_path: gh:jupyterlab/extension-template
 author_email: ''
 author_name: Project Jupyter Contributors
 data_format: string
