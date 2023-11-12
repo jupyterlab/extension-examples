@@ -17,9 +17,8 @@ const extension: JupyterFrontEndPlugin<void> = {
       caption: "Example context menu button for file browser's items.",
       icon: buildIcon,
       execute: () => {
-        const file = factory.tracker.currentWidget
-          ?.selectedItems()
-          .next().value;
+        const file = factory.tracker.currentWidget?.selectedItems().next()
+          .value;
 
         if (file) {
           showDialog({

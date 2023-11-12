@@ -5,7 +5,6 @@ node_modules/
 *.egg-info/
 .ipynb_checkpoints
 *.tsbuildinfo
-*.lock
 __pycache__
 .yarn/
 
@@ -18,3 +17,5 @@ labextension
 _version.py
 
 .jupyter_ystore.db
+yarn.lock
+!**/ui-tests/yarn.lock
