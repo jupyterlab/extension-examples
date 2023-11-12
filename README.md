@@ -227,7 +227,7 @@ Add user interface to edit cell or notebook metadata.
 
 [![Metadata Form](metadata-form/preview.gif)](metadata-form)
 
-## [MIME Renderer](mimerenderer)
+### [MIME Renderer](mimerenderer)
 
 Add a MIME renderer for mp4 content to the application.
 
@@ -279,7 +279,6 @@ Add a new button to the notebook toolbar.
 
 A very simple example that adds a basic text widget to the top area. See [related video.](https://www.youtube.com/watch?v=mqotG1MkHa4).
 This example is part of the [Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
-You can find details about this example on that page.
 
 [![Top Area Text Widget](toparea-text-widget/preview.jpg)](toparea-text-widget)
 

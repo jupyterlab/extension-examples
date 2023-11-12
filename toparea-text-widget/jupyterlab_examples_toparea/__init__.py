@@ -5,12 +5,12 @@ except ImportError:
     # in editable mode with pip. It is highly recommended to install
     # the package from a stable release or in editable mode: https://pip.pypa.io/en/stable/topics/local-project-installs/#editable-installs
     import warnings
-    warnings.warn("Importing 'jupyterlab_toparea_text' outside a proper installation.")
+    warnings.warn("Importing 'jupyterlab_examples_toparea' outside a proper installation.")
     __version__ = "dev"
 
 
 def _jupyter_labextension_paths():
     return [{
         "src": "labextension",
-        "dest": "jupyterlab-toparea-text"
+        "dest": "@jupyterlab-examples/toparea"
     }]
