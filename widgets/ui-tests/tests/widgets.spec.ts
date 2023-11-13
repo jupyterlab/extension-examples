@@ -10,7 +10,15 @@ test('should open a widget panel', async ({ page }) => {
   // Open a new tab from menu
   await page.menu.clickMenuItem('Widget Example>Open a Tab Widget');
 
-  await page.click('div[role="main"] >> text=Widget Example View');
+  await page.getByRole('main').getByText('Widget Example View');
+
+  let gotAlerted = false;
+  page.on('dialog', dialog => {
+    gotAlerted = dialog.message() == 'You clicked on the widget';
+  });
+  await page.getByRole('main').locator('.jp-example-view').click();
+
+  expect(gotAlerted).toEqual(true);
 
   expect(await page.screenshot()).toMatchSnapshot('widgets-example.png');
 });
