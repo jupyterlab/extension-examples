@@ -36,6 +36,7 @@ jobs:
           - signals
           - state
           - toolbar-button
+          - toparea-text-widget
           - widgets
         os: [ubuntu-latest, macos-latest, windows-latest]
 
