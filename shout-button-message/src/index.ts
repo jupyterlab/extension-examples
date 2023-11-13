@@ -5,27 +5,35 @@ import {
 
 import { IStatusBar } from '@jupyterlab/statusbar';
 
+import { Message } from '@lumino/messaging';
+
+import { ISignal, Signal } from '@lumino/signaling';
+
 import { Widget } from '@lumino/widgets';
 
 /**
- * This is an optional widget that will be used
- * when the JupyterLab status bar is available.
+ * Widget to display text it JupyterLab status bar.
  */
 class ShoutStatusBarSummary extends Widget {
-  statusBarSummary: HTMLElement;
+  private _statusBarSummary: HTMLElement;
 
   constructor() {
     super();
 
     // Display the last shout time in the status bar
-    this.statusBarSummary = document.createElement('p');
-    this.statusBarSummary.classList.add('jp-shout-summary');
-    this.statusBarSummary.innerText = 'Last Shout: (None)';
-    this.node.appendChild(this.statusBarSummary);
+    this._statusBarSummary = document.createElement('p');
+    this._statusBarSummary.classList.add('jp-shout-summary');
+    this._statusBarSummary.innerText = 'Last Shout: (None)';
+    this.node.appendChild(this._statusBarSummary);
   }
 
+  /**
+   * Set the widget text content
+   *
+   * @param summary The text to display
+   */
   setSummary(summary: string) {
-    this.statusBarSummary.innerText = summary;
+    this._statusBarSummary.innerText = summary;
   }
 }
 
@@ -35,52 +43,63 @@ class ShoutStatusBarSummary extends Widget {
  * status bar is available.
  */
 class ShoutWidget extends Widget {
-  shoutButton: HTMLElement;
-  lastShoutTime: Date | null;
-  statusBarWidget: ShoutStatusBarSummary | null;
+  // The last shout time for use in the status bar
+  private _lastShoutTime: Date | null;
+  // Signal triggered when a message is shouted
+  private _messageShouted = new Signal<ShoutWidget, Date>(this);
+  // Link to the shout button
+  private _shoutButton: HTMLElement;
 
-  constructor(statusBar: any) {
+  constructor() {
     super();
 
     // Create and add a button to this widget's root node
     const shoutButton = document.createElement('div');
     shoutButton.innerText = 'Press to Shout';
-    // Add a listener to "shout" when the button is clicked
-    shoutButton.addEventListener('click', this.shout.bind(this));
     shoutButton.classList.add('jp-shout-button');
     this.node.appendChild(shoutButton);
-    this.shoutButton = shoutButton;
+    this._shoutButton = shoutButton;
 
-    // Store the last shout time for use in the status bar
-    this.lastShoutTime = null;
-
-    // Check if the status bar is available, and if so, make
-    // a status bar widget to hold some information
-    // ............................................
-    // Note: In a real extension, it would be better to
-    // avoid holding a reference to this widget and instead
-    // create it in the activate function, then use Lumino
-    // signals to connect it to the shout function
-    this.statusBarWidget = null;
-    if (statusBar) {
-      this.statusBarWidget = new ShoutStatusBarSummary();
-      statusBar.registerStatusItem('shoutStatusBarSummary', {
-        item: this.statusBarWidget
-      });
-    }
+    this._lastShoutTime = null;
   }
 
-  // Make an alert popup that shouts upon user click
-  shout() {
-    this.lastShoutTime = new Date();
-    window.alert('Shouting at ' + this.lastShoutTime);
+  /**
+   * The last shout time for use in the status bar
+   */
+  get lastShoutTime(): Date | null {
+    return this._lastShoutTime;
+  }
 
-    // Update the status bar widget if available
-    if (this.statusBarWidget) {
-      this.statusBarWidget.setSummary(
-        'Last Shout: ' + this.lastShoutTime.toString()
-      );
-    }
+  /**
+   * Signal emitted when a message is shouted
+   */
+  get messageShouted(): ISignal<ShoutWidget, Date> {
+    return this._messageShouted;
+  }
+
+  /**
+   * Callback when the widget is added to the DOM
+   */
+  protected onAfterAttach(msg: Message): void {
+    // Add a listener to "shout" when the button is clicked
+    this._shoutButton.addEventListener('click', this.shout.bind(this));
+  }
+
+  /**
+   * Callback when the widget is removed from the DOM
+   */
+  protected onBeforeDetach(msg: Message): void {
+    this._shoutButton.removeEventListener('click', this.shout.bind(this));
+  }
+
+  /**
+   * Make an alert popup that shouts upon user click
+   * And signal that a message is emitted.
+   */
+  shout() {
+    this._lastShoutTime = new Date();
+    this._messageShouted.emit(this._lastShoutTime);
+    window.alert('Shouting at ' + this._lastShoutTime);
   }
 }
 
@@ -91,7 +110,7 @@ class ShoutWidget extends Widget {
  * JupyterLab as optional.
  */
 const plugin: JupyterFrontEndPlugin<void> = {
-  id: 'shout_button_message:plugin',
+  id: '@jupyterlab-examples/shout-button:plugin',
   description:
     'An extension that adds a button and message to the right toolbar, with optional status bar widget in JupyterLab.',
   autoStart: true,
@@ -106,9 +125,28 @@ const plugin: JupyterFrontEndPlugin<void> = {
     console.log('JupyterLab extension shout_button_message is activated!');
 
     // Create a ShoutWidget and add it to the interface in the right sidebar
-    const shoutWidget: ShoutWidget = new ShoutWidget(statusBar);
+    const shoutWidget: ShoutWidget = new ShoutWidget();
     shoutWidget.id = 'JupyterShoutWidget'; // Widgets need an id
+
     app.shell.add(shoutWidget, 'right');
+
+    // Check if the status bar is available, and if so, make
+    // a status bar widget to hold some information
+    if (statusBar) {
+      const statusBarWidget = new ShoutStatusBarSummary();
+
+      statusBar.registerStatusItem('shoutStatusBarSummary', {
+        item: statusBarWidget
+      });
+
+      // Connect to the messageShouted to be notified when a new message
+      // is published and react to it by updating the status bar widget.
+      shoutWidget.messageShouted.connect((widget: ShoutWidget, time: Date) => {
+        statusBarWidget.setSummary(
+          'Last Shout: ' + widget.lastShoutTime?.toString() ?? '(None)'
+        );
+      });
+    }
   }
 };
 
