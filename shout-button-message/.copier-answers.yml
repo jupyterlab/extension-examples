@@ -1,0 +1,20 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.2.4
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: ''
+author_name: Project Jupyter Contributors
+data_format: string
+file_extension: ''
+has_binder: false
+has_settings: false
+kind: frontend
+labextension_name: '@jupyterlab-examples/shout-button'
+mimetype: ''
+mimetype_name: ''
+project_short_description: An extension that adds a button and message to the right
+    toolbar, with optional status bar widget in JupyterLab.
+python_name: jupyterlab_examples_shout_button
+repository: https://github.com/jupyterlab/extension-examples
+test: true
+viewer_name: ''
+
