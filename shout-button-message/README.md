@@ -6,6 +6,11 @@ a widget in the status bar.
 
 ![preview](./preview.jpg)
 
+We strongly advice to look to those examples before diving into this one:
+
+- [signals](../signals/): Communication between JavaScript objects.
+- [widgets](../widgets): The basic DOM Jupyter component
+
 ## Jupyter Notebook / JupyterLab compatibility
 
 As Jupyter Notebook 7+ is built with components from JupyterLab, and since
