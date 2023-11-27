@@ -103,7 +103,7 @@ jobs:
           python -m pip install --upgrade pip "jupyterlab>=4.0.0"
       # This is challenging to test in collaboration;
       # got trouble with the file ID service and the uncontrolled auto-save
-      # - if: steps.filter.outputs.extension == 'true' && matrix.example == 'documents'
+      # - if: steps.filter.outputs.extension == 'true' && matrix.example == 'clap-button-message'
       #   run: |
       #     python -m pip install jupyter-collaboration
       - name: Build the extension
@@ -122,6 +122,11 @@ jobs:
         run: |
           jupyter labextension list 2>&1 | tee labextension.list
           cat labextension.list | grep -ie "@jupyterlab-examples/*.*OK"
+      # clap-button-message example will have one plugin failing as it is requiring a
+      # Jupyter Notebook specific token. This is expected. Hence we need to skip this
+      # test for that example
+      - if: steps.filter.outputs.extension == 'true' && matrix.example != 'clap-button-message'
+        run: |
           python -m jupyterlab.browser_check
 
       - name: Install galata
