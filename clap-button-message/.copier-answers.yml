@@ -1,15 +1,20 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: v4.1.0
+_commit: v4.2.4
 _src_path: https://github.com/jupyterlab/extension-template
-author_email: me@test.com
-author_name: My Name
+author_email: ''
+author_name: Project Jupyter Contributors
+data_format: string
+file_extension: ''
 has_binder: false
 has_settings: false
 kind: frontend
-labextension_name: clap_button
+labextension_name: '@jupyterlab-examples/clap-button'
+mimetype: ''
+mimetype_name: ''
 project_short_description: Adds a clap button to the status bar (JupyterLab) or top
     area (Jupyter Notebook 7)
-python_name: clap_button
-repository: ''
-test: false
+python_name: jupyterlab_examples_shout_button
+repository: https://github.com/jupyterlab/extension-examples
+test: true
+viewer_name: ''
 

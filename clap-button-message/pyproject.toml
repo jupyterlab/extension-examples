@@ -1,11 +1,11 @@
 [build-system]
-requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-nodejs-version"]
+requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-nodejs-version>=0.3.2"]
 build-backend = "hatchling.build"
 
 [project]
-name = "clap_button"
+name = "jupyterlab_examples_shout_button"
 readme = "README.md"
-license = { file = "LICENSE" }
+license = { text = "BSD-3-Clause License" }
 requires-python = ">=3.8"
 classifiers = [
     "Framework :: Jupyter",
@@ -20,6 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
 ]
@@ -32,24 +33,24 @@ source = "nodejs"
 fields = ["description", "authors", "urls"]
 
 [tool.hatch.build.targets.sdist]
-artifacts = ["clap_button/labextension"]
+artifacts = ["jupyterlab_examples_shout_button/labextension"]
 exclude = [".github", "binder"]
 
 [tool.hatch.build.targets.wheel.shared-data]
-"clap_button/labextension" = "share/jupyter/labextensions/clap_button"
-"install.json" = "share/jupyter/labextensions/clap_button/install.json"
+"jupyterlab_examples_shout_button/labextension" = "share/jupyter/labextensions/@jupyterlab-examples/clap-button"
+"install.json" = "share/jupyter/labextensions/@jupyterlab-examples/clap-button/install.json"
 
 [tool.hatch.build.hooks.version]
-path = "clap_button/_version.py"
+path = "jupyterlab_examples_shout_button/_version.py"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.5"]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
-    "clap_button/labextension/static/style.js",
-    "clap_button/labextension/package.json",
+    "jupyterlab_examples_shout_button/labextension/static/style.js",
+    "jupyterlab_examples_shout_button/labextension/package.json",
 ]
-skip-if-exists = ["clap_button/labextension/static/style.js"]
+skip-if-exists = ["jupyterlab_examples_shout_button/labextension/static/style.js"]
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
@@ -59,7 +60,7 @@ npm = ["jlpm"]
 build_cmd = "install:extension"
 npm = ["jlpm"]
 source_dir = "src"
-build_dir = "clap_button/labextension"
+build_dir = "jupyterlab_examples_shout_button/labextension"
 
 [tool.jupyter-releaser.options]
 version_cmd = "hatch version"

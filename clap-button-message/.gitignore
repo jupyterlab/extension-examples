@@ -7,9 +7,13 @@ node_modules/
 *.egg-info/
 .ipynb_checkpoints
 *.tsbuildinfo
-clap_button/labextension
+jupyterlab_examples_shout_button/labextension
 # Version file is handled by hatchling
-clap_button/_version.py
+jupyterlab_examples_shout_button/_version.py
+
+# Integration tests
+ui-tests/test-results/
+ui-tests/playwright-report/
 
 # Created by https://www.gitignore.io/api/python
 # Edit at https://www.gitignore.io/?templates=python

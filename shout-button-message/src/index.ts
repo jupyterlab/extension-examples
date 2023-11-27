@@ -81,6 +81,7 @@ class ShoutWidget extends Widget {
    * Callback when the widget is added to the DOM
    */
   protected onAfterAttach(msg: Message): void {
+    super.onAfterAttach(msg);
     // Add a listener to "shout" when the button is clicked
     this._shoutButton.addEventListener('click', this.shout.bind(this));
   }
@@ -90,6 +91,7 @@ class ShoutWidget extends Widget {
    */
   protected onBeforeDetach(msg: Message): void {
     this._shoutButton.removeEventListener('click', this.shout.bind(this));
+    super.onBeforeDetach(msg);
   }
 
   /**

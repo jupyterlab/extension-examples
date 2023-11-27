@@ -3,4 +3,4 @@ node_modules
 **/lib
 **/package.json
 !/package.json
-clap_button
+jupyterlab_examples_shout_button

@@ -34,8 +34,8 @@ The _rank_ is used to order the widget within the top area.
 ## Where to Go Next
 
 If your extension is using features that are not common to both interfaces,
-special steps needs to be taken. You can have a look at the [Shout button example](../shout-button-message)
-that uses a feature available in JupyterLab but not in Notebook 7+.
+special steps needs to be taken. You can have a look at the [Shout button](../shout-button-message) and the [Clap button](../clap-button-message) examples
+for such advanced case.
 
 You can have more information about this in the
 [Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).

@@ -6,65 +6,85 @@ import {
 
 import { INotebookShell } from '@jupyter-notebook/application';
 
+import { Message } from '@lumino/messaging';
+
 import { Widget } from '@lumino/widgets';
 
+/**
+ * Widget containing a button that emit an alert when clicked.
+ */
 class ClapWidget extends Widget {
-  clapButton: HTMLElement;
+  private _clapButton: HTMLElement;
 
   constructor() {
     super();
 
     // Create and add a button to this widget's root node
-    const clapButton = document.createElement('div');
+    const clapButton = (this._clapButton = document.createElement('button'));
     clapButton.innerText = 'Clap';
-    // Add a listener to "clap" when the button is clicked
-    clapButton.addEventListener('click', this.clap.bind(this));
     clapButton.classList.add('jp-clap-button');
     this.node.appendChild(clapButton);
-    this.clapButton = clapButton;
   }
 
   clap() {
     window.alert('Clapping now at ' + new Date());
   }
+
+  protected onAfterAttach(msg: Message): void {
+    super.onAfterAttach(msg);
+    // Add a listener to "clap" when the button is clicked
+    this._clapButton.addEventListener('click', this.clap.bind(this));
+  }
+
+  protected onBeforeDetach(msg: Message): void {
+    this._clapButton.removeEventListener('click', this.clap.bind(this));
+    super.onBeforeDetach(msg);
+  }
 }
 
 /**
- * Initialization data for the clap_button JupyterLab extension.
+ * Initialization data for the @jupyterlab-examples/clap-button JupyterLab extension.
  */
 const pluginJupyterLab: JupyterFrontEndPlugin<void> = {
-  id: 'clap_button:pluginLab',
+  id: '@jupyterlab-examples/clap-button:pluginLab',
   description: 'Adds a clap button to the top area JupyterLab',
   autoStart: true,
   requires: [ILabShell],
-  activate: (app: JupyterFrontEnd) => {
-    console.log('JupyterLab extension clap_button is activated!');
+  activate: (app: JupyterFrontEnd, labShell: ILabShell) => {
+    console.log(
+      'JupyterLab extension @jupyterlab-examples/clap-button is activated!'
+    );
 
     // Create a ClapWidget and add it to the interface in the top area
-    const clapWidget: ClapWidget = new ClapWidget();
+    const clapWidget = new ClapWidget();
     clapWidget.id = 'JupyterLabClapWidgetLab'; // Widgets need an id
     app.shell.add(clapWidget, 'top');
   }
 };
 
 /**
- * Initialization data for the clap_button Jupyter Notebook extension.
+ * Initialization data for the @jupyterlab-examples/clap-button Jupyter Notebook extension.
  */
 const pluginJupyterNotebook: JupyterFrontEndPlugin<void> = {
-  id: 'clap_button:pluginNotebook',
+  id: '@jupyterlab-examples/clap-button:pluginNotebook',
   description: 'Adds a clap button to the right sidebar of Jupyter Notebook 7',
   autoStart: true,
   requires: [INotebookShell],
-  activate: (app: JupyterFrontEnd) => {
-    console.log('Jupyter Notebook extension clap_button is activated!');
+  activate: (app: JupyterFrontEnd, notebookShell: INotebookShell) => {
+    console.log(
+      'Jupyter Notebook extension @jupyterlab-examples/clap-button is activated!'
+    );
 
     // Create a ClapWidget and add it to the interface in the right area
-    const clapWidget: ClapWidget = new ClapWidget();
+    const clapWidget = new ClapWidget();
     clapWidget.id = 'JupyterNotebookClapWidgetNotebook'; // Widgets need an id
     app.shell.add(clapWidget, 'right');
   }
 };
 
+/**
+ * Gather all plugins defined by this extension
+ */
 const plugins: JupyterFrontEndPlugin<void>[] = [
   pluginJupyterLab,
   pluginJupyterNotebook

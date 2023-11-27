@@ -1,5 +1,5 @@
 {
   "packageManager": "python",
-  "packageName": "clap_button",
-  "uninstallInstructions": "Use your Python package manager (pip, conda, etc.) to uninstall the package clap_button"
+  "packageName": "jupyterlab_examples_shout_button",
+  "uninstallInstructions": "Use your Python package manager (pip, conda, etc.) to uninstall the package jupyterlab_examples_shout_button"
 }

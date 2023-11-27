@@ -9,7 +9,8 @@ a widget in the status bar.
 We strongly advice to look to those examples before diving into this one:
 
 - [signals](../signals/): Communication between JavaScript objects.
-- [widgets](../widgets): The basic DOM Jupyter component
+- [widgets](../widgets): The basic DOM Jupyter component.
+- [Simple compatibility example](../toparea-text-widget): Extension working without modification in both Notebook and JupyterLab.
 
 ## Jupyter Notebook / JupyterLab compatibility
 
@@ -22,7 +23,7 @@ This example has a part specific to JupyterLab. This translate by having
 optional dependency for your extension plugin.
 
 ```ts
-// src/index.ts#L120-L120
+// src/index.ts#L122-L122
 
 optional: [IStatusBar],
 ```
@@ -31,7 +32,7 @@ If your dependency is optional, the object pass to the `activate` method
 will be `null` if no other plugin provides it.
 
 ```ts
-// src/index.ts#L124-L124
+// src/index.ts#L126-L126
 
 activate: (app: JupyterFrontEnd, statusBar: IStatusBar | null) => {
 ```
@@ -41,7 +42,7 @@ activate: (app: JupyterFrontEnd, statusBar: IStatusBar | null) => {
 You can add a widget to the right sidebar through the application shell:
 
 ```ts
-// src/index.ts#L128-L131
+// src/index.ts#L130-L133
 
 const shoutWidget: ShoutWidget = new ShoutWidget();
 shoutWidget.id = 'JupyterShoutWidget'; // Widgets need an id
@@ -54,7 +55,7 @@ emit a signal `messageShouted` that any callback can listen to to react
 to it and display an alert to the user.
 
 ```ts
-// src/index.ts#L99-L103
+// src/index.ts#L101-L105
 
 shout() {
   this._lastShoutTime = new Date();
@@ -70,7 +71,7 @@ Jupyter Notebook). So a good practice is to make that dependency
 optional and test for it to be non-null to carry related action:
 
 ```ts
-// src/index.ts#L135-L135
+// src/index.ts#L137-L137
 
 if (statusBar) {
 ```
@@ -80,7 +81,7 @@ status bar. You can achieve that by calling the `registerStatusItem`
 method from the status bar object.
 
 ```ts
-// src/index.ts#L136-L138
+// src/index.ts#L138-L140
 
 const statusBarWidget = new ShoutStatusBarSummary();
 
@@ -92,14 +93,34 @@ widget `messageShouted` signal. In which for example, you update the
 text displayed in the status bar.
 
 ```ts
-// src/index.ts#L142-L144
+// src/index.ts#L144-L146
 
 // Connect to the messageShouted to be notified when a new message
 // is published and react to it by updating the status bar widget.
 shoutWidget.messageShouted.connect((widget: ShoutWidget, time: Date) => {
 ```
 
+## Alternative approach
+
+An alternative approach to condition a part of an extension with the
+frontend used can be designed from the application name:
+
+```ts
+activate(app: JupyterFrontend) {
+  switch(name) {
+    case 'JupyterLab':
+      console.log('The frontend used is JupyterLab.');
+      break;
+    case 'Jupyter Notebook':
+      console.log('The frontend used is Jupyter Notebook.');
+      break;
+  }
+}
+```
+
 ## Where to Go Next
+
+You should look at [Clap button](../clap-button-message) example to design compatible extension using two plugins.
 
 You can have more information about making extension compatible with
 multiple applications in the
