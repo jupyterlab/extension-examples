@@ -96,6 +96,7 @@ You may find it easier to learn how to create extensions _by examples_, instead 
 
 Start with the [Hello World](hello-world) and then jump to the topic you are interested in.
 
+- [Cell toolbar](cell-toolbar)
 - [CodeMirror extension](codemirror-extension)
 - [Commands](commands)
 - [Command Palette](command-palette)
@@ -136,6 +137,12 @@ You can expect from each example:
 We have structured the examples based on the [extension points](https://jupyterlab.readthedocs.io/en/stable/extension/extension_points.html). Browse the previews below or skip them and [jump directly to the sections for developers](#prerequisites).
 
 You are welcome to open any [issue](https://github.com/jupyterlab/extension-examples/issues) or [pull request](https://github.com/jupyterlab/extension-examples/pulls).
+
+### [Cell toolbar](cell-toolbar)
+
+Add a command button to the cell toolbar.
+
+[![Cell toolbar](cell-toolbar/preview.gif)](cell-toolbar)
 
 ### [CodeMirror extension](codemirror-extension)
 
