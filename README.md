@@ -190,7 +190,7 @@ Create a new log console.
 
 Display a Datagrid as a Lumino Widget.
 
-[![Datagrid](datagrid/preview.png)](datagrid)
+[![Datagrid](datagrid/preview.gif)](datagrid)
 
 ### Dual Compatibility
 
@@ -230,7 +230,7 @@ the top area (in JupyterLab) or the right sidebar (Jupyter Notebook). This examp
 of the [Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
 Read more about this example on that page.
 
-[![Dual Compatibility Clap Button](clap-button-message/preview.jpg)](clap-button-message)
+[![Dual Compatibility Clap Button](clap-button-message/preview.png)](clap-button-message)
 
 ### [Collaborative Document](documents)
 
@@ -434,13 +434,13 @@ Then fix the conflicts.
 
 The examples are automatically tested for:
 
-- Homogeneous configuration:  
+- Homogeneous configuration:
   Configuration files are compared to the reference ones of the _hello-world_ example
 - TypeScript code lint
-- Installation in JupyterLab:  
+- Installation in JupyterLab:
   The installation is checked by listing the installed extension and running JupyterLab with the helper `python -m jupyterlab.browser_check`
-- Integration test:  
-  Those tests are emulating user action in JupyterLab to check the extension is behaving as expected.  
+- Integration test:
+  Those tests are emulating user action in JupyterLab to check the extension is behaving as expected.
   The tests are defined in the `ui-tests` subfolder within each example.
   This is possible thanks to a tool called [playwright](https://playwright.dev/).
 
