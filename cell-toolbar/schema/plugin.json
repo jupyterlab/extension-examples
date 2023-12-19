@@ -1,0 +1,20 @@
+{
+  "jupyter.lab.shortcuts": [],
+  "title": "@jupyterlab-examples/cell-toolbar",
+  "description": "@jupyterlab-examples/cell-toolbar settings.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false,
+  "jupyter.lab.toolbars": {
+    "Cell": [
+      {
+        "name": "run-code-cell",
+        "command": "toolbar-button:run-code-cell"
+      },
+      {
+        "name": "render-markdows-cell",
+        "command": "toolbar-button:render-markdown-cell"
+      }
+    ]
+  }
+}
