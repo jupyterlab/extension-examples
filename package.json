@@ -18,6 +18,8 @@
     }
   },
   "workspaces": [
+    "clap-button-message",
+    "cell-toolbar",
     "codemirror-extension",
     "command-palette",
     "commands",
@@ -39,18 +41,20 @@
     "react-widget",
     "server-extension",
     "settings",
+    "shout-button-message",
     "signals",
     "state",
     "step_counter",
     "step_counter_extension",
     "toolbar-button",
+    "toparea-text-widget",
     "widgets"
   ],
   "devDependencies": {
     "embedme": "^1.22.1",
     "husky": "^8.0.3",
-    "lerna": "^6.6.1",
-    "lint-staged": "^13.2.1",
-    "prettier": "^2.8.7"
+    "lerna": "^7.4.2",
+    "lint-staged": "^15.1.0",
+    "prettier": "^3.0.3"
   }
 }

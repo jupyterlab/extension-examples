@@ -38,7 +38,7 @@ const stripe = Decoration.line({
 
 // Create the range of lines requiring decorations
 function stripeDeco(view: EditorView) {
-  const step = view.state.facet(stepSize);
+  const step = view.state.facet(stepSize) as number;
   const builder = new RangeSetBuilder<Decoration>();
   for (const { from, to } of view.visibleRanges) {
     for (let pos = from; pos <= to; ) {

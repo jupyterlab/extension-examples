@@ -14,10 +14,10 @@ Writing a JupyterLab extension usually starts from a configurable template. It
 can be downloaded with the [`copier`](https://copier.readthedocs.io/) tool and the following command:
 
 ```bash
-pip install copier jinja2-time
+pip install "copier~=7.2" jinja2-time "pydantic<2.0.0"
 mkdir my_extension
 cd my_extension
-copier https://github.com/jupyterlab/extension-template .
+copier copy https://github.com/jupyterlab/extension-template .
 ```
 
 You will be asked for some basic information that could for example be setup
@@ -157,10 +157,10 @@ called `@jupyterlab/application`. The dependency of your extension on this
 package is declared in the file `package.json`:
 
 ```json5
-// package.json#L60-L62
+// package.json#L54-L56
 
 "dependencies": {
-  "@jupyterlab/application": "^4.0.0"
+    "@jupyterlab/application": "^4.0.0"
 },
 ```
 
