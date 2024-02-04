@@ -7,7 +7,7 @@
     "embedme": "embedme \"[!n]*/README.md\" \"notifications/README.md\"",
     "install-py": "lerna exec --concurrency 4 -- touch yarn.lock && lerna exec --concurrency 4 -- python -m pip install \".\"",
     "install-ext": "lerna run install:extension",
-    "lint": "lerna run lint",
+    "lint": "lerna run lint && jlpm run embedme",
     "lint:check": "jlpm run embedme --verify && lerna run lint:check",
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\""
