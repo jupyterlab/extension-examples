@@ -11,18 +11,26 @@ This JupyterLab example extension is intended to demo one specific feature of `M
 In code: the command `jlab-examples:contentheader` creates a widget and check if it is an instance of `MainAreaWidget`. A specific text content is then added to this widget (here the current GMT time).
 
 ```ts
-// src/index.ts#L33-L50
+// src/index.ts#L34-L58
 
 commands.addCommand(command, {
   label: 'Populate content header (time example)',
   caption: 'Populate content header (time example)',
   execute: () => {
     // Check to ensure this is a MainAreaWidget
-    const widget = app.shell.currentWidget;
+    const main = app.shell.currentWidget;
 
-    if (widget instanceof MainAreaWidget) {
+    if (main instanceof MainAreaWidget) {
+      // Create a widget
+      const widget = new Widget();
       widget.addClass('example-extension-contentheader-widget');
       widget.node.textContent = generateContent();
+
+      // set the height so that it is visible
+      widget.node.style.minHeight = '20px';
+
+      // and insert it into the header
+      main.contentHeader.addWidget(widget);
 
       // Every so often, update the widget's contents
       setInterval(() => {
