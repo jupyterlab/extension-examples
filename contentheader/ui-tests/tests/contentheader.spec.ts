@@ -15,4 +15,7 @@ test('should populate the contentheader', async ({ page }) => {
 
   // Ensure we see text from the extension example
   expect(await page.waitForSelector('text=Time in GMT is:')).toBeTruthy();
+
+  // Ensure that launcher was not overwritten
+  expect(await page.waitForSelector('.jp-Launcher-content')).toBeTruthy();
 });

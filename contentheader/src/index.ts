@@ -2,7 +2,7 @@ import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-
+import { Widget } from '@lumino/widgets';
 import { ICommandPalette, MainAreaWidget } from '@jupyterlab/apputils';
 
 /**
@@ -35,11 +35,19 @@ const plugin: JupyterFrontEndPlugin<void> = {
       caption: 'Populate content header (time example)',
       execute: () => {
         // Check to ensure this is a MainAreaWidget
-        const widget = app.shell.currentWidget;
+        const main = app.shell.currentWidget;
 
-        if (widget instanceof MainAreaWidget) {
+        if (main instanceof MainAreaWidget) {
+          // Create a widget
+          const widget = new Widget();
           widget.addClass('example-extension-contentheader-widget');
           widget.node.textContent = generateContent();
+
+          // set the height so that it is visible
+          widget.node.style.minHeight = '20px';
+
+          // and insert it into the header
+          main.contentHeader.addWidget(widget);
 
           // Every so often, update the widget's contents
           setInterval(() => {
