@@ -38,4 +38,4 @@ special steps needs to be taken. You can have a look at the [Shout button](../sh
 for such advanced case.
 
 You can have more information about this in the
-[Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
+[Extension Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_multiple_ui.html).

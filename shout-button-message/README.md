@@ -124,4 +124,4 @@ You should look at [Clap button](../clap-button-message) example to design compa
 
 You can have more information about making extension compatible with
 multiple applications in the
-[Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
+[Extension Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_multiple_ui.html).
