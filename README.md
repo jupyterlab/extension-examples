@@ -207,7 +207,7 @@ They are listed from the simplest to the most advanced case:
 #### [Top Area Text Widget](toparea-text-widget)
 
 A very simple example that adds a basic text widget to the top area. See [related video.](https://www.youtube.com/watch?v=mqotG1MkHa4).
-This example is part of the [Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
+This example is part of the [Extension Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_multiple_ui.html).
 
 [![Top Area Text Widget](toparea-text-widget/preview.jpg)](toparea-text-widget)
 
@@ -216,7 +216,7 @@ This example is part of the [Extension Dual Compatibility Guide](https://jupyter
 This example shows dual compatibility: Make an extension that is compatible
 with both JupyterLab and Jupyter Notebook by using optional features. Adds
 a shout button to the right sidebar, and if running in JupyterLab, also adds
-a status bar widget. This example is part of the [Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
+a status bar widget. This example is part of the [Extension Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_multiple_ui.html).
 Read more about this example on that page.
 
 [![Dual compatibility shout button](shout-button-message/preview.jpg)](shout-button-message)
@@ -227,7 +227,7 @@ This example shows an alternate method for achieving dual compatibility: Make an
 extension that is compatible with both JupyterLab and Jupyter Notebook by exporting
 multiple plugins and using "required" features to select different behaviors. Adds a clap button to
 the top area (in JupyterLab) or the right sidebar (Jupyter Notebook). This example is part
-of the [Extension Dual Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension_dual_compatibility.html).
+of the [Extension Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_multiple_ui.html).
 Read more about this example on that page.
 
 [![Dual Compatibility Clap Button](clap-button-message/preview.png)](clap-button-message)
