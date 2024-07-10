@@ -131,3 +131,5 @@ in the web browser console.
 ```
 jlab-examples:main-menu has been called from the menu.
 ```
+
+The `"files"` section in `package.json` file must include `"schema/*.json"` entry.
