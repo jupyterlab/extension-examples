@@ -132,4 +132,33 @@ in the web browser console.
 jlab-examples:main-menu has been called from the menu.
 ```
 
-The `"files"` section in `package.json` file must include `"schema/*.json"` entry.
+**WARNING** The schema must be included in the final bundle, and the location of the
+schema directory needs to be provided to the JupyterLab extension build system.
+
+To achieve this, the `package.json` must include:
+- `"schema/*.json"` entry in the `files` section
+- `schemaDir` key with path to the schema directory in the `jupyterlab` section
+
+<!-- prettier-ignore-start -->
+```json5
+// package.json#L16-L20
+
+"files": [
+    "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
+    "style/**/*.{css,js,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
+    "schema/*.json"
+],
+```
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+```json5
+// package.json#L94-L98
+
+"jupyterlab": {
+    "extension": true,
+    "outputDir": "jupyterlab_examples_main_menu/labextension",
+    "schemaDir": "schema"
+},
+```
+<!-- prettier-ignore-end -->
