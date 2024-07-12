@@ -136,6 +136,7 @@ jlab-examples:main-menu has been called from the menu.
 schema directory needs to be provided to the JupyterLab extension build system.
 
 To achieve this, the `package.json` must include:
+
 - `"schema/*.json"` entry in the `files` section
 - `schemaDir` key with path to the schema directory in the `jupyterlab` section
 
