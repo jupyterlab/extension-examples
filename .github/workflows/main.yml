@@ -29,6 +29,7 @@ jobs:
           - launcher
           - kernel-messaging
           - kernel-output
+          - leap_counter_extension
           - log-messages
           - main-menu
           - metadata-form
@@ -38,6 +39,8 @@ jobs:
           - shout-button-message
           - signals
           - state
+          - step_counter
+          - step_counter_extension
           - toolbar-button
           - toparea-text-widget
           - widgets
