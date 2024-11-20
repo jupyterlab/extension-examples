@@ -14,7 +14,7 @@ Writing a JupyterLab extension usually starts from a configurable template. It
 can be downloaded with the [`copier`](https://copier.readthedocs.io/) tool and the following command:
 
 ```bash
-pip install "copier~=7.2" jinja2-time "pydantic<2.0.0"
+pip install "copier~=9.2" jinja2-time "pydantic<2.0.0"
 mkdir my_extension
 cd my_extension
 copier copy https://github.com/jupyterlab/extension-template .
