@@ -29,7 +29,7 @@ Execute the following commands in your terminal:
 pip install copier jinja2-time
 mkdir my_mimerenderer
 cd my_mimerenderer
-copier https://github.com/jupyterlab/extension-template .
+copier copy --trust https://github.com/jupyterlab/extension-template .
 ```
 
 You will be asked for some basic information that could for example be setup
