@@ -22,7 +22,7 @@ Writing a JupyterLab extension usually starts from a configurable template. It
 can be downloaded with the [`copier`](https://copier.readthedocs.io/) tool and the following command for an extension with a server part:
 
 ```bash
-pip install copier jinja2-time
+pip install "copier~=9.2" jinja2-time
 mkdir my_extension
 cd my_extension
 copier copy --trust https://github.com/jupyterlab/extension-template .
