@@ -26,7 +26,7 @@ You will initialize the extension by using [copier](https://copier.readthedocs.i
 Execute the following commands in your terminal:
 
 ```bash
-pip install copier jinja2-time
+pip install "copier~=9.2" jinja2-time
 mkdir my_mimerenderer
 cd my_mimerenderer
 copier copy --trust https://github.com/jupyterlab/extension-template .
