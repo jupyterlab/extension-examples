@@ -395,7 +395,7 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
       ? data
         ? JSON.parse(data)
         : { x: 0, y: 0 }
-      : data ?? '';
+      : (data ?? '');
   }
 
   /**
