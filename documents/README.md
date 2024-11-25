@@ -36,7 +36,7 @@ The shared model needs to be registered only if your file must be collaborative.
 > adding the following configuration in `package.json`.:
 
 ```json5
-// package.json#L108-L113
+// package.json#L109-L114
 
 "sharedPackages": {
     "@jupyter/collaborative-drive": {
