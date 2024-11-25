@@ -212,13 +212,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * @returns The data
    */
   toString(): string {
-    const pos = this.sharedModel.get('position');
-    const obj = {
-      x: pos?.x ?? 10,
-      y: pos?.y ?? 10,
-      content: this.sharedModel.get('content') ?? ''
-    };
-    return JSON.stringify(obj, null, 2);
+    return this.sharedModel.getSource();
   }
 
   /**
@@ -229,11 +223,7 @@ export class ExampleDocModel implements DocumentRegistry.IModel {
    * @param data Serialized data
    */
   fromString(data: string): void {
-    const obj = JSON.parse(data);
-    this.sharedModel.transact(() => {
-      this.sharedModel.set('position', { x: obj.x, y: obj.y });
-      this.sharedModel.set('content', obj.content);
-    });
+    this.sharedModel.setSource(data);
   }
 
   /**
@@ -360,6 +350,34 @@ export class ExampleDoc extends YDocument<ExampleDocChange> {
   }
 
   readonly version: string = '1.0.0';
+
+  /**
+   * Get the document source
+   *
+   * @returns The source
+   */
+  getSource(): string {
+    const pos = this.get('position');
+    const obj = {
+      x: pos?.x ?? 10,
+      y: pos?.y ?? 10,
+      content: this.get('content') ?? ''
+    };
+    return JSON.stringify(obj, null, 2);
+  }
+
+  /**
+   * Set the document source
+   *
+   * @param value The source to set
+   */
+  setSource(value: string): void {
+    const obj = JSON.parse(value);
+    this.transact(() => {
+      this.set('position', { x: obj.x, y: obj.y });
+      this.set('content', obj.content);
+    });
+  }
 
   /**
    * Dispose of the resources.
