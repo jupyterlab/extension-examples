@@ -58,17 +58,20 @@ npm publish --access public
 
 ## Automated releases with the Jupyter Releaser
 
-The extension repository should already be compatible with the Jupyter Releaser.
-
-Check out the [workflow documentation](https://jupyter-releaser.readthedocs.io/en/latest/get_started/making_release_from_repo.html) for more information.
+The extension repository should already be compatible with the Jupyter Releaser. But
+the GitHub repository and the package managers need to be properly set up. Please
+follow the instructions of the Jupyter Releaser [checklist](https://jupyter-releaser.readthedocs.io/en/latest/how_to_guides/convert_repo_from_repo.html).
 
 Here is a summary of the steps to cut a new release:
 
-- Add `ADMIN_GITHUB_TOKEN`, `PYPI_TOKEN` and `NPM_TOKEN` to the [Github Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets) in the repository
 - Go to the Actions panel
 - Run the "Step 1: Prep Release" workflow
 - Check the draft changelog
 - Run the "Step 2: Publish Release" workflow
+
+> [!NOTE]
+> Check out the [workflow documentation](https://jupyter-releaser.readthedocs.io/en/latest/get_started/making_release_from_repo.html)
+> for more information.
 
 ## Publishing to `conda-forge`
 
