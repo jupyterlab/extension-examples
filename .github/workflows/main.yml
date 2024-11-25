@@ -9,6 +9,7 @@ on:
 jobs:
   build_extensions:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
 
     strategy:
       fail-fast: false
@@ -49,17 +50,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Path filter
         id: filter
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         with:
           filters: |
             extension:
               - '${{ matrix.example }}/**'
       - name: Cache lerna
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
@@ -75,14 +76,14 @@ jobs:
         shell: bash
       - name: Install node
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: '22.x'
       - name: Install Python
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
           architecture: 'x64'
       - name: Get pip cache dir
         if: steps.filter.outputs.extension == 'true'
@@ -92,7 +93,7 @@ jobs:
         shell: bash
       - name: Cache pip
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
           key: ${{ runner.os }}-pip-${{ hashFiles('environment.yml') }}
@@ -138,7 +139,7 @@ jobs:
         run: jlpm install
       - name: Set up browser cache
         if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux')
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ${{ github.workspace }}/pw-browsers
@@ -156,9 +157,9 @@ jobs:
         run: jlpm playwright test
       - name: Upload UI Test artifacts
         if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux') && always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: ui-test-output
+          name: ui-test-output-${{ matrix.example }}
           path: |
             ${{ matrix.example }}/ui-tests/test-results
       - name: Uninstall extension
@@ -175,26 +176,26 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Path filter
         id: filter
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         with:
           filters: |
             extension:
               - 'server-extension/**'
       - name: Cache lerna
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-lerna-${{ hashFiles('server-extension/package.json') }}
           restore-keys: ${{ runner.os }}-lerna-
       - name: Install node
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: '22.x'
       - name: Check config files
         if: steps.filter.outputs.extension == 'true'
         run: |
@@ -206,9 +207,9 @@ jobs:
         shell: bash
       - name: Install Python
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
           architecture: 'x64'
       - name: Get pip cache dir
         if: steps.filter.outputs.extension == 'true'
@@ -218,7 +219,7 @@ jobs:
         shell: bash
       - name: Cache pip
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
           key: ${{ runner.os }}-pip-${{ hashFiles('environment.yml') }}
@@ -227,7 +228,7 @@ jobs:
       - name: Install the Python dependencies
         if: steps.filter.outputs.extension == 'true'
         run: |
-          python -m pip install --upgrade pip jupyterlab~=4.0.0 build
+          python -m pip install --upgrade pip jupyterlab~=4.0 build
       - name: Install the NPM dependencies
         if: steps.filter.outputs.extension == 'true'
         run: |
@@ -282,7 +283,7 @@ jobs:
         run: jlpm install
       - name: Set up browser cache
         if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux')
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ${{ github.workspace }}/pw-browsers
@@ -297,9 +298,9 @@ jobs:
         run: jlpm playwright test
       - name: Upload UI Test artifacts
         if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux') && always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: ui-test-output
+          name: ui-test-output-${{ matrix.example }}
           path: |
             server-extension/ui-tests/test-results
       - name: Uninstall extension
@@ -316,21 +317,21 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Cache lerna
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
           restore-keys: ${{ runner.os }}-lerna-
       - name: Install node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: '22.x'
       - name: Install Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
           architecture: 'x64'
       - name: Get pip cache dir
         id: pip-cache
@@ -338,14 +339,14 @@ jobs:
           echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
         shell: bash
       - name: Cache pip
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
           key: ${{ runner.os }}-pip-${{ hashFiles('environment.yml') }}
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install the Python dependencies
-        run: python -m pip install jupyterlab~=4.0.0 pytest pytest-check-links "pytest-jupyter[server]>=0.6.0"
+        run: python -m pip install jupyterlab~=4.0 pytest pytest-check-links "pytest-jupyter[server]>=0.6.0"
       - name: Bootstrap the jlpm deps
         run: jlpm
       - name: Build all the extensions
