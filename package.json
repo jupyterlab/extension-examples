@@ -33,6 +33,7 @@
     "kernel-messaging",
     "kernel-output",
     "launcher",
+    "leap_counter_extension",
     "log-messages",
     "main-menu",
     "metadata-form",
@@ -43,6 +44,8 @@
     "shout-button-message",
     "signals",
     "state",
+    "step_counter",
+    "step_counter_extension",
     "toolbar-button",
     "toparea-text-widget",
     "widgets"
