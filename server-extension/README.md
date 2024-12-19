@@ -14,6 +14,7 @@ example before diving into this one.
   - [Packaging the Extension](#packaging-the-extension)
     - [Python Package Manager](#python-package-manager)
     - [JupyterLab Extension Manager](#jupyterlab-extension-manager)
+  - [Development](#development)
   - [Installing the Package](#installing-the-package)
 
 ## The template folder structure
