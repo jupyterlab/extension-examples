@@ -565,7 +565,7 @@ done using [hatch](https://hatch.pypa.io/) builder with some additional plugins:
 - [hatch-jupyter-builder](https://github.com/jupyterlab/hatch-jupyter-builder/): Builder plugin to build Jupyter JavaScript assets as part of the Python package.
   Its configuration is done in `pyproject.toml`:
 
-```
+```toml
 # pyproject.toml
 
 [build-system]
@@ -757,6 +757,18 @@ And that server extension is available through `pip`:
 ```
 
 For more information on the `discovery` metadata, please refer to the [documentation](https://jupyterlab.readthedocs.io/en/stable/extension/extension_dev.html#ext-author-companion-packages).
+
+## Development
+
+While developing your server extension, you can run JupyterLab and enable server reloading using the following command:
+
+```bash
+jupyter lab --autoreload --no-browser
+```
+
+This way, every time there is a change to the backend (server) code, JupyterLab is automatically relaunched, picking up the most recent changes.
+
+The `--no-browser` flag is optional, but it helps prevent a new browser tab from opening each time JupyterLab is launched.
 
 ## Installing the Package
 
