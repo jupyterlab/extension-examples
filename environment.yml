@@ -2,8 +2,8 @@ name: jupyterlab-extension-examples
 channels:
   - conda-forge
 dependencies:
-  - jupyterlab >=4.0.0
-  - nodejs=18
+  - jupyterlab >=4.3.0
+  - nodejs=22
   - pytest
   - pytest-check-links
   - pytest-jupyter >=0.6.0
