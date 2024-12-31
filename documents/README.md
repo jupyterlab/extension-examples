@@ -28,10 +28,10 @@ Developers can provide new extensions to support additional documents (or replac
 The model, the shared model and the view will be provided through new factories and the file type will be registered directly.
 For that you will need to access the [`DocumentRegistry`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docregistry.DocumentRegistry-1.html) to register new [`FileType`s](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/rendermime_interfaces.IRenderMime.IFileType.html), models and views. This way, when opening a new file, the [`DocumentManager`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docmanager.DocumentManager-1.html) will look into the file metadata and create an instance of `Context` with the right model for this file. To register new documents, you can create factories, either a [`IModelFactory`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IModelFactory.html) for the model and/or a [`IWidgetFactory`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IWidgetFactory.html) for the view.
 
-The shared model needs to be registered only if your file must be collaborative. For that you will need to register it in the [`ICollaborativeDrive`](https://jupyterlab-realtime-collaboration.readthedocs.io/en/latest/api/interfaces/docprovider.ICollaborativeDrive.html) token provided by the `@jupyter/docprovider` package.
+The shared model needs to be registered only if your file must be collaborative. For that you will need to register it in the [`ICollaborativeDrive`](https://jupyterlab-realtime-collaboration.readthedocs.io/en/latest/api/interfaces/collaborative_drive.ICollaborativeDrive.html) token provided by the `@jupyter/collaborative-drive` package.
 
 > Packaging note: when using an optional external extension (here
-> `@jupyter/docprovider` from `jupyter-collaboration`), you must
+> `@jupyter/collaborative-drive` from `jupyter-collaboration`), you must
 > tell JupyterLab to include that package in the current extension by
 > adding the following configuration in `package.json`.:
 
@@ -39,7 +39,7 @@ The shared model needs to be registered only if your file must be collaborative.
 // package.json#L108-L113
 
 "sharedPackages": {
-    "@jupyter/docprovider": {
+    "@jupyter/collaborative-drive": {
         "bundled": true,
         "singleton": true
     }

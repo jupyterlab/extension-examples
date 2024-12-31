@@ -52,8 +52,8 @@
         "watch:labextension": "jupyter labextension watch ."
     },
     "dependencies": {
-        "@jupyter/docprovider": "^1.0.0",
-        "@jupyter/ydoc": "^1.0.0",
+        "@jupyter/collaborative-drive": "^3.0.0",
+        "@jupyter/ydoc": "^3.0.0",
         "@jupyterlab/application": "^4.0.0",
         "@jupyterlab/apputils": "^4.0.0",
         "@jupyterlab/coreutils": "^6.0.0",
@@ -106,7 +106,7 @@
         "extension": true,
         "outputDir": "jupyterlab_examples_documents/labextension",
         "sharedPackages": {
-            "@jupyter/docprovider": {
+            "@jupyter/collaborative-drive": {
                 "bundled": true,
                 "singleton": true
             }
