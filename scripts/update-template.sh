@@ -11,7 +11,7 @@ for directory in ./*/
 do
     if [ "${directory}" != "./scripts" ]; then
         pushd ${directory}
-        copier update -o inline
+        copier update --trust -o inline
         rm -rf RELEASE.md .github/
         git add --all .
         git commit --amend -m "Update extension template"

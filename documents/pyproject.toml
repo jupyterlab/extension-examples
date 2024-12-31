@@ -34,7 +34,7 @@ exampledoc = "jupyterlab_examples_documents.document:YExampleDoc"
 source = "nodejs"
 
 [tool.hatch.metadata.hooks.nodejs]
-fields = ["description", "authors", "urls"]
+fields = ["description", "authors", "urls", "keywords"]
 
 [tool.hatch.build.targets.sdist]
 artifacts = ["jupyterlab_examples_documents/labextension"]
