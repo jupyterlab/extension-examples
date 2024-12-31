@@ -28,10 +28,10 @@ Developers can provide new extensions to support additional documents (or replac
 The model, the shared model and the view will be provided through new factories and the file type will be registered directly.
 For that you will need to access the [`DocumentRegistry`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docregistry.DocumentRegistry-1.html) to register new [`FileType`s](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/rendermime_interfaces.IRenderMime.IFileType.html), models and views. This way, when opening a new file, the [`DocumentManager`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docmanager.DocumentManager-1.html) will look into the file metadata and create an instance of `Context` with the right model for this file. To register new documents, you can create factories, either a [`IModelFactory`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IModelFactory.html) for the model and/or a [`IWidgetFactory`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IWidgetFactory.html) for the view.
 
-The shared model needs to be registered only if your file must be collaborative. For that you will need to register it in the [`ICollaborativeDrive`](https://jupyterlab-realtime-collaboration.readthedocs.io/en/latest/api/interfaces/docprovider.ICollaborativeDrive.html) token provided by the `@jupyter/docprovider` package.
+The shared model needs to be registered only if your file must be collaborative. For that you will need to register it in the [`ICollaborativeDrive`](https://jupyterlab-realtime-collaboration.readthedocs.io/en/latest/api/interfaces/collaborative_drive.ICollaborativeDrive.html) token provided by the `@jupyter/collaborative-drive` package.
 
 > Packaging note: when using an optional external extension (here
-> `@jupyter/docprovider` from `jupyter-collaboration`), you must
+> `@jupyter/collaborative-drive` from `jupyter-collaboration`), you must
 > tell JupyterLab to include that package in the current extension by
 > adding the following configuration in `package.json`.:
 
@@ -39,7 +39,7 @@ The shared model needs to be registered only if your file must be collaborative.
 // package.json#L108-L113
 
 "sharedPackages": {
-    "@jupyter/docprovider": {
+    "@jupyter/collaborative-drive": {
         "bundled": true,
         "singleton": true
     }
@@ -229,7 +229,7 @@ The `DocumentModel` represents the file content in the frontend. Through the mod
 
 ## Make it collaborative
 
-In JupyterLab v3.1, we introduced the package `@jupyterlab/shared-models` to swap `ModelDB` as a data storage to make the notebooks collaborative. We implemented these shared models using [Yjs](https://yjs.dev), a high-performance CRDT for building collaborative applications that automatically sync. You can find all the documentation of Yjs [here](https://docs.yjs.dev).
+In JupyterLab v3.1, we switched from `ModelDB` as a data storage to shared models. We implemented these shared models using [Yjs](https://yjs.dev), a high-performance CRDT for building collaborative applications that automatically sync. You can find all the documentation of Yjs [here](https://docs.yjs.dev).
 
 Yjs documents (`Y.Doc`) are the main class of Yjs. They represent a shared document between clients and hold multiple shared objects. Yjs documents enable you to share different [data types like text, Array, Map or set](https://docs.yjs.dev/getting-started/working-with-shared-types), which makes it possible to create not only collaborative text editors but also diagrams, drawings,... .
 
@@ -255,7 +255,7 @@ In this extension, we created:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L354-L354
+// src/model.ts#L344-L344
 
 export class ExampleDoc extends YDocument<ExampleDocChange> {
 ```
@@ -265,7 +265,7 @@ To create a new shared object, you have to use the `ydoc`. The new attribute wil
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L358-L359
+// src/model.ts#L348-L349
 
 this._content = this.ydoc.getMap('content');
 this._content.observe(this._contentObserver);
@@ -278,7 +278,7 @@ we provide helpers `get` and `set` to hide the complexity of `position` being st
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L390-L399
+// src/model.ts#L408-L417
 
 get(key: 'content'): string;
 get(key: 'position'): Position;
@@ -288,12 +288,12 @@ get(key: string): any {
     ? data
       ? JSON.parse(data)
       : { x: 0, y: 0 }
-    : data ?? '';
+    : (data ?? '');
 }
 ```
 
 ```ts
-// src/model.ts#L407-L411
+// src/model.ts#L425-L429
 
 set(key: 'content', value: string): void;
 set(key: 'position', value: PartialJSONObject): void;
@@ -315,7 +315,7 @@ this.sharedModel.awareness.setLocalStateField('mouse', pos);
 ```
 
 ```ts
-// src/model.ts#L289-L289
+// src/model.ts#L279-L279
 
 const clients = this.sharedModel.awareness.getStates();
 ```
@@ -335,11 +335,11 @@ Every time you modify a shared property, this property triggers an event in all 
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/model.ts#L233-L236
+// src/model.ts#L376-L379
 
-this.sharedModel.transact(() => {
-  this.sharedModel.set('position', { x: obj.x, y: obj.y });
-  this.sharedModel.set('content', obj.content);
+this.transact(() => {
+  this.set('position', { x: obj.x, y: obj.y });
+  this.set('content', obj.content);
 });
 ```
 <!-- prettier-ignore-end -->
@@ -350,13 +350,13 @@ That client is responsible for loading, saving and watching the file on disk and
 to propagate all changes to all clients. This makes collaboration much more robust
 in case of flaky connection, file rename,... .
 
-In Python, Yjs protocol is implemented in the library [`y-py`](https://github.com/y-crdt/ypy). But as we provide `@jupyterlab/shared-models` helpers for the frontend, we
+In Python, Yjs protocol is implemented in the library [`ycrdt`](https://github.com/jupyter-server/pycrdt). But as we provide `@jupyter/ydoc` helpers for the frontend, we
 provide [`jupyter-ydoc`](https://github.com/jupyter-server/jupyter_ydoc) helpers for Python.
 
 A shared model must inherit from `YBaseDoc`, here:
 
 ```py
-# jupyterlab_examples_documents/document.py#L4-L7
+# jupyterlab_examples_documents/document.py#L6-L9
 
 from jupyter_ydoc.ybasedoc import YBaseDoc
 
@@ -368,9 +368,9 @@ The shared map is added to the model like this:
 
 <!-- prettier-ignore-start -->
 ```py
-# jupyterlab_examples_documents/document.py#L10-L10
+# jupyterlab_examples_documents/document.py#L12-L12
 
-self._content = self._ydoc.get_map('content')
+self._content = self._ydoc.get("content", type=pycrdt.Map)
 ```
 <!-- prettier-ignore-end -->
 
@@ -379,7 +379,7 @@ must be defined:
 
 <!-- prettier-ignore-start -->
 ```py
-# jupyterlab_examples_documents/document.py#L16-L49
+# jupyterlab_examples_documents/document.py#L18-L49
 
 def get(self) -> str:
     """
@@ -387,15 +387,11 @@ def get(self) -> str:
 
     :return: Document's content.
     """
-    data = json.loads(self._content.to_json())
+    data = self._content.to_py()
     position = json.loads(data["position"])
     return json.dumps(
-        {
-            "x": position["x"],
-            "y": position["y"],
-            "content": data["content"]
-        },
-        indent=2
+        {"x": position["x"], "y": position["y"], "content": data["content"]},
+        indent=2,
     )
 
 def set(self, raw_value: str) -> None:
@@ -405,15 +401,17 @@ def set(self, raw_value: str) -> None:
     :param raw_value: The content of the document.
     """
     value = json.loads(raw_value)
-    with self._ydoc.begin_transaction() as t:
+    with self._ydoc.transaction():
         # clear document
-        for key in self._content:
-            self._content.pop(t, key)
-        for key in [k for k in self._ystate if k not in ("dirty", "path")]:
-            self._ystate.pop(t, key)
+        for key in self._content.keys():
+            self._content.pop(key)
+        for key in [k for k in self._ystate.keys() if k not in ("dirty", "path")]:
+            self._ystate.pop(key)
 
-        self._content.set(t, "position", json.dumps({"x": value["x"], "y": value["y"]}))
-        self._content.set(t, "content", value["content"])
+        self._content["position"] = {"x": value["x"], "y": value["y"]}
+
+        self._content["content"] = value["content"]
+
 #
 ```
 <!-- prettier-ignore-end -->
@@ -423,7 +421,7 @@ reacting to a document changes:
 
 <!-- prettier-ignore-start -->
 ```py
-# jupyterlab_examples_documents/document.py#L51-L60
+# jupyterlab_examples_documents/document.py#L51-L65
 
 def observe(self, callback: "Callable[[str, Any], None]") -> None:
     """
@@ -432,8 +430,13 @@ def observe(self, callback: "Callable[[str, Any], None]") -> None:
     :param callback: Callback that will be called when the document changes.
     """
     self.unobserve()
-    self._subscriptions[self._ystate] = self._ystate.observe(partial(callback, "state"))
-    self._subscriptions[self._content] = self._content.observe(partial(callback, "content"))
+    self._subscriptions[self._ystate] = self._ystate.observe(
+        partial(callback, "state")
+    )
+    self._subscriptions[self._content] = self._content.observe(
+        partial(callback, "content")
+    )
+
 #
 ```
 <!-- prettier-ignore-end -->
