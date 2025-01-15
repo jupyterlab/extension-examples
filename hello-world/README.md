@@ -21,7 +21,7 @@ can be downloaded with the [`copier`](https://copier.readthedocs.io/) tool and t
 pip install "copier~=9.2" jinja2-time
 mkdir my_extension
 cd my_extension
-copier copy https://github.com/jupyterlab/extension-template .
+copier copy --trust https://github.com/jupyterlab/extension-template .
 ```
 
 You will be asked for some basic information that could for example be setup
