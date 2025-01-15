@@ -8,7 +8,9 @@ In this example, you will learn how to set up the extension development environm
 - [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
 - [Building and Installing an Extension](#building-and-installing-an-extension)
 
-## The template folder structure
+![Screen capture of the JupyterLab web interface with the browser console open below, showing the log output from the hello-world JupyterLab extension](./preview.png)
+
+## The JupyterLab extension template
 
 Writing a JupyterLab extension usually starts from a configurable template. It
 can be downloaded with the [`copier`](https://copier.readthedocs.io/) tool and the following command:
