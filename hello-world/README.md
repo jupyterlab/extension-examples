@@ -49,8 +49,7 @@ like this:
 > The python name must be a valid Python module name (characters such `-`, `@` or `/` are not allowed).
 > It is nice for user to test your extension online, so the _set up Binder_ was set to _Yes_.
 
-The template creates creates files in the current director
-that looks like this:
+The template creates files in the current directory that look like this:
 
 ```bash
 .
@@ -101,7 +100,7 @@ that looks like this:
 └── .yarnrc.yml
 ```
 
-Those files can be separated in 5 groups:
+Those files can be separated in to 5 groups:
 
 - Extension code (those files are mandatory):
   - `src/index.ts` _this contains the actual code of your extension_
