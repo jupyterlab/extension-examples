@@ -2,11 +2,13 @@
 
 In this example, you will learn how to set up the extension development environment and create a minimal extension that prints to the console.
 
-![hello world example](./preview.png)
+**Table of Contents**
 
-- [The template folder structure](#the-template-folder-structure)
-- [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
-- [Building and Installing an Extension](#building-and-installing-an-extension)
+- [The JupyterLab extension template](#the-jupyterlab-extension-template)
+- [Overview of the hello-world extension code](#overview-of-the-hello-world-extension-code)
+- [Build and installing the hello-world extension](#build-and-install-the-hello-world-extension)
+- [Modify the extension](#modify-the-extension)
+- [Where to go next](#where-to-go-next)
 
 ![Screen capture of the JupyterLab web interface with the browser console open below, showing the log output from the hello-world JupyterLab extension](./preview.png)
 
@@ -136,7 +138,7 @@ Those files can be separated in 5 groups:
 
 The following sections will walk you through the extension code files.
 
-## A minimal extension that prints to the browser console
+## Overview of the hello-world extension code
 
 Start with the file `src/index.ts`. This typescript file contains the main
 logic of the extension. It begins with the following import section:
@@ -211,7 +213,7 @@ JupyterLab, which is done with the line `export default plugin`.
 
 Now that the extension code is ready, you need to install it within JupyterLab.
 
-## Building and Installing an Extension
+## Build and install the hello-world extension
 
 These are the instructions on how your extension can be installed for development:
 
