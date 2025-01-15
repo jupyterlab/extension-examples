@@ -220,6 +220,8 @@ These are the instructions on how your extension can be installed for developmen
 > You will need NodeJS to build the extension package.
 
 ```bash
+# Required to identify the project for Yarn 3
+touch yarn.lock
 # Install package in development mode
 pip install -e .
 # Link your development version of the extension with JupyterLab
