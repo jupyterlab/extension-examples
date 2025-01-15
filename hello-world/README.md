@@ -1,6 +1,6 @@
 # Hello World
 
-> Set up the development environment and print to the console.
+In this example, you will learn how to set up the extension development environment and create a minimal extension that prints to the console.
 
 ![hello world example](./preview.png)
 
