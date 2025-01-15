@@ -267,6 +267,8 @@ open the console pressing the `F12` key. You should see something like:
 JupyterLab extension hello-world is activated
 ```
 
+## Modify the extension
+
 Your extension works but it is not doing much. Let's modify the source code
 a bit. Simply replace the `activate` function with the following lines:
 
