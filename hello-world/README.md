@@ -1,14 +1,18 @@
 # Hello World
 
-> Set up the development environment and print to the console.
+In this example, you will learn how to set up the extension development environment and create a minimal extension that prints to the console.
 
-![hello world example](./preview.png)
+**Table of Contents**
 
-- [The template folder structure](#the-template-folder-structure)
-- [A minimal extension that prints to the browser console](#a-minimal-extension-that-prints-to-the-browser-console)
-- [Building and Installing an Extension](#building-and-installing-an-extension)
+- [The JupyterLab extension template](#the-jupyterlab-extension-template)
+- [Overview of the hello-world extension code](#overview-of-the-hello-world-extension-code)
+- [Build and installing the hello-world extension](#build-and-install-the-hello-world-extension)
+- [Modify the extension](#modify-the-extension)
+- [Where to go next](#where-to-go-next)
 
-## The template folder structure
+![Screen capture of the JupyterLab web interface with the browser console open below, showing the log output from the hello-world JupyterLab extension](./preview.png)
+
+## The JupyterLab extension template
 
 Writing a JupyterLab extension usually starts from a configurable template. It
 can be downloaded with the [`copier`](https://copier.readthedocs.io/) tool and the following command:
@@ -17,7 +21,7 @@ can be downloaded with the [`copier`](https://copier.readthedocs.io/) tool and t
 pip install "copier~=9.2" jinja2-time
 mkdir my_extension
 cd my_extension
-copier copy https://github.com/jupyterlab/extension-template .
+copier copy --trust https://github.com/jupyterlab/extension-template .
 ```
 
 You will be asked for some basic information that could for example be setup
@@ -133,7 +137,7 @@ Those files can be separated in to 5 groups:
 
 The following sections will walk you through the extension code files.
 
-## A minimal extension that prints to the browser console
+## Overview of the hello-world extension code
 
 Start with the file `src/index.ts`. This typescript file contains the main
 logic of the extension. It begins with the following import section:
@@ -208,13 +212,15 @@ JupyterLab, which is done with the line `export default plugin`.
 
 Now that the extension code is ready, you need to install it within JupyterLab.
 
-## Building and Installing an Extension
+## Build and install the hello-world extension
 
 These are the instructions on how your extension can be installed for development:
 
 > You will need NodeJS to build the extension package.
 
 ```bash
+# Required to identify the project for Yarn 3
+touch yarn.lock
 # Install package in development mode
 pip install -e .
 # Link your development version of the extension with JupyterLab
@@ -228,7 +234,7 @@ jlpm run build
 > `yarn` or `npm` in lieu of `jlpm` below.
 
 The first command installs the dependencies that are specified in the
-`setup.py` file and in `package.json`. Among the dependencies are also all of the `JupyterLab` components that you want to use in your project.
+`pyproject.toml` file and in `package.json`. Among the dependencies are also all of the `JupyterLab` components that you want to use in your project.
 
 It then runs the build script. In that step, the TypeScript code gets
 converted to javascript using the compiler `tsc` and stored in a `lib`
@@ -261,6 +267,8 @@ open the console pressing the `F12` key. You should see something like:
 ```
 JupyterLab extension hello-world is activated
 ```
+
+## Modify the extension
 
 Your extension works but it is not doing much. Let's modify the source code
 a bit. Simply replace the `activate` function with the following lines:
