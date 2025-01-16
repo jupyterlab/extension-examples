@@ -235,7 +235,7 @@ jlpm run build
 > `yarn` or `npm` in lieu of `jlpm` below.
 
 The first command installs the dependencies that are specified in the
-`setup.py` file and in `package.json`. Among the dependencies are also all of the `JupyterLab` components that you want to use in your project.
+`pyproject.toml` file and in `package.json`. Among the dependencies are also all of the `JupyterLab` components that you want to use in your project.
 
 It then runs the build script. In that step, the TypeScript code gets
 converted to javascript using the compiler `tsc` and stored in a `lib`
