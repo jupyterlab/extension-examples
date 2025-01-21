@@ -1,0 +1,28 @@
+/*
+    See the JupyterLab Developer Guide for useful CSS Patterns:
+
+    https://jupyterlab.readthedocs.io/en/stable/developer/css.html
+*/
+
+.jp-step-container {
+    display: inline;
+    user-select: none;
+}
+
+.jp-step-button {
+    width: 85px;
+    margin: 4px;
+    padding: 2px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 2px;
+    background-color: #2296f3;
+    color: #212121;
+    display: inline-block;
+}
+
+.jp-step-label {
+    display: inline-block;
+    margin: 6px;
+    vertical-align: middle;
+}
