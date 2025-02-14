@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Path filter
         id: filter
         uses: dorny/paths-filter@v2
@@ -59,7 +59,7 @@ jobs:
               - '${{ matrix.example }}/**'
       - name: Cache lerna
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
@@ -75,12 +75,12 @@ jobs:
         shell: bash
       - name: Install node
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.x'
       - name: Install Python
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           architecture: 'x64'
@@ -92,7 +92,7 @@ jobs:
         shell: bash
       - name: Cache pip
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
           key: ${{ runner.os }}-pip-${{ hashFiles('environment.yml') }}
@@ -138,7 +138,7 @@ jobs:
         run: jlpm install
       - name: Set up browser cache
         if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux')
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ${{ github.workspace }}/pw-browsers
@@ -156,7 +156,7 @@ jobs:
         run: jlpm playwright test
       - name: Upload UI Test artifacts
         if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux') && always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ui-test-output
           path: |
@@ -175,7 +175,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Path filter
         id: filter
         uses: dorny/paths-filter@v2
@@ -185,14 +185,14 @@ jobs:
               - 'server-extension/**'
       - name: Cache lerna
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-lerna-${{ hashFiles('server-extension/package.json') }}
           restore-keys: ${{ runner.os }}-lerna-
       - name: Install node
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.x'
       - name: Check config files
@@ -206,7 +206,7 @@ jobs:
         shell: bash
       - name: Install Python
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           architecture: 'x64'
@@ -218,7 +218,7 @@ jobs:
         shell: bash
       - name: Cache pip
         if: steps.filter.outputs.extension == 'true'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
           key: ${{ runner.os }}-pip-${{ hashFiles('environment.yml') }}
@@ -282,7 +282,7 @@ jobs:
         run: jlpm install
       - name: Set up browser cache
         if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux')
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ${{ github.workspace }}/pw-browsers
@@ -297,7 +297,7 @@ jobs:
         run: jlpm playwright test
       - name: Upload UI Test artifacts
         if: steps.filter.outputs.extension == 'true' && startsWith(runner.os, 'Linux') && always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ui-test-output
           path: |
@@ -316,19 +316,19 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Cache lerna
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
           restore-keys: ${{ runner.os }}-lerna-
       - name: Install node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.x'
       - name: Install Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           architecture: 'x64'
@@ -338,7 +338,7 @@ jobs:
           echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
         shell: bash
       - name: Cache pip
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
           key: ${{ runner.os }}-pip-${{ hashFiles('environment.yml') }}
