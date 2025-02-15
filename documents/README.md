@@ -18,7 +18,7 @@
 
 ## Introduction to documents
 
-In JupyterLab, we refer to a _document_ a type of file stored on disk. These files are represented in the frontend by a [`Context`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docregistry.Context-1.html) which is the bridge between the file metadata (like the file path) and its model (the actual document content). Document [`IModel`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IModel.html) represents the file content while [`IDocumentWidget`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.IDocumentWidget.html) is a view of the model.  
+In JupyterLab, we refer to a _document_ a type of file stored on disk. These files are represented in the frontend by a [`Context`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docregistry.Context-1.html) which is the bridge between the file metadata (like the file path) and its model (the actual document content). Document [`IModel`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IModel.html) represents the file content while [`IDocumentWidget`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.IDocumentWidget.html) is a view of the model.
 Developers can provide new extensions to support additional documents (or replace existing implementation). A document is defined by three elements:
 
 - A model: it contains and handles the document content. It should implement the [`IModel` interface](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IModel.html). And in particular it should contain the document content in a [`sharedModel`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IModel.html#sharedModel) - so you will need to define two new model classes.
@@ -28,7 +28,7 @@ Developers can provide new extensions to support additional documents (or replac
 The model, the shared model and the view will be provided through new factories and the file type will be registered directly.
 For that you will need to access the [`DocumentRegistry`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docregistry.DocumentRegistry-1.html) to register new [`FileType`s](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/rendermime_interfaces.IRenderMime.IFileType.html), models and views. This way, when opening a new file, the [`DocumentManager`](https://jupyterlab.readthedocs.io/en/latest/api/classes/docmanager.DocumentManager-1.html) will look into the file metadata and create an instance of `Context` with the right model for this file. To register new documents, you can create factories, either a [`IModelFactory`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IModelFactory.html) for the model and/or a [`IWidgetFactory`](https://jupyterlab.readthedocs.io/en/latest/api/interfaces/docregistry.DocumentRegistry.IWidgetFactory.html) for the view.
 
-The shared model needs to be registered only if your file must be collaborative. For that you will need to register it in the [`ICollaborativeDrive`](https://jupyterlab-realtime-collaboration.readthedocs.io/en/latest/api/interfaces/collaborative_drive.ICollaborativeDrive.html) token provided by the `@jupyter/collaborative-drive` package.
+The shared model needs to be registered only if your file must be collaborative. For that you will need to register it in the [`ICollaborativeDrive`](https://jupyterlab-realtime-collaboration.readthedocs.io/en/stable/api/interfaces/collaborative_drive.ICollaborativeDrive.html) token provided by the `@jupyter/collaborative-drive` package.
 
 > Packaging note: when using an optional external extension (here
 > `@jupyter/collaborative-drive` from `jupyter-collaboration`), you must
@@ -241,9 +241,9 @@ After a short explanation of Yjs' features, now it's time to start with the impl
 
 First you need to define your document data structure. For a text file, it is as
 simple as a single string. But as mentioned earlier, it could be more complex. Here
-the document represents a cube by its position and text content. It is stored as a JSON with two keys: a _position_ and a _content_.  
+the document represents a cube by its position and text content. It is stored as a JSON with two keys: a _position_ and a _content_.
 Although the position is also a dictionary with keys _x_ and _y_, we decided to store
-both information as string (i.e. position will require parsing to be converted as a dictionary).  
+both information as string (i.e. position will require parsing to be converted as a dictionary).
 That choice is purely at the discretion of the developer. Using a stringified
 dictionary is fine if most of the dictionary changes every time. But if most of
 the dictionary stay constant (especially if the all dictionary is large), it would
