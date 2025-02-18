@@ -90,11 +90,10 @@ function activate(
         const code = input.value || '';
         if (!panel) {
           // Create the panel if it does not exist
-          createPanel()
-            .then(async (panel) => {
-              await panel.session.ready;
-              panel.execute(code);
-            });
+          createPanel().then(async panel => {
+            await panel.session.ready;
+            panel.execute(code);
+          });
         } else {
           panel.execute(code);
         }
