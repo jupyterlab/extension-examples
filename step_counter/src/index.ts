@@ -36,6 +36,14 @@ import { Signal } from '@lumino/signaling';
 // use it to type-check any service-object associated with the
 // token that a provider plugin supplies to check that it conforms
 // to the interface.
+// ....
+// Note: JupyterLab frequently uses Typescript declaration merging
+// to reduce the number of names used and to simplify certain aspects
+// of development, export and usage. Normally, this interface would
+// be called StepCounter and would take advantage of declaration merging
+// in line with JupyterLab standards, but is named differently here
+// to make the differences between these items more explicit to avoid
+// confusion for beginners.
 interface IStepCounterItem {
   // registerStatusItem(id: string, statusItem: IStatusBar.IItem): IDisposable;
   getStepCount(): number;
