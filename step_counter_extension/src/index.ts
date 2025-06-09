@@ -30,19 +30,19 @@ import {
 
 import { Widget } from '@lumino/widgets';
 
-import { StepCounter } from 'step_counter';
+import { IStepCounterItem, StepCounter } from 'step_counter';
 
 // This widget holds the JupyterLab UI/interface that users will
 // see and interact with to count and view their steps.
 class StepCounterWidget extends Widget {
   stepButton: HTMLElement;
   stepCountLabel: HTMLElement;
-  counter: any;
+  counter: IStepCounterItem;
 
   // Notice that the constructor for this object takes a "counter"
   // argument, which is the service object associated with the StepCounter
   // token (which is passed in by the consumer plugin).
-  constructor(counter: any) {
+  constructor(counter: IStepCounterItem) {
     super();
 
     this.counter = counter;
@@ -100,7 +100,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
   // arguments, so make sure you add arguments for those here when your plugin requests
   // any required or optional services. If a required service is missing, your plugin
   // won't load. If an optional service is missing, the supplied argument will be null.
-  activate: (app: JupyterFrontEnd, counter: any) => {
+  activate: (app: JupyterFrontEnd, counter: IStepCounterItem) => {
     console.log('JupyterLab extension step_counter_extension is activated!');
 
     // Create a StepCounterWidget and add it to the interface
