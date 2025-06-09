@@ -30,13 +30,13 @@ import {
 import { Token } from '@lumino/coreutils';
 import { Signal } from '@lumino/signaling';
 
-// The StepCounterItem interface is used as part of JupyterLab's
+// The IStepCounterItem interface is used as part of JupyterLab's
 // provider-consumer pattern. This interface is supplied to the
 // token instance (the StepCounter token), and JupyterLab will
 // use it to type-check any service-object associated with the
 // token that a provider plugin supplies to check that it conforms
 // to the interface.
-interface StepCounterItem {
+interface IStepCounterItem {
   // registerStatusItem(id: string, statusItem: IStatusBar.IItem): IDisposable;
   getStepCount(): number;
   incrementStepCount(count: number): void;
@@ -49,7 +49,7 @@ interface StepCounterItem {
 // to store and increment step count data in JupyterLab). Any
 // plugin can use this token in their "requires" or "activates"
 // list to request the service object associated with this token!
-const StepCounter = new Token<StepCounterItem>(
+const StepCounter = new Token<IStepCounterItem>(
   'step_counter:StepCounter',
   'A service for counting steps.'
 );
@@ -57,10 +57,9 @@ const StepCounter = new Token<StepCounterItem>(
 // This class holds step count data/utilities. An instance of
 // this class will serve as the service object associated with
 // the StepCounter token (Other developers can substitute their
-// own implementation of a StepCounterItem instead of using this
+// own implementation of a IStepCounterItem instead of using this
 // one, by becoming a provider of the StepCounter token).
-class Counter implements StepCounterItem {
-
+class Counter implements IStepCounterItem {
   _stepCount: number;
   countChanged: Signal<any, number>;
 
@@ -86,14 +85,17 @@ class Counter implements StepCounterItem {
 // class defined above) from the function supplied as its activate property.
 // It also needs to supply the interface (the one the service object
 // implements) to JupyterFrontEndPlugin when it's defined.
-const plugin: JupyterFrontEndPlugin<StepCounterItem> = {
+const plugin: JupyterFrontEndPlugin<IStepCounterItem> = {
   id: 'step_counter:provider_plugin',
-  description: 'Provider plugin for the step_counter\'s "counter" service object.',
+  description:
+    'Provider plugin for the step_counter\'s "counter" service object.',
   autoStart: true,
   provides: StepCounter,
   // The activate function here will be called by JupyterLab when the plugin loads
   activate: (app: JupyterFrontEnd) => {
-    console.log('JupyterLab extension (step_counter/provider plugin) is activated!');
+    console.log(
+      'JupyterLab extension (step_counter/provider plugin) is activated!'
+    );
     const counter = new Counter();
 
     // Since this plugin "provides" the "StepCounter" service, make sure to
@@ -108,7 +110,7 @@ const plugin: JupyterFrontEndPlugin<StepCounterItem> = {
 // package.json according to the Jupyter extension documentation, both in
 // this provider extension and in the consumer extensions. Under the
 // "Jupyterlab" key you should have a "singleton" key set to true.
-// 
+//
 // "jupyterlab": {
 //   "extension": true,
 //   "outputDir": "step_counter/labextension",
@@ -125,5 +127,5 @@ const plugin: JupyterFrontEndPlugin<StepCounterItem> = {
 // https://jupyterlab.readthedocs.io/en/latest/extension/extension_dev.html#requiring-a-service
 // https://jupyterlab.readthedocs.io/en/latest/extension/extension_dev.html#optionally-using-a-service
 
-export { StepCounter, StepCounterItem };
+export { StepCounter, IStepCounterItem };
 export default plugin;
