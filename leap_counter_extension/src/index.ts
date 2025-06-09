@@ -30,19 +30,19 @@ import {
 
 import { Widget } from '@lumino/widgets';
 
-import { StepCounter } from 'step_counter';
+import { IStepCounterItem, StepCounter } from 'step_counter';
 
 // This widget holds the JupyterLab UI/interface that users will
 // see and interact with to count and view their steps.
 class LeapCounterWidget extends Widget {
-  leapButton: HTMLElement;
-  combinedStepCountLabel: HTMLElement;
-  counter: any;
+  private leapButton: HTMLElement;
+  private combinedStepCountLabel: HTMLElement;
+  private counter: IStepCounterItem;
 
   // Notice that the constructor for this object takes a "counter"
   // argument, which is the service object associated with the StepCounter
   // token (which is passed in by the consumer plugin).
-  constructor(counter: any) {
+  constructor(counter: IStepCounterItem) {
     super();
 
     this.counter = counter;
@@ -57,8 +57,8 @@ class LeapCounterWidget extends Widget {
     // Add a listener to handle button clicks
     leapButton.addEventListener('click', this.takeLeap.bind(this));
     leapButton.classList.add('jp-leap-button');
-    this.node.appendChild(leapButton);
     this.leapButton = leapButton;
+    this.node.appendChild(this.leapButton);
 
     // Add a label to display the step count
     const combinedStepCountLabel = document.createElement('p');
@@ -69,8 +69,8 @@ class LeapCounterWidget extends Widget {
     this.updateStepCountDisplay();
   }
 
-  // Refresh the displayed step count
   updateStepCountDisplay() {
+    // Refresh the displayed step count
     this.combinedStepCountLabel.innerText =
       'Combined Step Count: ' + this.counter.getStepCount();
   }
