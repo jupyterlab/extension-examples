@@ -30,12 +30,11 @@ import {
 
 import { Widget } from '@lumino/widgets';
 
-import { StepCounter} from "step_counter";
+import { StepCounter } from 'step_counter';
 
 // This widget holds the JupyterLab UI/interface that users will
 // see and interact with to count and view their steps.
 class StepCounterWidget extends Widget {
-
   stepButton: HTMLElement;
   stepCountLabel: HTMLElement;
   counter: any;
@@ -72,7 +71,8 @@ class StepCounterWidget extends Widget {
 
   // Refresh the displayed step count
   updateStepCountDisplay() {
-    this.stepCountLabel.innerText = 'Step Count: ' + this.counter.getStepCount();
+    this.stepCountLabel.innerText =
+      'Step Count: ' + this.counter.getStepCount();
   }
 
   // Increment the step count, by just 1
@@ -90,7 +90,8 @@ class StepCounterWidget extends Widget {
 // add an argument to your plugin's "activate" function.
 const plugin: JupyterFrontEndPlugin<void> = {
   id: 'step_counter_extension:plugin',
-  description: 'Adds a step counter/button (1 of 3 related examples). This extension holds the UI/interface',
+  description:
+    'Adds a step counter/button (1 of 3 related examples). This extension holds the UI/interface',
   autoStart: true,
   requires: [StepCounter],
   // The activate function here will be called by JupyterLab when the plugin loads.
@@ -104,7 +105,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
 
     // Create a StepCounterWidget and add it to the interface
     const stepWidget: StepCounterWidget = new StepCounterWidget(counter);
-    stepWidget.id = 'JupyterStepWidget';  // Widgets need an id
+    stepWidget.id = 'JupyterStepWidget'; // Widgets need an id
     app.shell.add(stepWidget, 'top');
   }
 };

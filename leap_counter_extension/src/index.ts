@@ -30,12 +30,11 @@ import {
 
 import { Widget } from '@lumino/widgets';
 
-import { StepCounter} from "step_counter";
+import { StepCounter } from 'step_counter';
 
 // This widget holds the JupyterLab UI/interface that users will
 // see and interact with to count and view their steps.
 class LeapCounterWidget extends Widget {
-
   leapButton: HTMLElement;
   combinedStepCountLabel: HTMLElement;
   counter: any;
@@ -72,7 +71,8 @@ class LeapCounterWidget extends Widget {
 
   // Refresh the displayed step count
   updateStepCountDisplay() {
-    this.combinedStepCountLabel.innerText = 'Combined Step Count: ' + this.counter.getStepCount();
+    this.combinedStepCountLabel.innerText =
+      'Combined Step Count: ' + this.counter.getStepCount();
   }
 
   // Increment the step count, a leap is 5 steps
@@ -90,7 +90,8 @@ class LeapCounterWidget extends Widget {
 // add an argument to your plugin's "activate" function.
 const plugin: JupyterFrontEndPlugin<void> = {
   id: 'leap_counter_extension:plugin',
-  description: 'Adds a leap counter/button (1 of 3 related examples). This extension holds the UI/interface',
+  description:
+    'Adds a leap counter/button (1 of 3 related examples). This extension holds the UI/interface',
   autoStart: true,
   requires: [StepCounter],
   // The activate function here will be called by JupyterLab when the plugin loads.
@@ -104,7 +105,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
 
     // Create a LeapCounterWidget and add it to the interface
     const leapWidget: LeapCounterWidget = new LeapCounterWidget(counter);
-    leapWidget.id = 'JupyterLeapWidget';  // Widgets need an id
+    leapWidget.id = 'JupyterLeapWidget'; // Widgets need an id
     app.shell.add(leapWidget, 'top');
   }
 };
