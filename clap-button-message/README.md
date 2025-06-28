@@ -1,8 +1,14 @@
 # Clap Button (cross compatible extension)
 
+<<<<<<< before updating
 This example defines an extension that adds a button that if clicked will
 display an alert to the user. In JupyterLab the button in added in the top
 area (next to the main menu) and in Jupyter Notebook v7+ the button is added to the rights sidebar.
+=======
+[![Github Actions Status](https://github.com/jupyterlab/extension-examples/workflows/Build/badge.svg)](https://github.com/jupyterlab/extension-examples/actions/workflows/build.yml)
+
+Adds a clap button to the status bar (JupyterLab) or top area (Jupyter Notebook 7)
+>>>>>>> after updating
 
 ![preview in Notebook v7+](./preview.png)
 
