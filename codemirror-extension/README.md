@@ -1,7 +1,13 @@
 # CodeMirror Extension
 
+<<<<<<< before updating
 > Add new features to CodeMirror editors. They are the text editors
 > used for cell and text file edition.
+=======
+[![Github Actions Status](https://github.com/jupyterlab/extension-examples/workflows/Build/badge.svg)](https://github.com/jupyterlab/extension-examples/actions/workflows/build.yml)
+
+A minimal JupyterLab extension adding a CodeMirror extension.
+>>>>>>> after updating
 
 In this example, you will learn you how to add a new CodeMirror extension
 to the editors.
