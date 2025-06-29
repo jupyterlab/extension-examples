@@ -1,6 +1,6 @@
 {
     "name": "@jupyterlab-examples/settings",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "A JupyterLab minimal example using settings.",
     "keywords": [
         "jupyter",

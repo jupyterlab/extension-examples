@@ -1,6 +1,6 @@
 {
     "name": "@jupyterlab-examples/toolbar-button",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "A JupyterLab extension adding a button to the Notebook toolbar.",
     "keywords": [
         "jupyter",

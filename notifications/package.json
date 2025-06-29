@@ -1,6 +1,6 @@
 {
     "name": "@jupyterlab-examples/notifications",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "A JupyterLab extension example creating notifications.",
     "keywords": [
         "jupyter",

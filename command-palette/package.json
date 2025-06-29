@@ -1,6 +1,6 @@
 {
     "name": "@jupyterlab-examples/command-palette",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Minimal JupyterLab example adding a new command to the palette.",
     "keywords": [
         "jupyter",
