@@ -1,6 +1,6 @@
 {
     "name": "@jupyterlab-examples/completer",
-    "version": "0.2.0",
+    "version": "0.1.0",
     "description": "Minimal JupyterLab extension setting up the completion.",
     "keywords": [
         "jupyter",

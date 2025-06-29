@@ -1,6 +1,6 @@
 {
     "name": "@jupyterlab-examples/metadata-form",
-    "version": "0.2.0",
+    "version": "0.1.0",
     "description": "Minimal JupyterLab example using metadataform to add a new notebooktool widget.",
     "keywords": [
         "jupyter",

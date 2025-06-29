@@ -1,6 +1,6 @@
 {
     "name": "@jupyterlab-examples/signals",
-    "version": "0.2.0",
+    "version": "0.1.0",
     "description": "A minimal JupyterLab example using signals.",
     "keywords": [
         "jupyter",

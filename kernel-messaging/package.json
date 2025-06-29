@@ -1,6 +1,6 @@
 {
     "name": "@jupyterlab-examples/kernel-messaging",
-    "version": "0.2.0",
+    "version": "0.1.0",
     "description": "JupyterLab extension example for kernel messaging.",
     "keywords": [
         "jupyter",

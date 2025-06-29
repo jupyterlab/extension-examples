@@ -1,6 +1,6 @@
 {
     "name": "@jupyterlab-examples/datagrid",
-    "version": "0.2.0",
+    "version": "0.1.0",
     "description": "Minimal JupyterLab extension to display a datagrid as a Lumino widget.",
     "keywords": [
         "jupyter",

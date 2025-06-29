@@ -1,6 +1,6 @@
 {
     "name": "@jupyterlab-examples/log-messages",
-    "version": "0.2.0",
+    "version": "0.1.0",
     "description": "A minimal JupyterLab example to develop a custom log-messages.",
     "keywords": [
         "jupyter",

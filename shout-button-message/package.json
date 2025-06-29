@@ -1,6 +1,6 @@
 {
     "name": "@jupyterlab-examples/shout-button",
-    "version": "0.2.0",
+    "version": "0.1.0",
     "description": "An extension that adds a button and message to the right toolbar, with optional status bar widget in JupyterLab.",
     "keywords": [
         "jupyter",

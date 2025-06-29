@@ -1,6 +1,6 @@
 {
     "name": "@jupyterlab-examples/clap-button",
-    "version": "0.2.0",
+    "version": "0.1.0",
     "description": "Adds a clap button to the top area (JupyterLab) or right area (Jupyter Notebook 7)",
     "keywords": [
         "jupyter",

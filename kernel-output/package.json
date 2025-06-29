@@ -1,6 +1,6 @@
 {
     "name": "@jupyterlab-examples/kernel-output",
-    "version": "0.2.0",
+    "version": "0.1.0",
     "description": "Extension to interact with kernel and display output.",
     "keywords": [
         "jupyter",
