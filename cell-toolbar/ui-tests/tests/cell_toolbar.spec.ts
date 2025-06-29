@@ -8,9 +8,9 @@ test('should add buttons on code cell and markdown cell', async ({ page }) => {
   await page.waitForSelector('text=| Idle');
 
   const RUN_CODE =
-    '.jp-cell-toolbar button[data-command="toolbar-button:run-code-cell"]';
+    'jp-cell-toolbar button[data-command="toolbar-button:run-code-cell"]';
   const RENDER_MD =
-    '.jp-cell-toolbar button[data-command="toolbar-button:render-markdown-cell"]';
+    'jp-cell-toolbar button[data-command="toolbar-button:render-markdown-cell"]';
 
   await page.notebook.setCell(0, 'code', 'print("Hello, JupyterLab")');
   await expect(page.locator(RUN_CODE)).toBeVisible();
