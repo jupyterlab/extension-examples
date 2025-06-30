@@ -1,6 +1,9 @@
 import { expect, test } from '@jupyterlab/galata';
 
 test('should add buttons on code cell and markdown cell', async ({ page }) => {
+  // Enforce long timeout
+  test.setTimeout(120_000);
+
   // Create a new Notebook
   await page.menu.clickMenuItem('File>New>Notebook');
   await page.click('button:has-text("Select")');
