@@ -26,7 +26,7 @@ test('should display zebra stripes in cell editors', async ({ page }) => {
   await page.menu.clickMenuItem('Settings>Settings Editor');
 
   await page
-    .getByRole('tab', { name: 'CodeMirror CodeMirror' })
+    .getByRole('tab', { name: 'CodeMirror' })
     .getByText('CodeMirror')
     .click();
 
