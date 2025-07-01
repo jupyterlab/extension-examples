@@ -4,7 +4,7 @@ test('should check if the cube is loaded', async ({ page }) => {
   await page.menu.clickMenuItem('File>New>Text File');
 
   await page
-    .getByRole('region', { name: 'notebook content' })
+    /*.getByRole('region', { name: 'notebook content' })*/
     .getByRole('textbox')
     .fill('{\n\t"x": 177,\n\t"y": 301,\n\t"content": "Hello YJS!"\n}');
 
