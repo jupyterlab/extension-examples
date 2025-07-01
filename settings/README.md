@@ -131,7 +131,7 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 
 <!-- prettier-ignore-start -->
 ```json5
-// package.json#L94-L98
+// package.json#L95-L99
 
 "jupyterlab": {
     "extension": true,
@@ -149,6 +149,7 @@ And you should not forget to add it to the files of the package:
 "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
     "style/**/*.{css,js,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
+    "src/**/*.{ts,tsx}",
     "schema/*.json"
 ],
 ```
