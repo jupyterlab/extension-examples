@@ -9,7 +9,6 @@ test('should display zebra stripes in cell editors', async ({ page }) => {
     .click();
 
   await page
-    /*.getByRole('region', { name: 'notebook content' })*/
     .getByRole('textbox')
     .waitFor();
 

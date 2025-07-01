@@ -18,7 +18,8 @@
     "rootDir": "src",
     "strict": true,
     "strictNullChecks": true,
-    "target": "ES2018"
+    "target": "ES2018",
+    "types": ["jest"]
   },
   "include": ["src/*"]
 }
