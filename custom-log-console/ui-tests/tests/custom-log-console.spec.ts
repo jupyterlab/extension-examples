@@ -40,11 +40,11 @@ test('should open a log panel and filter message depending on the log level.', a
   ).toBeTruthy();
 
   // Click button:has-text("Add Checkpoint")
-  await page.click('button:has-text("Add Checkpoint")');
+  await page.click('jp-button:has-text("Add Checkpoint")');
 
   expect(await page.waitForSelector('hr')).toBeTruthy();
 
-  await page.click('button:has-text("Clear Log")');
+  await page.click('jp-button:has-text("Clear Log")');
   await page.waitForSelector('text=No log messages.');
 
   // Select warning
