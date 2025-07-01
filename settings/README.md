@@ -144,7 +144,7 @@ the `package.json` file in the `jupyterlab` section (here `schema`):
 And you should not forget to add it to the files of the package:
 
 ```json5
-// package.json#L16-L20
+// package.json#L16-L21
 
 "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
