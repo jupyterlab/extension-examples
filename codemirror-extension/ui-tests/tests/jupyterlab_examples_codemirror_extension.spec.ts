@@ -8,10 +8,7 @@ test('should display zebra stripes in cell editors', async ({ page }) => {
     .first()
     .click();
 
-  await page
-    /*.getByRole('region', { name: 'notebook content' })*/
-    .getByRole('textbox')
-    .waitFor();
+  await page.getByRole('textbox').waitFor();
 
   await page.locator('.jp-Cell .cm-editor').first().waitFor();
 

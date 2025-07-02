@@ -46,9 +46,10 @@
 
 The goal of this repository is to show how to develop extensions for [JupyterLab](https://github.com/jupyterlab/jupyterlab), presented as short tutorial series.
 
-**Quick start:** 
-- Install, build, and run the `hello-world` extension example in JupyterLab by copying the code below. 
-- This corresponds to the first three sections of the [hello-world extension tutorial](hello-world/README.md). Read these sections for additional details on what these commands are doing and how to use the JupyterLab extension template. 
+**Quick start:**
+
+- Install, build, and run the `hello-world` extension example in JupyterLab by copying the code below.
+- This corresponds to the first three sections of the [hello-world extension tutorial](hello-world/README.md). Read these sections for additional details on what these commands are doing and how to use the JupyterLab extension template.
 - Continue with the tutorial at the [Modify the extension](hello-world/README.md#modify-the-extension) section, if desired.
 
 ```bash
