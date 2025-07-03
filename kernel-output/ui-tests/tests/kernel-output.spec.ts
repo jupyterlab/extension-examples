@@ -28,7 +28,7 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
 
   // Select Notebook kernel
   await page.locator('.jp-Dialog-body').locator('select').selectOption({
-    label: 'Connect to Existing Kernel'
+    label: 'Untitled.ipynb'
   });
 
   await page.getByRole('button', { name: 'Select Kernel' }).click();
