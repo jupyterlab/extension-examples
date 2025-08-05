@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: test-for-update
+    branches: main
   pull_request:
     branches: '*'
 
