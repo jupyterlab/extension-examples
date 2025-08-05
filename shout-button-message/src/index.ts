@@ -145,7 +145,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
       // is published and react to it by updating the status bar widget.
       shoutWidget.messageShouted.connect((widget: ShoutWidget, time: Date) => {
         statusBarWidget.setSummary(
-          'Last Shout: ' + widget.lastShoutTime?.toString() ?? '(None)'
+          'Last Shout: ' + widget.lastShoutTime?.toString()
         );
       });
     }
