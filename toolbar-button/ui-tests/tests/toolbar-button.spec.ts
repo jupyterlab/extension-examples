@@ -1,6 +1,7 @@
 import { test, expect } from '@jupyterlab/galata';
 
 test('should clear all outputs when clicked', async ({ page }) => {
+  await page.sidebar.close();
   // Create a new Notebook
   await page.menu.clickMenuItem('File>New>Notebook');
   await page.click('button:has-text("Select")');

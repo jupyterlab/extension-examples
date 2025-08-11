@@ -15,7 +15,7 @@ test('should display zebra stripes in cell editors', async ({ page }) => {
   // Fill the first cell
   await page.notebook.setCell(
     0,
-    'code',
+    'markdown',
     '# First line\n# Second line\n# Third line\n'
   );
 
