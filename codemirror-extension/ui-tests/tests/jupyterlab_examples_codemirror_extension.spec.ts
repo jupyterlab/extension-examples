@@ -8,17 +8,14 @@ test('should display zebra stripes in cell editors', async ({ page }) => {
     .first()
     .click();
 
-  await page
-    .getByRole('region', { name: 'notebook content' })
-    .getByRole('textbox')
-    .waitFor();
+  await page.getByRole('textbox').waitFor();
 
   await page.locator('.jp-Cell .cm-editor').first().waitFor();
 
   // Fill the first cell
   await page.notebook.setCell(
     0,
-    'code',
+    'markdown',
     '# First line\n# Second line\n# Third line\n'
   );
 
@@ -26,7 +23,7 @@ test('should display zebra stripes in cell editors', async ({ page }) => {
   await page.menu.clickMenuItem('Settings>Settings Editor');
 
   await page
-    .getByRole('tab', { name: 'CodeMirror CodeMirror' })
+    .getByRole('tab', { name: 'CodeMirror' })
     .getByText('CodeMirror')
     .click();
 
