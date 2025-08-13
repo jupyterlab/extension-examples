@@ -200,7 +200,14 @@ To improve the sizing of the video in its input frame, some
 style rules are added:
 
 ```css
-/* style/base.css#L7-L14 */
+.mimerenderer-mp4 {
+  overflow: auto;
+}
+
+.mimerenderer-mp4 video {
+  width: 100%;
+  height: auto;
+}
 ```
 
 ## Where to Go Next
