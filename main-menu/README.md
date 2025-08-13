@@ -142,11 +142,12 @@ To achieve this, the `package.json` must include:
 
 <!-- prettier-ignore-start -->
 ```json5
-// package.json#L16-L20
+// package.json#L16-L21
 
 "files": [
     "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
     "style/**/*.{css,js,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
+    "src/**/*.{ts,tsx}",
     "schema/*.json"
 ],
 ```
@@ -154,7 +155,7 @@ To achieve this, the `package.json` must include:
 
 <!-- prettier-ignore-start -->
 ```json5
-// package.json#L94-L98
+// package.json#L95-L99
 
 "jupyterlab": {
     "extension": true,

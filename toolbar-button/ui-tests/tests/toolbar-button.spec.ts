@@ -1,6 +1,7 @@
 import { test, expect } from '@jupyterlab/galata';
 
 test('should clear all outputs when clicked', async ({ page }) => {
+  await page.sidebar.close();
   // Create a new Notebook
   await page.menu.clickMenuItem('File>New>Notebook');
   await page.click('button:has-text("Select")');
@@ -16,7 +17,7 @@ test('should clear all outputs when clicked', async ({ page }) => {
   const OUTPUT = '.lm-Widget.jp-RenderedText >> text=Hello, JupyterLab';
   expect(await page.waitForSelector(OUTPUT)).toBeTruthy();
 
-  await page.click('button:has-text("Clear Outputs of All Cells")');
+  await page.click('jp-button:has-text("Clear Outputs of All Cells")');
 
   let failed = true;
   try {

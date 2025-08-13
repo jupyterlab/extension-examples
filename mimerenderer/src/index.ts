@@ -34,7 +34,7 @@ export class VideoWidget extends Widget implements IRenderMime.IRenderer {
    * Render mp4 into this widget's node.
    */
   renderModel(model: IRenderMime.IMimeModel): Promise<void> {
-    let data = model.data[this._mimeType] as string;
+    const data = model.data[this._mimeType] as string;
     this._video.src = `data:${MIME_TYPE};base64,${data}`;
 
     return Promise.resolve();
