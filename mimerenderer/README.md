@@ -190,7 +190,7 @@ Then the file content is used to set the video element source as a
 ```ts
 // src/index.ts#L37-L38
 
-let data = model.data[this._mimeType] as string;
+const data = model.data[this._mimeType] as string;
 this._video.src = `data:${MIME_TYPE};base64,${data}`;
 ```
 
