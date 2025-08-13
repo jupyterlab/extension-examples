@@ -195,7 +195,7 @@ You can then add the commands to the palette by iterating
 on a list:
 
 ```ts
-// src/index.ts#L100-L103
+// src/index.ts#L104-L107
 
 // add items in command palette and menu
 [CommandIDs.create, CommandIDs.execute].forEach(command => {
