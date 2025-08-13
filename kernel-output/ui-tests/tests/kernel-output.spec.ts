@@ -27,9 +27,15 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
   await page.menu.clickMenuItem('Kernel Output>Open the Kernel Output Panel');
 
   // Select Notebook kernel
-  await page.locator('.jp-Dialog-body').locator('select').selectOption({
-    label: 'Untitled.ipynb'
+  const select = page.locator('.jp-Dialog-body').locator('select');
+  const optionLocator = select.locator('option', {
+    hasText: /Untitled.ipynb.*/
   });
+  const value = await optionLocator.getAttribute('value');
+  await page
+    .locator('.jp-Dialog-body')
+    .locator('select')
+    .selectOption({ value });
 
   await page.getByRole('button', { name: 'Select Kernel' }).click();
 
