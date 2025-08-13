@@ -46,7 +46,7 @@ test('should capture log messages in dedicated panel', async ({ page }) => {
   expect(await page.waitForSelector('text=Hello world text!!')).toBeTruthy();
 
   // Click button:has-text("Clear Log")
-  await page.click('button:has-text("Clear Log")');
+  await page.click('jp-button:has-text("Clear Log")');
 
   failed = true;
   try {
