@@ -26,8 +26,6 @@ test('should capture log messages in dedicated panel', async ({ page }) => {
   );
   await page.mouse.up();
 
-  await page.pause();
-
   // Click the log message menu entry
   await page.menu.clickMenuItem('Log Messages Example>Text log message');
 
