@@ -17,5 +17,8 @@ test('should display mp4 data file', async ({ page, tmpPath }) => {
 
   const view = page.getByRole('main').locator('.mimerenderer-mp4');
 
+  // Give the video a some time to load
+  await page.waitForTimeout(500);
+
   expect(await view.screenshot()).toMatchSnapshot('mp4-file.png');
 });
