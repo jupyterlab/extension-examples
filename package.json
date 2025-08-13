@@ -36,6 +36,7 @@
     "log-messages",
     "main-menu",
     "metadata-form",
+    "mimerenderer",
     "notifications",
     "react-widget",
     "server-extension",
