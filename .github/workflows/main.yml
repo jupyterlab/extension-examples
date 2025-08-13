@@ -32,8 +32,10 @@ jobs:
           - log-messages
           - main-menu
           - metadata-form
+          - mimerenderer
           - notifications
           - react-widget
+          - server-extension
           - settings
           - shout-button-message
           - signals
