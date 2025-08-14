@@ -79,10 +79,6 @@ function activate(
     label: trans.__('Contact Kernel and Execute Code'),
     caption: trans.__('Contact Kernel and Execute Code'),
     execute: async () => {
-      // Create the panel if it does not exist
-      if (!panel) {
-        await createPanel();
-      }
       // Prompt the user about the statement to be executed
       const input = await InputDialog.getText({
         title: trans.__('Code to execute'),
@@ -92,7 +88,15 @@ function activate(
       // Execute the statement
       if (input.button.accept) {
         const code = input.value || '';
-        panel.execute(code);
+        if (!panel) {
+          // Create the panel if it does not exist
+          createPanel().then(async panel => {
+            await panel.session.ready;
+            panel.execute(code);
+          });
+        } else {
+          panel.execute(code);
+        }
       }
     }
   });
