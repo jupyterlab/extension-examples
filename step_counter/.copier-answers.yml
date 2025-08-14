@@ -1,0 +1,15 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.2.0
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: me@test.com
+author_name: My Name
+has_binder: false
+has_settings: false
+kind: frontend
+labextension_name: step_counter
+project_short_description: Adds a step_counter service token and a stock
+    implementation (1 of 3 related examples).
+python_name: step_counter
+repository: ''
+test: true
+

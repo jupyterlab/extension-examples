@@ -22,11 +22,14 @@
    1. [Kernel Messaging](#kernel-messaging)
    1. [Kernel Output](#kernel-output)
    1. [Launcher](#launcher)
+   1. [Leap Counter (Reusability 1C)](#leap-counter-reusability-1c)
    1. [Log Messages](#log-messages)
    1. [Main Menu](#main-menu)
    1. [Metadata Form](#metadata-form)
    1. [MIME Renderer](#mime-renderer)
    1. [Notifications](#notifications)
+   1. [Step Counter (Reusability 1A)](#step-counter-reusability-1a)
+   1. [Step Counter Extension (Reusability 1B)](#step-counter-extension-reusability-1b)
    1. [React Widget](#react-widget)
    1. _[Server Hello World](#server-hello-world)_
    1. [Settings](#settings)
@@ -118,6 +121,7 @@ Start with the [Hello World](hello-world) and then jump to the topic you are int
 - [Kernel Messaging](kernel-messaging)
 - [Kernel Output](kernel-output)
 - [Launcher](launcher)
+- [Leap Counter](leap_counter_extension)
 - [Log Messages](log-messages)
 - [Main Menu](main-menu)
 - [Metadata Form](metadata-form)
@@ -127,6 +131,8 @@ Start with the [Hello World](hello-world) and then jump to the topic you are int
 - [Server Hello World](server-extension)
 - [Settings](settings)
 - [Signals](signals)
+- [Step Counter (Reusability 1A)](step_counter)
+- [Step Counter Extension (Reusability 1B)](step_counter_extension)
 - [State](state)
 - [Toolbar item](toolbar-button)
 - [Widgets](widgets)
@@ -266,6 +272,17 @@ Start your extension from the Launcher.
 
 [![Launcher](launcher/preview.gif)](launcher)
 
+### [Leap Counter (Reusability 1C)](leap_counter_extension)
+
+Create your own reusable plugin components with Jupyter's "Provider-
+Consumer Pattern". This is one of three related extension examples
+that demonstrate JupyterLab's provider-consumer pattern, where plugins
+can depend on and reuse features from one another. The three packages
+that make up the complete example are "step_counter", "step_counter_extension",
+and "leap_counter_extension".
+
+[![Leap counter extension](step_counter/preview.png)](leap_counter_extension)
+
 ### [Log Messages](log-messages)
 
 Send a log message to the log console.
@@ -319,6 +336,28 @@ Create and use new Settings for your extension.
 Use Signals to allow Widgets communicate with each others.
 
 [![Button with Signal](signals/preview.png)](signals)
+
+### [Step Counter (Reusability 1A)](step_counter)
+
+Create your own reusable plugin components with Jupyter's "Provider-
+Consumer Pattern". This is one of three related extension examples
+that demonstrate JupyterLab's provider-consumer pattern, where plugins
+can depend on and reuse features from one another. The three packages
+that make up the complete example are "step_counter", "step_counter_extension",
+and "leap_counter_extension".
+
+[![Step counter](step_counter/preview.png)](step_counter)
+
+### [Step Counter Extension (Reusability 1B)](step_counter_extension)
+
+Create your own reusable plugin components with Jupyter's "Provider-
+Consumer Pattern". This is one of three related extension examples
+that demonstrate JupyterLab's provider-consumer pattern, where plugins
+can depend on and reuse features from one another. The three packages
+that make up the complete example are "step_counter", "step_counter_extension",
+and "leap_counter_extension".
+
+[![Step counter extension](step_counter/preview.png)](step_counter_extension)
 
 ### [State](state)
 
