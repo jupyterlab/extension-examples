@@ -1,0 +1,145 @@
+name: 'Build Extension'
+description: 'Build and test a JupyterLab extension'
+inputs:
+  example:
+    description: 'The example to build'
+    required: true
+  run-ui-tests:
+    description: 'Whether to run UI tests'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Path filter
+      id: filter
+      uses: dorny/paths-filter@v2
+      with:
+        filters: |
+          extension:
+            - '${{ inputs.example }}/**'
+    - name: Cache lerna
+      if: steps.filter.outputs.extension == 'true'
+      uses: actions/cache@v4
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-lerna-${{ hashFiles('**/package.json') }}
+        restore-keys: ${{ runner.os }}-lerna-
+    - name: Check config files
+      if: steps.filter.outputs.extension == 'true'
+      run: |
+        diff ../hello-world/setup.py setup.py
+        diff ../hello-world/tsconfig.json tsconfig.json
+        diff ../hello-world/.yarnrc.yml .yarnrc.yml
+        diff ../hello-world/ui-tests/jupyter_server_test_config.py ./ui-tests/jupyter_server_test_config.py
+        diff ../hello-world/ui-tests/playwright.config.js ./ui-tests/playwright.config.js
+      shell: bash
+      working-directory: ${{ inputs.example }}
+    - name: Install node
+      if: steps.filter.outputs.extension == 'true'
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+    - name: Install Python
+      if: steps.filter.outputs.extension == 'true'
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        architecture: 'x64'
+    - name: Get pip cache dir
+      if: steps.filter.outputs.extension == 'true'
+      id: pip-cache
+      run: |
+        echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
+      shell: bash
+    - name: Cache pip
+      if: steps.filter.outputs.extension == 'true'
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.pip-cache.outputs.dir }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('environment.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: Install the Python dependencies
+      if: steps.filter.outputs.extension == 'true'
+      run: |
+        python -m pip install --upgrade pip "jupyterlab>=4.0.0"
+      shell: bash
+    # This is challenging to test in collaboration;
+    # got trouble with the file ID service and the uncontrolled auto-save
+    # - if: steps.filter.outputs.extension == 'true' && inputs.example == 'clap-button-message'
+    #   run: |
+    #     python -m pip install jupyter-collaboration
+    - name: Build the extension
+      if: steps.filter.outputs.extension == 'true'
+      run: |
+        # Same commands as in TL;DR to ensure it works
+        touch yarn.lock
+        pip install -e . -v
+        jupyter labextension develop . --overwrite
+      shell: bash
+      working-directory: ${{ inputs.example }}
+    - name: Lint the files
+      if: steps.filter.outputs.extension == 'true'
+      run: jlpm run lint:check
+      shell: bash
+      working-directory: ${{ inputs.example }}
+    - name: Check extension installation
+      if: steps.filter.outputs.extension == 'true'
+      run: |
+        jupyter labextension list 2>&1 | tee labextension.list
+        cat labextension.list | grep -ie "@jupyterlab-examples/*.*OK"
+      shell: bash
+      working-directory: ${{ inputs.example }}
+    # clap-button-message example will have one plugin failing as it is requiring a
+    # Jupyter Notebook specific token. This is expected. Hence we need to skip this
+    # test for that example
+    - name: Browser check
+      if: steps.filter.outputs.extension == 'true' && inputs.example != 'clap-button-message'
+      run: |
+        python -m jupyterlab.browser_check
+      shell: bash
+
+    - name: Install galata
+      if: steps.filter.outputs.extension == 'true' && inputs.run-ui-tests == 'true'
+      working-directory: ${{ inputs.example }}/ui-tests
+      env:
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+      run: jlpm install
+      shell: bash
+    - name: Set up browser cache
+      if: steps.filter.outputs.extension == 'true' && inputs.run-ui-tests == 'true'
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ github.workspace }}/pw-browsers
+        key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+    - name: Install browser
+      if: steps.filter.outputs.extension == 'true' && inputs.run-ui-tests == 'true'
+      run: jlpm playwright install chromium
+      working-directory: ${{ inputs.example }}/ui-tests
+      shell: bash
+    - name: Install kernel-output dependencies
+      if: steps.filter.outputs.extension == 'true' && inputs.example == 'kernel-output'
+      run: pip install numpy pandas
+      shell: bash
+    - name: Integration tests
+      if: steps.filter.outputs.extension == 'true' && inputs.run-ui-tests == 'true'
+      working-directory: ${{ inputs.example }}/ui-tests
+      run: jlpm playwright test
+      shell: bash
+    - name: Upload UI Test artifacts
+      if: steps.filter.outputs.extension == 'true' && inputs.run-ui-tests == 'true' && always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.example }}-ui-test-output
+        path: |
+          ${{ inputs.example }}/ui-tests/test-results
+    - name: Uninstall extension
+      if: steps.filter.outputs.extension == 'true' && (runner.os == 'Linux' || runner.os == 'macOS')
+      run: |
+        export NAME=`python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['name'])"`
+        pip uninstall -y ${NAME}
+      shell: bash
+      working-directory: ${{ inputs.example }}
