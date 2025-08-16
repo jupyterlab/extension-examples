@@ -6,38 +6,6 @@ on:
   pull_request:
     branches: '*'
 
-# Define reusable example list
-x-examples: &examples
-  - clap-button-message
-  - cell-toolbar
-  - codemirror-extension
-  - command-palette
-  - commands
-  - completer
-  - contentheader
-  - context-menu
-  - custom-log-console
-  - datagrid
-  - documents
-  - hello-world
-  - launcher
-  - kernel-messaging
-  - kernel-output
-  - log-messages
-  - main-menu
-  - metadata-form
-  - mimerenderer
-  - notifications
-  - react-widget
-  - server-extension
-  - settings
-  - shout-button-message
-  - signals
-  - state
-  - toolbar-button
-  - toparea-text-widget
-  - widgets
-
 jobs:
   build_extensions_linux:
     runs-on: ubuntu-latest
@@ -45,7 +13,37 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        example: *examples
+        example: 
+          - clap-button-message
+          - cell-toolbar
+          - codemirror-extension
+          - command-palette
+          - commands
+          - completer
+          - contentheader
+          - context-menu
+          - custom-log-console
+          - datagrid
+          - documents
+          - hello-world
+          - launcher
+          - kernel-messaging
+          - kernel-output
+          - log-messages
+          - main-menu
+          - metadata-form
+          - mimerenderer
+          - notifications
+          - react-widget
+          - server-extension
+          - settings
+          - shout-button-message
+          - signals
+          - state
+          - toolbar-button
+          - toparea-text-widget
+          - widgets
+
 
     steps:
       - name: Checkout
@@ -63,7 +61,36 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        example: *examples
+        example: 
+          - clap-button-message
+          - cell-toolbar
+          - codemirror-extension
+          - command-palette
+          - commands
+          - completer
+          - contentheader
+          - context-menu
+          - custom-log-console
+          - datagrid
+          - documents
+          - hello-world
+          - launcher
+          - kernel-messaging
+          - kernel-output
+          - log-messages
+          - main-menu
+          - metadata-form
+          - mimerenderer
+          - notifications
+          - react-widget
+          - server-extension
+          - settings
+          - shout-button-message
+          - signals
+          - state
+          - toolbar-button
+          - toparea-text-widget
+          - widgets
         os: [macos-latest, windows-latest]
 
     steps:
