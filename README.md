@@ -457,6 +457,17 @@ with the following command:
 pip install <published_extension>
 ```
 
+## Architecture Overview
+
+This project requires three services running on separate servers:
+
+- **Backend** (GPU server): runs the core ML backend
+- **Proxy** (CPU server): acts as a bridge between JupyterLab and the backend
+- **JupyterLab** (CPU server, public): provides the user-facing interface
+
+Environment variables in `config_addrs.sh` are used to configure how these services communicate.
+
+
 ## About JupyterLab
 
 JupyterLab can be used as a platform to combine existing data-science components into a
