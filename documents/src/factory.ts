@@ -41,9 +41,7 @@ export class ExampleWidgetFactory extends ABCWidgetFactory<
 /**
  * A Model factory to create new instances of ExampleDocModel.
  */
-export class ExampleDocModelFactory
-  implements DocumentRegistry.IModelFactory<ExampleDocModel>
-{
+export class ExampleDocModelFactory implements DocumentRegistry.IModelFactory<ExampleDocModel> {
   /**
    * The name of the model.
    *
