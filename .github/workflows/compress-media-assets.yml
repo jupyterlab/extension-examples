@@ -1,0 +1,152 @@
+name: Check Media Compression
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**/*.png"
+      - "**/*.gif"
+      - "**/*.mp4"
+      - ".github/workflows/compress-media-assets.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-media-compression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-media-compression:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install media optimization tools
+        shell: bash
+        run: |
+          set -euxo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg gifsicle optipng
+
+      - name: Compress tracked media assets
+        id: compression-check
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          files_to_process="$(mktemp)"
+          changed_files="$(mktemp)"
+          artifact_dir="compressed-media-changes"
+          rm -rf "$artifact_dir"
+          mkdir -p "$artifact_dir"
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            git ls-files -z -- '*.png' '*.gif' '*.mp4' > "$files_to_process"
+          else
+            git diff -z --name-only --diff-filter=ACMRT "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" -- '*.png' '*.gif' '*.mp4' > "$files_to_process"
+          fi
+
+          if [ ! -s "$files_to_process" ]; then
+            echo "No media files to process."
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            rm -f "$files_to_process"
+            rm -f "$changed_files"
+            exit 0
+          fi
+
+          compress_gif() {
+            local input="$1"
+            local tmp
+            tmp="$(mktemp --suffix=.gif)"
+            gifsicle --optimize=3 "$input" -o "$tmp"
+
+            if [ ! -s "$tmp" ] || [ "$(stat --format='%s' "$tmp")" -ge "$(stat --format='%s' "$input")" ]; then
+              rm -f "$tmp"
+              return 0
+            fi
+
+            mv "$tmp" "$input"
+          }
+
+          compress_mp4() {
+            local input="$1"
+            local tmp
+            tmp="$(mktemp --suffix=.mp4)"
+
+            if ! ffmpeg -hide_banner -loglevel error -y \
+              -i "$input" \
+              -map 0:v:0 -map 0:a? \
+              -c:v libx264 -preset slow -crf 24 \
+              -c:a copy \
+              -movflags +faststart \
+              "$tmp"; then
+              echo "::warning::Skipping $input because ffmpeg failed to re-encode it."
+              rm -f "$tmp"
+              return 0
+            fi
+
+            if [ ! -s "$tmp" ] || [ "$(stat --format='%s' "$tmp")" -ge "$(stat --format='%s' "$input")" ]; then
+              rm -f "$tmp"
+              return 0
+            fi
+
+            mv "$tmp" "$input"
+          }
+
+          while IFS= read -r -d '' file; do
+            case "$file" in
+              *.png)
+                optipng -quiet -o2 "$file"
+                ;;
+              *.gif)
+                compress_gif "$file"
+                ;;
+              *.mp4)
+                compress_mp4 "$file"
+                ;;
+            esac
+          done < "$files_to_process"
+
+          git diff --name-only -- '*.png' '*.gif' '*.mp4' > "$changed_files"
+
+          if [ ! -s "$changed_files" ]; then
+            echo "No compression changes detected."
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            rm -f "$files_to_process"
+            rm -f "$changed_files"
+            exit 0
+          fi
+
+          while IFS= read -r file; do
+            [ -f "$file" ] || continue
+            mkdir -p "$artifact_dir/$(dirname "$file")"
+            cp "$file" "$artifact_dir/$file"
+          done < "$changed_files"
+
+          cp "$changed_files" "$artifact_dir/changed-files.txt"
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+
+          rm -f "$files_to_process"
+          rm -f "$changed_files"
+
+      - name: Upload compressed media artifact
+        if: steps.compression-check.outputs.has_changes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: compressed-media-assets
+          path: compressed-media-changes
+          if-no-files-found: error
+
+      - name: Fail if compression updates are needed
+        if: steps.compression-check.outputs.has_changes == 'true'
+        shell: bash
+        run: |
+          echo "::error::Media assets can be compressed further. Download artifact 'compressed-media-assets' and apply those files in the PR."
+          exit 1
