@@ -50,7 +50,7 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             git ls-files -z -- '*.png' '*.gif' '*.mp4' > "$files_to_process"
           else
-            git diff -z --name-only --diff-filter=ACMRT "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" -- '*.png' '*.gif' '*.mp4' > "$files_to_process"
+            git diff -z --name-only --no-renames --diff-filter=ACMRT "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" -- '*.png' '*.gif' '*.mp4' > "$files_to_process"
           fi
 
           if [ ! -s "$files_to_process" ]; then
@@ -65,22 +65,33 @@ jobs:
             local input="$1"
             local tmp
 
+            if [ ! -f "$input" ]; then
+              echo "::warning::Skipping missing PNG file: $input"
+              return 0
+            fi
+
             # Keep screenshot snapshots lossless to avoid visual-test drift.
             if [[ "$input" == *"-snapshots/"* ]]; then
-              optipng -quiet -o2 "$input"
+              if ! optipng -quiet -o2 "$input"; then
+                echo "::warning::optipng failed for snapshot PNG: $input"
+              fi
               return 0
             fi
 
             tmp="$(mktemp --suffix=.png)"
             if ! pngquant --quality=30-60 --speed 1 --strip --output "$tmp" --force "$input"; then
               rm -f "$tmp"
-              optipng -quiet -o2 "$input"
+              if ! optipng -quiet -o2 "$input"; then
+                echo "::warning::pngquant and optipng both failed for PNG: $input"
+              fi
               return 0
             fi
 
             if [ ! -s "$tmp" ] || [ "$(stat --format='%s' "$tmp")" -ge "$(stat --format='%s' "$input")" ]; then
               rm -f "$tmp"
-              optipng -quiet -o2 "$input"
+              if ! optipng -quiet -o2 "$input"; then
+                echo "::warning::optipng fallback failed for PNG: $input"
+              fi
               return 0
             fi
 
@@ -90,8 +101,18 @@ jobs:
           compress_gif() {
             local input="$1"
             local tmp
+
+            if [ ! -f "$input" ]; then
+              echo "::warning::Skipping missing GIF file: $input"
+              return 0
+            fi
+
             tmp="$(mktemp --suffix=.gif)"
-            gifsicle --optimize=3 --lossy=120 "$input" -o "$tmp"
+            if ! gifsicle --optimize=3 --lossy=120 "$input" -o "$tmp"; then
+              echo "::warning::gifsicle failed for GIF: $input"
+              rm -f "$tmp"
+              return 0
+            fi
 
             if [ ! -s "$tmp" ] || [ "$(stat --format='%s' "$tmp")" -ge "$(stat --format='%s' "$input")" ]; then
               rm -f "$tmp"
@@ -104,6 +125,12 @@ jobs:
           compress_mp4() {
             local input="$1"
             local tmp
+
+            if [ ! -f "$input" ]; then
+              echo "::warning::Skipping missing MP4 file: $input"
+              return 0
+            fi
+
             tmp="$(mktemp --suffix=.mp4)"
 
             if ! ffmpeg -hide_banner -loglevel error -y \
