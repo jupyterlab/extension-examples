@@ -33,7 +33,7 @@ jobs:
         run: |
           set -euxo pipefail
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends ffmpeg gifsicle optipng
+          sudo apt-get install -y --no-install-recommends ffmpeg gifsicle optipng pngquant
 
       - name: Compress tracked media assets
         id: compression-check
@@ -61,11 +61,37 @@ jobs:
             exit 0
           fi
 
+          compress_png() {
+            local input="$1"
+            local tmp
+
+            # Keep screenshot snapshots lossless to avoid visual-test drift.
+            if [[ "$input" == *"-snapshots/"* ]]; then
+              optipng -quiet -o2 "$input"
+              return 0
+            fi
+
+            tmp="$(mktemp --suffix=.png)"
+            if ! pngquant --quality=30-60 --speed 1 --strip --output "$tmp" --force "$input"; then
+              rm -f "$tmp"
+              optipng -quiet -o2 "$input"
+              return 0
+            fi
+
+            if [ ! -s "$tmp" ] || [ "$(stat --format='%s' "$tmp")" -ge "$(stat --format='%s' "$input")" ]; then
+              rm -f "$tmp"
+              optipng -quiet -o2 "$input"
+              return 0
+            fi
+
+            mv "$tmp" "$input"
+          }
+
           compress_gif() {
             local input="$1"
             local tmp
             tmp="$(mktemp --suffix=.gif)"
-            gifsicle --optimize=3 "$input" -o "$tmp"
+            gifsicle --optimize=3 --lossy=120 "$input" -o "$tmp"
 
             if [ ! -s "$tmp" ] || [ "$(stat --format='%s' "$tmp")" -ge "$(stat --format='%s' "$input")" ]; then
               rm -f "$tmp"
@@ -82,8 +108,9 @@ jobs:
 
             if ! ffmpeg -hide_banner -loglevel error -y \
               -i "$input" \
-              -map 0:v:0 -map 0:a? \
-              -c:v libx264 -preset slow -crf 24 \
+              -map '0:v:0' -map '0:a?' \
+              -vf 'fps=20,scale=trunc(iw*0.8/2)*2:trunc(ih*0.8/2)*2' \
+              -c:v libx264 -preset slow -crf 32 \
               -c:a copy \
               -movflags +faststart \
               "$tmp"; then
@@ -103,7 +130,7 @@ jobs:
           while IFS= read -r -d '' file; do
             case "$file" in
               *.png)
-                optipng -quiet -o2 "$file"
+                compress_png "$file"
                 ;;
               *.gif)
                 compress_gif "$file"
