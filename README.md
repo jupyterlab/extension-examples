@@ -228,7 +228,7 @@ They are listed from the simplest to the most advanced case:
 
 #### [Top Area Text Widget](toparea-text-widget)
 
-Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/toparea-text-widget/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/toparea-text-widget/src/index.ts)
+Try it out: Lab [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/toparea-text-widget/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/toparea-text-widget/src/index.ts) | Notebook v7 [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/tree/index.html?path=extension-examples/toparea-text-widget/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=tree/extension-examples/toparea-text-widget/src/index.ts)
 
 A very simple example that adds a basic text widget to the top area. See [related video.](https://www.youtube.com/watch?v=mqotG1MkHa4).
 This example is part of the [Extension Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_multiple_ui.html).
@@ -237,7 +237,7 @@ This example is part of the [Extension Compatibility Guide](https://jupyterlab.r
 
 #### [Shout Button](shout-button-message)
 
-Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/shout-button-message/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/shout-button-message/src/index.ts)
+Try it out: Lab [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/shout-button-message/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/shout-button-message/src/index.ts) | Notebook v7 [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/tree/index.html?path=extension-examples/shout-button-message/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=tree/extension-examples/shout-button-message/src/index.ts)
 
 This example shows dual compatibility: Make an extension that is compatible
 with both JupyterLab and Jupyter Notebook by using optional features. Adds
@@ -249,7 +249,7 @@ Read more about this example on that page.
 
 #### [Clap Button](clap-button-message)
 
-Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/clap-button-message/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/clap-button-message/src/index.ts)
+Try it out: Lab [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/clap-button-message/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/clap-button-message/src/index.ts) | Notebook v7 [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/tree/index.html?path=extension-examples/clap-button-message/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=tree/extension-examples/clap-button-message/src/index.ts)
 
 This example shows an alternate method for achieving dual compatibility: Make an
 extension that is compatible with both JupyterLab and Jupyter Notebook by exporting

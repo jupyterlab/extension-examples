@@ -1,5 +1,7 @@
 # Custom Completer
 
+Try it out: Lab [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/completer/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/completer/src/index.ts)
+
 > Provide a connector to customize tab completion results in a notebook.
 
 - [Code structure](#code-structure)

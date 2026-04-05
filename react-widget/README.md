@@ -1,5 +1,7 @@
 # React Widget
 
+Try it out: Lab [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/react-widget/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/react-widget/src/index.ts)
+
 > Create a React.js Widget in JupyterLab.
 
 This extension shows how to use the `ReactWidget` wrapper from `@jupyterlab/apputils` to use React in a JupyterLab extension.

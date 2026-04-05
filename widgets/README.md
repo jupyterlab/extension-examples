@@ -1,5 +1,7 @@
 # Widgets
 
+Try it out: Lab [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/widgets/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/widgets/src/index.ts)
+
 > Add a new Widget element to the main window.
 
 In this example you will learn how to add a new tab to JupyterLab.

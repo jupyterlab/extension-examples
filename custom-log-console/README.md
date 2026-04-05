@@ -1,5 +1,7 @@
 # Custom log console
 
+Try it out: Lab [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/custom-log-console/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/custom-log-console/src/index.ts)
+
 > Create a custom log console.
 
 This example shows how to create a log console to print log messages from a JupyterLab extension.

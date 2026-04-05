@@ -1,5 +1,7 @@
 # Cell Toolbar Button
 
+Try it out: Lab [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/cell-toolbar/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/cell-toolbar/src/index.ts)
+
 This example shows how to add buttons to the cell toolbar.
 The buttons are displayed or not, depending on the cell type.
 

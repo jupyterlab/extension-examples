@@ -2,6 +2,8 @@
 
 > Extend the main app with a Command.
 
+Try it out: Lab [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/commands/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/commands/src/index.ts)
+
 ![commands example](./preview.png)
 
 One major concept of the Lumino library on which JupyterLab is built is
