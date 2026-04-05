@@ -76,10 +76,9 @@ For example, in this extension, we define `ExampleDocModelFactory`:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L44-L45
+// src/factory.ts#L44-L44
 
-export class ExampleDocModelFactory
-  implements DocumentRegistry.IModelFactory<ExampleDocModel>
+export class ExampleDocModelFactory implements DocumentRegistry.IModelFactory<ExampleDocModel> {
 ```
 <!-- prettier-ignore-end -->
 
@@ -87,7 +86,7 @@ with name:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L52-L54
+// src/factory.ts#L50-L52
 
 get name(): string {
   return 'example-model';
@@ -99,7 +98,7 @@ content type:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L61-L63
+// src/factory.ts#L59-L61
 
 get contentType(): Contents.ContentType {
   return 'exampledoc' as any;
@@ -111,7 +110,7 @@ and format:
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L70-L72
+// src/factory.ts#L68-L70
 
 get fileFormat(): Contents.FileFormat {
   return 'text';
@@ -123,7 +122,7 @@ At the same time, you need to implement the method `createNew`. The `DocumentMan
 
 <!-- prettier-ignore-start -->
 ```ts
-// src/factory.ts#L111-L115
+// src/factory.ts#L109-L113
 
 createNew(
   options: DocumentRegistry.IModelOptions<ExampleDoc>
