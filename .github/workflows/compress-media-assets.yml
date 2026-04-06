@@ -8,6 +8,7 @@ on:
       - "**/*.png"
       - "**/*.gif"
       - "**/*.mp4"
+      - ".github/media-compression.lock"
       - ".github/workflows/compress-media-assets.yml"
   workflow_dispatch:
 
@@ -44,8 +45,20 @@ jobs:
           files_to_process="$(mktemp)"
           changed_files="$(mktemp)"
           artifact_dir="compressed-media-changes"
+          marker="compressed-by-extension-examples-ci-v1"
+          max_png_iterations=20
+          lock_file=".github/media-compression.lock"
+          lock_tmp="$(mktemp)"
           rm -rf "$artifact_dir"
           mkdir -p "$artifact_dir"
+
+          if [ -f "$lock_file" ]; then
+            cp "$lock_file" "$lock_tmp"
+          else
+            mkdir -p "$(dirname "$lock_file")"
+            touch "$lock_file"
+            : > "$lock_tmp"
+          fi
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             git ls-files -z -- '*.png' '*.gif' '*.mp4' > "$files_to_process"
@@ -61,9 +74,40 @@ jobs:
             exit 0
           fi
 
+          file_size() {
+            stat --format='%s' "$1"
+          }
+
+          file_hash() {
+            sha256sum "$1" | awk '{print $1}'
+          }
+
+          lock_has_current() {
+            local path="$1"
+            local hash
+            hash="$(file_hash "$path")"
+            grep -Fxq "$path $hash" "$lock_tmp"
+          }
+
+          update_lock_entry() {
+            local path="$1"
+            local hash="$2"
+            local next_lock
+            next_lock="$(mktemp)"
+            awk -v p="$path" -v h="$hash" '
+              BEGIN { found = 0 }
+              $1 == p { print p " " h; found = 1; next }
+              { print }
+              END { if (!found) print p " " h }
+            ' "$lock_tmp" > "$next_lock"
+            mv "$next_lock" "$lock_tmp"
+          }
+
           compress_png() {
             local input="$1"
             local tmp
+            local before_size
+            local after_size
 
             if [ ! -f "$input" ]; then
               echo "::warning::Skipping missing PNG file: $input"
@@ -72,54 +116,85 @@ jobs:
 
             # Keep screenshot snapshots lossless to avoid visual-test drift.
             if [[ "$input" == *"-snapshots/"* ]]; then
-              if ! optipng -quiet -o2 "$input"; then
-                echo "::warning::optipng failed for snapshot PNG: $input"
-              fi
+              for _ in $(seq 1 "$max_png_iterations"); do
+                before_size="$(file_size "$input")"
+                if ! optipng -quiet -o2 "$input"; then
+                  echo "::warning::optipng failed for snapshot PNG: $input"
+                  return 0
+                fi
+                after_size="$(file_size "$input")"
+                if [ "$after_size" -lt "$before_size" ]; then
+                  pass_changed=true
+                  continue
+                fi
+                break
+              done
               return 0
             fi
 
-            tmp="$(mktemp --suffix=.png)"
-            if ! pngquant --quality=30-60 --speed 1 --strip --output "$tmp" --force "$input"; then
-              rm -f "$tmp"
-              if ! optipng -quiet -o2 "$input"; then
-                echo "::warning::pngquant and optipng both failed for PNG: $input"
-              fi
-              return 0
-            fi
+            for _ in $(seq 1 "$max_png_iterations"); do
+              before_size="$(file_size "$input")"
 
-            if [ ! -s "$tmp" ] || [ "$(stat --format='%s' "$tmp")" -ge "$(stat --format='%s' "$input")" ]; then
-              rm -f "$tmp"
-              if ! optipng -quiet -o2 "$input"; then
-                echo "::warning::optipng fallback failed for PNG: $input"
+              tmp="$(mktemp --suffix=.png)"
+              if pngquant --quality=30-60 --speed 1 --strip --nofs --output "$tmp" --force "$input"; then
+                if [ -s "$tmp" ] && [ "$(file_size "$tmp")" -lt "$before_size" ]; then
+                  mv "$tmp" "$input"
+                else
+                  rm -f "$tmp"
+                fi
+              else
+                rm -f "$tmp"
               fi
-              return 0
-            fi
 
-            mv "$tmp" "$input"
+              if ! optipng -quiet -o2 "$input"; then
+                echo "::warning::optipng failed for PNG: $input"
+                return 0
+              fi
+
+              after_size="$(file_size "$input")"
+              if [ "$after_size" -lt "$before_size" ]; then
+                pass_changed=true
+                continue
+              fi
+
+              break
+            done
           }
 
           compress_gif() {
             local input="$1"
             local tmp
+            local before_size
+            local after_size
 
             if [ ! -f "$input" ]; then
               echo "::warning::Skipping missing GIF file: $input"
               return 0
             fi
 
+            if gifsicle --info "$input" 2>/dev/null | grep -Fq "$marker"; then
+              return 0
+            fi
+
+            before_size="$(file_size "$input")"
             tmp="$(mktemp --suffix=.gif)"
-            if ! gifsicle --optimize=3 --lossy=120 "$input" -o "$tmp"; then
+
+            if ! gifsicle --optimize=3 --lossy=120 --colors 128 --comment "$marker" "$input" -o "$tmp"; then
               echo "::warning::gifsicle failed for GIF: $input"
               rm -f "$tmp"
               return 0
             fi
 
-            if [ ! -s "$tmp" ] || [ "$(stat --format='%s' "$tmp")" -ge "$(stat --format='%s' "$input")" ]; then
+            if [ ! -s "$tmp" ] || [ "$(file_size "$tmp")" -ge "$before_size" ]; then
               rm -f "$tmp"
               return 0
             fi
 
             mv "$tmp" "$input"
+            after_size="$(file_size "$input")"
+            if [ "$after_size" -lt "$before_size" ]; then
+              pass_changed=true
+            fi
           }
 
           compress_mp4() {
@@ -131,30 +206,45 @@ jobs:
               return 0
             fi
 
+            if ffprobe -v error -show_entries format_tags=comment -of default=noprint_wrappers=1 "$input" 2>/dev/null | grep -Fxq "TAG:comment=$marker"; then
+              return 0
+            fi
+
             tmp="$(mktemp --suffix=.mp4)"
 
             if ! ffmpeg -hide_banner -loglevel error -y \
               -i "$input" \
               -map '0:v:0' -map '0:a?' \
-              -vf 'fps=20,scale=trunc(iw*0.8/2)*2:trunc(ih*0.8/2)*2' \
+              -vf "fps=20,scale='min(1280,iw)':'min(720,ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2" \
               -c:v libx264 -preset slow -crf 32 \
               -c:a copy \
               -movflags +faststart \
+              -metadata comment="$marker" \
               "$tmp"; then
               echo "::warning::Skipping $input because ffmpeg failed to re-encode it."
               rm -f "$tmp"
               return 0
             fi
 
-            if [ ! -s "$tmp" ] || [ "$(stat --format='%s' "$tmp")" -ge "$(stat --format='%s' "$input")" ]; then
+            if [ ! -s "$tmp" ] || [ "$(file_size "$tmp")" -ge "$(file_size "$input")" ]; then
               rm -f "$tmp"
               return 0
             fi
 
             mv "$tmp" "$input"
+            pass_changed=true
           }
 
+          pass_changed=false
           while IFS= read -r -d '' file; do
+            if [ ! -f "$file" ]; then
+              continue
+            fi
+
+            if lock_has_current "$file"; then
+              continue
+            fi
+
             case "$file" in
               *.png)
                 compress_png "$file"
@@ -166,15 +256,30 @@ jobs:
                 compress_mp4 "$file"
                 ;;
             esac
+
+            update_lock_entry "$file" "$(file_hash "$file")"
           done < "$files_to_process"
 
-          git diff --name-only -- '*.png' '*.gif' '*.mp4' > "$changed_files"
+          if ! cmp -s "$lock_tmp" "$lock_file"; then
+            cp "$lock_tmp" "$lock_file"
+          fi
+
+          : > "$changed_files"
+          while IFS= read -r -d '' file; do
+            if ! git diff --quiet -- "$file"; then
+              printf '%s\n' "$file" >> "$changed_files"
+            fi
+          done < "$files_to_process"
+          if ! git diff --quiet -- "$lock_file"; then
+            printf '%s\n' "$lock_file" >> "$changed_files"
+          fi
 
           if [ ! -s "$changed_files" ]; then
             echo "No compression changes detected."
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
             rm -f "$files_to_process"
             rm -f "$changed_files"
+            rm -f "$lock_tmp"
             exit 0
           fi
 
@@ -189,6 +294,7 @@ jobs:
 
           rm -f "$files_to_process"
           rm -f "$changed_files"
+          rm -f "$lock_tmp"
 
       - name: Upload compressed media artifact
         if: steps.compression-check.outputs.has_changes == 'true'
