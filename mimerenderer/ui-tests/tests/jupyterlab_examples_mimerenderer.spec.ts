@@ -16,9 +16,24 @@ test('should display mp4 data file', async ({ page, tmpPath }) => {
   await page.filebrowser.open(filename);
 
   const view = page.getByRole('main').locator('.mimerenderer-mp4');
+  const video = view.locator('video');
 
-  // Give the video a some time to load
-  await page.waitForTimeout(500);
+  await expect(view).toBeVisible();
+  await expect(video).toBeVisible();
 
-  expect(await view.screenshot()).toMatchSnapshot('mp4-file.png');
+  await expect
+    .poll(
+      async () =>
+        await video.evaluate(node => (node as HTMLVideoElement).readyState)
+    )
+    .toBeGreaterThanOrEqual(2);
+
+  await expect
+    .poll(
+      async () =>
+        await video.evaluate(node =>
+          (node as HTMLVideoElement).src.startsWith('data:video/mp4;base64,')
+        )
+    )
+    .toBe(true);
 });

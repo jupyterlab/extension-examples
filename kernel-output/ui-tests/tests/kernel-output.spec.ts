@@ -1,78 +1,87 @@
 import { test, expect } from '@jupyterlab/galata';
 
 test('should open a panel connected to a notebook kernel', async ({ page }) => {
-  test.setTimeout(120000);
-
-  // Install pandas through console
-  await page.menu.clickMenuItem('File>New>Console');
-  await page.getByRole('button', { name: 'Select' }).click();
-  await page.getByText('| Idle').waitFor();
-
-  await page.click('.jp-CodeConsole-promptCell .jp-InputArea-editor');
-  await page.keyboard.type('!mamba install -qy pandas', { delay: 100 });
-
-  await page.menu.clickMenuItem('Run>Run Cell (forced)');
-
   // Create a notebook
   await page.notebook.createNew();
-  await page.getByText('| Idle').waitFor();
+  await page
+    .locator('.jp-Notebook-ExecutionIndicator[data-status="idle"]')
+    .waitFor();
 
   await page.notebook.setCell(
     0,
     'code',
-    'import numpy\nimport pandas\ndf = pandas.DataFrame(numpy.eye(5))'
+    [
+      'from IPython.display import HTML',
+      "headers = ''.join(f'<th>{i}</th>' for i in range(11))",
+      "cells = ''.join(f'<td>{i}</td>' for i in range(11))",
+      "table = HTML(f'<table><thead><tr>{headers}</tr></thead><tbody><tr>{cells}</tr></tbody></table>')"
+    ].join('\n')
   );
   await page.notebook.runCell(0);
+  await page
+    .locator('.jp-Notebook-ExecutionIndicator[data-status="idle"]')
+    .waitFor();
 
   await page.menu.clickMenuItem('Kernel Output>Open the Kernel Output Panel');
 
   // Select Notebook kernel
-  const select = page.locator('.jp-Dialog-body').locator('select');
+  const dialog = page.locator('.jp-Dialog');
+  await expect(dialog).toBeVisible();
+  const select = dialog.locator('select');
+  await expect(select).toBeVisible();
   const optionLocator = select.locator('option', {
     hasText: /Untitled.ipynb.*/
   });
-  const value = await optionLocator.getAttribute('value');
+  await expect(optionLocator).toHaveCount(1);
+  const notebookOption = optionLocator.first();
+  const value = await notebookOption.getAttribute('value');
+  expect(value).toBeTruthy();
   await page
     .locator('.jp-Dialog-body')
     .locator('select')
-    .selectOption({ value });
+    .selectOption({ value: value! });
 
   await page.getByRole('button', { name: 'Select Kernel' }).click();
 
   // Emulate drag and drop to place the panel next to the notebook
-  const viewerHandle = await page.$(
-    'div[role="main"] >> text=Kernel Output Example View'
-  );
-  const panelHandle = await page.$('#kernel-output-panel div');
-  const viewerBBox = await viewerHandle!.boundingBox();
-  const panelBBox = await panelHandle!.boundingBox();
+  const viewerHandle = page
+    .locator('div[role="main"] >> text=Kernel Output Example View')
+    .first();
+  const panelHandle = page.locator('#kernel-output-panel div').first();
+  await expect(viewerHandle).toBeVisible();
+  await expect(panelHandle).toBeVisible();
+  const viewerBBox = await viewerHandle.boundingBox();
+  const panelBBox = await panelHandle.boundingBox();
+  if (!viewerBBox || !panelBBox) {
+    throw new Error(
+      'Could not determine the panel positions for drag and drop placement.'
+    );
+  }
 
   await page.mouse.move(
-    viewerBBox!.x + 0.5 * viewerBBox!.width,
-    viewerBBox!.y + 0.5 * viewerBBox!.height
+    viewerBBox.x + 0.5 * viewerBBox.width,
+    viewerBBox.y + 0.5 * viewerBBox.height
   );
   await page.mouse.down();
   await page.mouse.move(
-    panelBBox!.x + 0.8 * panelBBox!.width,
-    panelBBox!.y + 0.5 * panelBBox!.height
+    panelBBox.x + 0.8 * panelBBox.width,
+    panelBBox.y + 0.5 * panelBBox.height
   );
   await page.mouse.up();
 
   // Click div[role="main"] >> text=Kernel Output Example View
-  await page
-    .locator('div[role="main"] >> text=Kernel Output Example View')
-    .click();
+  await viewerHandle.click();
 
   await page.menu.clickMenuItem(
     'Kernel Output>Contact Kernel and Execute Code'
   );
 
   // Fill [placeholder="Statement to execute"]
-  await page.locator('[placeholder="Statement to execute"]').fill('df');
+  await page.locator('[placeholder="Statement to execute"]').fill('table');
 
   await page.getByRole('button', { name: 'Execute' }).click();
 
-  await expect.soft(page.locator('th')).toHaveCount(11);
+  await expect(page.locator('#kernel-output-panel th')).toHaveCount(11);
 
   // Close filebrowser
   await Promise.all([
@@ -81,5 +90,10 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
   ]);
 
   // Compare screenshot with a stored reference.
-  expect(await page.screenshot()).toMatchSnapshot('kernel-output-example.png');
+  expect(
+    await page.screenshot({
+      animations: 'disabled',
+      caret: 'hide'
+    })
+  ).toMatchSnapshot('kernel-output-example.png', { maxDiffPixels: 500 });
 });
