@@ -7,9 +7,14 @@ test('should capture log messages in dedicated panel', async ({ page }) => {
     .locator('.jp-Notebook-ExecutionIndicator[data-status="idle"]')
     .waitFor();
 
-  // Open the console
-  await page.menu.clickMenuItem('View>Show Log Console');
   const logPanel = page.locator('.jp-LogConsolePanel');
+  if (!(await logPanel.isVisible())) {
+    const activated = await page.activity.activateTab(/Log Console/);
+    if (!activated) {
+      await page.menu.clickMenuItem('View>Show Log Console');
+      await page.activity.activateTab(/Log Console/);
+    }
+  }
   await expect(logPanel).toBeVisible();
 
   // Drag and drop the split to display a bigger log panel.
