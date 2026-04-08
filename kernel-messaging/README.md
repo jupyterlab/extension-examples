@@ -1,5 +1,7 @@
 # Kernel Messaging
 
+Try it out: Lab [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/kernel-messaging/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/kernel-messaging/src/index.ts)
+
 > Interact with a kernel from an extension.
 
 - [Component Overview](#component-overview)

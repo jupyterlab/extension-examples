@@ -1,5 +1,9 @@
 # Server Hello World
 
+Try it out: Lab [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/server-extension/src/index.ts)
+
+_JupyterLite is not supported for this example by design._
+
 > Create a minimal extension with backend (i.e. server) and frontend parts.
 
 ![server extension example](./preview.png)

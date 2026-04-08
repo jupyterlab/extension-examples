@@ -1,5 +1,12 @@
 # Clap Button (cross compatible extension)
 
+Try it out:
+
+| Frontend    | JupyterLite                                                                                                                                                                                                                   | Binder                                                                                                                                                                              |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lab         | [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/clap-button-message/src/index.ts)  | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/clap-button-message/src/index.ts) |
+| Notebook v7 | [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/tree/index.html?path=extension-examples/clap-button-message/src/index.ts) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=tree/extension-examples/clap-button-message/src/index.ts)     |
+
 This example defines an extension that adds a button that if clicked will
 display an alert to the user. In JupyterLab the button in added in the top
 area (next to the main menu) and in Jupyter Notebook v7+ the button is added to the rights sidebar.

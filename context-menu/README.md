@@ -1,5 +1,7 @@
 # Context Menu
 
+Try it out: Lab [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/context-menu/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/context-menu/src/index.ts)
+
 > Create a new button in a context menu.
 
 This is a basic example to show how to add a new entry to an existent context menu.

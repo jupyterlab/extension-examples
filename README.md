@@ -144,11 +144,15 @@ You are welcome to open any [issue](https://github.com/jupyterlab/extension-exam
 
 ### [Cell toolbar](cell-toolbar)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/cell-toolbar/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/cell-toolbar/src/index.ts)
+
 Add a command button to the cell toolbar.
 
 [![Cell toolbar](cell-toolbar/preview.gif)](cell-toolbar)
 
 ### [CodeMirror extension](codemirror-extension)
+
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/codemirror-extension/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/codemirror-extension/src/index.ts)
 
 Add a configurable CodeMirror extension.
 
@@ -156,11 +160,15 @@ Add a configurable CodeMirror extension.
 
 ### [Commands](commands)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/commands/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/commands/src/index.ts)
+
 Extend the main app with a Command.
 
 [![Command example](commands/preview.png)](commands)
 
 ### [Command Palette](command-palette)
+
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/command-palette/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/command-palette/src/index.ts)
 
 Register commands in the Command Palette.
 
@@ -168,11 +176,15 @@ Register commands in the Command Palette.
 
 ### [Completer](completer)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/completer/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/completer/src/index.ts)
+
 Customize tab autocomplete data sources.
 
 [![Completer](completer/preview.png)](completer)
 
 ### Main Widget [Content Header](contentheader)
+
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/contentheader/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/contentheader/src/index.ts)
 
 Put widgets at the top of a main JupyterLab area widget.
 
@@ -180,17 +192,23 @@ Put widgets at the top of a main JupyterLab area widget.
 
 ### [Context Menu](context-menu)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/context-menu/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/context-menu/src/index.ts)
+
 Add a new button to an existent context menu.
 
 [![Context Menu](context-menu/preview.gif)](context-menu)
 
 ### [Custom Log Console](custom-log-console)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/custom-log-console/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/custom-log-console/src/index.ts)
+
 Create a new log console.
 
 [![Custom Log Console](custom-log-console/preview.gif)](custom-log-console)
 
 ### [Datagrid](datagrid)
+
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/datagrid/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/datagrid/src/index.ts)
 
 Display a Datagrid as a Lumino Widget.
 
@@ -210,12 +228,26 @@ They are listed from the simplest to the most advanced case:
 
 #### [Top Area Text Widget](toparea-text-widget)
 
+Try it out:
+
+| Frontend    | JupyterLite                                                                                                                                                                                                                   | Binder                                                                                                                                                                              |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lab         | [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/toparea-text-widget/src/index.ts)  | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/toparea-text-widget/src/index.ts) |
+| Notebook v7 | [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/tree/index.html?path=extension-examples/toparea-text-widget/src/index.ts) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=tree/extension-examples/toparea-text-widget/src/index.ts)     |
+
 A very simple example that adds a basic text widget to the top area. See [related video.](https://www.youtube.com/watch?v=mqotG1MkHa4).
 This example is part of the [Extension Compatibility Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_multiple_ui.html).
 
 [![Top Area Text Widget](toparea-text-widget/preview.jpg)](toparea-text-widget)
 
 #### [Shout Button](shout-button-message)
+
+Try it out:
+
+| Frontend    | JupyterLite                                                                                                                                                                                                                    | Binder                                                                                                                                                                               |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Lab         | [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/shout-button-message/src/index.ts)  | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/shout-button-message/src/index.ts) |
+| Notebook v7 | [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/tree/index.html?path=extension-examples/shout-button-message/src/index.ts) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=tree/extension-examples/shout-button-message/src/index.ts)     |
 
 This example shows dual compatibility: Make an extension that is compatible
 with both JupyterLab and Jupyter Notebook by using optional features. Adds
@@ -226,6 +258,13 @@ Read more about this example on that page.
 [![Dual compatibility shout button](shout-button-message/preview.jpg)](shout-button-message)
 
 #### [Clap Button](clap-button-message)
+
+Try it out:
+
+| Frontend    | JupyterLite                                                                                                                                                                                                                   | Binder                                                                                                                                                                              |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lab         | [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/clap-button-message/src/index.ts)  | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/clap-button-message/src/index.ts) |
+| Notebook v7 | [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/tree/index.html?path=extension-examples/clap-button-message/src/index.ts) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=tree/extension-examples/clap-button-message/src/index.ts)     |
 
 This example shows an alternate method for achieving dual compatibility: Make an
 extension that is compatible with both JupyterLab and Jupyter Notebook by exporting
@@ -238,11 +277,15 @@ Read more about this example on that page.
 
 ### [Collaborative Document](documents)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/documents/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/documents/src/index.ts)
+
 Create new documents and make them collaborative.
 
 [![Documents](documents/preview.png)](documents)
 
 ### [Hello World](hello-world)
+
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/hello-world/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/hello-world/src/index.ts)
 
 Set up the development environment and print to the console.
 
@@ -250,11 +293,15 @@ Set up the development environment and print to the console.
 
 ### [Kernel Messaging](kernel-messaging)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/kernel-messaging/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/kernel-messaging/src/index.ts)
+
 Interact with a kernel from an extension.
 
 [![Kernel Messages](kernel-messaging/preview.gif)](kernel-messaging)
 
 ### [Kernel Output](kernel-output)
+
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/kernel-output/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/kernel-output/src/index.ts)
 
 Render kernel messages in an OutputArea.
 
@@ -262,11 +309,15 @@ Render kernel messages in an OutputArea.
 
 ### [Launcher](launcher)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/launcher/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/launcher/src/index.ts)
+
 Start your extension from the Launcher.
 
 [![Launcher](launcher/preview.gif)](launcher)
 
 ### [Log Messages](log-messages)
+
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/log-messages/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/log-messages/src/index.ts)
 
 Send a log message to the log console.
 
@@ -274,11 +325,15 @@ Send a log message to the log console.
 
 ### [Main Menu](main-menu)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/main-menu/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/main-menu/src/index.ts)
+
 Add a Menu to the main app.
 
 [![Main Menu](main-menu/preview.png)](main-menu)
 
 ### [Metadata Form](metadata-form)
+
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/metadata-form/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/metadata-form/src/index.ts)
 
 Add user interface to edit cell or notebook metadata.
 
@@ -286,11 +341,15 @@ Add user interface to edit cell or notebook metadata.
 
 ### [MIME Renderer](mimerenderer)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/mimerenderer/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/mimerenderer/src/index.ts)
+
 Add a MIME renderer for mp4 content to the application.
 
 [![MIME Renderer](mimerenderer/preview.png)](mimerenderer)
 
 ### [Notifications](notifications)
+
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/notifications/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/notifications/src/index.ts)
 
 Emit notifications.
 
@@ -298,11 +357,17 @@ Emit notifications.
 
 ### [React Widget](react-widget)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/react-widget/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/react-widget/src/index.ts)
+
 Create a React.js Widget in JupyterLab.
 
 [![react-widget](react-widget/preview.gif)](react-widget)
 
 ### [Server Hello World](server-extension)
+
+Try it out: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/server-extension/src/index.ts)
+
+_JupyterLite is not supported for this example by design._
 
 Create a minimal extension with backend (i.e. server) and frontend parts.
 
@@ -310,11 +375,15 @@ Create a minimal extension with backend (i.e. server) and frontend parts.
 
 ### [Settings](settings)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/settings/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/settings/src/index.ts)
+
 Create and use new Settings for your extension.
 
 [![Settings](settings/preview.gif)](settings)
 
 ### [Signals](signals)
+
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/signals/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/signals/src/index.ts)
 
 Use Signals to allow Widgets communicate with each others.
 
@@ -322,17 +391,23 @@ Use Signals to allow Widgets communicate with each others.
 
 ### [State](state)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/state/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/state/src/index.ts)
+
 Use State persistence in an extension.
 
 [![State](state/preview.gif)](state)
 
 ### [Toolbar Item](toolbar-button)
 
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/toolbar-button/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/toolbar-button/src/index.ts)
+
 Add a new button to the notebook toolbar.
 
 [![Toolbar button](toolbar-button/preview.gif)](toolbar-button)
 
 ### [Widgets](widgets)
+
+Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/widgets/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/widgets/src/index.ts)
 
 Add a new Widget element to the main window.
 

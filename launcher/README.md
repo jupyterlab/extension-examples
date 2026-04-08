@@ -1,5 +1,7 @@
 # Launcher
 
+Try it out: Lab [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/launcher/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/launcher/src/index.ts)
+
 > Start your extension from the Launcher.
 
 In this example, you will learn how to start your extension from the launcher and how to have optional

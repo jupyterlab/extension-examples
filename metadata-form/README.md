@@ -1,5 +1,7 @@
 # Metadata form
 
+Try it out: Lab [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/metadata-form/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/metadata-form/src/index.ts)
+
 > Create a schema and display the form in `NotebookTools`.
 
 ![metadata-form example](./preview.gif)

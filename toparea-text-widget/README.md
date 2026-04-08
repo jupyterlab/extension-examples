@@ -1,5 +1,12 @@
 # Top area widget (cross compatible extension)
 
+Try it out:
+
+| Frontend    | JupyterLite                                                                                                                                                                                                                   | Binder                                                                                                                                                                              |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lab         | [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/toparea-text-widget/src/index.ts)  | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/toparea-text-widget/src/index.ts) |
+| Notebook v7 | [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/tree/index.html?path=extension-examples/toparea-text-widget/src/index.ts) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=tree/extension-examples/toparea-text-widget/src/index.ts)     |
+
 This example defines an extension that adds a single self-contained text widget
 to the top bar of the UI.
 
