@@ -1,6 +1,17 @@
 import { test, expect } from '@jupyterlab/galata';
 
 test('should open a panel connected to a notebook kernel', async ({ page }) => {
+  // Install pandas through console.
+  await page.menu.clickMenuItem('File>New>Console');
+  await page.getByRole('button', { name: 'Select' }).click();
+  const idleStatus = page.locator('#jp-main-statusbar').getByText('| Idle');
+  await idleStatus.waitFor();
+
+  await page.click('.jp-CodeConsole-promptCell .jp-InputArea-editor');
+  await page.keyboard.type('!mamba install -qy pandas', { delay: 100 });
+  await page.menu.clickMenuItem('Run>Run Cell (forced)');
+  await idleStatus.waitFor();
+
   // Create a notebook
   await page.notebook.createNew();
   await page
@@ -10,12 +21,7 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
   await page.notebook.setCell(
     0,
     'code',
-    [
-      'from IPython.display import HTML',
-      "headers = ''.join(f'<th>{i}</th>' for i in range(11))",
-      "cells = ''.join(f'<td>{i}</td>' for i in range(11))",
-      "table = HTML(f'<table><thead><tr>{headers}</tr></thead><tbody><tr>{cells}</tr></tbody></table>')"
-    ].join('\n')
+    'import numpy\nimport pandas\ndf = pandas.DataFrame(numpy.eye(5))'
   );
   await page.notebook.runCell(0);
   await page
@@ -42,6 +48,27 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
     .selectOption({ value: value! });
 
   await page.getByRole('button', { name: 'Select Kernel' }).click();
+  await expect(page.locator('#kernel-output-panel')).toBeVisible();
+  await page.evaluate(async () => {
+    type SessionLike = { ready: Promise<void> };
+    type WidgetLike = { id: string; session?: SessionLike };
+    type AppLike = {
+      shell: { widgets: (area: 'main') => Iterable<WidgetLike> };
+    };
+
+    const app = (window as Window & { jupyterapp?: AppLike }).jupyterapp;
+    const panel = app
+      ? Array.from(app.shell.widgets('main')).find(
+          widget => widget.id === 'kernel-output-panel'
+        )
+      : undefined;
+
+    if (!panel?.session) {
+      throw new Error('Kernel output panel session is not ready.');
+    }
+
+    await panel.session.ready;
+  });
 
   // Emulate drag and drop to place the panel next to the notebook
   const viewerHandle = page
@@ -77,11 +104,13 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
   );
 
   // Fill [placeholder="Statement to execute"]
-  await page.locator('[placeholder="Statement to execute"]').fill('table');
+  await page.locator('[placeholder="Statement to execute"]').fill('df');
 
   await page.getByRole('button', { name: 'Execute' }).click();
 
-  await expect(page.locator('#kernel-output-panel th')).toHaveCount(11);
+  const outputPanel = page.locator('#kernel-output-panel');
+  await expect(outputPanel.locator('table')).toHaveCount(1);
+  await expect(outputPanel.locator('th')).toHaveCount(11);
 
   // Close filebrowser
   await Promise.all([

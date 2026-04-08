@@ -36,4 +36,39 @@ test('should display mp4 data file', async ({ page, tmpPath }) => {
         )
     )
     .toBe(true);
+
+  await video.evaluate(async node => {
+    const element = node as HTMLVideoElement;
+
+    if (element.readyState < 2) {
+      await new Promise<void>(resolve => {
+        element.addEventListener('loadeddata', () => resolve(), { once: true });
+      });
+    }
+
+    const targetTime = 0.5;
+    await new Promise<void>(resolve => {
+      if (Math.abs(element.currentTime - targetTime) < 1e-3) {
+        resolve();
+        return;
+      }
+
+      const onSeeked = () => {
+        element.removeEventListener('seeked', onSeeked);
+        resolve();
+      };
+      element.addEventListener('seeked', onSeeked);
+      element.currentTime = targetTime;
+    });
+
+    element.pause();
+
+    await new Promise<void>(resolve => {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    });
+  });
+
+  expect(await view.screenshot()).toMatchSnapshot('mp4-file.png', {
+    maxDiffPixels: 500
+  });
 });
