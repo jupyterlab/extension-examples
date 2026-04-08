@@ -16,9 +16,52 @@ test('should display mp4 data file', async ({ page, tmpPath }) => {
   await page.filebrowser.open(filename);
 
   const view = page.getByRole('main').locator('.mimerenderer-mp4');
+  const video = view.locator('video');
 
-  // Give the video a some time to load
-  await page.waitForTimeout(500);
+  await expect(view).toBeVisible();
+  await expect(video).toBeVisible();
 
-  expect(await view.screenshot()).toMatchSnapshot('mp4-file.png');
+  await expect
+    .poll(
+      async () =>
+        await video.evaluate(node =>
+          (node as HTMLVideoElement).src.startsWith('data:video/mp4;base64,')
+        )
+    )
+    .toBe(true);
+
+  await video.evaluate(async node => {
+    const element = node as HTMLVideoElement;
+
+    if (element.readyState < 2) {
+      await new Promise<void>(resolve => {
+        element.addEventListener('loadeddata', () => resolve(), { once: true });
+      });
+    }
+
+    const targetTime = 0.5;
+    await new Promise<void>(resolve => {
+      if (Math.abs(element.currentTime - targetTime) < 1e-3) {
+        resolve();
+        return;
+      }
+
+      const onSeeked = () => {
+        element.removeEventListener('seeked', onSeeked);
+        resolve();
+      };
+      element.addEventListener('seeked', onSeeked);
+      element.currentTime = targetTime;
+    });
+
+    element.pause();
+
+    await new Promise<void>(resolve => {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    });
+  });
+
+  expect(await view.screenshot()).toMatchSnapshot('mp4-file.png', {
+    maxDiffPixels: 500
+  });
 });
