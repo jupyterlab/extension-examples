@@ -277,7 +277,9 @@ Read more about this example on that page.
 
 ### [Collaborative Document](documents)
 
-Try it out: [![JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge-launch.svg)](https://jupyterlab-plugin-playground.readthedocs.io/en/latest/lite/lab/index.html?path=extension-examples/documents/src/index.ts) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/documents/src/index.ts)
+Try it out: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyterlab/plugin-playground/main?urlpath=lab/tree/extension-examples/documents/src/index.ts)
+
+_JupyterLite is not yet supported for this example._
 
 Create new documents and make them collaborative.
 
