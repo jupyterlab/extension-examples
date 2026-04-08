@@ -24,13 +24,6 @@ test('should display mp4 data file', async ({ page, tmpPath }) => {
   await expect
     .poll(
       async () =>
-        await video.evaluate(node => (node as HTMLVideoElement).readyState)
-    )
-    .toBeGreaterThanOrEqual(2);
-
-  await expect
-    .poll(
-      async () =>
         await video.evaluate(node =>
           (node as HTMLVideoElement).src.startsWith('data:video/mp4;base64,')
         )

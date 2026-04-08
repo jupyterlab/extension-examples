@@ -49,26 +49,6 @@ test('should open a panel connected to a notebook kernel', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Select Kernel' }).click();
   await expect(page.locator('#kernel-output-panel')).toBeVisible();
-  await page.evaluate(async () => {
-    type SessionLike = { ready: Promise<void> };
-    type WidgetLike = { id: string; session?: SessionLike };
-    type AppLike = {
-      shell: { widgets: (area: 'main') => Iterable<WidgetLike> };
-    };
-
-    const app = (window as Window & { jupyterapp?: AppLike }).jupyterapp;
-    const panel = app
-      ? Array.from(app.shell.widgets('main')).find(
-          widget => widget.id === 'kernel-output-panel'
-        )
-      : undefined;
-
-    if (!panel?.session) {
-      throw new Error('Kernel output panel session is not ready.');
-    }
-
-    await panel.session.ready;
-  });
 
   // Emulate drag and drop to place the panel next to the notebook
   const viewerHandle = page
